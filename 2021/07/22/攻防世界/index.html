@@ -1,0 +1,515 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/Sean.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="攻防世界：攻防世界 (xctf.org.cn)">
+  <meta name="author" content="Sean">
+  <meta name="keywords" content="">
+  
+  <title>攻防世界 - Sean&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"|","loop":true},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Sean's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/banner.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="攻防世界">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-22 12:24" pubdate>
+        2021年7月22日 中午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.3k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      29
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">攻防世界</h1>
+            
+            <div class="markdown-body">
+              <p>攻防世界：<a target="_blank" rel="noopener" href="https://adworld.xctf.org.cn/">攻防世界 (xctf.org.cn)</a></p>
+<span id="more"></span>
+
+<p>我目测应该只会做web方向的。</p>
+<h1 id="新手区"><a href="#新手区" class="headerlink" title="新手区"></a>新手区</h1><p>搬运自：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_43081170/article/details/94717446">(4条消息) xctf攻防世界web新手练习区–write up_IMWJING的博客-CSDN博客</a></p>
+<h2 id="simple-js"><a href="#simple-js" class="headerlink" title="simple_js"></a>simple_js</h2><p>split() 方法用于把一个字符串分割成字符串数组。</p>
+<p>fromCharCode() 可接受一个指定的 Unicode 值，然后返回一个字符串。</p>
+<p>打开源码：</p>
+<p>看到\x35\x35\x2c\x35\x36\x2c\x35\x34\x2c\x37\x39\x2c\x31\x31\x35\x2c\x36\x39\x2c\x31\x31\x34\x2c\x31\x31\x36\x2c\x31\x30\x37\x2c\x34\x39\x2c\x35\x30”想到把\x转换为%，将字符串转换为URL编码，（<strong>其实真的想不到</strong>）%35%35%2c%35%36%2c%35%34%2c%37%39%2c%31%31%35%2c%36%39%2c%31%31%34%2c%31%31%36%2c%31%30%37%2c%34%39%2c%35%30<br>解码得：55,56,54,79,115,69,114,116,107,49,50<br>将这串数字进行ASCII码转换得：786OsErtk12</p>
+<p><strong>如果不涉及后端，可以先考虑查看一下网页源代码</strong></p>
+<h2 id="view-source"><a href="#view-source" class="headerlink" title="view_source"></a>view_source</h2><p>F12查看源代码</p>
+<h2 id="webshell"><a href="#webshell" class="headerlink" title="webshell"></a>webshell</h2><p>用蚁剑连接，得到flag</p>
+<h2 id="simple-php"><a href="#simple-php" class="headerlink" title="simple_php"></a>simple_php</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$a</span>=@<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;a&#x27;</span>]; <br><span class="hljs-keyword">if</span>(<span class="hljs-variable">$a</span>==<span class="hljs-number">0</span> <span class="hljs-keyword">and</span> <span class="hljs-variable">$a</span>)<br></code></pre></td></tr></table></figure>
+
+<p>在地址栏中拼接<code>?a=0&#39;</code>，注意单引号闭合。</p>
+<h2 id="robots"><a href="#robots" class="headerlink" title="robots"></a>robots</h2><p>涉及robots协议，又称爬虫协议，通常以robots.txt存在。robots.txt是搜索引擎中访问网站的时候要查看的第一个文件。robots.txt文件告诉搜索引擎哪些页面可以抓取，哪些页面不能抓取。</p>
+<p>在地址栏后拼接/robots.txt进行访问查看，得到disallow的页面，在地址栏进行访问得到flag。</p>
+<h2 id="disabled-button"><a href="#disabled-button" class="headerlink" title="disabled_button"></a>disabled_button</h2><p>按钮的input标签中有一个disabled属性，定义了按钮不可以点击，将其删掉再点击flag按钮即可。</p>
+<h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><p>用火狐浏览器中的插件cookie quick manager查看该页面的cookie（F12中的存储也可以），可以看到一个文件cookie.php，在页面中访问，根据提示，刷新页面查看burp中的返回报文，得到flag</p>
+<h2 id="get-post"><a href="#get-post" class="headerlink" title="get_post"></a>get_post</h2><p><strong>get</strong>：直接通过问号拼接到地址栏后面；</p>
+<p><strong>post</strong>：可通过hackbar的post data功能。</p>
+<h2 id="command-execution"><a href="#command-execution" class="headerlink" title="command_execution"></a>command_execution</h2><p>通过在ip后拼接&amp;&amp;ls判断是否可以执行，再通过目录遍历<code>ls ../../../../home</code> 可以得到该目录下有flag.txt，利用cat命令读取txt内容。</p>
+<h2 id="xff-referer"><a href="#xff-referer" class="headerlink" title="xff_referer"></a>xff_referer</h2><h3 id="X-Forwarded-For"><a href="#X-Forwarded-For" class="headerlink" title="X-Forwarded-For"></a>X-Forwarded-For</h3><p>“ip必须是123.123.123.123”：需要修改主机IP，利用X-Forwarded-For Header插件可以改主机IP地址。<strong>X-Forwarded-For</strong>是一个HTTP扩展头部，用来表示请求端真实IP。</p>
+<h3 id="Referer"><a href="#Referer" class="headerlink" title="Referer"></a>Referer</h3><p>“必须来自<a href="https://www.google.com&quot;：需要修改或添加Referer。（可用burp或hackbar）。Referer">https://www.google.com&quot;：需要修改或添加Referer。（可用burp或hackbar）。Referer</a> 是一个常见字段，提供访问来源的信息。</p>
+<h2 id="backup"><a href="#backup" class="headerlink" title="backup"></a>backup</h2><h3 id="备份文件"><a href="#备份文件" class="headerlink" title="备份文件"></a>备份文件</h3><p><strong>备份文件通常为文件名+.bak</strong>，直接尝试在拼接<code>index.php.bak</code>或用dirsearch扫描.bak文件，不可以直接打开，通过记事本打开。</p>
+<h2 id="weak-auth"><a href="#weak-auth" class="headerlink" title="weak_auth"></a>weak_auth</h2><p>弱口令登录界面，username=admin&amp;&amp;password=123456.（我是试出来的……）</p>
+<h1 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h1><p>搬运自：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_45890174/article/details/109103820">(4条消息) 攻防世界-web进阶区_楼阁de猫的博客-CSDN博客_攻防世界replace</a></p>
+<h2 id="baby-web"><a href="#baby-web" class="headerlink" title="baby_web"></a>baby_web</h2><p>提示初始界面，直接对index.php抓包，返回报文上出现FLAG；</p>
+<h2 id="Training-WWW-Robots"><a href="#Training-WWW-Robots" class="headerlink" title="Training-WWW-Robots"></a>Training-WWW-Robots</h2><p>与新手区的robots相似，通过robots.txt文件爆出文件路径。</p>
+<h2 id="php-rce"><a href="#php-rce" class="headerlink" title="php_rce"></a>php_rce</h2><h3 id="ThinkPHP远程命令执行漏洞"><a href="#ThinkPHP远程命令执行漏洞" class="headerlink" title="ThinkPHP远程命令执行漏洞"></a>ThinkPHP远程命令执行漏洞</h3><p>在github上搜索thinkPHP v5找到rce-poc集合，发现有许多版本，未知的时候随便选一个（全部都是以?s=拼接在地址栏的），版本不对的话会跳出提示告诉你是5.0.20的，我没找到这个，但是5.0.21也可以。会跳出UID，gid等内容，证明可以进行远程命令执行。</p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs matlab">?s=index/\think\app/invokefunction&amp;<span class="hljs-function"><span class="hljs-keyword">function</span>=<span class="hljs-title">call_user_func_array</span>&amp;<span class="hljs-title">vars</span><span class="hljs-params">[0]</span>=<span class="hljs-title">system</span>&amp;<span class="hljs-title">vars</span><span class="hljs-params">[1]</span><span class="hljs-params">[]</span>=<span class="hljs-title">id</span></span><br></code></pre></td></tr></table></figure>
+
+<p>结尾的<code>id</code>即为命令，将<code>id</code>改为<code>ls</code>即可查看当前目录下的文件，可通过<code>../</code>进行目录遍历。在根目录处得到flag文件，用<code>cat</code>命令查看。</p>
+<h2 id="Web-php-include"><a href="#Web-php-include" class="headerlink" title="Web_php_include"></a>Web_php_include</h2><p>文件动态包含</p>
+<h3 id="源代码分析"><a href="#源代码分析" class="headerlink" title="源代码分析"></a>源代码分析</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br>show_source(<span class="hljs-keyword">__FILE__</span>);	<span class="hljs-comment">//将整个文件都显示出来</span><br><span class="hljs-keyword">echo</span> <span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;hello&#x27;</span>];<br><span class="hljs-variable">$page</span>=<span class="hljs-variable">$_GET</span>[<span class="hljs-string">&#x27;page&#x27;</span>];<br><span class="hljs-keyword">while</span> (strstr(<span class="hljs-variable">$page</span>, <span class="hljs-string">&quot;php://&quot;</span>)) &#123;<br>    <span class="hljs-variable">$page</span>=str_replace(<span class="hljs-string">&quot;php://&quot;</span>, <span class="hljs-string">&quot;&quot;</span>, <span class="hljs-variable">$page</span>);<br>&#125;<br><span class="hljs-keyword">include</span>(<span class="hljs-variable">$page</span>);<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><code>strstr($page, &quot;php://&quot;)</code>，在变量page中搜索是否含有<code>php://</code>字符串。<br>绕过办法：<code>strstr()</code>不区分大小写。</li>
+<li><code>$page=str_replace(&quot;php://&quot;, &quot;&quot;, $page);</code>，将<code>page</code>中的<code>php://</code>替换为空。</li>
+</ul>
+<h3 id="php-input（待学习）"><a href="#php-input（待学习）" class="headerlink" title="php://input（待学习）"></a>php://input（待学习）</h3><p>php://input 是个可以访问请求的原始数据的只读流，可以读取到来自POST的原始数据。在地址栏中拼接<code>?page=PHP://input</code>。<br>1.在burp的请求部分结尾处加入post测试<code>&lt;?php system(&quot;ls&quot;) ?&gt;</code>，可以看到成功显示文件名，通过继续post<code>&lt;?php system(&quot;cat fl4gisisish3r3.php&quot;) ?&gt;</code>进行查看得到flag。<br>2.利用hello参数，在burp请求结尾处<code>hello=&lt;?system(&quot;ls&quot;);?&gt;</code>，<strong>要与上文间隔一行</strong>，下一条命令为<code>hello=&lt;?show_source(&#39;fl4gisisish3r3.php&#39;);?&gt;</code></p>
+<p>Q：为什么不能直接通过地址栏访问？</p>
+<p>A：？？？？<strong>没搞懂</strong></p>
+<h3 id="data伪协议（待学习）"><a href="#data伪协议（待学习）" class="headerlink" title="data伪协议（待学习）"></a>data伪协议（待学习）</h3><h2 id="ics-06"><a href="#ics-06" class="headerlink" title="ics-06"></a>ics-06</h2><p>发现只有报表中心点了才有跳转，地址栏出现<code>?id=1</code>，<strong>爆破id</strong>（啊这……）。在burp-intruder-payload选择数值。</p>
+<h2 id="warmup"><a href="#warmup" class="headerlink" title="warmup"></a>warmup</h2><p>打开源码发现一个source.php，访问一下发现hint.php，得到提示flag的位置在ffffllllaaaagggg，再观察source.php（php代码待学习，看不懂还挺恼火的）</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-variable">$_page</span> = mb_substr(<br>                <span class="hljs-variable">$page</span>,<br>                <span class="hljs-number">0</span>,<br>                mb_strpos(<span class="hljs-variable">$page</span> . <span class="hljs-string">&#x27;?&#x27;</span>, <span class="hljs-string">&#x27;?&#x27;</span>)<br>            );<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>mb_substr()：返回字符串的一部分，题中表示返回page从第一个字母开始的<code>mb_strpos($page . &#39;?&#39;, &#39;?&#39;)</code>个字符；</li>
+<li>mb_strpos()：返回要查找的字符串在另一个字符串中首次出现的位置，题中返回</li>
+<li>连接运算符(“.”)：它返回将右参数附加到左参数后面所得的字符串。</li>
+</ul>
+<p>通过对截断代码的分析，可以凑出<code>source.php?file=hint.php?../../../../../ffffllllaaaagggg</code>，通过一个？骗过check。</p>
+<h2 id="NewsCenter"><a href="#NewsCenter" class="headerlink" title="NewsCenter"></a>NewsCenter</h2><p>SQL注入！</p>
+<h3 id="判断是否存在SQL注入"><a href="#判断是否存在SQL注入" class="headerlink" title="判断是否存在SQL注入"></a>判断是否存在SQL注入</h3><p>SQL注入的目的是获取数据库数据，因此SQL注入点通常存在于<strong>登录页、搜索页或添加页</strong>中。</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/qq3285862072/p/9439573.html">怎样判断有没有SQL注入漏洞及原理？ - 谷神的飞翔 - 博客园 (cnblogs.com)</a></p>
+<h4 id="手工注入"><a href="#手工注入" class="headerlink" title="手工注入"></a>手工注入</h4><p><strong>单引号</strong>判断法： 在参数后面加上单引号，如果页面出现错误则表明存在SQL注入漏洞。<br>原理：无论字符型还是整型都会因为单引号个数不匹配而报错。</p>
+<h4 id="工具-sqlmap"><a href="#工具-sqlmap" class="headerlink" title="工具-sqlmap"></a>工具-sqlmap</h4><p>一般使用语句：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs shell">sqlmap -u url [--batch]							//获取数据库版本信息<br>//batch表示不再询问<br>sqlmap -u url --dbs	<br>sqlmap -u url --current-db						//获取当前使用的数据库名<br>sqlmap -u url -D dbname --tables 				//表名<br>sqlmap -u url -D dbname -T tabname --columns	//字段名<br>sqlmap -u url -D dbname -T tabname [-C colname] --dump	//最终内容<br></code></pre></td></tr></table></figure>
+
+<p>本题直接使用URL无法得到结果（可能因为是post），解决办法：  </p>
+<ul>
+<li>用burp抓包，将抓到的http请求导出为文件，通过<code>python sqlmap.py -r 文件路径</code>查询；</li>
+<li>接上post数据，<code>python sqlmap.py -u URL --data=&quot;post数据&quot;  </code></li>
+</ul>
+<h2 id="NaNNaNNaNNaN-Batman"><a href="#NaNNaNNaNNaN-Batman" class="headerlink" title="NaNNaNNaNNaN-Batman"></a>NaNNaNNaNNaN-Batman</h2><p>下载解压缩用记事本打开得知是js代码，改后缀为.html用浏览器打开，查看源码，有乱码。</p>
+<p>eval() 函数可计算某个字符串，并执行其中的的 JavaScript 代码。</p>
+<p>将源码复制到控制台，去掉script标签，将eval改为console.log，执行可得到下面的原函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">$</span>(<span class="hljs-params"></span>)</span>&#123;<br>    <span class="hljs-keyword">var</span> e=<span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&quot;c&quot;</span>).value;<br>    <span class="hljs-keyword">if</span>(e.length==<span class="hljs-number">16</span>)<br>        <span class="hljs-keyword">if</span>(e.match(<span class="hljs-regexp">/^be0f23/</span>)!=<span class="hljs-literal">null</span>)			<span class="hljs-comment">//正则</span><br>            <span class="hljs-keyword">if</span>(e.match(<span class="hljs-regexp">/233ac/</span>)!=<span class="hljs-literal">null</span>)<br>                <span class="hljs-keyword">if</span>(e.match(<span class="hljs-regexp">/e98aa$/</span>)!=<span class="hljs-literal">null</span>)<br>                    <span class="hljs-keyword">if</span>(e.match(<span class="hljs-regexp">/c7be9/</span>)!=<span class="hljs-literal">null</span>)&#123;<br>                        <span class="hljs-keyword">var</span> t=[<span class="hljs-string">&quot;fl&quot;</span>,<span class="hljs-string">&quot;s_a&quot;</span>,<span class="hljs-string">&quot;i&quot;</span>,<span class="hljs-string">&quot;e&#125;&quot;</span>];<br>                        <span class="hljs-keyword">var</span> n=[<span class="hljs-string">&quot;a&quot;</span>,<span class="hljs-string">&quot;_h0l&quot;</span>,<span class="hljs-string">&quot;n&quot;</span>];<br>                        <span class="hljs-keyword">var</span> r=[<span class="hljs-string">&quot;g&#123;&quot;</span>,<span class="hljs-string">&quot;e&quot;</span>,<span class="hljs-string">&quot;_0&quot;</span>];<br>                        <span class="hljs-keyword">var</span> i=[<span class="hljs-string">&quot;it&#x27;&quot;</span>,<span class="hljs-string">&quot;_&quot;</span>,<span class="hljs-string">&quot;n&quot;</span>];<br>                        <span class="hljs-keyword">var</span> s=[t,n,r,i];<br>                        <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> o=<span class="hljs-number">0</span>;o&lt;<span class="hljs-number">13</span>;++o)&#123;<br>                            <span class="hljs-built_in">document</span>.write(s[o%<span class="hljs-number">4</span>][<span class="hljs-number">0</span>]);<br>                            s[o%<span class="hljs-number">4</span>].splice(<span class="hljs-number">0</span>,<span class="hljs-number">1</span>)<br>                        &#125;<br>                    &#125;<br>&#125;<br><span class="hljs-built_in">document</span>.write(<span class="hljs-string">&#x27;&lt;input id=&quot;c&quot;&gt;&lt;button onclick=$()&gt;Ok&lt;/button&gt;&#x27;</span>);<br><span class="hljs-keyword">delete</span> _<br></code></pre></td></tr></table></figure>
+
+<p>write() 方法可向文档写入 HTML 表达式或 JavaScript 代码。</p>
+<p>由代码可得到输入内容需要满足的条件：16个字符；开头为be0f23；结尾为e98aa；包含233ac和c7be9。</p>
+<p>构造字符串“be0f233ac7be98aa”，点击OK得到flag。</p>
+<p><strong>注：在edge浏览器中执行会报错$符号，在火狐浏览器中可正常执行得到flag，或绕过if判断，直接在控制台执行if内部代码</strong></p>
+<h2 id="PHP2"><a href="#PHP2" class="headerlink" title="PHP2"></a>PHP2</h2><p><strong>.phps文件可以查看php源码</strong>：查看文件index.phps</p>
+<p>遇到的问题是用火狐访问一直是timeout，换成edge秒出，<del>论多个浏览器的作用</del></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs php"><span class="hljs-meta">&lt;?php</span><br><span class="hljs-keyword">if</span>(<span class="hljs-string">&quot;admin&quot;</span>===<span class="hljs-variable">$_GET</span>[id]) &#123;<br>  <span class="hljs-keyword">echo</span>(<span class="hljs-string">&quot;&lt;p&gt;not allowed!&lt;/p&gt;&quot;</span>);<br>  <span class="hljs-keyword">exit</span>();<br>&#125;<br><br><span class="hljs-variable">$_GET</span>[id] = urldecode(<span class="hljs-variable">$_GET</span>[id]);<br><span class="hljs-keyword">if</span>(<span class="hljs-variable">$_GET</span>[id] == <span class="hljs-string">&quot;admin&quot;</span>)<br>&#123;<br>  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;p&gt;Access granted!&lt;/p&gt;&quot;</span>;<br>  <span class="hljs-keyword">echo</span> <span class="hljs-string">&quot;&lt;p&gt;Key: xxxxxxx &lt;/p&gt;&quot;</span>;<br>&#125;<br><span class="hljs-meta">?&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p>审计代码可知需要传入一个id参数。<strong>当传入参数是，浏览器会自动对非ASCII码的字符进行URLEncode，运行时会自动进行URLDecode</strong>，即上传的admin需要进行两次URL编码。</p>
+<p>Q:尝试URL编码时，发现所有的编码工具都不会将英文字符进行编码</p>
+<p>A:进行ASCII编码，手动加上%</p>
+<h2 id="unserialize3"><a href="#unserialize3" class="headerlink" title="unserialize3"></a>unserialize3</h2><p>反序列化？</p>
+<h1 id="待学习"><a href="#待学习" class="headerlink" title="待学习"></a>待学习</h1><h2 id="伪协议"><a href="#伪协议" class="headerlink" title="伪协议"></a>伪协议</h2><h2 id="get—post"><a href="#get—post" class="headerlink" title="get—post"></a>get—post</h2><h2 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h2><h2 id="序列化-反序列化"><a href="#序列化-反序列化" class="headerlink" title="序列化-反序列化"></a>序列化-反序列化</h2>
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/web%E5%AE%89%E5%85%A8/">web安全</a>
+                    
+                      <a class="hover-with-bg" href="/categories/web%E5%AE%89%E5%85%A8/ctf/">ctf</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/22/DVWA/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">DVWA</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/15/eclipse/">
+                        <span class="hidden-mobile">eclipse</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

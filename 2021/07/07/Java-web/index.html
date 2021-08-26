@@ -1,0 +1,570 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/Sean.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="视频资源：黑马程序员完整JavaWeb快速入门教程【收藏比赞多系列】_哔哩哔哩_bilibili">
+  <meta name="author" content="Sean">
+  <meta name="keywords" content="">
+  
+  <title>Sean&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"|","loop":true},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Sean's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/banner.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-07 22:05" pubdate>
+        2021年7月7日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      1.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      17
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none"></h1>
+            
+            <div class="markdown-body">
+              <p>视频资源：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1mE411h7Co?from=search&seid=14787092919947680266">黑马程序员完整JavaWeb快速入门教程【收藏比赞多系列】_哔哩哔哩_bilibili</a></p>
+<span id="more"></span>
+
+<h1 id="JDBC"><a href="#JDBC" class="headerlink" title="JDBC"></a>JDBC</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>是一种用于执行SQL语句的Java API；</p>
+<p>由一组用Java语言编写的类和接口组成；</p>
+<p>SUN公司提供的统一的规范</p>
+<h2 id="使用入门"><a href="#使用入门" class="headerlink" title="使用入门"></a>使用入门</h2><h3 id="环境准备之MySQL"><a href="#环境准备之MySQL" class="headerlink" title="环境准备之MySQL"></a>环境准备之MySQL</h3><h4 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h4><p>参考另一篇文章“MySQL”</p>
+<h4 id="引入驱动包"><a href="#引入驱动包" class="headerlink" title="引入驱动包"></a>引入驱动包</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/HDZ1821/article/details/104373946">(4条消息) 在哪下载Mysql数据库的JDBC驱动jar包__清风明月的博客-CSDN博客_mysql驱动jar包在哪</a></p>
+<p>选择操作系统时，选Platform Independent，下载zip文件。</p>
+<p><strong>接下来的操作使用的IDE为eclipse</strong></p>
+<p>创建一个项目，新建一个文件夹lib，将connector中的jar包copy到lib中，右键选择<code>Build path</code>，可以看到多了一个文件夹【Referenced Library】，即引入了驱动包。</p>
+<h3 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h3><h4 id="开发步骤"><a href="#开发步骤" class="headerlink" title="开发步骤"></a>开发步骤</h4><ol>
+<li>加载驱动；</li>
+<li>获得连接；</li>
+<li>基本操作；</li>
+<li>释放资源。</li>
+</ol>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs java"><span class="hljs-comment">//1.加载驱动，固定写法</span><br>Class.forName(<span class="hljs-string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>);<br><span class="hljs-comment">//2.获得连接，固定写法</span><br>Connection conn = DriverManager.getConnection(<span class="hljs-string">&quot;jdbc:mysql://localhost:端口/数据库名&quot;</span>,<span class="hljs-string">&quot;MySQL用户名&quot;</span>,<span class="hljs-string">&quot;密码&quot;</span>);<br><span class="hljs-comment">//3.基本操作</span><br><span class="hljs-comment">//3.1.获得执行sql语句的对象</span><br>Statement createStatement = conn.createStatement();<br><span class="hljs-comment">//3.2.编写sql语句</span><br>String sql = <span class="hljs-string">&quot;select * from user&quot;</span>;<br><span class="hljs-comment">//3.3.执行sql语句</span><br>ResultSet executeQuery = createStatement.executeQuery(sql);<br><span class="hljs-comment">//3.4.遍历结果集</span><br><span class="hljs-keyword">while</span>(executeQuery.next()) &#123;<br>    System.out.println(executeQuery.getInt(<span class="hljs-string">&quot;id&quot;</span>));<br>    System.out.println(executeQuery.getString(<span class="hljs-string">&quot;username&quot;</span>));<br>&#125;<br><span class="hljs-comment">//4.释放资源</span><br>conn.close();<br>createStatement.close();<br>executeQuery.close();<br></code></pre></td></tr></table></figure>
+
+<p><strong>更多内容参见另一篇文章“JDBC”</strong></p>
+<h1 id="JavaWeb"><a href="#JavaWeb" class="headerlink" title="JavaWeb"></a>JavaWeb</h1><h2 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h2><h3 id="软件架构"><a href="#软件架构" class="headerlink" title="软件架构"></a>软件架构</h3><h4 id="CS"><a href="#CS" class="headerlink" title="CS"></a>CS</h4><p>Client/Server，一般需要安装。</p>
+<p>优点：减轻服务器压力；界面美观。<br>缺点：分布式开发较弱。</p>
+<h4 id="BS"><a href="#BS" class="headerlink" title="BS"></a>BS</h4><p>Browser/Server，通过浏览器直接访问。</p>
+<p>优点：不需要更新客户端，客户端就是浏览器；分布式能力较强。<br>缺点：服务器压力比较大。</p>
+<h3 id="Web服务器"><a href="#Web服务器" class="headerlink" title="Web服务器"></a>Web服务器</h3><p>硬件：配置较高的电脑；<br>软件：需要在这台电脑上散装web服务器的软件。</p>
+<h4 id="常见web服务器"><a href="#常见web服务器" class="headerlink" title="常见web服务器"></a>常见web服务器</h4><ul>
+<li>Tomcat</li>
+<li>WebSphere</li>
+<li>WebLogic</li>
+<li>IIS</li>
+<li>Apache</li>
+</ul>
+<h3 id="Web开发中的资源"><a href="#Web开发中的资源" class="headerlink" title="Web开发中的资源"></a>Web开发中的资源</h3><h4 id="静态"><a href="#静态" class="headerlink" title="静态"></a>静态</h4><ul>
+<li>HTML</li>
+<li>CSS</li>
+<li>JavaScript</li>
+</ul>
+<h4 id="动态"><a href="#动态" class="headerlink" title="动态"></a>动态</h4><ul>
+<li>Servlet，JSP</li>
+<li>PHP</li>
+<li>ASP</li>
+</ul>
+<h2 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h2><p>一个web服务器，用来发布web项目。</p>
+<h3 id="安装使用"><a href="#安装使用" class="headerlink" title="安装使用"></a>安装使用</h3><p>以下步骤为已有Java环境的Windows系统</p>
+<ul>
+<li>官网下载zip，解压；</li>
+<li>在文件bin中找到startup.bat双击打开</li>
+<li>在浏览器中测试<code>localhost:8080/</code></li>
+</ul>
+<p>命令行乱码：<a target="_blank" rel="noopener" href="https://blog.csdn.net/what_how_why2020/article/details/114100385">(4条消息) Tomcat安装及配置_what_how_why2020的博客-CSDN博客_tomcat</a></p>
+<p>80端口是HTTP协议的默认端口，容易被占用产生冲突。</p>
+<h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><ul>
+<li>bin：二进制文件（含命令文件：startup，shutdown）；</li>
+<li>conf：配置文件；</li>
+<li>lib：Tomcat所需要的jar包；</li>
+<li>logs：Tomcat服务器日志文件；</li>
+<li>temp：Tomcat运行产生临时文件；</li>
+<li>webapps：存放需要发布的项目；</li>
+<li>work：JSP编译成Servlet产生的代码</li>
+</ul>
+<hr>
+<p>!!!!!!!以下紧急更改为IDEA工具!!!!!!!!!!!!!!!基于版本2021.1.3x64</p>
+<p>jdbc和mysql的连接与eclipse类似。</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><h4 id="部署项目"><a href="#部署项目" class="headerlink" title="部署项目"></a>部署项目</h4><ul>
+<li>将项目放到webapps目录下：将项目打包成war包，复制粘贴，war包在webapps下会自动解压缩；</li>
+<li>配置conf/server.xml文件：添加<code>&lt;Context docBase=&quot;D:\eclipse\workspace\MyLirbary-master&quot; path=&quot;/lib&quot; /&gt;</code>  <ul>
+<li>docBase:项目路径；</li>
+<li>path:虚拟路径，URL中显示路径。</li>
+<li>缺点：对Tomcat系统配置不好</li>
+</ul>
+</li>
+<li>在conf\Catalina\localhost目录下添加xml文件，将上文添加的语句copy过来，删掉path属性，此时的虚拟目录即为xml文件的名称。</li>
+</ul>
+<h4 id="Java动态项目的目录结构"><a href="#Java动态项目的目录结构" class="headerlink" title="Java动态项目的目录结构"></a>Java动态项目的目录结构</h4><ul>
+<li>项目根目录  <ul>
+<li>WEB-INF目录  <ul>
+<li>web.xml：web项目的核心配置文件</li>
+<li>lib：放置依赖的jar包（可无）</li>
+<li>classes目录：放置字节码文件的目录（可无）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="将Tomcat集成到IDEA"><a href="#将Tomcat集成到IDEA" class="headerlink" title="将Tomcat集成到IDEA"></a>将Tomcat集成到IDEA</h4><ul>
+<li>IDEA头部-run-Edit Configuration，通过左上角的加号导入Tomcat-local，并点击Configure设置好路径；</li>
+<li>新建module，选择Java Enterprise（新版不用添加Web Application）；</li>
+<li>Edit Configuration-Deployment，Application context为设置虚拟路径。</li>
+</ul>
+<h2 id="Servlet"><a href="#Servlet" class="headerlink" title="Servlet"></a>Servlet</h2><p>server applet，就是一个接口，定义了Java类被浏览器访问（即被Tomcat识别）的规则。</p>
+<h3 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h3><ol>
+<li><p>创建JavaEE项目；</p>
+</li>
+<li><p>定义一个类，实现Servlet接口（implements Servlet）；<br>继承体系：</p>
+<p>Servlet—GenericServlet—HttpServlet</p>
+<ul>
+<li>GenericServlet</li>
+</ul>
+<p>将Servlet接口中其他的方法做了默认空实现，只实现service()fangfa </p>
+<ul>
+<li>HttpServlet</li>
+</ul>
+<p>复写doGet/doPost方法</p>
+</li>
+<li><p>实现接口中的抽象方法(overwrite)；</p>
+</li>
+<li><p>配置Servlet。  </p>
+<ul>
+<li>文件配置：在webapp-WEB-INF-web.xml，<code>&lt;web-app&gt;</code>标签中。</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-comment">&lt;!--    配置Servlet--&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">servlet</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>Test1<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span><br> <span class="hljs-comment">&lt;!--   以下路径要写全路径，包括上级包--&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-class</span>&gt;</span>servlet.Test1<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-class</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">servlet</span>&gt;</span><br><br>    <span class="hljs-tag">&lt;<span class="hljs-name">servlet-mapping</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">servlet-name</span>&gt;</span>Test1<span class="hljs-tag">&lt;/<span class="hljs-name">servlet-name</span>&gt;</span><br>        <span class="hljs-comment">&lt;!--URL访问--&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">url-pattern</span>&gt;</span>/test1<span class="hljs-tag">&lt;/<span class="hljs-name">url-pattern</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">servlet-mapping</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>Servlet3.0注解配置：在类上使用<code>@WebServlet(&quot;资源路径&quot;)</code>注解进行配置,直接新建Servlet会自动生成，只需要添加路径即可。</li>
+</ul>
+</li>
+</ol>
+<p>src下不能new package，要在src-main-java下，新版的java目录就等于之前的src目录。</p>
+<h2 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h2><p>异步的JavaScript和XML，异步表示客户端不需要等待服务器端的响应，在服务器处理请求的过程中，客户端可以进行其他的操作。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript"></span><br><span class="javascript">   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">fun</span>(<span class="hljs-params"></span>)</span>&#123;</span><br><span class="javascript">       $.ajax(&#123;</span><br><span class="javascript">            <span class="hljs-attr">type</span>:<span class="hljs-string">&quot;get/post&quot;</span>,	<span class="hljs-comment">//请求方式，默认get</span></span><br><span class="javascript">            <span class="hljs-attr">url</span>:<span class="hljs-string">&quot;/...&quot;</span>,			<span class="hljs-comment">//请求路径</span></span><br><span class="javascript">            <span class="hljs-attr">data</span>:&#123;<span class="hljs-string">&quot;id&quot;</span>:<span class="hljs-number">1</span>,<span class="hljs-string">&quot;name&quot;</span>:<span class="hljs-string">&quot;a&quot;</span>&#125;,	<span class="hljs-comment">//键值对传递请求参数</span></span><br><span class="javascript">            <span class="hljs-attr">success</span>:<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>)</span>&#123;</span><br><span class="javascript">                alert(data);</span><br><span class="javascript">            &#125;,					<span class="hljs-comment">//响应成功后的回调函数，data表示服务器响应的值</span></span><br><span class="javascript">       &#125;);</span><br><span class="javascript">   &#125; </span><br><span class="javascript"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h2><p>JavaScript对象表示法，多用于数据和文本信息的存储和交换。</p>
+<hr>
+<p>实训结束了，javaweb就告一段落了，毕竟也不是主攻开发的，有缘再见。</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/programming/">programming</a>
+                    
+                      <a class="hover-with-bg" href="/categories/programming/Java/">Java</a>
+                    
+                      <a class="hover-with-bg" href="/categories/programming/Java/web/">web</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/JDBC/">JDBC</a>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/08/MySQL/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">MySQL</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/04/CS50-1/">
+                        <span class="hidden-mobile">CS50-1</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

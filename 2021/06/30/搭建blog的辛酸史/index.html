@@ -14,11 +14,11 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="热爱可抵岁月漫长">
+  <meta name="description" content="记录之Q&amp;amp;A这只是记录个人的踩坑辛酸史，教程的话参考**准备工具 - hexo-script使用文档 (gitbook.io)**">
   <meta name="author" content="Sean">
   <meta name="keywords" content="">
   
-  <title>Hello World - Sean&#39;s Blog</title>
+  <title>搭建blog的辛酸史 - Sean&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="Hello World">
+            <span class="h2" id="subtitle" title="搭建blog的辛酸史">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-08-25 17:29" pubdate>
-        2021年8月25日 下午
+      <time datetime="2021-06-30 00:08" pubdate>
+        2021年6月30日 凌晨
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      75 字
+      805 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      8
        分钟
     </span>
   
@@ -225,28 +225,53 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Hello World</h1>
+            <h1 style="display: none">搭建blog的辛酸史</h1>
             
             <div class="markdown-body">
-              <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo new <span class="hljs-string">&quot;My New Post&quot;</span><br></code></pre></td></tr></table></figure>
+              <h3 id="记录之Q-amp-A"><a href="#记录之Q-amp-A" class="headerlink" title="记录之Q&amp;A"></a>记录之Q&amp;A</h3><p>这只是记录个人的踩坑辛酸史，教程的话参考**<a target="_blank" rel="noopener" href="https://hexoscript.gitbook.io/hexo-script/v/1.3-1/shi-yong-bu-zhou/zhun-bei-gong-ju">准备工具 - hexo-script使用文档 (gitbook.io)</a>**</p>
+<span id="more"></span>
 
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo server<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo generate<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">$ hexo deploy<br></code></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>Q：git下载出错，没有权限</p>
+<p>A：科学上网</p>
+<p>Q：hexo s后localhost拒绝连接</p>
+<p>A：我第一反应是端口被占用了，结果不是，又去看环境问题，折腾了好久的localhost，结果是因为我当时看到命令行提示<code>Ctrl+C to stop</code>我就按了下去，迷惑行为。</p>
+<p>Q：SSH密钥配置</p>
+<p>A：创建密钥的时候不要妄想自己选择创建地址，就默认地址，听教程的一路enter，然后找到指定地址打开隐藏查看项目。</p>
+<p>Q：修改配置文件中<code>deploy-repo</code>时建议写入仓库的ssh地址，不知道为啥，不过后面clone主题文件的时候我也只能用ssh地址才能成功</p>
+<p>A：</p>
+<p>Q：githubpage上总是显示main分支，但我上传到的是master分支</p>
+<p>A：设置gh-page的展示网页——<code>repositories-setting-source</code>或许还需要清理浏览器缓存（人麻了，找了半天的问题）</p>
+<p>Q：next主题布置无法成功，打开总是显示一串英文字母+符号+数字，也不像是乱码</p>
+<p>A：解决方法：npm i hexo-renderer-swig<br>原因：hexo在5.0之后把swig给删除了需要自己手动安装</p>
+<p>Q：总是在<code>hexo g -d</code>后页面没有变化</p>
+<p>A：此时第一步应该是去看看命令行报错了没，因为修改配置文件时不小心容易出问题（如空格问题），但是确实偶尔需要清理浏览器缓存才会出现，也可能是我自己的问题……</p>
+<hr>
+<h3 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h3><p>出现问题的时候要有规律地排查，不要东一下西一下，本来简单的问题被整得十分复杂不说，还可能把已经搭建好的部分搞崩，我现在就挺担心自己这个first blog的，啥时候心情好了再去重新倒腾一下吧（事实上是不想再经历一次痛苦了）</p>
+<hr>
+<h3 id="规划："><a href="#规划：" class="headerlink" title="规划："></a>规划：</h3><p>作为外貌协会，当然是非常想尽可能美化这个界面啦，不过因为版本问题，暂时没找到合适的教程（主要是html，css，js还看不懂），循序渐进吧<del>（说不定以后自己手写代码来美化呢）</del></p>
+<p>除了主题界面，还有自己博客的界面，这个主要是跟Markdown语法相关，暂时也不太会<del>（怎么啥都不会）</del>目前最想实现的是插图片（当然是链接式的哈），太想用表情包了……</p>
+<p>完结撒花！</p>
+<p>等等，还有一点值得记录，这个时间，是在考试周。当你复习的时候，你就会发现除了看书做题之外的事都很有趣，即使是跟建站遇到的小问题杠上几个小时都不想去看书，当然这个结果就是微积分和近纲基本没复习。其实大学期末临时抱佛脚挺好使的，所有完全自暴自弃还是不太行的，至少得及个格吧，不然还得面临补考重修，徒增麻烦，所以，下次一定！</p>
 
             </div>
             <hr>
             <div>
               <div class="post-metas mb-3">
                 
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/blog%E6%90%AD%E5%BB%BA/">blog搭建</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/hexo/">hexo</a>
+                    
+                  </div>
                 
               </div>
               
@@ -261,12 +286,18 @@
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2021/06/30/sqli-labs-1-20/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">sqli-labs 1-20</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/08/16/python%E7%88%AC%E8%99%AB/">
-                        <span class="hidden-mobile">python爬虫</span>
+                      <a href="/2021/06/28/My-New-Post/">
+                        <span class="hidden-mobile">My New Post</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
