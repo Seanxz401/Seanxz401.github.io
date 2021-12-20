@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.3k 字
+      2k 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      17
+      27
        分钟
     </span>
   
@@ -254,27 +254,46 @@
 
 <p>不区分大小写，由浏览器直接解析执行，由上到下。（不需要编译）<br>HTML标签：1.&lt;开始标签&gt;内容体&lt;结束标签&gt;；2.空标签，如<code>&lt;br/&gt;</code>。<br>建议包裹嵌套。</p>
 <h1 id="基本标签"><a href="#基本标签" class="headerlink" title="基本标签"></a>基本标签</h1><h2 id="字体标签和格式化标签"><a href="#字体标签和格式化标签" class="headerlink" title="字体标签和格式化标签"></a>字体标签和格式化标签</h2><ul>
-<li><p><code>&lt;font 属性名=“属性值”&gt;文字&lt;/font&gt;</code> 字体标签<br><code>&lt;font size=&quot;1~7&quot; color=&quot; &quot; face=&quot;字体&quot;&gt;文字&lt;/font&gt;</code></p>
-</li>
-<li><p><code>&lt;br/&gt;</code>换行；  </p>
-</li>
-<li><p><code>&lt;p&gt;&lt;/p&gt;</code>段落标签，能够划分段落，并且自动在<strong>段前段后</strong>添加空行；<br><code>&lt;p align=&quot;left(默认)/right/center&quot;&gt;&lt;/p&gt;</code>段落对齐方式<strong>align</strong>；</p>
-</li>
-<li><p><code>&lt;h1&gt;&lt;/h1&gt;</code>标题标签，1-6↓</p>
-</li>
-<li><p><code>&amp;nbsp;</code>空格符号（HTML源码中的多个空格会在效果中合并为一个）；</p>
-</li>
-<li><p><code>&lt;!--注释内容--&gt;</code>注释；</p>
-</li>
+<li><code>&lt;font 属性名=“属性值”&gt;文字&lt;/font&gt;</code> 字体标签<br><code>&lt;font size=&quot;1~7&quot; color=&quot; &quot; face=&quot;字体&quot;&gt;文字&lt;/font&gt;</code></li>
+<li><code>&lt;br/&gt;</code>换行；  </li>
+<li><code>&lt;p&gt;&lt;/p&gt;</code>段落标签，能够划分段落，并且自动在<strong>段前段后</strong>添加空行，不会自动缩进；<br><code>&lt;p align=&quot;left(默认)/right/center&quot;&gt;&lt;/p&gt;</code>段落对齐方式<strong>align</strong>；</li>
+<li><code>&lt;pre&gt;&lt;/pre&gt;</code>预格式文本。它保留了空格和换行。</li>
+<li><code>&lt;h1&gt;&lt;/h1&gt;</code>标题标签，1-6↓</li>
+<li><code>&amp;nbsp;</code>空格符号（HTML源码中的多个空格会在效果中合并为一个）；</li>
+<li><code>&lt;!--注释内容--&gt;</code>注释；</li>
 </ul>
-<h2 id="图片标签"><a href="#图片标签" class="headerlink" title="图片标签"></a>图片标签</h2><p><code>&lt;img src=&quot; &quot; width=&quot; &quot; height=&quot; &quot; /&gt;</code><br>src：1.内网路径（绝对或相对路径）；2.互联网路径；<br>width/height：1.像素；2.百分比（表示占外标签的百分比）。</p>
+<h3 id="常用字符实体"><a href="#常用字符实体" class="headerlink" title="常用字符实体"></a>常用字符实体</h3><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20210906145751359.png" srcset="/img/loading.gif" lazyload alt="image-20210906145751359"></p>
+<h2 id="图片标签"><a href="#图片标签" class="headerlink" title="图片标签"></a>图片标签</h2><p><code>&lt;img src=&quot; &quot; alt=&quot; &quot; title=&quot; &quot; width=&quot; &quot; height=&quot; &quot; /&gt;</code>  </p>
+<ul>
+<li>src：1.内网路径（绝对或相对路径）；2.互联网路径；  </li>
+<li>alt：当浏览器无法载入图像时，替换文本属性可告诉读者他们失去的信息。</li>
+<li>title：鼠标悬停时显示；</li>
+<li>width/height：1.像素；2.百分比（表示占外标签的百分比）。</li>
+</ul>
 <h2 id="列表标签"><a href="#列表标签" class="headerlink" title="列表标签"></a>列表标签</h2><ul>
 <li><code>&lt;ul&gt;&lt;/ul&gt;</code>定义一个无序列表；</li>
 <li><code>&lt;li&gt;&lt;/li&gt;</code>定义一个列表条目；</li>
 <li><code>&lt;ol&gt;&lt;/ol&gt;</code>定义一个有序列表。</li>
 </ul>
-<h2 id="超链接标签"><a href="#超链接标签" class="headerlink" title="超链接标签"></a>超链接标签</h2><p><code>&lt;a href=&quot; &quot;&gt;内容&lt;/a&gt;</code><br>默认跳转到本页；必须有内容，内容不仅仅是文字，还可以是图片等。</p>
-<h2 id="表格标签"><a href="#表格标签" class="headerlink" title="表格标签"></a>表格标签</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">border</span>=<span class="hljs-string">&quot; &quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot; &quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span><br>    	<span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>表头<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span><br>    	<span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>单元格<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<h3 id="定义列表"><a href="#定义列表" class="headerlink" title="定义列表"></a>定义列表</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">dl</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dt</span>&gt;</span>概念1<span class="hljs-tag">&lt;/<span class="hljs-name">dt</span>&gt;</span><br>    	<span class="hljs-tag">&lt;<span class="hljs-name">dd</span>&gt;</span>解释1<span class="hljs-tag">&lt;/<span class="hljs-name">dd</span>&gt;</span><br>    	<span class="hljs-tag">&lt;<span class="hljs-name">dd</span>&gt;</span>解释2<span class="hljs-tag">&lt;/<span class="hljs-name">dd</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">dt</span>&gt;</span>概念2<span class="hljs-tag">&lt;/<span class="hljs-name">dt</span>&gt;</span><br>    	<span class="hljs-tag">&lt;<span class="hljs-name">dd</span>&gt;</span>解释1<span class="hljs-tag">&lt;/<span class="hljs-name">dd</span>&gt;</span><br>    	<span class="hljs-tag">&lt;<span class="hljs-name">dd</span>&gt;</span>解释2<span class="hljs-tag">&lt;/<span class="hljs-name">dd</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">dl</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="超链接标签"><a href="#超链接标签" class="headerlink" title="超链接标签"></a>超链接标签</h2><ul>
+<li>文字超链接</li>
+<li>图片超链接</li>
+<li>页面内链接</li>
+</ul>
+<p><code>&lt;a href=&quot; &quot; target=&quot; &quot; name=&quot; &quot;&gt;内容&lt;/a&gt;</code>  </p>
+<p>默认跳转到本页；必须有内容，内容不仅仅是文字，还可以是图片等。</p>
+<ul>
+<li>target：定义被链接的文档在何处显示；<ul>
+<li><code>_blank</code></li>
+</ul>
+</li>
+<li>name：规定锚（anchor）的名称。</li>
+</ul>
+<h2 id="表格标签"><a href="#表格标签" class="headerlink" title="表格标签"></a>表格标签</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">border</span>=<span class="hljs-string">&quot; &quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot; &quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">caption</span>&gt;</span>表的title<span class="hljs-tag">&lt;/<span class="hljs-name">caption</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span><br>    	<span class="hljs-tag">&lt;<span class="hljs-name">th</span>&gt;</span>表头，加粗居中<span class="hljs-tag">&lt;/<span class="hljs-name">th</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">tr</span>&gt;</span><br>    	<span class="hljs-tag">&lt;<span class="hljs-name">td</span>&gt;</span>单元格<span class="hljs-tag">&lt;/<span class="hljs-name">td</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">tr</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <h3 id="单元格合并"><a href="#单元格合并" class="headerlink" title="单元格合并"></a>单元格合并</h3><ul>
 <li><code>colspan=&quot;num&quot;</code>跨列合并；</li>
@@ -287,15 +306,29 @@
 </ul>
 <h2 id="表单标签"><a href="#表单标签" class="headerlink" title="表单标签"></a>表单标签</h2><h3 id="输入项标签"><a href="#输入项标签" class="headerlink" title="输入项标签"></a>输入项标签</h3><p><code>&lt;input type=&quot; &quot; name=&quot; &quot; value=&quot; &quot; /&gt;</code>  </p>
 <h4 id="type"><a href="#type" class="headerlink" title="type"></a>type</h4><ul>
-<li>text：文本框（默认）；</li>
-<li>password：密码框，非明文展示；</li>
-<li>radio：单选框，在同一组内单选；</li>
-<li>checkbox：复选框，在同一组内复选；</li>
-<li>submit：提交数据；</li>
-<li>reset：重置，将输入项恢复至默认；</li>
-<li>file：附件框，用于文件上传；</li>
-<li>hidden：隐藏域，服务器能接收到，用户看不到；</li>
-<li>button：与JS事件配合使用。</li>
+<li><p>text：文本框（默认）；</p>
+</li>
+<li><p>password：密码框，非明文展示；</p>
+</li>
+<li><p>radio：单选框，在同一组内单选；</p>
+</li>
+<li><p>checkbox：复选框，在同一组内复选；</p>
+<ul>
+<li>单选和复选需要显示在网页上的选项跟在input标签后即可</li>
+</ul>
+</li>
+<li><p>submit：提交数据；</p>
+</li>
+<li><p>reset：重置，将输入项恢复至默认；</p>
+</li>
+<li><p>file：附件框，用于文件上传；</p>
+</li>
+<li><p>hidden：隐藏域，服务器能接收到，用户看不到；</p>
+</li>
+<li><p>button：与JS事件配合使用；</p>
+</li>
+<li><p>img：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;image&quot;</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot; &quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;&quot;</span>/&gt;</span><br><span class="hljs-comment">&lt;!--按钮加图片--&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">button</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot; &quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot; &quot;</span>/&gt;</span>button_name<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span><br></code></pre></td></tr></table></figure></li>
 </ul>
 <h4 id="name"><a href="#name" class="headerlink" title="name"></a>name</h4><ul>
 <li>对单选框或复选框进行数据分组；</li>
@@ -309,17 +342,67 @@
 <li><code>checked=&quot;checked&quot;</code>：设置选择框为默认选择状态；</li>
 <li><code>readonly=&quot;readonly&quot;</code>：只读，数据可正常提交；</li>
 <li><code>disabled=&quot;disabled&quot;</code>：不可改且不可提交。</li>
+<li><code>placeholder=&#39;value&#39;</code>：</li>
 </ul>
 <h3 id="选择框标签"><a href="#选择框标签" class="headerlink" title="选择框标签"></a>选择框标签</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">select</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot; &quot;</span> <span class="hljs-attr">multiple</span>=<span class="hljs-string">&quot;multiple&quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;1&quot;</span> <span class="hljs-attr">selected</span>=<span class="hljs-string">&quot;selected&quot;</span>&gt;</span>选项一<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;2&quot;</span>&gt;</span>选项二<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;3&quot;</span>&gt;</span>选项三<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">select</span>&gt;</span><br></code></pre></td></tr></table></figure>
 
 <h3 id="文本域标签"><a href="#文本域标签" class="headerlink" title="文本域标签"></a>文本域标签</h3><p><code>&lt;textarea&gt;&lt;/textarea&gt;</code><br>文本框和文本域的区别：1.文本框不能换行，文本域可以；2.文本框的参数值是value属性值，文本域的参数值是标签的内容体。</p>
-<h3 id="表单标签-1"><a href="#表单标签-1" class="headerlink" title="表单标签"></a>表单标签</h3><p>表单作用：提交用户输入的数据。<br><code>&lt;form action=&quot; &quot; method=&quot;&quot;&gt;&lt;/form&gt;</code>  </p>
+<h3 id="form标签"><a href="#form标签" class="headerlink" title="form标签"></a>form标签</h3><p>表单作用：提交用户输入的数据。<br><code>&lt;form action=&quot; &quot; method=&quot;&quot;&gt;&lt;/form&gt;</code>  </p>
 <ul>
 <li>action：将数据提交到何处。1.默认提交到本页；2.本机内网路径；3.互联网路径。</li>
 <li>method：数据提交方式。1.get，将参数列表拼接到地址栏后面，不安全且提交数据有限；2.post。</li>
 </ul>
+<h3 id="标签控件"><a href="#标签控件" class="headerlink" title="标签控件"></a>标签控件</h3><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20210913144556556.png" srcset="/img/loading.gif" lazyload alt="image-20210913144556556"></p>
+<h3 id="组合组件"><a href="#组合组件" class="headerlink" title="组合组件"></a>组合组件</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">form</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">legend</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">legend</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">lable</span>&gt;</span>...<span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">input</span> &gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">lable</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20210913144832723.png" srcset="/img/loading.gif" lazyload alt="image-20210913144832723"></p>
+<h4 id="type-”组件类型”"><a href="#type-”组件类型”" class="headerlink" title="type=”组件类型”"></a>type=”组件类型”</h4><ul>
+<li>日期组件：data</li>
+<li>电子邮件：email</li>
+<li>url组件：url</li>
+<li>搜索输入组件：search</li>
+</ul>
 <h3 id="URL编码"><a href="#URL编码" class="headerlink" title="URL编码"></a>URL编码</h3><p>作用：保证提交数据的完整性。</p>
 <p>步骤：1.使用页面规定的字符集编码为字节数组；2.再编码为十六进制，以%拼接。</p>
+<h1 id="头部信息"><a href="#头部信息" class="headerlink" title="头部信息"></a>头部信息</h1><h2 id="title"><a href="#title" class="headerlink" title="title"></a>title</h2><p>网页标题</p>
+<h2 id="base"><a href="#base" class="headerlink" title="base"></a>base</h2><p>描述了该网页中的基本的连接地址，该网页中的所有链接地址都是用它作为<strong>绝对路径的根路径</strong>。</p>
+<h2 id="link-1"><a href="#link-1" class="headerlink" title="link"></a>link</h2><p>导入外部文件，主要是CSS和 Javascript</p>
+<h2 id="style"><a href="#style" class="headerlink" title="style"></a>style</h2><h2 id="script"><a href="#script" class="headerlink" title="script"></a>script</h2><h2 id="meta-1"><a href="#meta-1" class="headerlink" title="meta"></a>meta</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;参数&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;参数值&quot;</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">&quot;参数&quot;</span> <span class="hljs-attr">content</span>=<span class="hljs-string">&quot;参数值&quot;</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>name属性的主要参数：<ul>
+<li>keywords：告诉搜索引擎你网页的关键字是什么；</li>
+<li>description：……主要内容；</li>
+<li>robots：……爬虫规则；</li>
+<li>author：作者+联系方式；</li>
+<li>generator：网页制作软件；</li>
+<li>COPYRIGHT：版权信息。</li>
+</ul>
+</li>
+<li>http-equiv：<ul>
+<li>Pragma：禁止浏览器从本地计算机的缓存中访问页面内容；</li>
+<li>Refresh：自动刷新并指向新页面。</li>
+</ul>
+</li>
+</ul>
+<h1 id="HTML组件"><a href="#HTML组件" class="headerlink" title="HTML组件"></a>HTML组件</h1><p>一般与js一起用</p>
+<h2 id="画布"><a href="#画布" class="headerlink" title="画布"></a>画布</h2><p>动态生成图形</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">canvas</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">canvas</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="SVG"><a href="#SVG" class="headerlink" title="SVG"></a>SVG</h2><p>利用XML来构建图形</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">svg</span> <span class="hljs-attr">xmlns</span>=<span class="hljs-string">&quot; &quot;</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">polygon</span> <span class="hljs-attr">points</span>=<span class="hljs-string">&quot; &quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">polygon</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="音频"><a href="#音频" class="headerlink" title="音频"></a>音频</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">audio</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot; &quot;</span> <span class="hljs-attr">controls</span> <span class="hljs-attr">autoplay</span> <span class="hljs-attr">loop</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">audio</span>&gt;</span><br><span class="hljs-tag">&lt;<span class="hljs-name">audio</span> <span class="hljs-attr">controls</span> <span class="hljs-attr">autoplay</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot; &quot;</span> /&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot; &quot;</span> /&gt;</span><br>    ...<br><span class="hljs-tag">&lt;/<span class="hljs-name">audio</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="视频"><a href="#视频" class="headerlink" title="视频"></a>视频</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs html"><span class="hljs-tag">&lt;<span class="hljs-name">video</span> <span class="hljs-attr">poster</span>=<span class="hljs-string">&quot;封面.jpg&quot;</span> <span class="hljs-attr">controls</span> <span class="hljs-attr">loop</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot; &quot;</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot; &quot;</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">video</span>&gt;</span><br></code></pre></td></tr></table></figure>
+
+<h2 id="Marquee"><a href="#Marquee" class="headerlink" title="Marquee"></a>Marquee</h2><p>如果在这个标签里面插入了文字，标签内的文字会像弹幕一样滚动。</p>
+<ul>
+<li>behavior</li>
+<li>direction</li>
+<li>loop</li>
+<li>height/width</li>
+</ul>
 
             </div>
             <hr>

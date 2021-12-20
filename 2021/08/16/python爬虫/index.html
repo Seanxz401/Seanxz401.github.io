@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      28
+      29
        分钟
     </span>
   
@@ -323,10 +323,11 @@
 <h2 id="request"><a href="#request" class="headerlink" title="request"></a>request</h2><h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> requests<br>requests.get(<span class="hljs-string">&quot;url&quot;</span>,参数……)<br>requests.post(<span class="hljs-string">&quot;url&quot;</span>,参数……)	<span class="hljs-comment">#参数可以是json格式：json=...</span><br>requests.status_code()<br></code></pre></td></tr></table></figure>
 
 <h4 id="状态码"><a href="#状态码" class="headerlink" title="状态码"></a>状态码</h4><ul>
-<li>200，201：成功</li>
-<li>301，302：跳转</li>
-<li>401，404，400，403：客户端错误</li>
-<li>500，501，502：服务端错误</li>
+<li>1*:信息，服务器收到请求，需要请求者继续执行操作；</li>
+<li>2*：200，201等，成功，操作被成功接收并处理；</li>
+<li>3*：301，302等，重定向，需要进一步的操作以完成请求；</li>
+<li>4*：401，404，400，403等，客户端错误，请求包含语法错误或无法完成请求；</li>
+<li>5*：500，501，502等，服务端错误，服务器在请求的过程中发生了错误。</li>
 </ul>
 <h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><h3 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h3><table>
 <thead>

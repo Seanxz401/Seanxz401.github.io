@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      186 字
+      347 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      2
+      4
        分钟
     </span>
   
@@ -238,6 +238,18 @@
 <p>Q：编译运行的时候老是报错<strong>文件.exe doesn’t exist</strong></p>
 <p>A：没有产生编译文件，右键“生成和调试活动文件”。</p>
 <p>我觉得或许可以学习一下在终端直接使用命令进行编译运行，vscode终究只是一款文本编辑器，如果是大项目的话，合适的IDE还是很需要的</p>
+<p>Q:逃不掉的重装MINGW-GCC</p>
+<p>A：首先踩了个坑，下载了离线安装包，然后好像有点麻烦，而且不太熟悉，所以还是在线安装吧，就是慢一点。</p>
+<p>选择了在线安装，下载exe执行文件，<strong>下载的选项并不会自动配置，要手动修改</strong>。</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/76613134">https://zhuanlan.zhihu.com/p/76613134</a></p>
+<p><strong>如遇命令行无法调用gcc命令，可尝试重启。</strong></p>
+<p><strong>文件路径不要有中文</strong></p>
+<p>Q：F5运行时，显示没有那个.exe文件</p>
+<p>A：配置launch.json文件</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs json"><span class="hljs-string">&quot;program&quot;</span>: <span class="hljs-string">&quot;$&#123;fileDirname&#125;/$&#123;fileBasenameNoExtension&#125;.exe&quot;</span>,<br></code></pre></td></tr></table></figure>
+
+<p>Q：在命令行窗口乱码</p>
+<p>A：</p>
 
             </div>
             <hr>
@@ -275,8 +287,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/08/06/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">
-                        <span class="hidden-mobile">数据结构与算法</span>
+                      <a href="/2021/08/06/%E7%BA%BF%E6%80%A7%E7%BB%93%E6%9E%84%E9%83%A8%E5%88%86/">
+                        <span class="hidden-mobile">线性结构部分</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

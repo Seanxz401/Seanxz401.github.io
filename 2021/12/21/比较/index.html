@@ -14,11 +14,11 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="数据结构与算法：数据结构_华中科技大学_中国大学MOOC(慕课) (icourse163.org)">
+  <meta name="description" content="热爱可抵岁月漫长">
   <meta name="author" content="Sean">
   <meta name="keywords" content="">
   
-  <title>数据结构与算法 - Sean&#39;s Blog</title>
+  <title>比较 - Sean&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="数据结构与算法">
+            <span class="h2" id="subtitle" title="比较">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2021-08-06 20:28" pubdate>
-        2021年8月6日 晚上
+      <time datetime="2021-12-21 00:04" pubdate>
+        2021年12月21日 凌晨
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      777 字
+      1.1k 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8
+      13
        分钟
     </span>
   
@@ -225,108 +225,331 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">数据结构与算法</h1>
+            <h1 style="display: none">比较</h1>
             
             <div class="markdown-body">
-              <p>数据结构与算法：<a target="_blank" rel="noopener" href="https://www.icourse163.org/course/HUST-1001907004">数据结构_华中科技大学_中国大学MOOC(慕课) (icourse163.org)</a></p>
-<span id="more"></span>
+              <h1 id="顺序表-amp-链表"><a href="#顺序表-amp-链表" class="headerlink" title="顺序表&amp;链表"></a>顺序表&amp;链表</h1><table>
+<thead>
+<tr>
+<th></th>
+<th>顺序表</th>
+<th>链表</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>空间</td>
+<td>O(1)</td>
+<td></td>
+</tr>
+<tr>
+<td>存取</td>
+<td>O(1)</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>插入删除</td>
+<td>O(n)</td>
+<td>O(1)</td>
+</tr>
+</tbody></table>
+<h1 id="栈与递归"><a href="#栈与递归" class="headerlink" title="栈与递归"></a>栈与递归</h1><ul>
+<li><p>空间：O(n)，与递归树的深度成正比</p>
+</li>
+<li><p>时间：O(2^n)，与递归树的结点成正比</p>
+</li>
+<li><p>执行次数：<br>$$<br>f(n)=2^0+2^1+…+2^{n-2}+2^{n-1}f(1)=2^n-1<br>$$</p>
+</li>
+</ul>
+<h1 id="串匹配"><a href="#串匹配" class="headerlink" title="串匹配"></a>串匹配</h1><table>
+<thead>
+<tr>
+<th></th>
+<th>BF</th>
+<th>KMP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>比较次数</td>
+<td>(n-m)*m+m</td>
+<td>n</td>
+</tr>
+<tr>
+<td>时间</td>
+<td>O(n*m)</td>
+<td>O(n+m),O(m)是求next的时间复杂度</td>
+</tr>
+</tbody></table>
+<h1 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h1><h2 id="先中后序遍历"><a href="#先中后序遍历" class="headerlink" title="先中后序遍历"></a>先中后序遍历</h2><ul>
+<li><p>时间：O(n)，每个结点只访问一次</p>
+</li>
+<li><p>空间：O(n)，<strong>栈</strong>占用的最大辅助空间</p>
+</li>
+</ul>
+<h1 id="图"><a href="#图" class="headerlink" title="图"></a>图</h1><h2 id="存储"><a href="#存储" class="headerlink" title="存储"></a>存储</h2><table>
+<thead>
+<tr>
+<th>item</th>
+<th>邻接矩阵</th>
+<th>邻接表</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>空间</td>
+<td>$O(n^2)$</td>
+<td>无向：$O(n+2e)$<br />有向：$O(n+e)$</td>
+</tr>
+<tr>
+<td>优点</td>
+<td>容易求某顶点的度、判断顶点之间是否有边、找顶点的邻接点</td>
+<td>空间效率高，容易找顶点的邻接点</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td>对稀疏图，浪费空间</td>
+<td>判断两顶点间是否有边需要搜索对应的单链表</td>
+</tr>
+<tr>
+<td>适用</td>
+<td>稠密图</td>
+<td>稀疏图</td>
+</tr>
+</tbody></table>
+<h2 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h2><table>
+<thead>
+<tr>
+<th>item</th>
+<th>DFS</th>
+<th>BFS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>时间</td>
+<td>邻接矩阵：$O(n^2)$<br />邻接表：$O(n+e)$</td>
+<td>同DFS，时间复杂度只与存储结构有关，而与搜索路径无关</td>
+</tr>
+<tr>
+<td>空间</td>
+<td>$O(n)$，借用堆栈</td>
+<td>$O(n)$，借用队列</td>
+</tr>
+</tbody></table>
+<h2 id="最短路径"><a href="#最短路径" class="headerlink" title="最短路径"></a>最短路径</h2><table>
+<thead>
+<tr>
+<th>item</th>
+<th>Dijkstra</th>
+<th>Floyd</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>时间</td>
+<td>$O(n^2)$</td>
+<td></td>
+</tr>
+</tbody></table>
+<h1 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h1><h2 id="查找算法"><a href="#查找算法" class="headerlink" title="查找算法"></a>查找算法</h2><table>
+<thead>
+<tr>
+<th>item</th>
+<th>顺序查找</th>
+<th>折半查找</th>
+<th>分块查找</th>
+<th>二叉排序树</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>空间</td>
+<td>O(1)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>比较次数</td>
+<td>总：<br />success:$1+2+…+n=\frac{n*(n+1)}{2}$<br />fail: n*(n+1)</td>
+<td>单次：<br />success: $&lt;=d=\lfloor{log_2n}\rfloor-1$<br />fail: d or d-1</td>
+<td></td>
+<td>第i层的结点需要比较i次</td>
+</tr>
+<tr>
+<td>ASL/时间</td>
+<td>查找概率相等时<br />ASLs=(n+1)/2<br />ASLf=n+1</td>
+<td>$O(log_2n)$<br /></td>
+<td>$ASL=L_b+L_w$<br />$log_2n&lt;=ASL_{bs}&lt;=\frac{n+1}{2}$<br />$ASL_bs≈log_2(\frac{n}{s}+1)+\frac{s}{2}$<br />s表示每块中的记录个数</td>
+<td>$ASL=\frac{1}{n}<em>\prod{i</em>m_i}$<br />最好$log_2n$<br />最坏(n+1)/2</td>
+</tr>
+<tr>
+<td>优点</td>
+<td>算法简单，对表结构(顺序or链式)无要求</td>
+<td></td>
+<td>插入和删除较容易，无需进行大量移动，适用于既要快速查找又经常动态变化</td>
+<td></td>
+</tr>
+<tr>
+<td>缺点</td>
+<td>n很大时查找效率低</td>
+<td><strong>必须是顺序存储的关键字有序的线性表</strong></td>
+<td>要增加一个索引表的存储空间并<strong>对初始索引表进行排序运算</strong>。</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="哈希冲突"><a href="#哈希冲突" class="headerlink" title="哈希冲突"></a>哈希冲突</h2><table>
+<thead>
+<tr>
+<th>item</th>
+<th>线性探测</th>
+<th>链地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>优点</td>
+<td>只要哈希表未被填满，总能找到一个空地址解决冲突</td>
+<td>非同义词不会冲突；动态申请适于表长不确定的情况</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td>聚集现象</td>
+<td></td>
+</tr>
+</tbody></table>
+<h1 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h1><h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2><table>
+<thead>
+<tr>
+<th>item</th>
+<th>直接插入</th>
+<th>折半插入</th>
+<th>希尔排序</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单次</td>
+<td>最好：比较1次，不移动<br />最坏：第i趟比较i次，移动i+1次</td>
+<td>插入第i个对象时比较$\lfloor log_2i\rfloor+1$</td>
+<td></td>
+</tr>
+<tr>
+<td>比较次数</td>
+<td>最好：n-1<br />最坏：$\sum_{i=2}^{n}{i}=\frac{(n+2)*(n-1)}{2}$<br />平均：$\frac{n^2}{4}$</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>移动次数</td>
+<td>最好：0<br />最坏：$\sum_{i=2}^{n}{i+1}=\frac{(n+4)*(n-1)}{2}$<br />平均：$\frac{n^2}{4}$</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>时间</td>
+<td>$O(n^2)$</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>空间</td>
+<td>O(1)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>稳定</td>
+<td>是</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>特点</td>
+<td>比较次数和移动次数与初始排列有关</td>
+<td>比较次数与待排序对象序列的初始排列无关，移动次数仍依赖。=&gt;减少了比较次数但没有减少移动次数</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="交换排序"><a href="#交换排序" class="headerlink" title="交换排序"></a>交换排序</h2><table>
+<thead>
+<tr>
+<th>item</th>
+<th>冒泡排序</th>
+<th>快速排序</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>比较次数</td>
+<td>最好：1趟排序，比较n-1次，不移动<br />最坏：需 n-1趟排序，第i趟比较n-i次，移动3(n-i)次=&gt;n^2</td>
+<td>最好：$nlog_2n$<br />最坏：第i趟比较n-i次=&gt;n^2</td>
+</tr>
+<tr>
+<td>时间</td>
+<td>$O(n^2)$</td>
+<td>$O(nlog_2n)$</td>
+</tr>
+<tr>
+<td>空间</td>
+<td>O(1)</td>
+<td>$O(log_2n)$</td>
+</tr>
+<tr>
+<td>稳定性</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>优点</td>
+<td>每趟结束时，不仅能挤出一个最大值到最后面位置，还能同时部分理顺其他元素；<br />一旦下趟没有交换，还可提前结束排序</td>
+<td></td>
+</tr>
+<tr>
+<td>特点</td>
+<td>比较次数和移动次数与初始排列有关</td>
+<td>平均计算时间是最好的</td>
+</tr>
+</tbody></table>
+<h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><table>
+<thead>
+<tr>
+<th>item</th>
+<th>简单选择</th>
+<th>堆排序</th>
+<th>归并排序</th>
+<th>基数排序</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>比较次数</td>
+<td>$\sum_{i=1}^{n-1}=\frac{1}{2}(n^2-n)==&gt;n^2$</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>移动次数</td>
+<td>最好：0<br />最坏：3n-1==&gt;n</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>时间</td>
+<td>$O(n^2)$</td>
+<td>$O(nlog_2n)$</td>
+<td>$O(nlog_2n)$</td>
+<td>$O(d(n+rd))$</td>
+</tr>
+<tr>
+<td>空间</td>
+<td>O(1)</td>
+<td>O(1)</td>
+<td>O(n)</td>
+<td>O(n+rd)，rd表示关键字的取值范围</td>
+</tr>
+<tr>
+<td>稳定性</td>
+<td>是</td>
+<td>否</td>
+<td>是</td>
+<td>是</td>
+</tr>
+</tbody></table>
 
-<h1 id="绪论"><a href="#绪论" class="headerlink" title="绪论"></a>绪论</h1><h2 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h2><p>算法+数据结构=程序设计</p>
-<ul>
-<li>算法：处理问题的策略</li>
-<li>数据结构：给出问题的数学模型</li>
-<li>程序设计：编制出用计算机处理问题的指令</li>
-</ul>
-<p>基本数据结构：</p>
-<ul>
-<li>线性结构：线性表；栈，队列，双队列；数组，串。</li>
-<li>非线性结构：树，二叉树；图，网。</li>
-</ul>
-<p>选择存储结构，设计算法。</p>
-<p>两类算法：</p>
-<ul>
-<li>查找算法：顺序，折半，分块，哈希，二叉排序树；</li>
-<li>排序算法：直接插入，堆排序，2-路归并，快速排序。</li>
-</ul>
-<p>用计算机解决问题的步骤：</p>
-<ol>
-<li>从具体问题抽象出一个适当的数学模型；</li>
-<li>设计一个解此模型的算法；</li>
-<li>编程序，进行测试，调整直至得到最终解答。</li>
-</ol>
-<p>数学模型：</p>
-<ul>
-<li>数值计算类</li>
-<li>？数据结构</li>
-</ul>
-<h2 id="涉及的基本概念"><a href="#涉及的基本概念" class="headerlink" title="涉及的基本概念"></a>涉及的基本概念</h2><ul>
-<li>数据：</li>
-<li>数据元素：数据的基本单位，通常作为一个整体进行考虑和处理；</li>
-<li>数据项：是数据的不可分割的最小单位，一个数据元素可由一个或多个数据项组成；</li>
-<li>数据对象：由性质相同的数据元素组成的集合，数据对象是数据的一个子集；</li>
-<li>数据结构：相互之间存在一种或多种特定关系的数据元素的集合，数据元素之间的关系称为结构。<ul>
-<li>集合，</li>
-<li>线性结构，</li>
-<li>树形结构，</li>
-<li>图状结构。</li>
-</ul>
-</li>
-<li>数据的逻辑结构：<ul>
-<li>线性结构</li>
-<li>非线性结构</li>
-</ul>
-</li>
-<li>数据的存储结构：数据结构在计算机存储器中的映像；<ul>
-<li>顺序存储结构（向量，一维数组）</li>
-<li>非顺序存储结构（链接表）</li>
-</ul>
-</li>
-<li>数据类型：一个值的集合和定义在这个值上的一组操作的总称？<ul>
-<li>原子类型：int,char,,,,</li>
-<li>结构类型：线性表，数组，树……</li>
-</ul>
-</li>
-<li>抽象数据类型：一个数学模型以及定义在该模型上的一组操作？<br>表示：（D，S，P）<ul>
-<li>D：数据对象</li>
-<li>S：D中数据元素之间的关系集</li>
-<li>P：对D中数据元素的基本操作</li>
-</ul>
-</li>
-</ul>
-<h2 id="算法的基本特性"><a href="#算法的基本特性" class="headerlink" title="算法的基本特性"></a>算法的基本特性</h2><h3 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h3><ul>
-<li>有穷性</li>
-<li>确定性</li>
-<li>可行性</li>
-<li>输入</li>
-<li>输出</li>
-</ul>
-<h3 id="设计要求"><a href="#设计要求" class="headerlink" title="设计要求"></a>设计要求</h3><ul>
-<li>正确性</li>
-<li>可读性</li>
-<li>健壮性</li>
-<li>高效与低存储量</li>
-</ul>
-<h3 id="描述工具"><a href="#描述工具" class="headerlink" title="描述工具"></a>描述工具</h3><ul>
-<li>自然语言</li>
-<li>程序设计语言</li>
-<li>流程图</li>
-<li>伪码语言</li>
-<li>类C语言</li>
-</ul>
-<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><h3 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h3><p>算法的时间开销相对于问题规模变化的趋势。</p>
-<h4 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h4><p>T(n)=O(f(n))</p>
-<ul>
-<li><p>n为求解的问题的规模</p>
-</li>
-<li><p>f(n)为语句频度，即基本操作（或语句）执行次数总和</p>
-<p>定义变量不算，赋值算；</p>
-<p>for循环的括号中也有执行语句</p>
-</li>
-<li><p>O(f(n))只保留最高阶项且去掉系数，若f(n)为常数则O(f(n))=O(1),O(1)称为常量阶</p>
-</li>
-</ul>
-<h4 id="曲线"><a href="#曲线" class="headerlink" title="曲线"></a>曲线</h4><p>常见的时间复杂度：<br>$$<br>O(1)&lt;O(log_2n)&lt;O(n)&lt;O(nlog_2n)&lt;O(n^2)&lt;O(n^3)&lt;O(2^n)<br>$$</p>
-<h1 id="线性表"><a href="#线性表" class="headerlink" title="线性表"></a>线性表</h1><h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2>
             </div>
             <hr>
             <div>
@@ -336,6 +559,8 @@
                     <i class="iconfont icon-category"></i>
                     
                       <a class="hover-with-bg" href="/categories/programming/">programming</a>
+                    
+                      <a class="hover-with-bg" href="/categories/programming/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
                     
                   </div>
                 
@@ -353,9 +578,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2021/08/06/VScode/">
+                      <a href="/2021/12/21/%E6%9F%A5%E6%89%BE%E6%8E%92%E5%BA%8F/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">VScode</span>
+                        <span class="hidden-mobile">查找排序</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -363,8 +588,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2021/08/04/%E6%B1%87%E7%BC%96/">
-                        <span class="hidden-mobile">汇编</span>
+                      <a href="/2021/12/21/%E6%A0%91%E5%92%8C%E5%9B%BE/">
+                        <span class="hidden-mobile">树和图</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
