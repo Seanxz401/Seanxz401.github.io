@@ -455,6 +455,7 @@
 
 <h2 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h2><p>正则表达式：<br>import re<br>compile/match/findall<br>特殊字符：<br><code>.</code>    匹配任意换行符以外的字符<br><code>\</code>：转义字符，如.可用来匹配.<br><code>[...]</code>：字符集，匹配字符集中任意字符。列出或范围，若第一个字符是^则表示取反，即不是该字符集中的字符，所有特殊字符在字符集中都没有特殊意义，可用\进行转义<br>预定义字符集（可写[…]在中的）：<br><code>\d</code>：[0-9]数字<br><code>\D</code>：<code>[^\d]</code>非数字<br><code>\s</code>：[&lt;空格&gt;\t\r\f\v]非空字符<br><code>\S</code>：<code>[^\s]</code>非空白字符<br><code>\w</code>：[A-Za-z0-9]单词字符<br><code>\W</code>：<code>[^\w]</code>非单词字符</p>
 <p><code>*</code>：匹配前一个字符0次或无限次<br><code>+</code>：匹配前一个字符1次或无限次<br><code>?</code>：匹配前一个字符0次或1次<br><code>&#123;m&#125;</code>：匹配前一个字符m次<br><code>&#123;m,n&#125;</code>：匹配前一个字符m至n次<br>逻辑、分组<br>|：左右任意匹配一个，总是先尝试匹配左边，一旦成功则跳过右边<br>(…)<br>编译选项指定<br>贪婪模式和非贪婪模式</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/liangmingshen/p/9274021.html">Python 字符串前面加u,r,b的含义 - 暮良文王 - 博客园 (cnblogs.com)</a></p>
 
             </div>
             <hr>
