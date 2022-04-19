@@ -342,14 +342,14 @@
 </ul>
 <h5 id="排序查询"><a href="#排序查询" class="headerlink" title="排序查询"></a>排序查询</h5><p>order by Colname [asc/desc];</p>
 <p>asc-升序（默认）；desc-降序。</p>
-<p>多个排序条件用逗号隔开，即条件1有重复值时，按照条件2排序。<code>select * from user order by 条件1 asc,条件2 desc;</code></p>
+<p>多个排序条件用逗号隔开（有优先级），即条件1有重复值时，按照条件2排序。<code>select * from user order by 条件1 asc,条件2 desc;</code></p>
 <p>tips:有条件时先写条件语句再排序</p>
 <h5 id="分组统计查询"><a href="#分组统计查询" class="headerlink" title="分组统计查询"></a>分组统计查询</h5><p>聚合函数</p>
 <p>sum();  求和<br><code>select sum(Col1),sum(Col2) from user where 条件;</code><br><code>select sum(Col1+Col2) from user;</code><br><code>select sum(Col1)+sum(Col2) from user;</code><br><strong>Null加上任何值都等于Null</strong><br>count();<br>max(); min();<br>avg(); 平均值</p>
-<p><code>group by Colname</code><br>如果要加带有聚合函数的条件语句，<strong>不能用where</strong>，使用<code>having</code>。eg.<code>select Col1,sum(Col2) from Tab group by Col1 having sum(Col2)&gt;1 order by sum(Col2) asc;</code></p>
+<p><code>group by Colname</code>  <strong>前后对应</strong><br>如果要加带有聚合函数的条件语句，<strong>不能用where</strong>，使用<code>having</code>。eg.<code>select Col1,sum(Col2) from Tab group by Col1 having sum(Col2)&gt;1 order by sum(Col2) asc;</code></p>
 <h5 id="语句顺序"><a href="#语句顺序" class="headerlink" title="语句顺序"></a>语句顺序</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">select...from...where...group by...having...order by...;<br></code></pre></td></tr></table></figure>
 
-<h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>单行：<code>--space  </code>或<code>#</code></p>
+<h5 id="子查询some-all"><a href="#子查询some-all" class="headerlink" title="子查询some/all"></a>子查询some/all</h5><h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>单行：<code>--space  </code>或<code>#</code></p>
 <p>多行：/**/</p>
 <h1 id="可视化工具"><a href="#可视化工具" class="headerlink" title="可视化工具"></a>可视化工具</h1><p>在下载时，已经下载了官方的可视化工具workbench，英文界面有点为难。</p>
 <p>简单使用参考：<a target="_blank" rel="noopener" href="http://c.biancheng.net/view/2625.html">MySQL Workbench使用教程 (biancheng.net)</a></p>
@@ -366,7 +366,7 @@
 <li><code>select * from Tab1,Tab2;</code></li>
 </ul>
 <h4 id="内连接"><a href="#内连接" class="headerlink" title="内连接"></a>内连接</h4><ul>
-<li><code>select * from Tab1 inner join Tab2 on 关联条件;</code> 显示内连接；</li>
+<li><code>select * from Tab1 inner join Tab2 on 关联条件;</code> 显示内连接；<br>三张表则嵌套join：<code>from (tab1 join tab2 on condition1) as tab12 join tab3 on condition2</code></li>
 <li><code>select * from Tab1,Tab2 where 关联条件; </code> 隐式内连接；</li>
 </ul>
 <p>inner可省略；查询的是交集。</p>
@@ -374,8 +374,8 @@
 <li><code>select * from Tab1 left outer join Tab2 on 关联条件;</code> 左外连接；</li>
 <li><code>select * from Tab1 right outer join Tab2 on 关联条件;</code> 右外连接；</li>
 </ul>
-<p>outer可省略；<br>若关联条件是<code>Col1=Col2</code>，left查询的是以Col1为标准的所有Tab1加上交集部分；right以Col2为标准。</p>
-<h3 id="子查询"><a href="#子查询" class="headerlink" title="子查询"></a>子查询</h3><h1 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h1><p>概念：逻辑上的一组操作，组成这组操作的各个逻辑单元，要么全部成功要么全部失败。</p>
+<p><strong>outer可省略</strong>；<br>若关联条件是<code>Col1=Col2</code>，left查询的是以Col1为标准的所有Tab1加上交集部分；right以Col2为标准。</p>
+<h3 id="交并"><a href="#交并" class="headerlink" title="交并"></a>交并</h3><h1 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h1><p>概念：逻辑上的一组操作，组成这组操作的各个逻辑单元，要么全部成功要么全部失败。</p>
 <h2 id="在MySQL中的操作"><a href="#在MySQL中的操作" class="headerlink" title="在MySQL中的操作"></a>在MySQL中的操作</h2><ul>
 <li><code>start transaction;</code>开启事务；</li>
 <li><code>commit;</code>提交事务；</li>
@@ -411,9 +411,7 @@
                   <div class="post-meta mr-3">
                     <i class="iconfont icon-category"></i>
                     
-                      <a class="hover-with-bg" href="/categories/language/">language</a>
-                    
-                      <a class="hover-with-bg" href="/categories/language/SQL/">SQL</a>
+                      <a class="hover-with-bg" href="/categories/tool/">tool</a>
                     
                   </div>
                 
@@ -421,7 +419,7 @@
                   <div class="post-meta">
                     <i class="iconfont icon-tags"></i>
                     
-                      <a class="hover-with-bg" href="/tags/SQL/">SQL</a>
+                      <a class="hover-with-bg" href="/tags/MySQL/">MySQL</a>
                     
                   </div>
                 
