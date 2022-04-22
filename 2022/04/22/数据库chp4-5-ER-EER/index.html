@@ -1,0 +1,550 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/Sean.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="E-R模型和EER模型">
+  <meta name="author" content="Sean">
+  <meta name="keywords" content="">
+  
+  <title>数据库chp4&amp;5-ER&amp;EER - Sean&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"|","loop":true},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Sean's Blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/banner.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="数据库chp4&5-ER&EER">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-22 12:43" pubdate>
+        2022年4月22日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      581 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      6
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">数据库chp4&amp;5-ER&amp;EER</h1>
+            
+            <div class="markdown-body">
+              <p>E-R模型和EER模型</p>
+<span id="more"></span>
+
+<h1 id="E-R-Modeling"><a href="#E-R-Modeling" class="headerlink" title="E-R Modeling"></a>E-R Modeling</h1><p>Entity-Relationship Modeling</p>
+<p>UML：Unified Modeling Language统一建模语言，图像呈现ER模型</p>
+<h2 id="Concepts"><a href="#Concepts" class="headerlink" title="Concepts"></a>Concepts</h2><p>实体、关系、属性、关键字、约束</p>
+<h3 id="Entity"><a href="#Entity" class="headerlink" title="Entity"></a>Entity</h3><ul>
+<li>Entity type类（可以是抽象概念）</li>
+<li>Entity occurrence实例：实体类型中可唯一标识的一个对象</li>
+<li>矩形</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422125226479.png" srcset="/img/loading.gif" lazyload alt="image-20220422125226479"></p>
+<ul>
+<li>Strong Entity Type，有主键</li>
+<li>Weak                       ，没</li>
+</ul>
+<h3 id="Relationship"><a href="#Relationship" class="headerlink" title="Relationship"></a>Relationship</h3><ul>
+<li>relationship type</li>
+<li>relationship occurrence</li>
+<li>degree=该关系涉及的实体类型个数，binary(2)、ternary(3)、quaternary(4)、complex(&gt;2)</li>
+</ul>
+<p>binary</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422125836292.png" srcset="/img/loading.gif" lazyload alt="image-20220422125836292"></p>
+<p>complex-菱形<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422125913691.png" srcset="/img/loading.gif" lazyload alt="image-20220422125913691"></p>
+<h4 id="recursive-relationship"><a href="#recursive-relationship" class="headerlink" title="recursive relationship"></a>recursive relationship</h4><p>自环？同一实体在某一关系中扮演不同角色role<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422130148136.png" srcset="/img/loading.gif" lazyload alt="image-20220422130148136"></p>
+<h4 id="两实体俩关系"><a href="#两实体俩关系" class="headerlink" title="两实体俩关系"></a>两实体俩关系</h4><p>类似主动被动？交换主语宾语或者换个谓语表达？</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422130430330.png" srcset="/img/loading.gif" lazyload alt="image-20220422130430330"></p>
+<h3 id="Attribute"><a href="#Attribute" class="headerlink" title="Attribute"></a>Attribute</h3><ul>
+<li>Attribute：不仅实体，联系也有属性</li>
+<li>Attribute Domain：属性的取值集合？</li>
+<li>Simple Attribute</li>
+<li>Composite Attribute组合属性，如name=first+last</li>
+<li>Single-valued Attribute：一个实例只能取一个值，如一个人只有一个身份证号</li>
+<li>Multi-valued Attribute：一个实例可取多个值，如一个人可以办两张手机号码</li>
+<li>Derived Attribute导出属性，可由相关属性导出得到</li>
+</ul>
+<h4 id="Keys"><a href="#Keys" class="headerlink" title="Keys"></a>Keys</h4><ul>
+<li>Candidate Key候选关键字，能唯一标识实例的<strong>最小属性集合</strong></li>
+<li>Primary Key主关键字，候选关键字中选出来的</li>
+<li>Foreign Key外键，关系R中的一个属性组，它<strong>不是R的候选码</strong>，但它与另一个关系<strong>S的候选码</strong>相对应</li>
+<li>Composite Key合成关键字</li>
+</ul>
+<h4 id="diagram"><a href="#diagram" class="headerlink" title="diagram"></a>diagram</h4><p>实体+关系＋属性（多值+合成+导出）<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422131956234.png" srcset="/img/loading.gif" lazyload alt="image-20220422131956234"></p>
+<p>关系的属性<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422132329331.png" srcset="/img/loading.gif" lazyload alt="image-20220422132329331"></p>
+<h3 id="Structural-Constraints"><a href="#Structural-Constraints" class="headerlink" title="Structural Constraints"></a>Structural Constraints</h3><p>0..0, 0..1, 1..1, 1..*, <code>*..*</code>, 远端each做主语，不一定是0or1，可以是具体的数字234…</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422132611292.png" srcset="/img/loading.gif" lazyload alt="image-20220422132611292"></p>
+<p>对于complex relationship中的约束，通过固定两端作为一端，将complex化为binary</p>
+<ul>
+<li>Cardinality基数：max of x..x</li>
+<li>Participation：min<ul>
+<li>mandatory强制参与</li>
+<li>optional部分参与</li>
+</ul>
+</li>
+</ul>
+<h1 id="EER"><a href="#EER" class="headerlink" title="EER"></a>EER</h1><p>Enhanced Entity-Relationship Model</p>
+<h2 id="Specialization-Generalization"><a href="#Specialization-Generalization" class="headerlink" title="Specialization/Generalization"></a>Specialization/Generalization</h2><ul>
+<li>superclass超类，一个超类不一定需要子类</li>
+<li>subclass子类</li>
+<li>Attribute Inheritance属性继承，三角符号</li>
+<li>Specialization特殊化，拆分-差异最大化</li>
+<li>Generalization泛化，合并-差异最小化</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422152045265.png" srcset="/img/loading.gif" lazyload alt="image-20220422152045265"></p>
+<p>子类可单独与非超类实体建立关系；</p>
+<p>根据不同差异特征将同一实体进行多种形式的特殊化；</p>
+<h3 id="constraints"><a href="#constraints" class="headerlink" title="constraints"></a>constraints</h3><ul>
+<li>participation限定每个超类的成员是否一定是某个子类的成员<ul>
+<li>optional</li>
+<li>mandatory</li>
+</ul>
+</li>
+<li>disjoint不相交，说明超类的某一成员仅为一个还是同时为多个子类的成员<ul>
+<li>and</li>
+<li>or可能不相交</li>
+</ul>
+</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/university/">university</a>
+                    
+                      <a class="hover-with-bg" href="/categories/university/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+                    
+                  </div>
+                
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/04/22/%E6%95%B0%E6%8D%AE%E5%BA%93chp6-%E8%A7%84%E8%8C%83%E5%8C%96/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">数据库chp6-规范化</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/22/%E6%95%B0%E6%8D%AE%E5%BA%93chp2-DB-ENV/">
+                        <span class="hidden-mobile">数据库chp2-DB-ENV</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        options: {
+          renderActions: {
+            findScript: [10, doc => {
+              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                const display = !!node.type.match(/; *mode=display/);
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                const text = document.createTextNode('');
+                node.parentNode.replaceChild(text, node);
+                math.start = { node: text, delim: '', n: 0 };
+                math.end = { node: text, delim: '', n: 0 };
+                doc.math.push(math);
+              });
+            }, '', false],
+            insertedScript: [200, () => {
+              document.querySelectorAll('mjx-container').forEach(node => {
+                let target = node.parentNode;
+                if (target.nodeName.toLowerCase() === 'li') {
+                  target.parentNode.classList.add('has-jax');
+                }
+              });
+            }, '', false]
+          }
+        }
+      };
+    </script>
+
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/tex-svg.js" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
