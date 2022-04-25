@@ -18,7 +18,7 @@
   <meta name="author" content="Sean">
   <meta name="keywords" content="">
   
-  <title>计组chp4-MARIE - Sean&#39;s Blog</title>
+  <title>计网chp2-应用层 - Sean&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="计组chp4-MARIE">
+            <span class="h2" id="subtitle" title="计网chp2-应用层">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-04-20 16:10" pubdate>
-        2022年4月20日 下午
+      <time datetime="2022-04-26 01:17" pubdate>
+        2022年4月26日 凌晨
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1k 字
+      614 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11
+      8
        分钟
     </span>
   
@@ -225,131 +225,150 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">计组chp4-MARIE</h1>
+            <h1 style="display: none">计网chp2-应用层</h1>
             
             <div class="markdown-body">
-              <h1 id="4-2CPU"><a href="#4-2CPU" class="headerlink" title="4.2CPU"></a>4.2CPU</h1><h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><ul>
-<li>取指fetch</li>
-<li>译码decode</li>
-<li>执行execute指令</li>
-</ul>
-<h2 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h2><ul>
-<li>数据通路datapath<ul>
-<li>ALU</li>
-<li>register寄存器/存储单元</li>
-<li>bus数据总线</li>
+              <h3 id="一些概念"><a href="#一些概念" class="headerlink" title="一些概念"></a>一些概念</h3><ul>
+<li>application architecture<ul>
+<li>client-server</li>
+<li>peer-to-peer</li>
 </ul>
 </li>
-<li>控制单元control unit</li>
+<li>process communication进程通信</li>
+<li>socket套接字</li>
+<li>process-identifier=IP address+port numbers</li>
+<li>URL=host name+path name</li>
 </ul>
-<h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h3><p>寄存器中存放的数据易于CPU访问，可以使用 D 触发器来实现。</p>
-<h3 id="ALU"><a href="#ALU" class="headerlink" title="ALU"></a>ALU</h3><p>算术逻辑单元 (ALU) 按照控制单元的指示执行逻辑和算术运算。</p>
-<h3 id="控制单元"><a href="#控制单元" class="headerlink" title="控制单元"></a>控制单元</h3><p>控制单元根据程序计数器寄存器和状态寄存器中的值确定执行哪些action</p>
-<h1 id="4-3总线"><a href="#4-3总线" class="headerlink" title="4.3总线"></a>4.3总线</h1><h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><ul>
-<li>点对点总线point-to-point</li>
-<li>多点总线multipoint</li>
+<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><ul>
+<li>client-server model</li>
+<li>使用TCP</li>
+<li>stateless无状态协议</li>
+<li>connections<ul>
+<li>non-persistent</li>
+<li>persistent</li>
 </ul>
-<h2 id="组成-1"><a href="#组成-1" class="headerlink" title="组成"></a>组成</h2><ul>
-<li>数据线data lines：传送位bit</li>
-<li>控制线control lines：控制数据流的方向+设备的访问控制</li>
-<li>地址线address lines：确定数据源或目标的位置</li>
+</li>
+<li>RTT: 一个来回</li>
+<li>non-persistent HTTP response time=2RTT+file transmission time</li>
 </ul>
-<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/WPS%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="总线仲裁"><a href="#总线仲裁" class="headerlink" title="总线仲裁"></a>总线仲裁</h2><p>在主从配置中，不止一个设备可以是总线主机，<strong>并发的总线主机</strong>请求必须进行仲裁</p>
+<h2 id="报文格式"><a href="#报文格式" class="headerlink" title="报文格式"></a>报文格式</h2><h3 id="request"><a href="#request" class="headerlink" title="request"></a>request</h3><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425234359821.png" srcset="/img/loading.gif" lazyload alt="image-20220425234359821"></p>
 <ul>
-<li>daisy chain：根据优先级</li>
-<li>centralized parallel：集中并行：每个设备直接连接到一个仲裁电路。</li>
-<li>distributed using self-detection：使用自我检测进行分布式：设备在它们之间决定哪一个获得总线。</li>
-<li>distributed using collision-detection：分布式使用冲突检测：任何设备都可以尝试使用总线。如果它的数据与另一个设备的数据冲突，它会重试</li>
+<li>request line<ul>
+<li>method：GET/POST/…</li>
+<li>目标url</li>
+<li>version：HTTP版本<ul>
+<li>HTTP/1.0: GET/POST/HEAD</li>
+<li>HTTP/1.0: GET/POST/HEAD/PUT/DELETE</li>
 </ul>
-<h1 id="4-4时钟"><a href="#4-4时钟" class="headerlink" title="4.4时钟"></a>4.4时钟</h1><ul>
-<li><p>clock cycle时钟周期</p>
-</li>
-<li><p>clock frequency时钟频率：决定执行所有操作的速度</p>
-</li>
-<li><p>运行程序所需的CPU时间：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425115633772.png" srcset="/img/loading.gif" lazyload alt="image-20220425115633772"></p>
 </li>
 </ul>
-<h1 id="4-6存储器"><a href="#4-6存储器" class="headerlink" title="4.6存储器"></a>4.6存储器</h1><ul>
-<li>memory由类似于寄存器的可寻址addressable存储单元storage cells的线性阵列linear array组成</li>
-<li>按字节寻址或字寻址</li>
-<li>memory由RAM芯片构成，通常以长度×宽度来表示</li>
+</li>
+<li>header lines：header field name+value<ul>
+<li>Host</li>
+<li>User-Agent</li>
+<li>Accept</li>
+<li>Accept-Language</li>
+<li>Accept-Encoding</li>
+<li>Accept-Charset</li>
+<li>Keep-Alive</li>
+<li>Connection</li>
 </ul>
-<h2 id="地址表示"><a href="#地址表示" class="headerlink" title="地址表示"></a>地址表示</h2><p>eg.假设一个memory由16个2K×8位芯片组成，则：</p>
+</li>
+<li>body：POST提交数据时携带的数据放在body</li>
+</ul>
+<h3 id="response"><a href="#response" class="headerlink" title="response"></a>response</h3><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425235116518.png" srcset="/img/loading.gif" lazyload alt="image-20220425235116518"></p>
 <ul>
-<li>假设按字节(8bit)寻址，则memory=$16×2K=2^4×2×2^{10}=2^{15}$，即每个地址需要15位来表示</li>
-<li>由16个芯片=$2^4$，即需要4位来选择芯片</li>
-<li>需要(15-4=)11位来表示选中芯片内的偏移量<ul>
-<li>高阶交错high-order interleaving：高4位来选择芯片</li>
-<li>低阶交错：低4位</li>
+<li>status line<ul>
+<li>protocol: HTTP</li>
+<li>status code</li>
+<li>status phrase<ul>
+<li>200 OK</li>
+<li>301 Moved Permanently: 访问对象改变位置了，新的位置会赋在返回的Location字段中</li>
+<li>400 Bad Request：服务器不理解，语义有误或请求参数有误</li>
+<li>404 Not Found</li>
+<li>505 HTTP Version Not Supported</li>
 </ul>
 </li>
-<li>ps：注意存储器的寻址方式(按字or字节)</li>
 </ul>
-<h1 id="4-7中断"><a href="#4-7中断" class="headerlink" title="4.7中断"></a>4.7中断</h1><p>Interrupts, higher-priority更高优先级</p>
-<p>被触发triggered</p>
+</li>
+<li>header lines<ul>
+<li>Server</li>
+<li>Last-Modified</li>
+</ul>
+</li>
+<li>data</li>
+</ul>
+<h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><p>cookie的4个组成：</p>
 <ul>
-<li>I/O请求request</li>
-<li>算术错误arithmetic errors</li>
-<li>遇到无效指令invalid instruction</li>
+<li>cookie值由response返回</li>
+<li>下一次请求会加上cookie首部行</li>
+<li>cookie文件保存在用户主机上，由浏览器管理</li>
+<li>后端数据库back-end database at website</li>
 </ul>
-<h1 id="4-8MARIE"><a href="#4-8MARIE" class="headerlink" title="4.8MARIE"></a>4.8MARIE</h1><p>MARIE架构特性：</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426001007503.png" srcset="/img/loading.gif" lazyload alt="image-20220426001007503"></p>
+<h2 id="Web-caches-proxy-server"><a href="#Web-caches-proxy-server" class="headerlink" title="Web caches/proxy server"></a>Web caches/proxy server</h2><p>web缓存器既是客户端又是服务器端，一般由ISP使用(eg.大学校园网，公司，运营商)。</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426001408547.png" srcset="/img/loading.gif" lazyload alt="image-20220426001408547"></p>
+<p>作用/原因：</p>
 <ul>
-<li><p>二进制及补码表示</p>
-</li>
-<li><p>存储程序、固定字长、指令</p>
-</li>
-<li><p>主存可字寻址，总容量4K字</p>
-</li>
-<li><p>1字=16位</p>
-</li>
-<li><p>16位指令=4位操作码+12位地址</p>
-</li>
-<li><p>16位ALU</p>
-</li>
-<li><p>7个寄存器，用于控制和数据移动（没特别提到就是16位）</p>
-<ul>
-<li>AC，累加器accumulator</li>
-<li>MAR，内存地址寄存器memory address register，12位</li>
-<li>MBR，内存缓冲寄存器memory buffer register</li>
-<li>PC，程序计数器program counter，12位</li>
-<li>IR，指令寄存器instruction register</li>
-<li>InREG，输入寄存器input register，8位</li>
-<li>OutREG，输出寄存器output register，8位</li>
+<li>减少用户请求的响应时间</li>
+<li>减少接入链路的通信量</li>
+<li>通过减少通信量能够在较小带宽的情况下高效传输数据。</li>
 </ul>
-<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425173012333.png" srcset="/img/loading.gif" lazyload alt="image-20220425173012333"></p>
-<p>RTL寄存器传输语言，用M[X]表示存储在寄存器X中的实际数字值</p>
-</li>
-</ul>
-<h2 id="指令集架构"><a href="#指令集架构" class="headerlink" title="指令集架构"></a>指令集架构</h2><p>instruction set architecture：ISA，是<strong>硬件与软件之间的接口</strong>，MARIE模型只包含13条指令，每条指令由一系列更小的指令组成(即微操作microoperations)</p>
-<p>一些基本的MARIE指令：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425173510839.png" srcset="/img/loading.gif" lazyload alt="image-20220425173510839"></p>
-<ul>
-<li>Load</li>
-<li>Skipcond：如果AC中的值大于0则跳过下一条指令</li>
-</ul>
-<h1 id="4-9指令处理"><a href="#4-9指令处理" class="headerlink" title="4.9指令处理"></a>4.9指令处理</h1><h2 id="取指-译码-执行周期"><a href="#取指-译码-执行周期" class="headerlink" title="取指-译码-执行周期"></a>取指-译码-执行周期</h2><ol>
-<li>从内存中取指并放入IR</li>
-<li>进入IR后，解码</li>
-<li>如果涉及操作数，则取出操作数放入MBR</li>
-</ol>
-<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425174337925.png" srcset="/img/loading.gif" lazyload alt="image-20220425174337925"></p>
-<h2 id="中断指令"><a href="#中断指令" class="headerlink" title="中断指令"></a>中断指令</h2><h1 id="4-10一个简单的程序"><a href="#4-10一个简单的程序" class="headerlink" title="4.10一个简单的程序"></a>4.10一个简单的程序</h1><p>假设部分地址及其内容：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425174615886.png" srcset="/img/loading.gif" lazyload alt="image-20220425174615886"></p>
-<p>Load 104指令执行的具体情况-寄存器的变化：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425174650038.png" srcset="/img/loading.gif" lazyload alt="image-20220425174650038"></p>
+<h3 id="一个计算"><a href="#一个计算" class="headerlink" title="一个计算"></a>一个计算</h3><p>utilization流量强度=分组到达的速度/结点处理的速度？</p>
+<p>原始情况：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426001910531.png" srcset="/img/loading.gif" lazyload alt="image-20220426001910531"></p>
+<p>局域网上的流量强度=$(15个请求/sec)×(100Kb/请求)/1Gbps=15%$</p>
+<p>接入链路上的流量强度=$(15个请求/sec)×(100Kb/请求)/1.54Mbps=97.4%$</p>
+<p>ps：流量强度接近1，链路上的时延非常大</p>
+<p>解决办法：</p>
 <ol>
-<li>取指<ol>
-<li>从PC中取出指令放到MAR；</li>
-<li>将MAR中的指令传入IR；</li>
-<li>PC++（程序计数器自动更新下一条指令的位置）</li>
+<li>增大接入链路的带宽，开销大</li>
+<li>增加本地缓存<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426004224229.png" srcset="/img/loading.gif" lazyload alt="image-20220426004224229"></li>
 </ol>
+<h2 id="Conditional-GET"><a href="#Conditional-GET" class="headerlink" title="Conditional GET"></a>Conditional GET</h2><ul>
+<li>request: If-modified-since</li>
+<li>response: 304 Not Modified</li>
+</ul>
+<h1 id="Email"><a href="#Email" class="headerlink" title="Email"></a>Email</h1><p>组成：</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426005324687.png" srcset="/img/loading.gif" lazyload alt="image-20220426005324687"></p>
+<ul>
+<li>user agent: Outlook,</li>
+<li>mail server<ul>
+<li>mail box: 存放用户发送的邮件</li>
+<li>message queue：server将要发送至另一server的邮件</li>
+</ul>
 </li>
-<li>解码<ol>
-<li>将IR中的指令的<strong>地址部分</strong>(IR[11-0]共12位)传入MAR</li>
-<li>解码操作数(IR[15-12])</li>
-<li>获取操作数：将MAR中的内容传入MBR</li>
-</ol>
+<li>protocol<ul>
+<li>SMTP</li>
+</ul>
 </li>
-<li>执行指令，将MBR中的值放入AC</li>
-</ol>
+</ul>
+<h2 id="SMTP"><a href="#SMTP" class="headerlink" title="SMTP"></a>SMTP</h2><p>用于push发送，TCP，port 25，7位ASCII码，持续连接</p>
+<p>与HTTP比较：</p>
+<ul>
+<li>push vs pull(主要)</li>
+<li>7位ASCII vs 无限制</li>
+<li>对象存放，HTTP单独封装，SMTP把？</li>
+</ul>
+<h2 id="access-protocols"><a href="#access-protocols" class="headerlink" title="access protocols"></a>access protocols</h2><h3 id="POP"><a href="#POP" class="headerlink" title="POP"></a>POP</h3><ul>
+<li>authorization</li>
+<li>download</li>
+</ul>
+<h3 id="IMAP"><a href="#IMAP" class="headerlink" title="IMAP"></a>IMAP</h3><p>操作manipulation of stored messages on server</p>
+<h3 id="HTTP-1"><a href="#HTTP-1" class="headerlink" title="HTTP"></a>HTTP</h3><p>gmail</p>
+<h1 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h1><p>distributed database分布式数据库，53 port</p>
+<p>为什么不是集中式（完全没有拓展能力）：</p>
+<ul>
+<li>单点故障</li>
+<li>通信容量</li>
+<li>远距离的集中式数据库</li>
+<li>维护：数据库过大+频繁更新</li>
+</ul>
+<p>一些分类</p>
+<ul>
+<li>TLD ：top-level domain server顶级域名</li>
+<li>authoritative server</li>
+<li>local DNS server：每个ISP都有</li>
+</ul>
 
             </div>
             <hr>
@@ -361,7 +380,7 @@
                     
                       <a class="hover-with-bg" href="/categories/university/">university</a>
                     
-                      <a class="hover-with-bg" href="/categories/university/%E8%AE%A1%E7%BB%84/">计组</a>
+                      <a class="hover-with-bg" href="/categories/university/%E8%AE%A1%E7%BD%91/">计网</a>
                     
                   </div>
                 
@@ -379,18 +398,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/04/20/%E8%AE%A1%E7%BB%84chp5-%E6%8C%87%E4%BB%A4%E9%9B%86%E6%9E%B6%E6%9E%84/">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">计组chp5-指令集架构</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/04/20/%E8%AE%A1%E7%BB%84chp3-%E5%B8%83%E5%B0%94%E4%BB%A3%E6%95%B0%E4%B8%8E%E6%95%B0%E5%AD%97%E9%80%BB%E8%BE%91/">
-                        <span class="hidden-mobile">计组chp3-布尔代数与数字逻辑</span>
+                      <a href="/2022/04/26/%E8%AE%A1%E7%BD%91chp1/">
+                        <span class="hidden-mobile">计网chp1-</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

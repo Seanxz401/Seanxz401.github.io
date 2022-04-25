@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      363 字
+      1.3k 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      4
+      15
        分钟
     </span>
   
@@ -240,14 +240,96 @@
 <h2 id="小数的转换"><a href="#小数的转换" class="headerlink" title="小数的转换"></a>小数的转换</h2><p>小数decimal不一定在所有进制下都有精确的表示。</p>
 <p>小数点右边表示基数的负幂次negative powers of the radix</p>
 <ul>
-<li>减法（减负次幂）-先得到<strong>高位(更靠近小数点)</strong><img src="C:/Users/ASUS/AppData/Roaming/Typora/typora-user-images/image-20220422234932322.png" srcset="/img/loading.gif" lazyload alt="image-20220422234932322" style="zoom:50%;" /></li>
-<li>乘法multiplication-也是先得到高位(只能是高位，如果能得到地位那一定有精确表示？)<img src="C:/Users/ASUS/AppData/Roaming/Typora/typora-user-images/image-20220422235200581.png" srcset="/img/loading.gif" lazyload alt="image-20220422235200581" style="zoom:50%;" /></li>
+<li>减法（减负次幂）-先得到<strong>高位(更靠近小数点)</strong><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422234932322.png" srcset="/img/loading.gif" lazyload alt="image-20220422234932322" style="zoom:50%;" /></li>
+<li>乘法multiplication-也是先得到高位(只能是高位，如果能得到地位那一定有精确表示？)<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422235200581.png" srcset="/img/loading.gif" lazyload alt="image-20220422235200581" style="zoom:50%;" /></li>
 </ul>
 <h2 id="2的幂次作为基数的计数系统之间的转化"><a href="#2的幂次作为基数的计数系统之间的转化" class="headerlink" title="2的幂次作为基数的计数系统之间的转化"></a>2的幂次作为基数的计数系统之间的转化</h2><p>二进制八进制十六进制之间的转换：一位8进制数可直接写为3位2进制；一位16进制数可直接写为4位2进制。<strong>如果位数不够(3/4)左侧补零</strong></p>
 <p>八进制适用于使用6位字的系统</p>
-<h1 id="2-4有符号整数表示"><a href="#2-4有符号整数表示" class="headerlink" title="2.4有符号整数表示"></a>2.4有符号整数表示</h1><p>unsigned/signed numbers</p>
+<h1 id="2-4有符号整数表示"><a href="#2-4有符号整数表示" class="headerlink" title="2.4有符号整数表示"></a>2.4有符号整数表示</h1><p>unsigned/signed numbers有/无符号数</p>
+<p>signed magnitude符号幅度</p>
 <h2 id="原码"><a href="#原码" class="headerlink" title="原码"></a>原码</h2><p>最高位表示符号sign：0正1负；其余位表示数值。</p>
-<h2 id="补码"><a href="#补码" class="headerlink" title="补码"></a>补码</h2><h2 id="移码"><a href="#移码" class="headerlink" title="移码"></a>移码</h2><h2 id="有-无符号数"><a href="#有-无符号数" class="headerlink" title="有/无符号数"></a>有/无符号数</h2><h2 id="算术和布斯算法"><a href="#算术和布斯算法" class="headerlink" title="算术和布斯算法"></a>算术和布斯算法</h2><h2 id="进位和溢出"><a href="#进位和溢出" class="headerlink" title="进位和溢出"></a>进位和溢出</h2><h2 id="移位for二进制乘-除"><a href="#移位for二进制乘-除" class="headerlink" title="移位for二进制乘/除"></a>移位for二进制乘/除</h2><h1 id="2-5浮点数表示"><a href="#2-5浮点数表示" class="headerlink" title="2.5浮点数表示"></a>2.5浮点数表示</h1><h2 id="浮点运算"><a href="#浮点运算" class="headerlink" title="浮点运算"></a>浮点运算</h2><h2 id="浮点误差"><a href="#浮点误差" class="headerlink" title="浮点误差"></a>浮点误差</h2><h1 id="2-7错误检测与纠错"><a href="#2-7错误检测与纠错" class="headerlink" title="2.7错误检测与纠错"></a>2.7错误检测与纠错</h1><h2 id="循环冗余校验"><a href="#循环冗余校验" class="headerlink" title="循环冗余校验"></a>循环冗余校验</h2>
+<h2 id="补码"><a href="#补码" class="headerlink" title="补码"></a>补码</h2><p>complement system补码系统，one’s complement一位补码即反码，two’s complement补码</p>
+<p>以r为底 的d位非零数N的基数补码是r^d – N。简单来算：正数的补码就是原码；<strong>负数的补码</strong>是原码按位取反(得到<strong>反码</strong>)，然后末端加1得到补码。<strong>通过加负数的补码实现二进制减法</strong></p>
+<h2 id="移码"><a href="#移码" class="headerlink" title="移码"></a>移码</h2><p>Excess-M/offset binary移码：以无符号值表示有符号值。</p>
+<p>通常选择的偏差bias：$M=2^{n-1}-1$。</p>
+<p>计算excess-M：十进制+M再转为二进制(此时的的二进制)</p>
+<p>示例<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220424170206881.png" srcset="/img/loading.gif" lazyload alt="image-20220424170148945"></p>
+<h2 id="进位和溢出"><a href="#进位和溢出" class="headerlink" title="进位和溢出"></a>进位和溢出</h2><p>overflow</p>
+<p>检测补码系统中溢出的规则：如果符号位的’carry in’=’carry out’就没有发生溢出；不等就是溢出了。carry in就是从数值位进到符号位，carry out就是符号位上产生的进位。</p>
+<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220424171159260.png" srcset="/img/loading.gif" lazyload alt="image-20220424171159260" style="zoom:50%;" />
+
+<p>如图：carry in==carry out==1</p>
+<p><strong>进位与溢出是相互独立的</strong></p>
+<h2 id="booth算法"><a href="#booth算法" class="headerlink" title="booth算法"></a>booth算法</h2><ul>
+<li>10：乘积-被乘数（上面的那个）</li>
+<li>01：乘积+被乘数</li>
+<li>00/11：左移一位，乘积+0</li>
+<li>假设乘数位的起始位(最右侧)为0</li>
+</ul>
+<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220424172207836.png" srcset="/img/loading.gif" lazyload alt="image-20220424172207836" style="zoom:50%;" />
+
+<p>注意事项：</p>
+<ul>
+<li>补码扩展：补高位，正数补0，负数补1</li>
+</ul>
+<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220424172726511.png" srcset="/img/loading.gif" lazyload alt="image-20220424172726511" style="zoom:50%;" />
+
+<h2 id="算术移位"><a href="#算术移位" class="headerlink" title="算术移位"></a>算术移位</h2><p>算术移位arithmetic shift</p>
+<p>算术左移=最右边插入0=乘2，算数右移=最左边插入0=除2.</p>
+<h1 id="2-5浮点数表示"><a href="#2-5浮点数表示" class="headerlink" title="2.5浮点数表示"></a>2.5浮点数表示</h1><p>floating-point浮点数，在计算机中由三个固定大小的字段组成：符号+指数(决定了可以表示的值的范围)+有效数字(一般是小数点后的，for精度)</p>
+<table>
+<thead>
+<tr>
+<th>sign</th>
+<th>exponent</th>
+<th>significand</th>
+</tr>
+</thead>
+</table>
+<p>典例-<strong>14位浮点模型</strong>simple model：len(floating-point)=14(len(exponen)=5, len(significand)=8)</p>
+<p>eg.$32=2^5=1.0<em>2^5=0.1</em>2^6$，在14位浮点模型中表示为:(注意有效数字是小数部分，<strong>右侧补零</strong>)<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220424174500886.png" srcset="/img/loading.gif" lazyload alt="image-20220424174500886"></p>
+<p>同义问题synonymous forms：由于$0.1<em>2^6=0.01</em>2^7=……$，规定有效数字的第一位必须是1（归一化）；</p>
+<p>提供负指数negative exponents：使用有偏指数biased exponent，bias=$2^{5-1}-1$=15，即excess-15</p>
+<ul>
+<li>IEEE浮点数标准规定小数点左侧必须为1.</li>
+<li>避免测试浮点值是否等于0，因为0有符号位，正零不等于负零。</li>
+</ul>
+<h2 id="浮点运算"><a href="#浮点运算" class="headerlink" title="浮点运算"></a>浮点运算</h2><p>以14位浮点模型为例</p>
+<h3 id="加减法"><a href="#加减法" class="headerlink" title="加减法"></a>加减法</h3><p>将指数化为相等，使小数点对齐？然后有效数字段是正常的二进制加法，如有进位，则调整指数。</p>
+<p>eg.$12_{10}=0.1100<em>2^4,1.25_{10}=0.000101</em>2^4$，excess-15，可得：指数=4+15=19=10011，计算过程如下：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220424193422650.png" srcset="/img/loading.gif" lazyload alt="image-20220424193422650"></p>
+<h3 id="乘除"><a href="#乘除" class="headerlink" title="乘除"></a>乘除</h3><p>不需要将指数调至相等。有效数字跟正常的二进制乘法一样，计算结束后调整指数。</p>
+<h2 id="浮点误差"><a href="#浮点误差" class="headerlink" title="浮点误差"></a>浮点误差</h2><p>eg.$128.5_10=10000000.1_2=0.100000001*10^8$，若使用14位浮点模型则不能准确表示，因为有效数字只有8位，而128.5有9位，<strong>低位会丢失</strong>（变成128）。此时的相对误差为：<br>$$<br>\frac{128.5-128}{128.5}≈0.39%<br>$$</p>
+<ul>
+<li>由于位会被截断，不一定满足交换律和分配率</li>
+</ul>
+<h3 id="上溢下溢"><a href="#上溢下溢" class="headerlink" title="上溢下溢"></a>上溢下溢</h3><ul>
+<li><p>浮点上溢overflow和下溢underflow会导致程序崩溃</p>
+</li>
+<li><p>当没有空间存储计算产生的高位时，就会发生上溢</p>
+</li>
+<li><p>当值太小而无法存储时会发生下溢，可能导致除</p>
+<p>以零</p>
+</li>
+</ul>
+<h3 id="精度与准确性"><a href="#精度与准确性" class="headerlink" title="精度与准确性"></a>精度与准确性</h3><p>精度precision，准确性accuracy，一般是正相关(不一定！)</p>
+<h1 id="2-7错误检测与纠错"><a href="#2-7错误检测与纠错" class="headerlink" title="2.7错误检测与纠错"></a>2.7错误检测与纠错</h1><p>error detection and correction</p>
+<h2 id="循环冗余校验"><a href="#循环冗余校验" class="headerlink" title="循环冗余校验"></a>循环冗余校验</h2><p>CRC：cycling redundancy checking </p>
+<p>systematic error detection系统错误检测</p>
+<p><strong>CRC是模2算数域上的多项式</strong></p>
+<h3 id="模2除法"><a href="#模2除法" class="headerlink" title="模2除法"></a>模2除法</h3><p>modulo 2 division</p>
+<p>除法过程中：模2减=模2加=按位异或，下例计算商和余数：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220424200503670.png" srcset="/img/loading.gif" lazyload alt="image-20220424200503670" style="zoom:50%;" /></p>
+<p>把要传输的数据的二进制格式想成域上多项式。</p>
+<h3 id="检测过程"><a href="#检测过程" class="headerlink" title="检测过程"></a>检测过程</h3><ol>
+<li>假设传输的数据的二进制串为m1；</li>
+<li>接收方和发送方商定一个k(key)；</li>
+<li>m1<strong>左移(len(key)-1)位</strong>后得到m2；</li>
+<li>（<strong>模2除法</strong>）m2/key得到余数r1(remainder)；</li>
+<li>发送消息m3=m2+r1；</li>
+<li>接收方收到m3，r2=m3/k，若r2=0则没有位丢失或损坏。</li>
+</ol>
+<h2 id="汉明码"><a href="#汉明码" class="headerlink" title="汉明码"></a>汉明码</h2><p>Hamming codes</p>
+<h2 id="里德-所罗门码"><a href="#里德-所罗门码" class="headerlink" title="里德-所罗门码"></a>里德-所罗门码</h2><p>Reed-Solomon codes</p>
+
             </div>
             <hr>
             <div>

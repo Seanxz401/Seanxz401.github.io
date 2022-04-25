@@ -18,7 +18,7 @@
   <meta name="author" content="Sean">
   <meta name="keywords" content="">
   
-  <title>计组chp4-MARIE - Sean&#39;s Blog</title>
+  <title>计网chp1- - Sean&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="计组chp4-MARIE">
+            <span class="h2" id="subtitle" title="计网chp1-">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-04-20 16:10" pubdate>
-        2022年4月20日 下午
+      <time datetime="2022-04-26 01:16" pubdate>
+        2022年4月26日 凌晨
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1k 字
+      574 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11
+      7
        分钟
     </span>
   
@@ -225,131 +225,113 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">计组chp4-MARIE</h1>
+            <h1 style="display: none">计网chp1-</h1>
             
             <div class="markdown-body">
-              <h1 id="4-2CPU"><a href="#4-2CPU" class="headerlink" title="4.2CPU"></a>4.2CPU</h1><h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><ul>
-<li>取指fetch</li>
-<li>译码decode</li>
-<li>执行execute指令</li>
-</ul>
-<h2 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h2><ul>
-<li>数据通路datapath<ul>
-<li>ALU</li>
-<li>register寄存器/存储单元</li>
-<li>bus数据总线</li>
+              <h1 id="一些概念的中英对照"><a href="#一些概念的中英对照" class="headerlink" title="一些概念的中英对照"></a>一些概念的中英对照</h1><ul>
+<li>host主机</li>
+<li>end system端系统</li>
+<li>communication links通信链路</li>
+<li>bandwidth带宽</li>
+<li>packet switches分组交换机<ul>
+<li>router路由器</li>
+<li>link-layer switch链路层交换机</li>
 </ul>
 </li>
-<li>控制单元control unit</li>
+<li>Internet : network of networks</li>
+<li>protocols协议</li>
+<li>ISP，Internet Service Provider网络服务提供商</li>
+<li>network edge网络边缘：hosts(client_server)</li>
+<li>access networks接入网: wired/wireless ,连接网络边缘与边缘路由器的<ul>
+<li>家庭接入<ul>
+<li>DSL：数字用户线</li>
+<li>cable电缆<ul>
+<li>FDM：频分多路复用frequency division multiplexing</li>
+<li>HFC</li>
 </ul>
-<h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h3><p>寄存器中存放的数据易于CPU访问，可以使用 D 触发器来实现。</p>
-<h3 id="ALU"><a href="#ALU" class="headerlink" title="ALU"></a>ALU</h3><p>算术逻辑单元 (ALU) 按照控制单元的指示执行逻辑和算术运算。</p>
-<h3 id="控制单元"><a href="#控制单元" class="headerlink" title="控制单元"></a>控制单元</h3><p>控制单元根据程序计数器寄存器和状态寄存器中的值确定执行哪些action</p>
-<h1 id="4-3总线"><a href="#4-3总线" class="headerlink" title="4.3总线"></a>4.3总线</h1><h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><ul>
-<li>点对点总线point-to-point</li>
-<li>多点总线multipoint</li>
+</li>
+<li>FTTP光纤到户</li>
 </ul>
-<h2 id="组成-1"><a href="#组成-1" class="headerlink" title="组成"></a>组成</h2><ul>
-<li>数据线data lines：传送位bit</li>
-<li>控制线control lines：控制数据流的方向+设备的访问控制</li>
-<li>地址线address lines：确定数据源或目标的位置</li>
+</li>
+<li>企业接入enterprise<ul>
+<li>Ethernet以太网</li>
+<li>wireless LANs=Wifi</li>
 </ul>
-<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/WPS%E5%9B%BE%E7%89%87%E7%BC%96%E8%BE%91.png" srcset="/img/loading.gif" lazyload></p>
-<h2 id="总线仲裁"><a href="#总线仲裁" class="headerlink" title="总线仲裁"></a>总线仲裁</h2><p>在主从配置中，不止一个设备可以是总线主机，<strong>并发的总线主机</strong>请求必须进行仲裁</p>
+</li>
+<li>广域网无线接入<ul>
+<li>WAN</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>network core网络核心: interconnected routers</li>
+<li>physical media<ul>
+<li>guided media电波沿固体媒体前行<ul>
+<li>twisted pair双绞铜线</li>
+<li>coaxial cable同轴电缆</li>
+<li>fiber optic cable光纤</li>
+</ul>
+</li>
+<li>unguided media电波在空气或外层空间传播<ul>
+<li>LAN-WiFi</li>
+<li>wide-area</li>
+<li>terrestrial microwave</li>
+<li>satellite卫星无线电</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>传输延迟packet transmission delay=L(bits)/R(bits/sec)<ul>
+<li>L: len(packet)</li>
+<li>R: transmission rate</li>
+</ul>
+</li>
+<li>packet switching包交换，主机在应用层将message拆分成packets</li>
+<li>circuit switching电路交换，预留资源</li>
+<li>throughput吞吐量，发送方接收方之间的传输速率</li>
+<li>Internet protocol stack协议栈<ul>
+<li>application: message</li>
+<li>transport: segment</li>
+<li>network: datagram</li>
+<li>link: frame</li>
+<li>physical</li>
+</ul>
+</li>
+<li>ISO/OSI model: application, presentation, session,transport, network, link, physical</li>
+<li>encapsulation封装</li>
+</ul>
+<h1 id="Network-Core"><a href="#Network-Core" class="headerlink" title="Network Core"></a>Network Core</h1><p>由端系统的分组交换机和链路构成，share</p>
+<h2 id="Packet-switching"><a href="#Packet-switching" class="headerlink" title="Packet-switching"></a>Packet-switching</h2><p>每个分组都经过通信链路和分组交换机</p>
+<h3 id="store-and-forward"><a href="#store-and-forward" class="headerlink" title="store and forward"></a>store and forward</h3><p>存储转发：在交换机转发之前必须收到整个分组</p>
+<h3 id="end-end-delay"><a href="#end-end-delay" class="headerlink" title="end-end delay"></a>end-end delay</h3><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425184200009.png" srcset="/img/loading.gif" lazyload alt="image-20220425184200009"></p>
+<p>此处忽略传播时延，则端到端时延=2L/R。一半是交换机接收的时间(存储转发时延)，一半是destination接收的时间</p>
+<h3 id="queueing-delay-loss"><a href="#queueing-delay-loss" class="headerlink" title="queueing delay,loss"></a>queueing delay,loss</h3><p>交换机存在一个输出队列（输出缓存），已到达的分组须在队列中等待，即有排队时延queue delay</p>
+<p>若缓存区满，则出现丢包packet loss</p>
+<h3 id="routing-amp-forwarding"><a href="#routing-amp-forwarding" class="headerlink" title="routing&amp;forwarding"></a>routing&amp;forwarding</h3><h2 id="circuit-switching"><a href="#circuit-switching" class="headerlink" title="circuit switching"></a>circuit switching</h2><p>dedicated，通常用于电话网络</p>
+<h3 id="复用"><a href="#复用" class="headerlink" title="复用"></a>复用</h3><ul>
+<li>FDM频分复用</li>
+<li>TDM时分复用</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425185633851.png" srcset="/img/loading.gif" lazyload alt="image-20220425185633851"></p>
+<h2 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h2><ul>
+<li>分组交换能更好地处理突然的数据</li>
+<li>分组交换可能面临巨大的拥塞</li>
+</ul>
+<h3 id="一个计算！"><a href="#一个计算！" class="headerlink" title="一个计算！"></a>一个计算！</h3><h1 id="delay"><a href="#delay" class="headerlink" title="delay"></a>delay</h1><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425191745781.png" srcset="/img/loading.gif" lazyload alt="image-20220425191745781"></p>
 <ul>
-<li>daisy chain：根据优先级</li>
-<li>centralized parallel：集中并行：每个设备直接连接到一个仲裁电路。</li>
-<li>distributed using self-detection：使用自我检测进行分布式：设备在它们之间决定哪一个获得总线。</li>
-<li>distributed using collision-detection：分布式使用冲突检测：任何设备都可以尝试使用总线。如果它的数据与另一个设备的数据冲突，它会重试</li>
-</ul>
-<h1 id="4-4时钟"><a href="#4-4时钟" class="headerlink" title="4.4时钟"></a>4.4时钟</h1><ul>
-<li><p>clock cycle时钟周期</p>
-</li>
-<li><p>clock frequency时钟频率：决定执行所有操作的速度</p>
-</li>
-<li><p>运行程序所需的CPU时间：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425115633772.png" srcset="/img/loading.gif" lazyload alt="image-20220425115633772"></p>
-</li>
-</ul>
-<h1 id="4-6存储器"><a href="#4-6存储器" class="headerlink" title="4.6存储器"></a>4.6存储器</h1><ul>
-<li>memory由类似于寄存器的可寻址addressable存储单元storage cells的线性阵列linear array组成</li>
-<li>按字节寻址或字寻址</li>
-<li>memory由RAM芯片构成，通常以长度×宽度来表示</li>
-</ul>
-<h2 id="地址表示"><a href="#地址表示" class="headerlink" title="地址表示"></a>地址表示</h2><p>eg.假设一个memory由16个2K×8位芯片组成，则：</p>
-<ul>
-<li>假设按字节(8bit)寻址，则memory=$16×2K=2^4×2×2^{10}=2^{15}$，即每个地址需要15位来表示</li>
-<li>由16个芯片=$2^4$，即需要4位来选择芯片</li>
-<li>需要(15-4=)11位来表示选中芯片内的偏移量<ul>
-<li>高阶交错high-order interleaving：高4位来选择芯片</li>
-<li>低阶交错：低4位</li>
+<li>$d_{proc}$: nodal processing</li>
+<li>$d_{queue}$: queueing delay</li>
+<li>$d_{trans}$: transmission delay=L/R</li>
+<li>$d_{prop}$: propagation delay=d/s<ul>
+<li>d: len(physical link)</li>
+<li>s: propagation speed传输速率</li>
 </ul>
 </li>
-<li>ps：注意存储器的寻址方式(按字or字节)</li>
 </ul>
-<h1 id="4-7中断"><a href="#4-7中断" class="headerlink" title="4.7中断"></a>4.7中断</h1><p>Interrupts, higher-priority更高优先级</p>
-<p>被触发triggered</p>
-<ul>
-<li>I/O请求request</li>
-<li>算术错误arithmetic errors</li>
-<li>遇到无效指令invalid instruction</li>
-</ul>
-<h1 id="4-8MARIE"><a href="#4-8MARIE" class="headerlink" title="4.8MARIE"></a>4.8MARIE</h1><p>MARIE架构特性：</p>
-<ul>
-<li><p>二进制及补码表示</p>
-</li>
-<li><p>存储程序、固定字长、指令</p>
-</li>
-<li><p>主存可字寻址，总容量4K字</p>
-</li>
-<li><p>1字=16位</p>
-</li>
-<li><p>16位指令=4位操作码+12位地址</p>
-</li>
-<li><p>16位ALU</p>
-</li>
-<li><p>7个寄存器，用于控制和数据移动（没特别提到就是16位）</p>
-<ul>
-<li>AC，累加器accumulator</li>
-<li>MAR，内存地址寄存器memory address register，12位</li>
-<li>MBR，内存缓冲寄存器memory buffer register</li>
-<li>PC，程序计数器program counter，12位</li>
-<li>IR，指令寄存器instruction register</li>
-<li>InREG，输入寄存器input register，8位</li>
-<li>OutREG，输出寄存器output register，8位</li>
-</ul>
-<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425173012333.png" srcset="/img/loading.gif" lazyload alt="image-20220425173012333"></p>
-<p>RTL寄存器传输语言，用M[X]表示存储在寄存器X中的实际数字值</p>
-</li>
-</ul>
-<h2 id="指令集架构"><a href="#指令集架构" class="headerlink" title="指令集架构"></a>指令集架构</h2><p>instruction set architecture：ISA，是<strong>硬件与软件之间的接口</strong>，MARIE模型只包含13条指令，每条指令由一系列更小的指令组成(即微操作microoperations)</p>
-<p>一些基本的MARIE指令：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425173510839.png" srcset="/img/loading.gif" lazyload alt="image-20220425173510839"></p>
-<ul>
-<li>Load</li>
-<li>Skipcond：如果AC中的值大于0则跳过下一条指令</li>
-</ul>
-<h1 id="4-9指令处理"><a href="#4-9指令处理" class="headerlink" title="4.9指令处理"></a>4.9指令处理</h1><h2 id="取指-译码-执行周期"><a href="#取指-译码-执行周期" class="headerlink" title="取指-译码-执行周期"></a>取指-译码-执行周期</h2><ol>
-<li>从内存中取指并放入IR</li>
-<li>进入IR后，解码</li>
-<li>如果涉及操作数，则取出操作数放入MBR</li>
-</ol>
-<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425174337925.png" srcset="/img/loading.gif" lazyload alt="image-20220425174337925"></p>
-<h2 id="中断指令"><a href="#中断指令" class="headerlink" title="中断指令"></a>中断指令</h2><h1 id="4-10一个简单的程序"><a href="#4-10一个简单的程序" class="headerlink" title="4.10一个简单的程序"></a>4.10一个简单的程序</h1><p>假设部分地址及其内容：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425174615886.png" srcset="/img/loading.gif" lazyload alt="image-20220425174615886"></p>
-<p>Load 104指令执行的具体情况-寄存器的变化：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425174650038.png" srcset="/img/loading.gif" lazyload alt="image-20220425174650038"></p>
-<ol>
-<li>取指<ol>
-<li>从PC中取出指令放到MAR；</li>
-<li>将MAR中的指令传入IR；</li>
-<li>PC++（程序计数器自动更新下一条指令的位置）</li>
-</ol>
-</li>
-<li>解码<ol>
-<li>将IR中的指令的<strong>地址部分</strong>(IR[11-0]共12位)传入MAR</li>
-<li>解码操作数(IR[15-12])</li>
-<li>获取操作数：将MAR中的内容传入MBR</li>
-</ol>
-</li>
-<li>执行指令，将MBR中的值放入AC</li>
-</ol>
+<h1 id="protocol-stack"><a href="#protocol-stack" class="headerlink" title="protocol stack"></a>protocol stack</h1><p>上两层是端到端，下三层是点到点</p>
+<h2 id="encapsulation"><a href="#encapsulation" class="headerlink" title="encapsulation"></a>encapsulation</h2><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425201623275.png" srcset="/img/loading.gif" lazyload alt="image-20220425201623275"></p>
+<p>链路层交换机for下两层</p>
+<p>路由器for下三层</p>
 
             </div>
             <hr>
@@ -361,7 +343,7 @@
                     
                       <a class="hover-with-bg" href="/categories/university/">university</a>
                     
-                      <a class="hover-with-bg" href="/categories/university/%E8%AE%A1%E7%BB%84/">计组</a>
+                      <a class="hover-with-bg" href="/categories/university/%E8%AE%A1%E7%BD%91/">计网</a>
                     
                   </div>
                 
@@ -379,9 +361,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/04/20/%E8%AE%A1%E7%BB%84chp5-%E6%8C%87%E4%BB%A4%E9%9B%86%E6%9E%B6%E6%9E%84/">
+                      <a href="/2022/04/26/%E8%AE%A1%E7%BD%91chp2-%E5%BA%94%E7%94%A8%E5%B1%82/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">计组chp5-指令集架构</span>
+                        <span class="hidden-mobile">计网chp2-应用层</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -389,8 +371,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/04/20/%E8%AE%A1%E7%BB%84chp3-%E5%B8%83%E5%B0%94%E4%BB%A3%E6%95%B0%E4%B8%8E%E6%95%B0%E5%AD%97%E9%80%BB%E8%BE%91/">
-                        <span class="hidden-mobile">计组chp3-布尔代数与数字逻辑</span>
+                      <a href="/2022/04/22/%E6%95%B0%E6%8D%AE%E5%BA%93chp10-%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C/">
+                        <span class="hidden-mobile">数据库chp10-数据操作</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
