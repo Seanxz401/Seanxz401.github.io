@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      0 字
+      630 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      7
        分钟
     </span>
   
@@ -228,7 +228,103 @@
             <h1 style="display: none">计组chp6-存储器</h1>
             
             <div class="markdown-body">
-              
+              <h1 id="6-2Memory-Type"><a href="#6-2Memory-Type" class="headerlink" title="6.2Memory Type"></a>6.2Memory Type</h1><h2 id="按存取方式"><a href="#按存取方式" class="headerlink" title="按存取方式"></a>按存取方式</h2><h3 id="随机访问"><a href="#随机访问" class="headerlink" title="随机访问"></a>随机访问</h3><ul>
+<li>RAM：random access<ul>
+<li>DRAM: dynamic<ul>
+<li>电容器capacitor，需要频繁刷新</li>
+<li>cheaper</li>
+</ul>
+</li>
+<li>SRAM: static<ul>
+<li>D触发器flip-flop</li>
+<li>faster，用于构建cache</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ROM: read-only</li>
+</ul>
+<h3 id="串行访问"><a href="#串行访问" class="headerlink" title="串行访问"></a>串行访问</h3><ul>
+<li>顺序存取存储器</li>
+<li>直接存取存储器</li>
+</ul>
+<h2 id="按存储介质"><a href="#按存储介质" class="headerlink" title="按存储介质"></a>按存储介质</h2><ul>
+<li>半导体存储器：TTL、MOS，易失性</li>
+<li>磁表面存储器</li>
+<li>磁芯存储器</li>
+<li>光盘存储器</li>
+</ul>
+<h2 id="按作用"><a href="#按作用" class="headerlink" title="按作用"></a>按作用</h2><ul>
+<li>主存<ul>
+<li>RAM</li>
+<li>ROM</li>
+</ul>
+</li>
+<li>Flash Memory</li>
+<li>高速缓存</li>
+<li>辅存</li>
+</ul>
+<h1 id="6-3内存的层次结构"><a href="#6-3内存的层次结构" class="headerlink" title="6.3内存的层次结构"></a>6.3内存的层次结构</h1><p><strong>在存储层次中越往上，存储介质的访问速度越快，价格也越高，相对存储容量也越小。</strong><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/%E5%9B%BE%E7%89%87.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20200224200839680.png" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h1 id="6-4高速缓存"><a href="#6-4高速缓存" class="headerlink" title="6.4高速缓存"></a>6.4高速缓存</h1><p>主存按地址访问，缓存按内容访问(内容可寻址存储器)</p>
+<ul>
+<li>命中hit<ul>
+<li>命中后复制<strong>整个数据块block</strong></li>
+</ul>
+</li>
+<li>失效miss<ul>
+<li>失效后去内存中将整块的数据copy到缓存中</li>
+</ul>
+</li>
+<li>局部性原理locality</li>
+</ul>
+<p><strong>关于这些映射最好看看书上的例题</strong></p>
+<h2 id="直接映射"><a href="#直接映射" class="headerlink" title="直接映射"></a>直接映射</h2><p>direct mapped cache</p>
+<p>N个缓存块组成的直接映射缓存中，主内存块X映射到缓存块Y = X mod N 。</p>
+<p>主存地址格式：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426205500008.png" srcset="/img/loading.gif" lazyload alt="image-20220426205500008"></p>
+<ul>
+<li>offset偏移字段，块内偏移</li>
+<li>block块字段，选择缓存块</li>
+<li>tag标记字段，用总位数(根据主存总容量确定)减前两个字段</li>
+</ul>
+<h2 id="全相联映射"><a href="#全相联映射" class="headerlink" title="全相联映射"></a>全相联映射</h2><p>fully associative cache</p>
+<p>只有标记字段和偏移字段，随机选择缓存块</p>
+<h2 id="组相联映射"><a href="#组相联映射" class="headerlink" title="组相联映射"></a>组相联映射</h2><p>set associative cache，结合了前两个</p>
+<ul>
+<li>set字段为选择缓存块的分组</li>
+<li>只有一组时即为全相联映射</li>
+<li>一组只有一块时即为直接映射</li>
+</ul>
+<h2 id="替换策略"><a href="#替换策略" class="headerlink" title="替换策略"></a>替换策略</h2><ul>
+<li>LRU最近最少使用，回顾过去，换出最长时间未使用的块<ul>
+<li>缺点：复杂</li>
+</ul>
+</li>
+<li>FIFO先进先出，换出存在缓存中最长时间的块</li>
+<li>随机替换策略random replacement<ul>
+<li>优点：不会颠簸thrash</li>
+</ul>
+</li>
+</ul>
+<h3 id="写策略"><a href="#写策略" class="headerlink" title="写策略"></a>写策略</h3><p>脏块：在缓存中已被更新的块，必须写回内存</p>
+<ul>
+<li>write through直写：每次写入时同时写入更新缓存和主内存<ul>
+<li>缺点：每次缓存写入都必须更新内存</li>
+</ul>
+</li>
+<li>write back回写：仅在选择要替换的块时更新内存<ul>
+<li>缺点：内存并不总是与缓存中的值一致，导致在具有许多并发用户的系统中出现问题。</li>
+<li>优点：内存流量最小化</li>
+</ul>
+</li>
+</ul>
+<h2 id="有效访问时间"><a href="#有效访问时间" class="headerlink" title="有效访问时间"></a>有效访问时间</h2><p>EAT=$H×Access_c+(1-H)×Access_{MM}$</p>
+<ul>
+<li>H是命中率=命中次数/总访问次数</li>
+<li>$Access_c$是缓存访问时间</li>
+<li>$Access_{MM}$是主存访问时间</li>
+</ul>
+<h1 id="6-5虚拟存储器"><a href="#6-5虚拟存储器" class="headerlink" title="6.5虚拟存储器"></a>6.5虚拟存储器</h1>
             </div>
             <hr>
             <div>

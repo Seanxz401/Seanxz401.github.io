@@ -252,19 +252,7 @@ statel
           
             
           
-          一些概念的中英对照
-host主机
-end system端系统
-communication links通信链路
-bandwidth带宽
-packet switches分组交换机
-router路由器
-link-layer switch链路层交换机
-
-
-Internet : network of networks
-protocols协议
-ISP，Internet Service Provider网络服务
+          参考书：计算机网络自顶向下方法(第6版)（黑皮书）
         </a>
       </p>
 
@@ -534,7 +522,29 @@ ISP，Internet Service Provider网络服务
           
             
           
-          
+          6.2Memory Type按存取方式随机访问
+RAM：random access
+DRAM: dynamic
+电容器capacitor，需要频繁刷新
+cheaper
+
+
+SRAM: static
+D触发器flip-flop
+faster，用于构建cache
+
+
+
+
+ROM: read-only
+
+串行访问
+顺序存取存储器
+直接存取存储器
+
+按存储介质
+半导体存储器：TTL、MOS，易失性
+磁表面
         </a>
       </p>
 
@@ -579,7 +589,15 @@ ISP，Internet Service Provider网络服务
           
             
           
-          
+          5.2指令格式大端小端
+大端big endian存储：低地址存高字节，可在低地址处判断正负
+小端：16位转32位不需要变化
+
+eg.使用32bit，存储value: 0xABCD1234, 0x00FE4321, 0x10，从地址0x200开始：
+
+注意上图中0x10的存储，不足32bit补零。此时可明显看出若采用16位存储，大端方式需要变化而小端不用。
+架构
+堆栈架构stack：指令和操作数从堆
         </a>
       </p>
 

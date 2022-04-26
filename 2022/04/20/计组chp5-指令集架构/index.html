@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      0 字
+      816 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      9
        分钟
     </span>
   
@@ -228,7 +228,82 @@
             <h1 style="display: none">计组chp5-指令集架构</h1>
             
             <div class="markdown-body">
-              
+              <h1 id="5-2指令格式"><a href="#5-2指令格式" class="headerlink" title="5.2指令格式"></a>5.2指令格式</h1><h2 id="大端小端"><a href="#大端小端" class="headerlink" title="大端小端"></a>大端小端</h2><ul>
+<li>大端big endian存储：低地址存高字节，可在低地址处判断正负</li>
+<li>小端：16位转32位不需要变化</li>
+</ul>
+<p>eg.使用32bit，存储value: 0xABCD1234, 0x00FE4321, 0x10，从地址0x200开始：</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/%E6%97%A0%E6%A0%87%E9%A2%98.png" srcset="/img/loading.gif" lazyload alt="无标题"></p>
+<p>注意上图中0x10的存储，不足32bit补零。此时可明显看出若采用16位存储，大端方式需要变化而小端不用。</p>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><ul>
+<li>堆栈架构stack：指令和操作数从堆栈中获取，堆栈不可随机访问</li>
+<li>累加器架构accumulator：二元运算的一个操作数隐含在累加器中，另一个在内存中，造成大量总线流量</li>
+<li>通用寄存器架构general purpose register(GPR)<ul>
+<li>比累加器架构更快</li>
+<li>编译器的有效实现</li>
+<li>更长的指令</li>
+</ul>
+</li>
+</ul>
+<h3 id="堆栈"><a href="#堆栈" class="headerlink" title="堆栈"></a>堆栈</h3><p>二进制指令(ADD, MULT)使用堆栈上的顶部两项，要求使用后缀表示法即<strong>逆波兰式</strong>。计算$Z=XY×WU×+$(后缀表达式)</p>
+<figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs armasm"><span class="hljs-keyword">PUSH</span> X<br><span class="hljs-keyword">PUSH</span> Y<br><span class="hljs-keyword">MULT</span><br><span class="hljs-keyword">PUSH</span> W<br><span class="hljs-keyword">PUSH</span> U<br><span class="hljs-keyword">MULT</span><br><span class="hljs-keyword">ADD</span><br><span class="hljs-keyword">POP</span> Z<br></code></pre></td></tr></table></figure>
+
+<h2 id="不同操作数的ISA执行算术"><a href="#不同操作数的ISA执行算术" class="headerlink" title="不同操作数的ISA执行算术"></a>不同操作数的ISA执行算术</h2><p>eg.计算$Z=X×Y+W×U$(中缀表达式)，用R表示寄存器</p>
+<ul>
+<li><p>三地址ISA(eg.大型机)</p>
+<figure class="highlight tp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs tp">MULT <span class="hljs-keyword">R</span><span class="hljs-number">1</span>,<span class="hljs-keyword">X</span>,<span class="hljs-keyword">Y</span><br>MULT <span class="hljs-keyword">R</span><span class="hljs-number">2</span>,<span class="hljs-keyword">W</span>,U<br>ADD <span class="hljs-keyword">Z</span>,<span class="hljs-keyword">R</span><span class="hljs-number">1</span>,<span class="hljs-keyword">R</span><span class="hljs-number">2</span><br></code></pre></td></tr></table></figure></li>
+<li><p>双地址ISA(eg.Intel)，<strong>双地址ISA通常要求一个操作数是寄存器</strong></p>
+<figure class="highlight tp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs tp">LOAD <span class="hljs-keyword">R</span><span class="hljs-number">1</span>,<span class="hljs-keyword">X</span><br>MULT <span class="hljs-keyword">R</span><span class="hljs-number">1</span>,<span class="hljs-keyword">Y</span><br>LOAD <span class="hljs-keyword">R</span><span class="hljs-number">2</span>,<span class="hljs-keyword">W</span><br>MULT <span class="hljs-keyword">R</span><span class="hljs-number">2</span>,U<br>ADD <span class="hljs-keyword">R</span><span class="hljs-number">1</span>,<span class="hljs-keyword">R</span><span class="hljs-number">2</span><br>STORE <span class="hljs-keyword">Z</span>,<span class="hljs-keyword">R</span><span class="hljs-number">1</span><br></code></pre></td></tr></table></figure></li>
+<li><p>单地址ISA(eg.MARIE)，其中一个操作数隐含在累加器中？</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">LOAD</span> X<br>MULT Y<br>STORE <span class="hljs-keyword">TEMP</span><br><span class="hljs-keyword">LOAD</span> W<br>MULT U<br><span class="hljs-keyword">ADD</span> <span class="hljs-keyword">TEMP</span><br>STORE Z<br></code></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="扩展操作码"><a href="#扩展操作码" class="headerlink" title="扩展操作码"></a>扩展操作码</h2><p>通过改变操作码的长度和使用转义操作码实现多种多样的指令集。</p>
+<p>eg.8位指令可以构成：</p>
+<ul>
+<li>3条 3位双操作数</li>
+<li>2条 4位单操作数</li>
+<li>4条 3位单操作数</li>
+<li><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/%E5%9B%BE%E7%89%87.png" srcset="/img/loading.gif" lazyload alt="图片"></li>
+</ul>
+<h1 id="5-3指令类型"><a href="#5-3指令类型" class="headerlink" title="5.3指令类型"></a>5.3指令类型</h1><ul>
+<li>data movement</li>
+<li>arithmetic</li>
+<li>boolean</li>
+<li>bit manipulation</li>
+<li>I/O</li>
+<li>control transfer</li>
+<li>special purpose</li>
+</ul>
+<h1 id="5-4寻址"><a href="#5-4寻址" class="headerlink" title="5.4寻址"></a>5.4寻址</h1><p>Addressing</p>
+<ul>
+<li>立即寻址immediate addressing：数据是指令的一部分（即操作数就是真正的数值）</li>
+<li>直接寻址direct：操作数是数据地址</li>
+<li>寄存器寻址register：操作数是数据在寄存器中的位置</li>
+<li>间接寻址indirect：操作数是数据地址的地址（套娃？</li>
+<li>寄存器间接寻址register indirect：操作数是数据<strong>地址</strong>在寄存器中的位置</li>
+<li>索引寻址indexed：操作数是地址，最终有效地址=操作数＋指定偏移量（存于某寄存器）</li>
+<li>基址寻址based：与indexed类似，<strong>区别在于indexed中的寄存器用来保存偏移量，based中的寄存器用来保存基地址。</strong></li>
+</ul>
+<p>eg.LOAD 800, R1 0x800(offset)<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426195229436.png" srcset="/img/loading.gif" lazyload alt="image-20220426195229436"></p>
+<h1 id="5-5指令流水线"><a href="#5-5指令流水线" class="headerlink" title="5.5指令流水线"></a>5.5指令流水线</h1><p>instruction pipelining</p>
+<p>将指令执行周期分为更小的步骤：</p>
+<ol>
+<li>获取指令fetch</li>
+<li>解码操作码decode opcode</li>
+<li>计算有效操作数的地址(寻址？)</li>
+<li>获取操作数operands</li>
+<li>执行指令execute</li>
+<li>存储结果store</li>
+</ol>
+<p>这些较小的步骤可以<strong>并行</strong>执行以增加吞吐量，每个时钟周期执行一小步，且阶段重叠：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426200318303.png" srcset="/img/loading.gif" lazyload alt="image-20220426200318303"></p>
+<h2 id="加速比"><a href="#加速比" class="headerlink" title="加速比"></a>加速比</h2><p>eg.假设共有n条指令，一条指令由k个小步骤组成，执行一个阶段用时$t_p$。即共用时：<br>$$<br>(k×t_p)+(n-1)t_p=(k+n-1)t_p<br>$$<br>加速比：$Speedup S=\frac{nkt_p}{(k+n-1)t_p}$</p>
+<p>当n趋于无穷大，(k+n-1)→n，得到利率加速比=k</p>
+<h2 id="pipeline停止或刷新"><a href="#pipeline停止或刷新" class="headerlink" title="pipeline停止或刷新"></a>pipeline停止或刷新</h2><ul>
+<li>资源冲突</li>
+<li>数据依赖</li>
+<li>条件分支</li>
+</ul>
+
             </div>
             <hr>
             <div>
