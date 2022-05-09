@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      630 字
+      810 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      7
+      8
        分钟
     </span>
   
@@ -228,7 +228,8 @@
             <h1 style="display: none">计组chp6-存储器</h1>
             
             <div class="markdown-body">
-              <h1 id="6-2Memory-Type"><a href="#6-2Memory-Type" class="headerlink" title="6.2Memory Type"></a>6.2Memory Type</h1><h2 id="按存取方式"><a href="#按存取方式" class="headerlink" title="按存取方式"></a>按存取方式</h2><h3 id="随机访问"><a href="#随机访问" class="headerlink" title="随机访问"></a>随机访问</h3><ul>
+              <p>一个小的点：Memory时而翻译为内存时而翻译为存储器。。</p>
+<h1 id="6-2Memory-Type"><a href="#6-2Memory-Type" class="headerlink" title="6.2Memory Type"></a>6.2Memory Type</h1><h2 id="按存取方式"><a href="#按存取方式" class="headerlink" title="按存取方式"></a>按存取方式</h2><h3 id="随机访问"><a href="#随机访问" class="headerlink" title="随机访问"></a>随机访问</h3><ul>
 <li>RAM：random access<ul>
 <li>DRAM: dynamic<ul>
 <li>电容器capacitor，需要频繁刷新</li>
@@ -306,7 +307,13 @@
 </ul>
 </li>
 </ul>
-<h3 id="写策略"><a href="#写策略" class="headerlink" title="写策略"></a>写策略</h3><p>脏块：在缓存中已被更新的块，必须写回内存</p>
+<h2 id="有效访问时间"><a href="#有效访问时间" class="headerlink" title="有效访问时间"></a>有效访问时间</h2><p>EAT=$H×Access_c+(1-H)×Access_{MM}$</p>
+<ul>
+<li>H是命中率=命中次数/总访问次数</li>
+<li>$Access_c$是缓存访问时间</li>
+<li>$Access_{MM}$是主存访问时间</li>
+</ul>
+<h2 id="写策略"><a href="#写策略" class="headerlink" title="写策略"></a>写策略</h2><p>脏块：在缓存中已被更新的块，必须写回内存</p>
 <ul>
 <li>write through直写：每次写入时同时写入更新缓存和主内存<ul>
 <li>缺点：每次缓存写入都必须更新内存</li>
@@ -318,13 +325,31 @@
 </ul>
 </li>
 </ul>
-<h2 id="有效访问时间"><a href="#有效访问时间" class="headerlink" title="有效访问时间"></a>有效访问时间</h2><p>EAT=$H×Access_c+(1-H)×Access_{MM}$</p>
-<ul>
-<li>H是命中率=命中次数/总访问次数</li>
-<li>$Access_c$是缓存访问时间</li>
-<li>$Access_{MM}$是主存访问时间</li>
+<h1 id="6-5虚拟内存"><a href="#6-5虚拟内存" class="headerlink" title="6.5虚拟内存"></a>6.5虚拟内存</h1><p>virtual memory，<em>我浅显的理解就是跟缓存类似，都是跟主存间的映射关系</em></p>
+<h2 id="分页"><a href="#分页" class="headerlink" title="分页"></a>分页</h2><ul>
+<li>physical address</li>
+<li>virtual address</li>
+<li>page faults页面错误，缺页？没有在主存中找到页面，需要从硬盘中获取时</li>
+<li>主存和虚存的页面大小相等，因此偏移字段的位数相等</li>
+<li>pagetable页表：虚页号+有效位</li>
 </ul>
-<h1 id="6-5虚拟存储器"><a href="#6-5虚拟存储器" class="headerlink" title="6.5虚拟存储器"></a>6.5虚拟存储器</h1>
+<p><strong>虚页与主存页面的转换看例题</strong></p>
+<ul>
+<li>TLB<ul>
+<li>页表=虚页号+页号</li>
+</ul>
+</li>
+</ul>
+<h2 id="分段"><a href="#分段" class="headerlink" title="分段"></a>分段</h2><p>segmentation，长度可变，根据内存大小分配段</p>
+<h2 id="碎片"><a href="#碎片" class="headerlink" title="碎片"></a>碎片</h2><p>fragmentation</p>
+<ul>
+<li>内部碎片internal：分页导致</li>
+<li>外部碎片external：分段导致<ul>
+<li>可通过压缩进行恢复？</li>
+</ul>
+</li>
+</ul>
+<h2 id="段页式"><a href="#段页式" class="headerlink" title="段页式"></a>段页式</h2>
             </div>
             <hr>
             <div>

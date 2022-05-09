@@ -14,7 +14,7 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="数据操作data manipulation，包括DDL、DML。从创建数据库到查询。">
+  <meta name="description" content="数据操作data manipulation，包括DDL、DML。从创建数据库到查询。SQL语言。">
   <meta name="author" content="Sean">
   <meta name="keywords" content="">
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      19 字
+      947 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      1
+      12
        分钟
     </span>
   
@@ -228,9 +228,137 @@
             <h1 style="display: none">数据库chp10-数据操作</h1>
             
             <div class="markdown-body">
-              <p>数据操作data manipulation，包括DDL、DML。从创建数据库到查询。</p>
+              <p>数据操作data manipulation，包括DDL、DML。从创建数据库到查询。SQL语言。</p>
 <span id="more"></span>
 
+<h1 id="一些操作"><a href="#一些操作" class="headerlink" title="一些操作"></a>一些操作</h1><h3 id="database"><a href="#database" class="headerlink" title="database"></a>database</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">create</span> database DBNAME<br></code></pre></td></tr></table></figure>
+
+<h3 id="table"><a href="#table" class="headerlink" title="table"></a>table</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> TABNAME(COL1 DATA_TYPE [<span class="hljs-keyword">primary</span> key<span class="hljs-operator">|</span><span class="hljs-keyword">unique</span>][<span class="hljs-keyword">not</span> <span class="hljs-keyword">null</span>],COL2...)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>“</strong> <strong>[ ] ”</strong>表示其括起的内容可以省略，<strong>“</strong> <strong>| ”</strong> 表示其隔开的两项可取其一</li>
+<li>我用大写表示需要人为定义的内容，小写表示SQL既定的语句。<strong>实际中SQL语句基本不区分大小写</strong></li>
+</ul>
+<h4 id="一些数据类型"><a href="#一些数据类型" class="headerlink" title="一些数据类型"></a>一些数据类型</h4><ul>
+<li>char(n): 固定长度的字符串</li>
+<li>varchar(n): 可变长度的字符串</li>
+<li>interval：一段时间</li>
+<li>integer</li>
+</ul>
+<h3 id="insert"><a href="#insert" class="headerlink" title="insert"></a>insert</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> TABNAME <span class="hljs-keyword">values</span>()<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>非数值型数据必须用<strong>单引号</strong>引起来</li>
+<li>数值型一定不能用引号</li>
+</ul>
+<h3 id="update"><a href="#update" class="headerlink" title="update"></a>update</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">update TABNAME <span class="hljs-keyword">set</span> COL1<span class="hljs-operator">=</span><span class="hljs-string">&#x27;STR&#x27;</span> <span class="hljs-keyword">where</span> COL2<span class="hljs-operator">=</span><span class="hljs-string">&#x27;STR&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>如果不加where判断条件，则将COL1所有项的值都修改</li>
+</ul>
+<h1 id="SQL-Server"><a href="#SQL-Server" class="headerlink" title="SQL Server"></a>SQL Server</h1><p>老师给的SQL Server2019，连接不上的话打开服务看看是不是SQL Server相关的服务没启动，尤其是有个什么代理。</p>
+<h1 id="Select"><a href="#Select" class="headerlink" title="Select"></a>Select</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> [<span class="hljs-keyword">distinct</span><span class="hljs-operator">|</span><span class="hljs-keyword">all</span>] 列名或表达式 <br><span class="hljs-keyword">from</span> TABNAME<br>[<span class="hljs-keyword">where</span>]<br>[<span class="hljs-keyword">group</span> <span class="hljs-keyword">by</span> COL][<span class="hljs-keyword">having</span>]<br>[<span class="hljs-keyword">order</span> <span class="hljs-keyword">by</span> COL [<span class="hljs-keyword">asc</span><span class="hljs-operator">|</span><span class="hljs-keyword">desc</span>]]<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>“*”==“all columns”</li>
+<li>as 给列命为新的名字</li>
+<li>听说select返回的都是view/table？所以可以将select结果作为一列？</li>
+</ul>
+<h2 id="distinct"><a href="#distinct" class="headerlink" title="distinct"></a>distinct</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> <span class="hljs-keyword">distinct</span> COLNAME <span class="hljs-keyword">from</span> TABNAME<br></code></pre></td></tr></table></figure>
+
+<p>返回选中列的不重复的</p>
+<h2 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h2><p>数值型的列可以直接做算数运算，eg.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> COL1<span class="hljs-operator">+</span>COL2 <span class="hljs-keyword">as</span> sum,COL3<span class="hljs-operator">*</span><span class="hljs-number">2</span> <span class="hljs-keyword">as</span> mult <span class="hljs-keyword">from</span> TABNAME<br></code></pre></td></tr></table></figure>
+
+<h2 id="where"><a href="#where" class="headerlink" title="where"></a>where</h2><p>对每一行进行判断condition</p>
+<ul>
+<li><code>&gt; ,&lt;, =</code></li>
+<li><code>between...and...</code>数值区间、时间区间</li>
+<li><code>in, not in</code>+select结果</li>
+<li><code>and, or</code>连接条件</li>
+<li><code>is null, is not null</code></li>
+</ul>
+<h3 id="like"><a href="#like" class="headerlink" title="like"></a>like</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql">select..from..where COL <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;%STRING%&#x27;</span><br>select..from..where COL <span class="hljs-keyword">like</span> <span class="hljs-string">&#x27;_STRING%&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>%：代替0或多个字符</li>
+<li>_：代替单个字符</li>
+</ul>
+<h2 id="order-by"><a href="#order-by" class="headerlink" title="order by"></a>order by</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">select..from..order <span class="hljs-keyword">by</span> COL1,COL2.. <span class="hljs-keyword">asc</span><span class="hljs-operator">|</span><span class="hljs-keyword">desc</span><br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>asc：升序</li>
+<li>desc：降序</li>
+<li>排序结果与列名的放置先后有关</li>
+</ul>
+<h2 id="聚合查询-分组"><a href="#聚合查询-分组" class="headerlink" title="聚合查询/分组"></a>聚合查询/分组</h2><p>聚合函数只能用于select列表和having子句中</p>
+<ul>
+<li>count</li>
+<li>sum</li>
+<li>avg</li>
+<li>min/max</li>
+</ul>
+<h3 id="行数对应问题"><a href="#行数对应问题" class="headerlink" title="行数对应问题"></a>行数对应问题</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> COL1,<span class="hljs-built_in">count</span>(COL2) <span class="hljs-keyword">as</span> mycount from..<br></code></pre></td></tr></table></figure>
+
+<p>由于COL1和mycount行数不对应，该查询语句会报错。</p>
+<h3 id="group-by"><a href="#group-by" class="headerlink" title="group by"></a>group by</h3><p>当 WHERE ⼦句和GROUP BY 子句同时使用时，必须首先使用 WHERE ⼦句</p>
+<p>group by可以接多个列？？？</p>
+<h3 id="having"><a href="#having" class="headerlink" title="having"></a>having</h3><p>分组过滤+条件</p>
+<p>HAVING ⼦句使用的列名必须出现在 GROUP BY ⼦句列表中，或包括在聚集函数中。</p>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220505235552647.png" srcset="/img/loading.gif" lazyload alt="image-20220505235552647"></p>
+<ul>
+<li>返回结果中的行是根据group by分为的组</li>
+<li>having使用的列名staffNo包含在了聚集函数中，原因？？？</li>
+</ul>
+<p>一些很难的例子：</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220506155234585.png" srcset="/img/loading.gif" lazyload alt="image-20220506155234585"></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220506155418758.png" srcset="/img/loading.gif" lazyload alt="image-20220506155418758"></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220506155931149.png" srcset="/img/loading.gif" lazyload alt="image-20220506155931149"></p>
+<h2 id="嵌套查询-子查询"><a href="#嵌套查询-子查询" class="headerlink" title="嵌套查询/子查询"></a>嵌套查询/子查询</h2><ul>
+<li>默认的情况下，⼦查询中列名取自⼦查询的 FROM ⼦句中给出的表，也可通过限定列名的办法指定取自外查询的 FORM ⼦句中的表</li>
+<li>⼦查询 SELECT 列表必须由单个列名或表达式组成，除非⼦查询使用了关键词EXISTS</li>
+</ul>
+<h3 id="not-in"><a href="#not-in" class="headerlink" title="[not] in"></a>[not] in</h3><h3 id="some-all"><a href="#some-all" class="headerlink" title="some|all"></a>some|all</h3><ul>
+<li>some(any)：子查询产生的结果中存在一个值满足条件即可</li>
+<li>all：子查询中所有值满足结果</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">select..from..where COL<span class="hljs-operator">&gt;</span><span class="hljs-keyword">some</span>(<span class="hljs-keyword">select</span>子查询)<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>not in 与&lt;&gt;all等价</li>
+</ul>
+<h3 id="not-exists"><a href="#not-exists" class="headerlink" title="[not] exists"></a>[not] exists</h3><p>仅用于子查询中</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">select..from..where <span class="hljs-keyword">exists</span>(select...)<br></code></pre></td></tr></table></figure>
+
+
+
+<h2 id="多表查询"><a href="#多表查询" class="headerlink" title="多表查询"></a>多表查询</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> a.COL,b.COL <span class="hljs-keyword">from</span> TAB1 a,TAB2 b <span class="hljs-keyword">where</span> a.COL<span class="hljs-operator">=</span>b.COL<br></code></pre></td></tr></table></figure>
+
+<h3 id="join-on"><a href="#join-on" class="headerlink" title="join..on"></a>join..on</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> a.COL,b.COL <span class="hljs-keyword">from</span> TAB1 a <span class="hljs-keyword">join</span> TAB2 b <span class="hljs-keyword">on</span> a.COL<span class="hljs-operator">=</span>b.COL<br></code></pre></td></tr></table></figure>
+
+<ul>
+<li>left join：最大程度保留前一个表</li>
+<li>right join：后</li>
+<li>full join：保留全部，以空值填充</li>
+</ul>
+<h3 id="join-using"><a href="#join-using" class="headerlink" title="join..using"></a>join..using</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">select</span> a.COL,b.COL <span class="hljs-keyword">from</span> TAB1 a <span class="hljs-keyword">join</span> TAB2 b <span class="hljs-keyword">using</span> COL<br></code></pre></td></tr></table></figure>
+
+<p>条件的书写形式与join on不同</p>
+<h3 id="cross-join"><a href="#cross-join" class="headerlink" title="cross..join"></a>cross..join</h3><p>笛卡尔积？</p>
+<h2 id="交并差"><a href="#交并差" class="headerlink" title="交并差"></a>交并差</h2><ul>
+<li>可用标准的并、交和差集合操作，将多个查询结果表合并成⼀个查询结果表。</li>
+<li>两个表必须有并相容性，即有相同结构（列类型相同）。</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">union</span><span class="hljs-operator">|</span><span class="hljs-keyword">intersect</span><span class="hljs-operator">|</span>difference [<span class="hljs-keyword">all</span>]<span class="hljs-operator">|</span>[<span class="hljs-keyword">corresponding</span> [<span class="hljs-keyword">by</span> COL1...]]<br></code></pre></td></tr></table></figure>
+
+<h3 id="all"><a href="#all" class="headerlink" title="all"></a>all</h3><p>查询包括一切的重复行</p>
+<h3 id="corresponding"><a href="#corresponding" class="headerlink" title="corresponding"></a>corresponding</h3><ul>
+<li>corresponding:集合操作就在两表共同的列上执⾏</li>
+<li>corresponding by COL:集合操作在给定的列上执⾏</li>
+</ul>
+<h3 id="intersect"><a href="#intersect" class="headerlink" title="intersect"></a>intersect</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">(select...) <span class="hljs-keyword">intersect</span> (select...)<br></code></pre></td></tr></table></figure>
+
+<h3 id="union"><a href="#union" class="headerlink" title="union"></a>union</h3><h3 id="difference"><a href="#difference" class="headerlink" title="difference"></a>difference</h3>
             </div>
             <hr>
             <div>

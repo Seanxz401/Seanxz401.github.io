@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1.3k 字
+      1.7k 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      15
+      20
        分钟
     </span>
   
@@ -261,7 +261,7 @@
 <p>如图：carry in==carry out==1</p>
 <p><strong>进位与溢出是相互独立的</strong></p>
 <h2 id="booth算法"><a href="#booth算法" class="headerlink" title="booth算法"></a>booth算法</h2><ul>
-<li>10：乘积-被乘数（上面的那个）</li>
+<li>10(乘数的当前+右侧)：乘积-被乘数（上面的那个）</li>
 <li>01：乘积+被乘数</li>
 <li>00/11：左移一位，乘积+0</li>
 <li>假设乘数位的起始位(最右侧)为0</li>
@@ -329,6 +329,31 @@
 </ol>
 <h2 id="汉明码"><a href="#汉明码" class="headerlink" title="汉明码"></a>汉明码</h2><p>Hamming codes</p>
 <h2 id="里德-所罗门码"><a href="#里德-所罗门码" class="headerlink" title="里德-所罗门码"></a>里德-所罗门码</h2><p>Reed-Solomon codes</p>
+<h1 id="作业"><a href="#作业" class="headerlink" title="作业"></a>作业</h1><h2 id="1-十进制转其他进制"><a href="#1-十进制转其他进制" class="headerlink" title="1.十进制转其他进制"></a>1.十进制转其他进制</h2><p>除法取余，先得到的是低位</p>
+<h2 id="5-其他进制转十进制"><a href="#5-其他进制转十进制" class="headerlink" title="5.其他进制转十进制"></a>5.其他进制转十进制</h2><p>r进制数$a_na_{n-1}…a_1a_0$转十进制：</p>
+<p>res=$a_n×r^n+a_{n-1}×r^{r-1}×…a_1×r+a_0$</p>
+<h2 id="7-十进制小数转二进制"><a href="#7-十进制小数转二进制" class="headerlink" title="7.十进制小数转二进制"></a>7.十进制小数转二进制</h2><p>整数与小数分开计算</p>
+<p>小数部分乘2取整法，先得到离小数点近的</p>
+<p><strong>由于不一定能精确表示（不一定能最后乘得结果为1），需要注意题目要求保留几位小数</strong></p>
+<h2 id="13-16进制转二进制"><a href="#13-16进制转二进制" class="headerlink" title="13.16进制转二进制"></a>13.16进制转二进制</h2><p>一位16进制数=4位二进制数，高位补零</p>
+<h2 id="17-原码反码补码移码"><a href="#17-原码反码补码移码" class="headerlink" title="17.原码反码补码移码"></a>17.原码反码补码移码</h2><p>原码就是表示有符号数吧？<strong>注意题目中有要求用几位有符号数表示</strong></p>
+<p><strong>0正1负！！！！</strong></p>
+<p><strong>有符号数的反码，符号位不变！！！</strong></p>
+<p>移码Excess-M中的$M=2^{n-1}-1$</p>
+<h2 id="43-booth算法？"><a href="#43-booth算法？" class="headerlink" title="43.booth算法？"></a>43.booth算法？</h2><p>关于自己凑出来答案却看不懂这件事<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220427130026863.png" srcset="/img/loading.gif" lazyload alt="image-20220427130026863"></p>
+<p>为啥要先转为八位？难道先用十进制小算一下结果？</p>
+<p>10减，01加（看下面的乘数，加减上面的被乘数）</p>
+<p><strong>补码扩展时补符号位！</strong></p>
+<p>1011乘0101？11100111</p>
+<h2 id="50-浮点数"><a href="#50-浮点数" class="headerlink" title="50.浮点数"></a>50.浮点数</h2><p>符号位+指数位5（使用移码吗）+有效数字8</p>
+<p>小数点对齐计算，若有效位数多了直接丢弃</p>
+<h2 id="78-CRC"><a href="#78-CRC" class="headerlink" title="78.CRC"></a>78.CRC</h2><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220427132527128.png" srcset="/img/loading.gif" lazyload alt="image-20220427132527128"></p>
+<ol>
+<li>被除数（message）左移len(k)-1位得到m2</li>
+<li>模2除法得到余数r</li>
+<li>m2＋r，发送</li>
+<li>接收方检验：看余数是否为0</li>
+</ol>
 
             </div>
             <hr>

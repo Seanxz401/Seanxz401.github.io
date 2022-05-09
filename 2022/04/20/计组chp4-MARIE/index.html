@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      1k 字
+      1.2k 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      11
+      14
        分钟
     </span>
   
@@ -350,6 +350,51 @@
 </li>
 <li>执行指令，将MBR中的值放入AC</li>
 </ol>
+<h1 id="作业"><a href="#作业" class="headerlink" title="作业"></a>作业</h1><h2 id="10-主存"><a href="#10-主存" class="headerlink" title="10.主存"></a>10.主存</h2><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220427135202104.png" srcset="/img/loading.gif" lazyload alt="image-20220427135202104"></p>
+<p><strong>首先关注题中是否提到是按字还是按字节寻址</strong></p>
+<ol>
+<li>需要的RAM芯片数量：根据主存容量的长和宽共同确定</li>
+<li>地址位数=幂次数<ol>
+<li>芯片的地址位好像不需要考虑按什么编址？就一行算一个存储单元</li>
+<li>emmm那就是看有多少行吧</li>
+</ol>
+</li>
+<li>存储体：主存按行分模块<ol>
+<li>n路交叉表示将主存分为n块</li>
+<li>本题好像没说啥就直接按照芯片分块了？</li>
+</ol>
+</li>
+<li>高/低位交叉编址<ol>
+<li>块字段+偏移字段</li>
+<li><strong>一个位置返回一个字</strong></li>
+</ol>
+</li>
+</ol>
+<h2 id="22-指令的16进制表示"><a href="#22-指令的16进制表示" class="headerlink" title="22.指令的16进制表示"></a>22.指令的16进制表示</h2><p>前4位是操作码如LOAD，后12是操作数如地址</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220427135809473.png" srcset="/img/loading.gif" lazyload alt="image-20220427135809473"></p>
+<p>Load A: Load=0001=0x1, A=0x108→0x1108</p>
+<h2 id="23-符号表"><a href="#23-符号表" class="headerlink" title="23.符号表"></a>23.符号表</h2><p>symbol table，就是用一个符号表示一个地址以上一题为例：</p>
+<table>
+<thead>
+<tr>
+<th>A</th>
+<th>108</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>One</td>
+<td>109</td>
+</tr>
+<tr>
+<td>S1</td>
+<td>106</td>
+</tr>
+<tr>
+<td>S2</td>
+<td>103</td>
+</tr>
+</tbody></table>
+<h2 id="24-AC寄存器"><a href="#24-AC寄存器" class="headerlink" title="24.AC寄存器"></a>24.AC寄存器</h2><p>？</p>
 
             </div>
             <hr>
