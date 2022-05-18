@@ -302,7 +302,7 @@
 <li>寄存器寻址<br>寄存器在CPU内部，不需要执行系统总线周期，快</li>
 <li>立即数寻址<br>立即数-操作数在指令代码中，只能是源操作数</li>
 <li>存储器寻址<br>CPU需要访问内存，此时的指令中要给出操作数的<strong>内存地址</strong><ol>
-<li>直接寻址<br>使用位移量EA，<strong>变量名称实质上是符号位移量</strong><br><code>[偏移的字节]</code> <code>变量名</code></li>
+<li>直接寻址<br>使用位移量EA，<strong>变量名称实质上是符号位移量</strong><br><code>[偏移的字节]</code> 、<code>[变量名]</code></li>
 <li>寄存器间接寻址<br>EA直接由地址指针寄存器：SI, DI, BX, BP中获得<br><code>[寄存器]</code></li>
 <li>基址寻址&amp;变址寻址<br>偏移量=地址指针寄存器（4个中的1个）中的内容+指令中的位移量<br>基址-BX/BP， 变址-SI/DI</li>
 <li>基址变址寻址<br>偏移量=基址指针寄存器+变址寄存器+指令中的位移量</li>
@@ -398,6 +398,12 @@
                 <div class="post-prevnext">
                   <article class="post-prev col-6">
                     
+                    
+                      <a href="/2022/05/10/%E6%95%B0%E6%8D%AE%E5%BA%93chp9-%E6%95%B0%E6%8D%AE%E5%AE%9A%E4%B9%89/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">数据库chp9-数据定义</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
                     
                   </article>
                   <article class="post-next col-6">

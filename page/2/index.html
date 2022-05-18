@@ -182,6 +182,213 @@
     <article class="col-12 col-md-12 mx-auto index-info">
       <h1 class="index-header">
         
+        <a href="/2022/04/22/%E6%95%B0%E6%8D%AE%E5%BA%93chp2-DB-ENV/" target="_self">
+          数据库chp2-DB-ENV
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/04/22/%E6%95%B0%E6%8D%AE%E5%BA%93chp2-DB-ENV/" target="_self">
+          
+          
+            
+          
+          本章主要讲了数据库系统的三层架构：内部层、概念层、外部层。
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-04-22 10:59" pubdate>
+              2022-04-22
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/university/">university</a>
+            
+              <a href="/categories/university/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/04/22/%E6%95%B0%E6%8D%AE%E5%BA%93chp1-%E6%A6%82%E5%BF%B5%E7%AF%87/" target="_self">
+          数据库chp1-概念篇
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/04/22/%E6%95%B0%E6%8D%AE%E5%BA%93chp1-%E6%A6%82%E5%BF%B5%E7%AF%87/" target="_self">
+          
+          
+            
+          
+          参考书：《数据库系统设计、实现与管理》（基础篇）（黑皮书）
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-04-22 10:17" pubdate>
+              2022-04-22
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/university/">university</a>
+            
+              <a href="/categories/university/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/04/20/%E8%AE%A1%E7%BB%84chp6-%E5%AD%98%E5%82%A8%E5%99%A8/" target="_self">
+          计组chp6-存储器
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/04/20/%E8%AE%A1%E7%BB%84chp6-%E5%AD%98%E5%82%A8%E5%99%A8/" target="_self">
+          
+          
+            
+          
+          一个小的点：Memory时而翻译为内存时而翻译为存储器。。
+6.2Memory Type按存取方式随机访问
+RAM：random access
+DRAM: dynamic
+电容器capacitor，需要频繁刷新
+cheaper
+
+
+SRAM: static
+D触发器flip-flop
+faster，用于构建cache
+
+
+
+
+ROM: read-only
+
+串行访问
+顺序存取存储器
+直接存取存储器
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-04-20 16:11" pubdate>
+              2022-04-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/university/">university</a>
+            
+              <a href="/categories/university/%E8%AE%A1%E7%BB%84/">计组</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
+        <a href="/2022/04/20/%E8%AE%A1%E7%BB%84chp5-%E6%8C%87%E4%BB%A4%E9%9B%86%E6%9E%B6%E6%9E%84/" target="_self">
+          计组chp5-指令集架构
+        </a>
+      </h1>
+
+      <p class="index-excerpt">
+        <a href="/2022/04/20/%E8%AE%A1%E7%BB%84chp5-%E6%8C%87%E4%BB%A4%E9%9B%86%E6%9E%B6%E6%9E%84/" target="_self">
+          
+          
+            
+          
+          5.2指令格式大端小端
+大端big endian存储：低地址存高字节，可在低地址处判断正负
+小端：16位转32位不需要变化
+
+eg.使用32bit，存储value: 0xABCD1234, 0x00FE4321, 0x10，从地址0x200开始：
+
+注意上图中0x10的存储，不足32bit补零。此时可明显看出若采用16位存储，大端方式需要变化而小端不用。
+架构
+堆栈架构stack：指令和操作数从堆
+        </a>
+      </p>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2022-04-20 16:11" pubdate>
+              2022-04-20
+            </time>
+          </div>
+        
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-category"></i>
+            
+              <a href="/categories/university/">university</a>
+            
+              <a href="/categories/university/%E8%AE%A1%E7%BB%84/">计组</a>
+            
+          </div>
+        
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <article class="col-12 col-md-12 mx-auto index-info">
+      <h1 class="index-header">
+        
         <a href="/2022/04/20/%E8%AE%A1%E7%BB%84chp4-MARIE/" target="_self">
           计组chp4-MARIE
         </a>
@@ -475,198 +682,6 @@ decimal-10，ternary-3，hexadecimal-16
               <a href="/categories/university/">university</a>
             
               <a href="/categories/university/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/04/19/SQL%E8%AF%AD%E5%8F%A5/" target="_self">
-          SQL语句
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/04/19/SQL%E8%AF%AD%E5%8F%A5/" target="_self">
-          
-          
-            
-          
-          
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-04-19 14:09" pubdate>
-              2022-04-19
-            </time>
-          </div>
-        
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2022/02/21/VMware%E5%AE%89%E8%A3%85mac/" target="_self">
-          VMware安装mac
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2022/02/21/VMware%E5%AE%89%E8%A3%85mac/" target="_self">
-          
-          
-            
-          
-          ！在参考前一定要注意所有的版本问题。
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2022-02-21 16:16" pubdate>
-              2022-02-21
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/environment/">environment</a>
-            
-          </div>
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">踩坑记录</a>
-            
-              <a href="/tags/vmware/">vmware</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/12/21/%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0/" target="_self">
-          算法实现
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/12/21/%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0/" target="_self">
-          
-          
-            
-          
-          线性表顺序表存储123456#define  MAXSIZE 100     //最大长度typedef  struct &#123; 	ElemType  *elem;      //指向数据元素的基地址  	int  length;                 //线性表的当前长度                         &#125;SqList；
-
-
-
-初始化1234567Sta
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-12-21 00:04" pubdate>
-              2021-12-21
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/university/">university</a>
-            
-              <a href="/categories/university/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
-            
-          </div>
-        
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <article class="col-12 col-md-12 mx-auto index-info">
-      <h1 class="index-header">
-        
-        <a href="/2021/12/21/%E6%9F%A5%E6%89%BE%E6%8E%92%E5%BA%8F/" target="_self">
-          查找排序
-        </a>
-      </h1>
-
-      <p class="index-excerpt">
-        <a href="/2021/12/21/%E6%9F%A5%E6%89%BE%E6%8E%92%E5%BA%8F/" target="_self">
-          
-          
-            
-          
-          查找
-熟练掌握顺序表和有序表（折半查找）的查找算法及其性能分析方法；
-熟练掌握二叉排序树的构造和查找算法及其性能分析方法；
-掌握二叉排序树的插入算法，掌握二叉排序树的删除方法；
-熟练掌握哈希函数（除留余数法）的构造；
-熟练掌握哈希函数解决冲突的方法及其特点
-
-查找中的概念
-查找表：由同一类型的数据元素（或记录）构成的集合
-静态查找表：查找的同时对查找表不做修改操作（如插入和删除）
-动态查找表：查找
-        </a>
-      </p>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2021-12-21 00:04" pubdate>
-              2021-12-21
-            </time>
-          </div>
-        
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-category"></i>
-            
-              <a href="/categories/programming/">programming</a>
-            
-              <a href="/categories/programming/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
             
           </div>
         

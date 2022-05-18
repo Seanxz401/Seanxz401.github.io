@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      810 字
+      970 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      8
+      10
        分钟
     </span>
   
@@ -312,6 +312,11 @@
 <li>H是命中率=命中次数/总访问次数</li>
 <li>$Access_c$是缓存访问时间</li>
 <li>$Access_{MM}$是主存访问时间</li>
+<li>访问重叠即同时访问高速缓存和主存<ul>
+<li>访问重叠：$Access_{MM}$是主存访问时间</li>
+<li>访问不重叠：$Access_{MM}$是主存访问时间+缓存访问时间</li>
+</ul>
+</li>
 </ul>
 <h2 id="写策略"><a href="#写策略" class="headerlink" title="写策略"></a>写策略</h2><p>脏块：在缓存中已被更新的块，必须写回内存</p>
 <ul>
@@ -349,7 +354,16 @@
 </ul>
 </li>
 </ul>
-<h2 id="段页式"><a href="#段页式" class="headerlink" title="段页式"></a>段页式</h2>
+<h2 id="段页式"><a href="#段页式" class="headerlink" title="段页式"></a>段页式</h2><p>页式：页表查询较慢，但由于规范的映射，获取数据较快</p>
+<p>段式：相反</p>
+<p>段页式：结合paging and segmentation，每一段中存放一个页表</p>
+<h1 id="作业"><a href="#作业" class="headerlink" title="作业"></a>作业</h1><h2 id="1-直接映射"><a href="#1-直接映射" class="headerlink" title="1.直接映射"></a>1.直接映射</h2><p>分块</p>
+<p>地址表示</p>
+<h2 id="11-缓存命中"><a href="#11-缓存命中" class="headerlink" title="11.缓存命中"></a>11.缓存命中</h2><p>the hit ratio=命中/总的访问</p>
+<p>替换：根据tag字段放入对应的block</p>
+<h2 id="20-分页式"><a href="#20-分页式" class="headerlink" title="20.分页式"></a>20.分页式</h2><p>确定地址位：页号+偏移量</p>
+<p>地址转换：页表for页号，偏移量不变</p>
+
             </div>
             <hr>
             <div>

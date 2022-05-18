@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      947 字
+      994 字
     </span>
   
 
@@ -245,13 +245,17 @@
 <li>interval：一段时间</li>
 <li>integer</li>
 </ul>
-<h3 id="insert"><a href="#insert" class="headerlink" title="insert"></a>insert</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> TABNAME <span class="hljs-keyword">values</span>()<br></code></pre></td></tr></table></figure>
+<h3 id="insert"><a href="#insert" class="headerlink" title="insert"></a>insert</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> TABNAME <span class="hljs-keyword">values</span>()	#<span class="hljs-keyword">insert</span> 所有列<br><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> TAB(COL1, COL2...) <span class="hljs-keyword">values</span>(VAL1, VAL2...)	#<span class="hljs-keyword">insert</span>必须要有的数据<br></code></pre></td></tr></table></figure>
 
 <ul>
 <li>非数值型数据必须用<strong>单引号</strong>引起来</li>
 <li>数值型一定不能用引号</li>
 </ul>
-<h3 id="update"><a href="#update" class="headerlink" title="update"></a>update</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">update TABNAME <span class="hljs-keyword">set</span> COL1<span class="hljs-operator">=</span><span class="hljs-string">&#x27;STR&#x27;</span> <span class="hljs-keyword">where</span> COL2<span class="hljs-operator">=</span><span class="hljs-string">&#x27;STR&#x27;</span><br></code></pre></td></tr></table></figure>
+<h3 id="delete"><a href="#delete" class="headerlink" title="delete"></a>delete</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">delete</span> <span class="hljs-keyword">from</span> TAB	#<span class="hljs-keyword">delete</span>这个表中所有数据，但是表本身还在<br><span class="hljs-keyword">delete</span> <span class="hljs-keyword">from</span> TAB [where...]<br></code></pre></td></tr></table></figure>
+
+
+
+<h3 id="update"><a href="#update" class="headerlink" title="update"></a>update</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">update TABNAME <span class="hljs-keyword">set</span> COL1<span class="hljs-operator">=</span><span class="hljs-string">&#x27;STR&#x27;</span> [<span class="hljs-keyword">where</span> COL2<span class="hljs-operator">=</span><span class="hljs-string">&#x27;STR&#x27;</span>]<br></code></pre></td></tr></table></figure>
 
 <ul>
 <li>如果不加where判断条件，则将COL1所有项的值都修改</li>
@@ -356,9 +360,9 @@
 <li>corresponding:集合操作就在两表共同的列上执⾏</li>
 <li>corresponding by COL:集合操作在给定的列上执⾏</li>
 </ul>
-<h3 id="intersect"><a href="#intersect" class="headerlink" title="intersect"></a>intersect</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">(select...) <span class="hljs-keyword">intersect</span> (select...)<br></code></pre></td></tr></table></figure>
+<h3 id="intersect交"><a href="#intersect交" class="headerlink" title="intersect交"></a>intersect交</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql">(select...) <span class="hljs-keyword">intersect</span> (select...)<br></code></pre></td></tr></table></figure>
 
-<h3 id="union"><a href="#union" class="headerlink" title="union"></a>union</h3><h3 id="difference"><a href="#difference" class="headerlink" title="difference"></a>difference</h3>
+<h3 id="union并"><a href="#union并" class="headerlink" title="union并"></a>union并</h3><h3 id="difference差-except"><a href="#difference差-except" class="headerlink" title="difference差/except"></a>difference差/except</h3>
             </div>
             <hr>
             <div>
