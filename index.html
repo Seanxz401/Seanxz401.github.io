@@ -1,58 +1,91 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+<html lang="zh-CN" data-default-color-scheme=auto>
 
 
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
-  <link rel="icon" href="/img/Sean.png">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="热爱可抵岁月漫长">
   <meta name="author" content="Sean">
   <meta name="keywords" content="">
   
+    <meta name="description" content="热爱可抵岁月漫长">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sean&#39;s Blog">
+<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="热爱可抵岁月漫长">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Sean">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
   <title>Sean&#39;s Blog</title>
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
 
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
 <link  rel="stylesheet" href="/css/main.css" />
 
-<!-- 自定义样式保持在最底部 -->
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
 
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"|","loop":true},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
+
+  
 <meta name="generator" content="Hexo 5.4.0"></head>
 
 
 <body>
-  <header style="height: 100vh;">
-    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand"
-       href="/">&nbsp;<strong>Sean's Blog</strong>&nbsp;</a>
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
@@ -126,13 +159,15 @@
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;</a>
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
           </li>
+          
         
         
           <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self">&nbsp;<i
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
                 class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
@@ -141,34 +176,40 @@
   </div>
 </nav>
 
-    <div class="banner" id="banner" parallax=true
-         style="background: url('/img/banner.jpg') no-repeat center center;
-           background-size: cover;">
-      <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="热爱可抵岁月漫长">
-              
-            </span>
+  
 
-            
-          </div>
-
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
           
-            <div class="scroll-down-bar">
-              <i class="iconfont icon-arrowdown"></i>
-            </div>
+            <span id="subtitle" data-typed-text="An elegant Material-Design theme for Hexo"></span>
           
         </div>
+
+        
       </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
     </div>
+  </div>
+</div>
+
+</div>
+
   </header>
 
   <main>
     
       <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          style=margin-top:0>
+        <div id="board"
+          style="margin-top: 0">
           
           <div class="container">
             <div class="row">
@@ -187,15 +228,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/06/07/tinywebserver-%E5%AE%9E%E6%88%98/" target="_self">
-          
-          
-            
-          
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/06/07/tinywebserver-%E5%AE%9E%E6%88%98/" target="_self">
+        <div>
           关于tinywebserver实践方面：压测&amp;文件上传
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -207,11 +245,25 @@
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%AE%9E%E8%B7%B5/">实践</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AE%9E%E8%B7%B5/" class="category-chain-item">实践</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
@@ -230,15 +282,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/06/07/tinywebserver-%E4%BB%A3%E7%A0%81%E8%AF%A6%E8%A7%A3/" target="_self">
-          
-          
-            
-          
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/06/07/tinywebserver-%E4%BB%A3%E7%A0%81%E8%AF%A6%E8%A7%A3/" target="_self">
+        <div>
           对tinywebserver总逻辑和各个模块的详细解释。
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -250,11 +299,25 @@
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/%E5%AE%9E%E8%B7%B5/">实践</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AE%9E%E8%B7%B5/" class="category-chain-item">实践</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
@@ -273,15 +336,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/05/30/%E8%AE%A1%E7%BD%91chp3-%E4%BC%A0%E8%BE%93%E5%B1%82/" target="_self">
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/05/30/%E8%AE%A1%E7%BD%91chp3-%E4%BC%A0%E8%BE%93%E5%B1%82/" target="_self">
+        <div>
           
-          
-            
-          
-          
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -309,22 +369,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/05/30/%E8%AE%A1%E7%BD%91chp45-%E7%BD%91%E7%BB%9C%E5%B1%82/" target="_self">
-          
-          
-            
-          
-          IPv4 VS IPv6
-虚电路VS数据报网络
-最长前缀匹配
-路由选择协议
-ICMP
-DHCP
-NAT
-
-        </a>
-      </p>
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/05/30/%E8%AE%A1%E7%BD%91chp45-%E7%BD%91%E7%BB%9C%E5%B1%82/" target="_self">
+        <div>
+          IPv4 VS IPv6 虚电路VS数据报网络 最长前缀匹配 路由选择协议 ICMP DHCP NAT
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -336,13 +386,32 @@ NAT
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/university/">university</a>
-            
-              <a href="/categories/university/%E8%AE%A1%E7%BD%91/">计网</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/university/" class="category-chain-item">university</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/university/%E8%AE%A1%E7%BD%91/" class="category-chain-item">计网</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
@@ -361,15 +430,12 @@ NAT
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/05/27/%E9%98%BF%E9%87%8CECS/" target="_self">
-          
-          
-            
-          
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/05/27/%E9%98%BF%E9%87%8CECS/" target="_self">
+        <div>
           从阿里云高校计划免费获取云服务器ECS
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -397,15 +463,12 @@ NAT
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/05/26/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%A4%8D%E4%B9%A0/" target="_self">
-          
-          
-            
-          
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/05/26/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%A4%8D%E4%B9%A0/" target="_self">
+        <div>
           《应用密码学》
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -417,13 +480,32 @@ NAT
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/university/">university</a>
-            
-              <a href="/categories/university/%E5%AF%86%E7%A0%81%E5%AD%A6/">密码学</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/university/" class="category-chain-item">university</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/university/%E5%AF%86%E7%A0%81%E5%AD%A6/" class="category-chain-item">密码学</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
@@ -442,18 +524,12 @@ NAT
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/05/18/tinywebserver%E5%AE%9E%E8%B7%B5/" target="_self">
-          
-          
-            
-          
-          TinyWebServer是什么简介：https://developer.mozilla.org/zh-CN/docs/Learn/Common_questions/What_is_a_web_server
-
-关于我的疑问，目前的想法是一个webserver必须有applicationserver才能完整，一部分？application用于验证webserver能否完成预定功能。
-TinyWebS
-        </a>
-      </p>
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/05/18/tinywebserver%E5%AE%9E%E8%B7%B5/" target="_self">
+        <div>
+          TinyWebServer是什么简介：https:&#x2F;&#x2F;developer.mozilla.org&#x2F;zh-CN&#x2F;docs&#x2F;Learn&#x2F;Common_questions&#x2F;What_is_a_web_server  关于我的疑问，目前的想法是一个webserver必须有applicationserver才能完整，一部分？application用于验证webserver能否完成预定功能。 TinyWebS
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -481,15 +557,12 @@ TinyWebS
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/05/12/express%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/" target="_self">
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/05/12/express%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/" target="_self">
+        <div>
           
-          
-            
-          
-          
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -517,15 +590,12 @@ TinyWebS
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/05/10/%E6%95%B0%E6%8D%AE%E5%BA%93chp11-%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" target="_self">
-          
-          
-            
-          
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/05/10/%E6%95%B0%E6%8D%AE%E5%BA%93chp11-%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" target="_self">
+        <div>
           hhhhhh
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -537,13 +607,32 @@ TinyWebS
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/university/">university</a>
-            
-              <a href="/categories/university/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/university/" class="category-chain-item">university</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/university/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-chain-item">数据库</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
@@ -562,15 +651,12 @@ TinyWebS
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/05/10/%E6%95%B0%E6%8D%AE%E5%BA%93chp9-%E6%95%B0%E6%8D%AE%E5%AE%9A%E4%B9%89/" target="_self">
-          
-          
-            
-          
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/05/10/%E6%95%B0%E6%8D%AE%E5%BA%93chp9-%E6%95%B0%E6%8D%AE%E5%AE%9A%E4%B9%89/" target="_self">
+        <div>
           DDL：data definition language,这个章节放在了在前面，但实际上先学的chp10，因此在chp10也草草介绍了一下create。好多概念啊，也不知道重不重要
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -582,13 +668,32 @@ TinyWebS
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/university/">university</a>
-            
-              <a href="/categories/university/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/university/" class="category-chain-item">university</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/university/%E6%95%B0%E6%8D%AE%E5%BA%93/" class="category-chain-item">数据库</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
@@ -614,7 +719,7 @@ TinyWebS
     
 
     
-      <a id="scroll-top-button" href="#" role="button">
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
     
@@ -633,35 +738,37 @@ TinyWebS
       <div class="modal-body mx-3">
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>
     </div>
   </div>
 </div>
+
     
 
     
   </main>
 
-  <footer class="text-center mt-5 py-3">
-  <div class="footer-content">
-     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
-  </div>
+  <footer>
+    <div class="footer-inner">
   
-
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
   
-
   
-</footer>
-
-
-  <!-- SCRIPTS -->
   
-  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":100})
@@ -672,48 +779,23 @@ TinyWebS
   </script>
 
 
-<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
-<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
-<!-- Plugins -->
 
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
-
-
-
-  
-
-
-
-
-
-
-
-
-
-  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
-
-
-
-  <script  src="/js/local-search.js" ></script>
-
-
-
-
-
-
-  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
   <script>
     (function (window, document) {
       var typing = Fluid.plugins.typing;
-      var title = document.getElementById('subtitle').title;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
       
-      typing(title)
+        typing(text);
       
     })(window, document);
   </script>
@@ -723,18 +805,28 @@ TinyWebS
 
 
 
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script  src="/js/local-search.js" ></script>
 
 
 
 
 
-
-
-
-
-<!-- 主题的启动项 保持在最底部 -->
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
 <script  src="/js/boot.js" ></script>
 
 
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
 </body>
 </html>

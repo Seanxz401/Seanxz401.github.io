@@ -1,58 +1,91 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+<html lang="zh-CN" data-default-color-scheme=auto>
 
 
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
-  <link rel="icon" href="/img/Sean.png">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="热爱可抵岁月漫长">
   <meta name="author" content="Sean">
   <meta name="keywords" content="">
   
+    <meta name="description" content="热爱可抵岁月漫长">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sean&#39;s Blog">
+<meta property="og:url" content="http://example.com/page/3/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="热爱可抵岁月漫长">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="Sean">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
   <title>Sean&#39;s Blog</title>
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
 
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
 <link  rel="stylesheet" href="/css/main.css" />
 
-<!-- 自定义样式保持在最底部 -->
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
 
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"|","loop":true},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
+
+  
 <meta name="generator" content="Hexo 5.4.0"></head>
 
 
 <body>
-  <header style="height: 100vh;">
-    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 100vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand"
-       href="/">&nbsp;<strong>Sean's Blog</strong>&nbsp;</a>
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
@@ -126,13 +159,15 @@
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;</a>
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
           </li>
+          
         
         
           <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self">&nbsp;<i
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
                 class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
@@ -141,34 +176,40 @@
   </div>
 </nav>
 
-    <div class="banner" id="banner" parallax=true
-         style="background: url('/img/banner.jpg') no-repeat center center;
-           background-size: cover;">
-      <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="热爱可抵岁月漫长">
-              
-            </span>
+  
 
-            
-          </div>
-
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
           
-            <div class="scroll-down-bar">
-              <i class="iconfont icon-arrowdown"></i>
-            </div>
+            <span id="subtitle" data-typed-text="An elegant Material-Design theme for Hexo"></span>
           
         </div>
+
+        
       </div>
+
+      
+        <div class="scroll-down-bar">
+          <i class="iconfont icon-arrowdown"></i>
+        </div>
+      
     </div>
+  </div>
+</div>
+
+</div>
+
   </header>
 
   <main>
     
       <div class="container nopadding-x-md">
-        <div class="py-5" id="board"
-          style=margin-top:0>
+        <div id="board"
+          style="margin-top: 0">
           
           <div class="container">
             <div class="row">
@@ -187,31 +228,12 @@
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/04/20/%E8%AE%A1%E7%BB%84chp4-MARIE/" target="_self">
-          
-          
-            
-          
-          4.2CPU作用
-取指fetch
-译码decode
-执行execute指令
-
-组成
-数据通路datapath
-ALU
-register寄存器/存储单元
-bus数据总线
-
-
-控制单元control unit
-
-寄存器寄存器中存放的数据易于CPU访问，可以使用 D 触发器来实现。
-ALU算术逻辑单元 (ALU) 按照控制单元的指示执行逻辑和算术运算。
-控制单元控制单元根据程序计数器寄存器和状态寄存器中
-        </a>
-      </p>
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/04/20/%E8%AE%A1%E7%BB%84chp4-MARIE/" target="_self">
+        <div>
+          4.2CPU作用 取指fetch 译码decode 执行execute指令  组成 数据通路datapath ALU register寄存器&#x2F;存储单元 bus数据总线   控制单元control unit  寄存器寄存器中存放的数据易于CPU访问，可以使用 D 触发器来实现。 ALU算术逻辑单元 (ALU) 按照控制单元的指示执行逻辑和算术运算。 控制单元控制单元根据程序计数器寄存器和状态寄存器中
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -223,13 +245,32 @@ ALU算术逻辑单元 (ALU) 按照控制单元的指示执行逻辑和算术运�
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/university/">university</a>
-            
-              <a href="/categories/university/%E8%AE%A1%E7%BB%84/">计组</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/university/" class="category-chain-item">university</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/university/%E8%AE%A1%E7%BB%84/" class="category-chain-item">计组</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
@@ -248,30 +289,12 @@ ALU算术逻辑单元 (ALU) 按照控制单元的指示执行逻辑和算术运�
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/04/20/%E8%AE%A1%E7%BB%84chp3-%E5%B8%83%E5%B0%94%E4%BB%A3%E6%95%B0%E4%B8%8E%E6%95%B0%E5%AD%97%E9%80%BB%E8%BE%91/" target="_self">
-          
-          
-            
-          
-          3.2布尔代数Boolean Algebra
-布尔表达式布尔运算符Boolean operators：
-
-NOT
-AND
-OR
-
-真值表truth table
-布尔表达式Boolean expressions=布尔变量+布尔运算符+0或1的输入
-布尔代数的基本定律
-结合律、分配律：
-德摩根定律DeMorgan’s Law:
-化简布尔表达式布尔恒等式
-3.3逻辑门AND、OR、NOT
-XOR异或
-N
-        </a>
-      </p>
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/04/20/%E8%AE%A1%E7%BB%84chp3-%E5%B8%83%E5%B0%94%E4%BB%A3%E6%95%B0%E4%B8%8E%E6%95%B0%E5%AD%97%E9%80%BB%E8%BE%91/" target="_self">
+        <div>
+          3.2布尔代数Boolean Algebra 布尔表达式布尔运算符Boolean operators：  NOT AND OR  真值表truth table 布尔表达式Boolean expressions&#x3D;布尔变量+布尔运算符+0或1的输入 布尔代数的基本定律 结合律、分配律： 德摩根定律DeMorgan’s Law: 化简布尔表达式布尔恒等式 3.3逻辑门AND、OR、NOT XOR异或 N
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -283,13 +306,32 @@ N
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/university/">university</a>
-            
-              <a href="/categories/university/%E8%AE%A1%E7%BB%84/">计组</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/university/" class="category-chain-item">university</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/university/%E8%AE%A1%E7%BB%84/" class="category-chain-item">计组</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
@@ -308,20 +350,12 @@ N
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/04/20/%E8%AE%A1%E7%BB%84chp2-%E6%95%B0%E6%8D%AE%E8%A1%A8%E7%A4%BA/" target="_self">
-          
-          
-            
-          
-          2.2按位计数系统Positional Numbering Systems
-base-2系统：以2为基数，按位存储数字表示2的幂次。
-基数base：某个数能以基数的幂次方相加来表示。base==radix
-2.3进制之间的转换radix conversation/converting between bases
-decimal-10，ternary-3，hexadecimal-16
-无符号整数的转
-        </a>
-      </p>
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/04/20/%E8%AE%A1%E7%BB%84chp2-%E6%95%B0%E6%8D%AE%E8%A1%A8%E7%A4%BA/" target="_self">
+        <div>
+          2.2按位计数系统Positional Numbering Systems base-2系统：以2为基数，按位存储数字表示2的幂次。 基数base：某个数能以基数的幂次方相加来表示。base&#x3D;&#x3D;radix 2.3进制之间的转换radix conversation&#x2F;converting between bases decimal-10，ternary-3，hexadecimal-16 无符号整数的转
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -333,13 +367,32 @@ decimal-10，ternary-3，hexadecimal-16
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/university/">university</a>
-            
-              <a href="/categories/university/%E8%AE%A1%E7%BB%84/">计组</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/university/" class="category-chain-item">university</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/university/%E8%AE%A1%E7%BB%84/" class="category-chain-item">计组</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
@@ -358,15 +411,12 @@ decimal-10，ternary-3，hexadecimal-16
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/04/20/%E8%AE%A1%E7%BB%84chp1-%E7%BB%AA%E8%AE%BA/" target="_self">
-          
-          
-            
-          
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/04/20/%E8%AE%A1%E7%BB%84chp1-%E7%BB%AA%E8%AE%BA/" target="_self">
+        <div>
           参考的书是《计算机组成与体系结构》第4版（黑皮书）（The Essentials of Computer Organization and Architecture）。注：目前仅记录考试需要用到的部分。
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -378,13 +428,32 @@ decimal-10，ternary-3，hexadecimal-16
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/university/">university</a>
-            
-              <a href="/categories/university/%E8%AE%A1%E7%BB%84/">计组</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/university/" class="category-chain-item">university</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/university/%E8%AE%A1%E7%BB%84/" class="category-chain-item">计组</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
@@ -403,16 +472,12 @@ decimal-10，ternary-3，hexadecimal-16
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/04/19/NachOS%E5%AE%9E%E9%AA%8C%E4%B9%8B%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8/" target="_self">
-          
-          
-            
-          
-          在Ubuntu20.04，Nachos4.1环境下，实现系统调用。还不理解系统调用，只知道实现了从c文件到头文件到汇编指令代码的一步步编写，最后成功实现函数作用。
-具体要求：模仿code/test/add.c，阅读并理解其实现过程，实现求乘法，除法、乘方三种系统调用。
-        </a>
-      </p>
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/04/19/NachOS%E5%AE%9E%E9%AA%8C%E4%B9%8B%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8/" target="_self">
+        <div>
+          在Ubuntu20.04，Nachos4.1环境下，实现系统调用。还不理解系统调用，只知道实现了从c文件到头文件到汇编指令代码的一步步编写，最后成功实现函数作用。 具体要求：模仿code&#x2F;test&#x2F;add.c，阅读并理解其实现过程，实现求乘法，除法、乘方三种系统调用。
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -424,13 +489,32 @@ decimal-10，ternary-3，hexadecimal-16
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/university/">university</a>
-            
-              <a href="/categories/university/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/university/" class="category-chain-item">university</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/university/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="category-chain-item">操作系统</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
@@ -449,15 +533,12 @@ decimal-10，ternary-3，hexadecimal-16
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/04/19/NachOS%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" target="_self">
-          
-          
-            
-          
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/04/19/NachOS%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" target="_self">
+        <div>
           本实验为在Ubuntu20.04搭建Nachos4.1环境
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -469,13 +550,32 @@ decimal-10，ternary-3，hexadecimal-16
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/university/">university</a>
-            
-              <a href="/categories/university/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/university/" class="category-chain-item">university</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/university/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" class="category-chain-item">操作系统</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
@@ -494,15 +594,12 @@ decimal-10，ternary-3，hexadecimal-16
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2022/02/21/VMware%E5%AE%89%E8%A3%85mac/" target="_self">
-          
-          
-            
-          
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2022/02/21/VMware%E5%AE%89%E8%A3%85mac/" target="_self">
+        <div>
           ！在参考前一定要注意所有的版本问题。
-        </a>
-      </p>
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -514,20 +611,34 @@ decimal-10，ternary-3，hexadecimal-16
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/environment/">environment</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/environment/" class="category-chain-item">environment</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">踩坑记录</a>
+              <a href="/tags/%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95/">#踩坑记录</a>
             
-              <a href="/tags/vmware/">vmware</a>
+              <a href="/tags/vmware/">#vmware</a>
             
           </div>
         
@@ -546,19 +657,12 @@ decimal-10，ternary-3，hexadecimal-16
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2021/12/21/%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0/" target="_self">
-          
-          
-            
-          
-          线性表顺序表存储123456#define  MAXSIZE 100     //最大长度typedef  struct &#123; 	ElemType  *elem;      //指向数据元素的基地址  	int  length;                 //线性表的当前长度                         &#125;SqList；
-
-
-
-初始化1234567Sta
-        </a>
-      </p>
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/12/21/%E7%AE%97%E6%B3%95%E5%AE%9E%E7%8E%B0/" target="_self">
+        <div>
+          线性表顺序表存储123456#define  MAXSIZE 100     &#x2F;&#x2F;最大长度typedef  struct &amp;#123; 	ElemType  *elem;      &#x2F;&#x2F;指向数据元素的基地址  	int  length;                 &#x2F;&#x2F;线性表的当前长度                         &amp;#125;SqList；    初始化1234567Sta
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -570,13 +674,32 @@ decimal-10，ternary-3，hexadecimal-16
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/university/">university</a>
-            
-              <a href="/categories/university/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/university/" class="category-chain-item">university</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/university/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" class="category-chain-item">数据结构与算法</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
@@ -595,25 +718,12 @@ decimal-10，ternary-3，hexadecimal-16
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2021/12/21/%E6%9F%A5%E6%89%BE%E6%8E%92%E5%BA%8F/" target="_self">
-          
-          
-            
-          
-          查找
-熟练掌握顺序表和有序表（折半查找）的查找算法及其性能分析方法；
-熟练掌握二叉排序树的构造和查找算法及其性能分析方法；
-掌握二叉排序树的插入算法，掌握二叉排序树的删除方法；
-熟练掌握哈希函数（除留余数法）的构造；
-熟练掌握哈希函数解决冲突的方法及其特点
-
-查找中的概念
-查找表：由同一类型的数据元素（或记录）构成的集合
-静态查找表：查找的同时对查找表不做修改操作（如插入和删除）
-动态查找表：查找
-        </a>
-      </p>
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/12/21/%E6%9F%A5%E6%89%BE%E6%8E%92%E5%BA%8F/" target="_self">
+        <div>
+          查找 熟练掌握顺序表和有序表（折半查找）的查找算法及其性能分析方法； 熟练掌握二叉排序树的构造和查找算法及其性能分析方法； 掌握二叉排序树的插入算法，掌握二叉排序树的删除方法； 熟练掌握哈希函数（除留余数法）的构造； 熟练掌握哈希函数解决冲突的方法及其特点  查找中的概念 查找表：由同一类型的数据元素（或记录）构成的集合 静态查找表：查找的同时对查找表不做修改操作（如插入和删除） 动态查找表：查找
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -625,13 +735,32 @@ decimal-10，ternary-3，hexadecimal-16
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/programming/">programming</a>
-            
-              <a href="/categories/programming/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/programming/" class="category-chain-item">programming</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/programming/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" class="category-chain-item">数据结构与算法</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
@@ -650,59 +779,12 @@ decimal-10，ternary-3，hexadecimal-16
         </a>
       </h1>
 
-      <p class="index-excerpt">
-        <a href="/2021/12/21/%E6%AF%94%E8%BE%83/" target="_self">
-          
-          
-            
-          
-          顺序表&amp;链表
-
-
-
-顺序表
-链表
-
-
-
-空间
-O(1)
-
-
-
-存取
-O(1)
-O(n)
-
-
-插入删除
-O(n)
-O(1)
-
-
-栈与递归
-空间：O(n)，与递归树的深度成正比
-
-时间：O(2^n)，与递归树的结点成正比
-
-执行次数：$$f(n)=2^0+2^1+…+2^{n-2}+2^{n-1}f(1)=2^n-1$$
-
-
-串匹配
-
-
-
-BF
-KMP
-
-
-
-比较次数
-(n-m)*m+m
-n
-
-        </a>
-      </p>
+      
+      <a class="index-excerpt index-excerpt__noimg" href="/2021/12/21/%E6%AF%94%E8%BE%83/" target="_self">
+        <div>
+          顺序表&amp;链表    顺序表 链表    空间 O(1)    存取 O(1) O(n)   插入删除 O(n) O(1)   栈与递归 空间：O(n)，与递归树的深度成正比  时间：O(2^n)，与递归树的结点成正比  执行次数：$$f(n)&#x3D;2^0+2^1+…+2^{n-2}+2^{n-1}f(1)&#x3D;2^n-1$$   串匹配    BF KMP    比较次数 (n-m)*m+m n
+        </div>
+      </a>
 
       <div class="index-btm post-metas">
         
@@ -714,13 +796,32 @@ n
           </div>
         
         
-          <div class="post-meta mr-3">
+          <div class="post-meta mr-3 d-flex align-items-center">
             <i class="iconfont icon-category"></i>
             
-              <a href="/categories/university/">university</a>
-            
-              <a href="/categories/university/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/">数据结构与算法</a>
-            
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/university/" class="category-chain-item">university</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/university/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" class="category-chain-item">数据结构与算法</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
           </div>
         
         
@@ -746,7 +847,7 @@ n
     
 
     
-      <a id="scroll-top-button" href="#" role="button">
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
     
@@ -765,35 +866,37 @@ n
       <div class="modal-body mx-3">
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>
     </div>
   </div>
 </div>
+
     
 
     
   </main>
 
-  <footer class="text-center mt-5 py-3">
-  <div class="footer-content">
-     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
-  </div>
+  <footer>
+    <div class="footer-inner">
   
-
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
   
-
   
-</footer>
-
-
-  <!-- SCRIPTS -->
   
-  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":100})
@@ -804,48 +907,23 @@ n
   </script>
 
 
-<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
-<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
-<!-- Plugins -->
 
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
-
-
-
-  
-
-
-
-
-
-
-
-
-
-  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
-
-
-
-  <script  src="/js/local-search.js" ></script>
-
-
-
-
-
-
-  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
   <script>
     (function (window, document) {
       var typing = Fluid.plugins.typing;
-      var title = document.getElementById('subtitle').title;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
       
-      typing(title)
+        typing(text);
       
     })(window, document);
   </script>
@@ -855,18 +933,28 @@ n
 
 
 
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  <script  src="/js/local-search.js" ></script>
 
 
 
 
 
-
-
-
-
-<!-- 主题的启动项 保持在最底部 -->
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
 <script  src="/js/boot.js" ></script>
 
 
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
 </body>
 </html>

@@ -1,74 +1,104 @@
 
 
 <!DOCTYPE html>
-<html lang="zh-CN" data-default-color-scheme=&#34;auto&#34;>
+<html lang="zh-CN" data-default-color-scheme=auto>
 
 
 
 <head>
   <meta charset="UTF-8">
-  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
-  <link rel="icon" href="/img/Sean.png">
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="对tinywebserver总逻辑和各个模块的详细解释。">
   <meta name="author" content="Sean">
   <meta name="keywords" content="">
   
+    <meta name="description" content="对tinywebserver总逻辑和各个模块的详细解释。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tinywebserver-代码详解">
+<meta property="og:url" content="http://example.com/2022/06/07/tinywebserver-%E4%BB%A3%E7%A0%81%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="对tinywebserver总逻辑和各个模块的详细解释。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://docimg4.docs.qq.com/image/d6QDN5Qn-18ZGAYUuHqhdQ.png?w=377&h=703">
+<meta property="og:image" content="https://docimg4.docs.qq.com/image/lO_61iEUDKJ0A8k4ZtKjVA.png?w=478&h=1127">
+<meta property="og:image" content="https://docimg6.docs.qq.com/image/D9J8gDW9X7bHghqKvFFILQ.png?w=1267&h=1449">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/fe9dd1df0fa84dd188fdfecd2e9ec041.jpg?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5pqX6Imy5YWJ,size_20,color_FFFFFF,t_70,g_se,x_16">
+<meta property="article:published_time" content="2022-06-07T00:41:03.000Z">
+<meta property="article:modified_time" content="2022-06-07T00:46:25.968Z">
+<meta property="article:author" content="Sean">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://docimg4.docs.qq.com/image/d6QDN5Qn-18ZGAYUuHqhdQ.png?w=377&h=703">
+  
+  
+  
   <title>tinywebserver-代码详解 - Sean&#39;s Blog</title>
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
 
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
-  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
 
-  
-    
-    
-      
-      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/github-gist.min.css" />
-    
-  
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
 
-  
-    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
-  
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
 
 
 
 <!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
 
 
 
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
 
 
 <link  rel="stylesheet" href="/css/main.css" />
 
-<!-- 自定义样式保持在最底部 -->
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
 
 
   <script id="fluid-configs">
     var Fluid = window.Fluid || {};
-    var CONFIG = {"hostname":"example.com","root":"/","version":"1.8.11","typing":{"enable":true,"typeSpeed":70,"cursorChar":"|","loop":true},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}},"search_path":"/local-search.xml"};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
   </script>
   <script  src="/js/utils.js" ></script>
   <script  src="/js/color-schema.js" ></script>
+
+  
 <meta name="generator" content="Hexo 5.4.0"></head>
 
 
 <body>
-  <header style="height: 70vh;">
-    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
-    <a class="navbar-brand"
-       href="/">&nbsp;<strong>Sean's Blog</strong>&nbsp;</a>
+    <a class="navbar-brand" href="/">
+      <strong>Fluid</strong>
+    </a>
 
     <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
@@ -142,13 +172,15 @@
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" target="_self" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;</a>
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
           </li>
+          
         
         
           <li class="nav-item" id="color-toggle-btn">
-            <a class="nav-link" target="_self">&nbsp;<i
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
                 class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
@@ -157,60 +189,69 @@
   </div>
 </nav>
 
-    <div class="banner" id="banner" parallax=true
-         style="background: url('/img/banner.jpg') no-repeat center center;
-           background-size: cover;">
-      <div class="full-bg-img">
-        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
-          <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="tinywebserver-代码详解">
-              
-            </span>
-
-            
-              <div class="mt-3">
-  
-  
-    <span class="post-meta">
-      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-06-07 08:41" pubdate>
-        2022年6月7日 早上
-      </time>
-    </span>
-  
-</div>
-
-<div class="mt-1">
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-chart"></i>
-      7.4k 字
-    </span>
   
 
-  
-    
-    <span class="post-meta mr-2">
-      <i class="iconfont icon-clock-fill"></i>
-      
-      
-      90
-       分钟
-    </span>
-  
-
-  
-  
-</div>
-
-            
-          </div>
-
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="tinywebserver-代码详解"></span>
           
         </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-06-07 08:41" pubdate>
+          2022年6月7日 早上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          20k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          171 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
       </div>
+
+      
     </div>
+  </div>
+</div>
+
+</div>
+
   </header>
 
   <main>
@@ -219,15 +260,20 @@
 
 <div class="container-fluid nopadding-x">
   <div class="row nomargin-x">
-    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
     <div class="col-lg-8 nopadding-x-md">
       <div class="container nopadding-x-md" id="board-ctn">
-        <div class="py-5" id="board">
+        <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
             <h1 style="display: none">tinywebserver-代码详解</h1>
             
             <div class="markdown-body">
+              
               <p>对tinywebserver总逻辑和各个模块的详细解释。</p>
 <span id="more"></span>
 
@@ -591,7 +637,7 @@
 <li><p>如果新的定时器超时时间小于当前头部结点，直接将当前定时器结点作为头部节点</p>
 </li>
 <li><p>```cc<br>if (timer-&gt;expire &lt; head-&gt;expire)<br>   {</p>
-<pre><code> timer-&gt;next = head;
+<pre><code class="hljs"> timer-&gt;next = head;
  head-&gt;prev = timer;
  head = timer;
  return;
@@ -609,12 +655,12 @@
 <li><p>当<strong>被调整的定时器在链表尾部</strong>或者<strong>定时器超时值仍小于下一定时器的超时值</strong>时，不调整</p>
 </li>
 <li><p>```cc<br>util_timer *tmp = timer-&gt;next;<br>if (!tmp || (timer-&gt;expire &lt; tmp-&gt;expire))<br>{</p>
-<pre><code> return;
+<pre><code class="hljs"> return;
 </code></pre>
 <p>}</p>
 <figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><br><span class="hljs-bullet">- </span>被调整定时器是链表头结点，将定时器取出，重新插入<br><br></code></pre></td></tr></table></figure>
 <p>if (timer == head)<br>{</p>
-<pre><code>head = head-&gt;next;
+<pre><code class="hljs">head = head-&gt;next;
 head-&gt;prev = NULL;
 timer-&gt;next = NULL;
 add_timer(timer, head);
@@ -622,14 +668,14 @@ add_timer(timer, head);
 <p>}</p>
 <figure class="highlight asciidoc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs asciidoc"><br><span class="hljs-bullet">- </span>被调整定时器在内部，将定时器取出，重新插入<br><br></code></pre></td></tr></table></figure>
 <p>else<br>{    </p>
-<pre><code>timer-&gt;prev-&gt;next = timer-&gt;next;
+<pre><code class="hljs">timer-&gt;prev-&gt;next = timer-&gt;next;
 timer-&gt;next-&gt;prev = timer-&gt;prev;
 add_timer(timer, timer-&gt;next);
 </code></pre>
 <p>}</p>
 <figure class="highlight haml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs haml"><br>-<span class="ruby"> **void sort_timer_lst::del_timer(util_timer \*timer)，删除定时器**</span><br><span class="ruby"></span><br>  -<span class="ruby"> 结点位置不同，指针的变化不同</span><br><span class="ruby"></span><br>    -<span class="ruby"> 链表中只有一个定时器，需要删除该定时器</span><br><span class="ruby"></span><br></code></pre></td></tr></table></figure>
 <p>  if ((timer == head) &amp;&amp; (timer == tail))<br>  {</p>
-<pre><code>  delete timer;
+<pre><code class="hljs">  delete timer;
   head = NULL;
   tail = NULL;
   return;
@@ -666,12 +712,12 @@ else if (strncasecmp(text, “Connection:”, 11) == 0)<br>{<br>text += 11;<br>/
 <p>if (m_read_idx &gt;= (m_content_length + m_checked_idx))<br>{<br>    text[m_content_length] = ‘\0’;<br>    //POST请求中最后为输入的用户名和密码<br>    m_string = text;<br>    return GET_REQUEST;<br>}<br>return NO_REQUEST;判断是否读取了消息体</p>
 <figure class="highlight clean"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br></pre></td><td class="code"><pre><code class="hljs clean"><br><br><br>##### **http_conn::HTTP_CODE http_conn::process_read()**<br><br>process_read返回值是对请求文件的分析结果，一部分是语法错误的BAD_REQUEST，一部分则是我们认可的规则然后作出的对应的响应<br><br>主状态机初始状态是CHECK_STATE_REQUESTLINE，通过调用从状态机来驱动主状态机<br><br>从状态机以及将每一行的末尾\r\n符号改为\<span class="hljs-number">0</span>\<span class="hljs-number">0</span>，主状态机直接去除对应字符串进行处理<br><br>LINE_STATUS line_status = LINE_OK;<br><br>HTTP_CODE ret = NO_REQUEST;<br><br>char *text = <span class="hljs-number">0</span>;初始化从状态机的状态<br><br>ret = parse_request_line(text);<br><br>ret = parse_headers(text)<br><br>ret = parse_content(text);三种状态转换逻辑，分别解析请求行，解析请求头，解析消息体<br><br>else <span class="hljs-keyword">if</span> (ret == GET_REQUEST)<br><br>​       &#123;<br><br>​         return do_request();<br><br>​       &#125;如果是get请求则需要跳转到报文响应函数<br><br>如果是post请求，跳转到报文响应函数，更新并跳出循环，维持line_open的状态<br><br>##### **http_conn::HTTP_CODE http_conn::do_request()**<br><br>strcpy(m_real_file, doc_root);<br><br>int len = strlen(doc_root);将初始化的m_real_file赋值为网站根目录<br><br>const char *p = strrchr(m_url, <span class="hljs-string">&#x27;/&#x27;</span>);找到m_url中/的位置<br><br>##### **void http_conn::unmap()**<br><br>##### **bool http_conn::write()**<br><br>​                 ![img](https:<span class="hljs-comment">//docimg4.docs.qq.com/image/F1wM4YgOsLk5Bs0MASW3vQ.png?w=1261&amp;h=829)        </span><br><br>##### **bool http_conn::process_write(HTTP_CODE ret)**<br><br>##### **void http_conn::process()**<br><br><span class="hljs-keyword">if</span> (read_ret == NO_REQUEST)<br><br>   &#123;<br><br>​     <span class="hljs-comment">//注册并监听读事件</span><br><br>​     modfd(m_epollfd, m_sockfd, EPOLLIN, m_TRIGMode);<br><br>​     return;<br><br>   &#125;NO_REQUEST，表示请求不完整，需要继续接收请求数据<br><br>bool write_ret = process_write(read_ret);<br><br>   <span class="hljs-keyword">if</span> (!write_ret)<br><br>   &#123;<br><br>​     close_conn();<br><br>   &#125;<br><br>如果接受到了数据则调用process_write完成报文响应<br><br>modfd(m_epollfd, m_sockfd, EPOLLOUT, m_TRIGMode);<br><br>注册并监听事件<br><br># threadpool<br><br>## 整体框架<br><br>​                 ![img](https:<span class="hljs-comment">//docimg4.docs.qq.com/image/x7mZnDY4r5Xrtu0LzAP2dg.png?w=491&amp;h=747)        </span><br><br>## 变量<br><br>- m_thread_number  线程池中线程的数量<br>- m_max_requests  请求队列中最多允许的、等待处理的请求的数量<br><br>- m_threads 描述线程池的数组，其大小为m_thread_number<br><br>m_threads = new pthread_t[m_thread_number];<br><br>- sem m_queuestat; 是否有任务需要处理<br>- locker m_queuelocker；  保护请求队列的互斥锁<br>- std::list&lt;T *&gt; m_workqueue  请求队列<br>- connection_pool *m_connPool  数据库<br>- m_actor_model  模型切换<br><br>## 函数<br><br>- threadpool（）线程池构造函数<br><br>- - 循环创建线程<br><br>pthread_create(m_threads + i, NULL, worker, this) != <span class="hljs-number">0</span><br><br>​       创建成功应该返回<span class="hljs-number">0</span>，如果线程池在线程创建阶段就失败，那就应该关闭线程池了<br><br>- - 更改线程属性为unjoinable，分离线程<br><br>  - - pthread_detach(m_threads[i]);<br><br>创建一个线程之后需要调用pthread_detech(),原因在于： linux线程有两种状态**joinable状态和unjoinable状态。**<br><br>- - - 当线程为joinable状态，线程函数退出**都不会释放线程所占用堆栈和线程描述符**。只有当调用了pthread_join，**主线程阻塞等待子线程结束**，才会回收子线程资源。<br>    - unjoinable属性可以在pthread_create时指定，或在线程创建后在线程中pthread_detach，**主线程与子线程分离**，**子线程结束后，资源自动回收**<br><br><br><br>- append_p(）Proactor模式下的任务请求入队<br><br>- - 当epoll检测到端口有事件激活时，即将该事件放入请求队列中，并注意互斥，等待工作线程处理 <br><br>  - 本项目所实现的是一个基于半同步/半反应堆式的并发结构，以Proactor模式为例的工作流程<br><br>  - 主线程充当异步线程，负责监听所有socket上的事件<br><br>  - - 若有新请求到来，主线程接收之以得到新的连接socket，然后往epoll内核事件表中注册该socket上的读写事件<br>    - 如果连接socket上有读写事件发生，主线程从socket上接收数据，并将数据封装成请求对象插入到请求队列中<br>    - 所有**工作线程睡眠在请求队列上**，当有任务到来时，通过竞争（如互斥锁）获得任务的接管权<br><br>​                 ![img](https:<span class="hljs-comment">//docimg3.docs.qq.com/image/EoV7MwhIAGlLh9KKOhCTyw.png?w=899&amp;h=502)        </span><br><br><br><br>- worker(）线程回调函数<br><br>- - template &lt;typename T&gt;<br><br> <br><br></code></pre></td></tr></table></figure>
 <p>  void *threadpool<T>::worker(void *arg)</p>
-<pre><code>       &#123;
+<pre><code class="hljs">       &#123;
 
     //调用时 *arg是this！
 </code></pre>
 <p>//将参数强转为线程池类，调用成员方法，获取threadpool对象地址</p>
-<pre><code>    threadpool *pool = (threadpool *)arg;
+<pre><code class="hljs">    threadpool *pool = (threadpool *)arg;
 
    //线程池中每一个线程创建时都会调用run()，睡眠在队列中
 
@@ -680,7 +726,7 @@ else if (strncasecmp(text, “Connection:”, 11) == 0)<br>{<br>text += 11;<br>/
    return pool;
 </code></pre>
 <p>}</p>
-<pre><code>
+<pre><code class="hljs">
 
 
 - run（）
@@ -707,33 +753,86 @@ else if (strncasecmp(text, “Connection:”, 11) == 0)<br>{<br>text += 11;<br>/
 - cond  简单的条件变量类，包含对条件变量的构造与析构和wait、timewait、signal、broadcast的设置
 </code></pre>
 
+              
             </div>
-            <hr>
+            <hr/>
             <div>
-              <div class="post-metas mb-3">
-                
-                  <div class="post-meta mr-3">
-                    <i class="iconfont icon-category"></i>
-                    
-                      <a class="hover-with-bg" href="/categories/%E5%AE%9E%E8%B7%B5/">实践</a>
-                    
-                  </div>
-                
-                
-              </div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/%E5%AE%9E%E8%B7%B5/" class="category-chain-item">实践</a>
+  
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
               
-                <p class="note note-warning">
-                  
-                    本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！
-                  
-                </p>
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>tinywebserver-代码详解</div>
+      <div>http://example.com/2022/06/07/tinywebserver-代码详解/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sean</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年6月7日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
               
-              
-                <div class="post-prevnext">
+                <div class="post-prevnext my-3">
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/06/07/tinywebserver-%E5%AE%9E%E6%88%98/">
+                      <a href="/2022/06/07/tinywebserver-%E5%AE%9E%E6%88%98/" title="tinywebserver-实战">
                         <i class="iconfont icon-arrowleft"></i>
                         <span class="hidden-mobile">tinywebserver-实战</span>
                         <span class="visible-mobile">上一篇</span>
@@ -743,7 +842,7 @@ else if (strncasecmp(text, “Connection:”, 11) == 0)<br>{<br>text += 11;<br>/
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/05/30/%E8%AE%A1%E7%BD%91chp3-%E4%BC%A0%E8%BE%93%E5%B1%82/">
+                      <a href="/2022/05/30/%E8%AE%A1%E7%BD%91chp3-%E4%BC%A0%E8%BE%93%E5%B1%82/" title="计网chp3-传输层">
                         <span class="hidden-mobile">计网chp3-传输层</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
@@ -759,25 +858,55 @@ else if (strncasecmp(text, “Connection:”, 11) == 0)<br>{<br>text += 11;<br>/
         </div>
       </div>
     </div>
-    
-      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
-        <div id="toc">
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
   <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
   <div class="toc-body" id="toc-body"></div>
 </div>
 
-      </div>
-    
+
+
+  </aside>
+
+
+    </div>
   </div>
 </div>
 
-<!-- Custom -->
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
 
 
     
 
     
-      <a id="scroll-top-button" href="#" role="button">
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
         <i class="iconfont icon-arrowup" aria-hidden="true"></i>
       </a>
     
@@ -796,35 +925,37 @@ else if (strncasecmp(text, “Connection:”, 11) == 0)<br>{<br>text += 11;<br>/
       <div class="modal-body mx-3">
         <div class="md-form mb-5">
           <input type="text" id="local-search-input" class="form-control validate">
-          <label data-error="x" data-success="v"
-                 for="local-search-input">关键词</label>
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
         </div>
         <div class="list-group" id="local-search-result"></div>
       </div>
     </div>
   </div>
 </div>
+
     
 
     
   </main>
 
-  <footer class="text-center mt-5 py-3">
-  <div class="footer-content">
-     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
-  </div>
+  <footer>
+    <div class="footer-inner">
   
-
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
   
-
   
-</footer>
-
-
-  <!-- SCRIPTS -->
   
-  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
-  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
 
   <script>
     NProgress.configure({"showSpinner":false,"trickleSpeed":100})
@@ -835,54 +966,23 @@ else if (strncasecmp(text, “Connection:”, 11) == 0)<br>{<br>text += 11;<br>/
   </script>
 
 
-<script  src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" ></script>
-<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" ></script>
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
 <script  src="/js/events.js" ></script>
 <script  src="/js/plugins.js" ></script>
 
-<!-- Plugins -->
 
-
-  
-    <script  src="/js/img-lazyload.js" ></script>
-  
-
-
-
-  
-
-
-
-  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.3/dist/tocbot.min.js" ></script>
-
-
-
-  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
-
-
-
-  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.1/anchor.min.js" ></script>
-
-
-
-  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js" ></script>
-
-
-
-  <script  src="/js/local-search.js" ></script>
-
-
-
-
-
-
-  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12/lib/typed.min.js" ></script>
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
   <script>
     (function (window, document) {
       var typing = Fluid.plugins.typing;
-      var title = document.getElementById('subtitle').title;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
       
-      typing(title)
+        typing(text);
       
     })(window, document);
   </script>
@@ -891,58 +991,160 @@ else if (strncasecmp(text, “Connection:”, 11) == 0)<br>{<br>text += 11;<br>/
 
 
 
-  
 
   
-    <!-- MathJax -->
-    <script>
-      MathJax = {
-        tex: {
-          inlineMath: [['$', '$'], ['\\(', '\\)']]
-        },
-        options: {
-          renderActions: {
-            findScript: [10, doc => {
-              document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
-                const display = !!node.type.match(/; *mode=display/);
-                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
-                const text = document.createTextNode('');
-                node.parentNode.replaceChild(text, node);
-                math.start = { node: text, delim: '', n: 0 };
-                math.end = { node: text, delim: '', n: 0 };
-                doc.math.push(math);
-              });
-            }, '', false],
-            insertedScript: [200, () => {
-              document.querySelectorAll('mjx-container').forEach(node => {
-                let target = node.parentNode;
-                if (target.nodeName.toLowerCase() === 'li') {
-                  target.parentNode.classList.add('has-jax');
-                }
-              });
-            }, '', false]
-          }
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
         }
-      };
-    </script>
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
 
-    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3.1.4/es5/tex-svg.js" ></script>
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
 
   
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
 
 
 
 
 
-
-
-
-
-
-
-<!-- 主题的启动项 保持在最底部 -->
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
 <script  src="/js/boot.js" ></script>
 
 
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
 </body>
 </html>
