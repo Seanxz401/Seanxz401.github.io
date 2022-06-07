@@ -14,11 +14,11 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
   <meta name="theme-color" content="#2f4154">
-  <meta name="description" content="热爱可抵岁月漫长">
+  <meta name="description" content="从阿里云高校计划免费获取云服务器ECS">
   <meta name="author" content="Sean">
   <meta name="keywords" content="">
   
-  <title>tinywebserver实践 - Sean&#39;s Blog</title>
+  <title>阿里ECS - Sean&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" />
 
@@ -163,7 +163,7 @@
       <div class="full-bg-img">
         <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
           <div class="page-header text-center fade-in-up">
-            <span class="h2" id="subtitle" title="tinywebserver实践">
+            <span class="h2" id="subtitle" title="阿里ECS">
               
             </span>
 
@@ -173,8 +173,8 @@
   
     <span class="post-meta">
       <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-      <time datetime="2022-05-18 16:32" pubdate>
-        2022年5月18日 下午
+      <time datetime="2022-05-27 21:13" pubdate>
+        2022年5月27日 晚上
       </time>
     </span>
   
@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      831 字
+      526 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      10
+      6
        分钟
     </span>
   
@@ -225,80 +225,61 @@
         <div class="py-5" id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">tinywebserver实践</h1>
+            <h1 style="display: none">阿里ECS</h1>
             
             <div class="markdown-body">
-              <h1 id="TinyWebServer"><a href="#TinyWebServer" class="headerlink" title="TinyWebServer"></a>TinyWebServer</h1><h2 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h2><p>简介：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Learn/Common_questions/What_is_a_web_server">https://developer.mozilla.org/zh-CN/docs/Learn/Common_questions/What_is_a_web_server</a></p>
-<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220506123837020.png" srcset="/img/loading.gif" lazyload alt="image-20220506123837020"></p>
-<p>关于我的疑问，目前的想法是一个webserver必须有applicationserver才能完整，一部分？application用于验证webserver能否完成预定功能。</p>
-<p>TinyWebServer项目地址：<a target="_blank" rel="noopener" href="https://github.com/qinguoyi/TinyWebServer">GitHub - qinguoyi/TinyWebServer: Linux下C++轻量级Web服务器</a></p>
-<p>详解代码：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/364044293">TinyWebServer——从0到服务器开发！ - 知乎 (zhihu.com)</a></p>
-<p>原项目是Ubuntu16.04，我用的是是20.04，考虑简洁版还是原生版</p>
-<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Linux下C++轻量级Web服务器，助力初学者快速实践网络编程，搭建属于自己的服务器.相关知识：《linux高性能服务器编程》，《unix网络编程》</p>
-<ul>
-<li>使用线程池 + 非阻塞socket + epoll(ET和LT均实现) + 事件处理(Reactor和模拟Proactor均实现) 的并发模型；</li>
-<li>使用状态机解析HTTP请求报文，支持解析GET和POST请求；</li>
-<li>访问服务器数据库实现web端用户注册、登录功能，可以请求服务器图片和视频文件；</li>
-<li>实现同步/异步日志系统（根据日志内容大小选择），记录服务器运行状态；</li>
-<li>经Webbench压力测试可以实现上万的并发连接数据交换；</li>
-</ul>
-<p><img src="https://camo.githubusercontent.com/8813be3bb9590eba2207d27b95404ec996891960b47ebb3a447b6c943c0b714d/687474703a2f2f7777312e73696e61696d672e636e2f6c617267652f303035544a3263376c79316765306a3161747135686a33306736306c6d3077342e6a7067" srcset="/img/loading.gif" lazyload alt="架构"></p>
-<h1 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h1><p>思考过可不可以直接连接宿主机上的MySQL，好像是可以，看着有点麻烦，没有尝试了.</p>
-<h2 id="install"><a href="#install" class="headerlink" title="install"></a>install</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">apt install mysql-server-5.7<br></code></pre></td></tr></table></figure>
+              <p>从阿里云高校计划免费获取云服务器ECS</p>
+<span id="more"></span>
 
-<ul>
-<li>“正在等待缓存锁：无法获得锁 /var/lib/dpkg/lock-frontend。锁正由进程 6968（unatten”<ul>
-<li>kill 6968</li>
-</ul>
+<h1 id="获取步骤"><a href="#获取步骤" class="headerlink" title="获取步骤"></a>获取步骤</h1><ol>
+<li>学生验证</li>
+<li>完成预备营训练<ol>
+<li>有一个命令行登录有问题，但是不影响完成实验，应该是创建资源然后结束实验就可以了![屏幕截图 2022-05-27 204521](<a target="_blank" rel="noopener" href="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/%E5%B1%8F%E5%B9%95%E6%88%AA%E5%9B%BE">http://hexo-git.oss-cn-beijing.aliyuncs.com/img/屏幕截图</a> 2022-05-27 204521.png)</li>
+<li>试题还是蛮简单的，也没有限制答题手段，10min够了。</li>
+</ol>
 </li>
-<li>安装过程中会弹出让你配置密码的操作</li>
-</ul>
-<h2 id="检查状态"><a href="#检查状态" class="headerlink" title="检查状态"></a>检查状态</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs shell">apt install net-tools<br>netstat -tap | grep mysql	#查看运行mysql的端口状态<br>mysql -V	#注意是大写V，小写有其他作用<br></code></pre></td></tr></table></figure>
-
-<p>查看运行状态</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">systemctl status mysql.service<br></code></pre></td></tr></table></figure>
-
-<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">mysql -uroot -p	<span class="hljs-comment">#回车后输入前面配置的密码，进入mysql</span><br>mysql&gt; show databases;	<span class="hljs-comment">#mysql语句注意分号结尾</span><br></code></pre></td></tr></table></figure>
-
-<h1 id="快速启动"><a href="#快速启动" class="headerlink" title="快速启动"></a>快速启动</h1><h2 id="数据库相关"><a href="#数据库相关" class="headerlink" title="数据库相关"></a>数据库相关</h2><p>创建数据库、user表、插入一条user数据（应该是用于测试</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">create</span> database webserver;<br>use webserver;<br><span class="hljs-keyword">create</span> <span class="hljs-keyword">table</span> <span class="hljs-keyword">user</span>(username <span class="hljs-type">char</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">NULL</span>,passwd <span class="hljs-type">char</span>(<span class="hljs-number">50</span>) <span class="hljs-keyword">NULL</span>)engine<span class="hljs-operator">=</span>InnoDB;<br><span class="hljs-keyword">insert</span> <span class="hljs-keyword">into</span> <span class="hljs-keyword">user</span>(username,passwd) <span class="hljs-keyword">values</span>(<span class="hljs-string">&#x27;name&#x27;</span>,<span class="hljs-string">&#x27;passwd&#x27;</span>);<br></code></pre></td></tr></table></figure>
-
-<p>修改main.cpp中的数据库初始化信息</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-comment">//数据库登录名,密码,库名</span><br>string user = <span class="hljs-string">&quot;root&quot;</span>;<br>string passwd = <span class="hljs-string">&quot;123456&quot;</span>;<br>string databasename = <span class="hljs-string">&quot;webserver&quot;</span>;<br></code></pre></td></tr></table></figure>
-
-<h2 id="编译运行"><a href="#编译运行" class="headerlink" title="编译运行"></a>编译运行</h2><p>切换到TinyWebServer-master目录下</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">sh ./build.sh<br></code></pre></td></tr></table></figure>
-
-<ul>
-<li><p>fatal error: mysql/mysql.h: 没有那个文件或目录 #include &lt;mysql/mysql.h&gt;</p>
-<ul>
-<li>```sh<br>apt-get install libmysqlclient-dev<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs autohotkey"><br>运行服务端<br><br>```sh<br>./server<br></code></pre></td></tr></table></figure></li>
-</ul>
+<li>领取2周<ol>
+<li>个人需要：Ubuntu20.04</li>
+<li>好像要求签署什么续费协议？没仔细看，后面再说。</li>
+</ol>
 </li>
-</ul>
-<p>在127.0.0.1:9006查看结果</p>
-<ul>
-<li>视频看不了，说是不支持该格式（火狐）<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220518122538369.png" srcset="/img/loading.gif" lazyload alt="image-20220518122538369"></li>
-</ul>
-<h2 id="再次启动报错"><a href="#再次启动报错" class="headerlink" title="再次启动报错"></a>再次启动报错</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cuiyong_xu/article/details/42556925%EF%BC%8C%E9%9D%9E%E6%AD%A3%E5%B8%B8%E9%80%80%E5%87%BA%E4%BA%A7%E7%94%9F%E9%97%AE%E9%A2%98%EF%BC%8C%E5%BC%BA%E8%A1%8C%E6%9D%80%E6%AD%BB%E5%8D%A0%E7%94%A8%E8%BF%9B%E7%A8%8B">https://blog.csdn.net/cuiyong_xu/article/details/42556925，非正常退出产生问题，强行杀死占用进程</a></p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">lsof -<span class="hljs-selector-tag">i</span><br></code></pre></td></tr></table></figure>
+</ol>
+<h1 id="VsCode远程连接"><a href="#VsCode远程连接" class="headerlink" title="VsCode远程连接"></a>VsCode远程连接</h1><p>我是之前已经在电脑上配置过ssh，略。</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/euphorias/article/details/104482389">使用VScode连接阿里云远程服务器_euphorias的博客-CSDN博客_vscode 阿里云</a></p>
+<ol>
+<li>Remote-SSH扩展</li>
+<li>新建远程连接,配置config，Hostname:公网IP，User:root</li>
+<li>开启远程连接</li>
+</ol>
+<p>报错denied，解决：</p>
+<ol>
+<li>打开ESC→实例<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220527213024527.png" srcset="/img/loading.gif" lazyload alt="image-20220527213024527" style="zoom:50%;" /></li>
+<li>添加ssh入站规则<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220527212928149.png" srcset="/img/loading.gif" lazyload alt="image-20220527212928149">配置规则→快速添加→添加ssh22端口</li>
+<li>返回实例界面，重置登录密码<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220527213200602.png" srcset="/img/loading.gif" lazyload alt="image-20220527213200602"></li>
+</ol>
+<h1 id="Nachos"><a href="#Nachos" class="headerlink" title="Nachos"></a>Nachos</h1><p>用docker配置nachos环境的一些错误尝试</p>
+<p>安装docker：</p>
+<p><a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/762674">如何在 Ubuntu 20.04 上安装和使用 Docker-阿里云开发者社区 (aliyun.com)</a></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sh">systemctl status docker<br>docker images<br>docker ps -a<br></code></pre></td></tr></table></figure>
 
-
-
-<h1 id="压测"><a href="#压测" class="headerlink" title="压测"></a>压测</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">gcc webbench.c -o webbench<br>./webbench -c 10001 -t 5 http://127.0.0.1:9006/<br></code></pre></td></tr></table></figure>
-
-<p>报错：problems forking worker no. 9754，fork failed.: Resource temporarily unavailable</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash"><span class="hljs-built_in">ulimit</span> -u	<span class="hljs-comment">#查看最大进程数</span><br></code></pre></td></tr></table></figure>
-
-<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/fightformylife/p/4140329.html">压力测试webbench（转） - 雄哼哼 - 博客园 (cnblogs.com)</a>？服务器挂了，-c设置小点儿，我的是好像有点不太行</p>
-<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220518122809423.png" srcset="/img/loading.gif" lazyload alt="image-20220518122809423"></p>
-<h1 id="计划"><a href="#计划" class="headerlink" title="计划"></a>计划</h1><ul>
-<li>阅读源码，整理项目架构，给出注释</li>
-<li>增加功能<ul>
-<li>文件上传和下载：该项目目前只实现了GET请求，没有真正的达到交互</li>
-<li>登录状态的保存：利用session或cookie</li>
-<li>大数据量情况下的用户登录验证：将所有用户信息加载到内存中耗时→hash建立多级索引</li>
-</ul>
+<p>Nachos4.1 需要镜像资源</p>
+<p>挂载数据卷后全是二进制，然后用docker扩展连接强制下载docker桌面应用，放弃vscode，研究vscode-server</p>
+<p>vscode-server：</p>
+<p>~ 表示代码主目录，也就是当前登录用户的用户目录。</p>
+<p>en除了学到了一些Linux的命令以外一无所获</p>
+<p>噢还乱下载了很多东西</p>
+<p>回归上传文件</p>
+<h2 id="实际实践"><a href="#实际实践" class="headerlink" title="实际实践"></a>实际实践</h2><h3 id="上传文件"><a href="#上传文件" class="headerlink" title="上传文件"></a>上传文件</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41108614/article/details/105908651">怎么在windows传文件到阿里云服务器_oncevan的博客-CSDN博客_上传文件到阿里云服务器</a>没试</p>
+<p>尝试了这个：<a target="_blank" rel="noopener" href="https://developer.aliyun.com/article/931919">使用ESC服务器配置code-server-阿里云开发者社区 (aliyun.com)</a>，sftp上传： <a target="_blank" rel="noopener" href="https://www.cxyzjd.com/article/weixin_47932709/108359979">https://www.cxyzjd.com/article/weixin_47932709/108359979</a></p>
+<h1 id="TinyWebServer"><a href="#TinyWebServer" class="headerlink" title="TinyWebServer"></a>TinyWebServer</h1><h2 id="mysql"><a href="#mysql" class="headerlink" title="mysql"></a>mysql</h2><ul>
+<li><pre><code>apt install mysql-server-5.7
+apt-get install libmysqlclient-dev
+<figure class="highlight 1c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs 1c"><br>- 创建相应的数据库<span class="hljs-meta">&amp;表，修改main.cc中的数据库配置</span><br><br><span class="hljs-meta">## 编译运行</span><br><br></code></pre></td></tr></table></figure>
+sh ./build.sh
+./server
+</code></pre>
+</li>
+<li><p>注意要将相应端口加入安全组</p>
 </li>
 </ul>
 
@@ -321,9 +302,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/05/26/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%A4%8D%E4%B9%A0/">
+                      <a href="/2022/05/30/%E8%AE%A1%E7%BD%91chp45-%E7%BD%91%E7%BB%9C%E5%B1%82/">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">密码学复习</span>
+                        <span class="hidden-mobile">计网chp45-网络层</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -331,8 +312,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/05/12/express%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/">
-                        <span class="hidden-mobile">express项目实践</span>
+                      <a href="/2022/05/26/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%A4%8D%E4%B9%A0/">
+                        <span class="hidden-mobile">密码学复习</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
