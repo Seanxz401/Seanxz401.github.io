@@ -24,7 +24,7 @@
 <meta property="og:description" content="《应用密码学》">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-05-26T05:51:29.000Z">
-<meta property="article:modified_time" content="2022-06-08T16:13:07.376Z">
+<meta property="article:modified_time" content="2022-06-10T13:36:32.516Z">
 <meta property="article:author" content="Sean">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -216,7 +216,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          859 字
+          1.4k 字
         
       </span>
     
@@ -227,7 +227,7 @@
         
         
         
-          8 分钟
+          13 分钟
         
       </span>
     
@@ -272,7 +272,7 @@
               <p>《应用密码学》</p>
 <span id="more"></span>
 
-<h2 id="乘法逆元"><a href="#乘法逆元" class="headerlink" title="乘法逆元"></a>乘法逆元</h2><p>扩展欧几里得-辗转相除法：最后一个不为0的余数就是最大公约数gcd</p>
+<h1 id="计算相关"><a href="#计算相关" class="headerlink" title="计算相关"></a>计算相关</h1><h2 id="乘法逆元"><a href="#乘法逆元" class="headerlink" title="乘法逆元"></a>乘法逆元</h2><p>扩展欧几里得-辗转相除法：最后一个不为0的余数就是最大公约数gcd</p>
 <p>原理：g(被除数, 除数)=g(除数, 余数)</p>
 <p>求解x,y：xn+ay=gcd(n,a)，当gcd(n,a)=1时，求乘法逆元</p>
 <h2 id="x乘法"><a href="#x乘法" class="headerlink" title="x乘法"></a>x乘法</h2><p>面向字节，即8位，$B(x)=b_7x^7+b_6x^6+…+b_0$</p>
@@ -307,7 +307,17 @@
 <p>签名+验证</p>
 <h2 id="平方剩余的判定"><a href="#平方剩余的判定" class="headerlink" title="平方剩余的判定"></a>平方剩余的判定</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/sxy201658506207/article/details/89336246">平方剩余(二次剩余)_小天位的博客-CSDN博客_平方剩余</a></p>
 <h2 id="椭圆曲线"><a href="#椭圆曲线" class="headerlink" title="椭圆曲线"></a>椭圆曲线</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/3b810faff3ba">密码学基础2：椭圆曲线密码学原理分析 - 简书 (jianshu.com)</a></p>
-<h3 id="加密-1"><a href="#加密-1" class="headerlink" title="加密"></a>加密</h3><h3 id="解密-1"><a href="#解密-1" class="headerlink" title="解密"></a>解密</h3><h3 id="ELELG"><a href="#ELELG" class="headerlink" title="ELELG"></a>ELELG</h3><h3 id="ECDSA"><a href="#ECDSA" class="headerlink" title="ECDSA"></a>ECDSA</h3><h2 id="Diffie-Hellman密钥协商"><a href="#Diffie-Hellman密钥协商" class="headerlink" title="Diffie-Hellman密钥协商"></a>Diffie-Hellman密钥协商</h2><h2 id="密秘分割-Lagrang插值公式"><a href="#密秘分割-Lagrang插值公式" class="headerlink" title="密秘分割/Lagrang插值公式"></a>密秘分割/Lagrang插值公式</h2>
+<h3 id="Elgamal"><a href="#Elgamal" class="headerlink" title="Elgamal"></a>Elgamal</h3><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mx-lqk/p/10325192.html">GF(p)上的ELGamal型椭圆曲线密码详解（Java实现） - 蒙丿鑫 - 博客园 (cnblogs.com)</a></p>
+<h3 id="ELELG"><a href="#ELELG" class="headerlink" title="ELELG"></a>ELELG</h3><h3 id="ECDSA"><a href="#ECDSA" class="headerlink" title="ECDSA"></a>ECDSA</h3><p>原理及安全性：[椭圆曲线数字签名算法ECDSA介绍-FreeOA](<a target="_blank" rel="noopener" href="http://www.freeoa.net/osuport/sysec/ecdsa-intro_3638.html#:~:text=%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D%E7%AE%97%E6%B3%95">http://www.freeoa.net/osuport/sysec/ecdsa-intro_3638.html#:~:text=椭圆曲线数字签名算法</a> (ECDSA)是使用椭圆曲线密码 (ECC)对数字签名算法 (DSA)的模拟。 ECC 是加密算法，无法直接用于数字签名，在 ECC 之前就已经有数字签名,ECDSA就是使用 ECC 对 DSA 数字签名算法的模拟，最终签名可得到两个值 r 和 s。)</p>
+<p>计算：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/107599962">椭圆曲线密码学简介（三）：ECDH加密算法和ECDSA数字签名算法 - 知乎 (zhihu.com)</a></p>
+<h4 id="SHA-1"><a href="#SHA-1" class="headerlink" title="SHA-1"></a>SHA-1</h4><p>信息摘要（哈希）<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/404396915">【密码学】一文读懂SHA-1 - 知乎 (zhihu.com)</a></p>
+<h2 id="Diffie-Hellman密钥协商"><a href="#Diffie-Hellman密钥协商" class="headerlink" title="Diffie-Hellman密钥协商"></a>Diffie-Hellman密钥协商</h2><p>$SK:x_A,x_B。素数p，原根a$</p>
+<p>$PK:y_A=a^{x_A}modp,y_B=a^{x_B}modp$</p>
+<p>$协商密钥K=y_A^{x_B}modp=y_B^{x_A}modp$</p>
+<h2 id="Shamir门限方案"><a href="#Shamir门限方案" class="headerlink" title="Shamir门限方案"></a>Shamir门限方案</h2><p>门限秘密分割方案+Lagrange插值公式</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_51216553/article/details/122073809">Shamir 门限方案｜秘密共享｜拉格朗日插值｜密码学_Chels.的博客-CSDN博客_shamir门限方案</a></p>
+<h2 id="DES"><a href="#DES" class="headerlink" title="DES"></a>DES</h2><p>加密：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40739219/article/details/120799004">DES算法加密流程_lkw23333的博客-CSDN博客_des算法的加密过程</a></p>
+<h2 id="AES"><a href="#AES" class="headerlink" title="AES"></a>AES</h2>
               
             </div>
             <hr/>
