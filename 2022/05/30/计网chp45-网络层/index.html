@@ -16,17 +16,25 @@
   <meta name="author" content="Sean">
   <meta name="keywords" content="">
   
-    <meta name="description" content="IPv4 VS IPv6 虚电路VS数据报网络 最长前缀匹配 路由选择协议 ICMP DHCP NAT">
+    <meta name="description" content="一些概念 subnet mask子网掩码：按位与运算，主机号部分全0，网络号部分全1.  IPv4 VS IPv6 虚电路VS数据报网络 最长前缀匹配 路由选择协议 ICMP DHCP NAT 虚电路和数据报网络虚电路VC（virtual circuit），面向连接  一条虚电路&#x3D;源和目的之间的路径+（首部携带）VC号+链路号+路由器中的转发表 每台中间路由器必须用一个新的VC号替代每个传输分组的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="计网chp45-网络层">
 <meta property="og:url" content="http://example.com/2022/05/30/%E8%AE%A1%E7%BD%91chp45-%E7%BD%91%E7%BB%9C%E5%B1%82/index.html">
 <meta property="og:site_name" content="Sean&#39;s Blog">
-<meta property="og:description" content="IPv4 VS IPv6 虚电路VS数据报网络 最长前缀匹配 路由选择协议 ICMP DHCP NAT">
+<meta property="og:description" content="一些概念 subnet mask子网掩码：按位与运算，主机号部分全0，网络号部分全1.  IPv4 VS IPv6 虚电路VS数据报网络 最长前缀匹配 路由选择协议 ICMP DHCP NAT 虚电路和数据报网络虚电路VC（virtual circuit），面向连接  一条虚电路&#x3D;源和目的之间的路径+（首部携带）VC号+链路号+路由器中的转发表 每台中间路由器必须用一个新的VC号替代每个传输分组的">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612173214851.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612174132763.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613114633972.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613114801372.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613114830494.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613115325652.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20180111115022267">
 <meta property="article:published_time" content="2022-05-30T08:40:56.000Z">
-<meta property="article:modified_time" content="2022-05-30T08:45:36.893Z">
+<meta property="article:modified_time" content="2022-06-13T13:35:54.153Z">
 <meta property="article:author" content="Sean">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612173214851.png">
   
   
   
@@ -216,7 +224,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          43 字
+          784 字
         
       </span>
     
@@ -227,7 +235,7 @@
         
         
         
-          1 分钟
+          7 分钟
         
       </span>
     
@@ -269,13 +277,71 @@
             
             <div class="markdown-body">
               
-              <p>IPv4 VS IPv6</p>
+              <h1 id="一些概念"><a href="#一些概念" class="headerlink" title="一些概念"></a>一些概念</h1><ul>
+<li>subnet mask子网掩码：按位与运算，主机号部分全0，网络号部分全1.</li>
+</ul>
+<p>IPv4 VS IPv6</p>
 <p>虚电路VS数据报网络</p>
 <p>最长前缀匹配</p>
 <p>路由选择协议</p>
 <p>ICMP</p>
 <p>DHCP</p>
 <p>NAT</p>
+<h1 id="虚电路和数据报网络"><a href="#虚电路和数据报网络" class="headerlink" title="虚电路和数据报网络"></a>虚电路和数据报网络</h1><h2 id="虚电路"><a href="#虚电路" class="headerlink" title="虚电路"></a>虚电路</h2><p>VC（virtual circuit），面向连接</p>
+<ul>
+<li>一条虚电路=源和目的之间的路径+（首部携带）VC号+链路号+路由器中的转发表</li>
+<li>每台中间路由器必须用一个新的VC号替代每个传输分组的VC 号</li>
+</ul>
+<h2 id="数据报"><a href="#数据报" class="headerlink" title="数据报"></a>数据报</h2><p>datagram，无连接</p>
+<ul>
+<li>路由算法：计算端到端的路径</li>
+<li>转发表：确认输出接口<ul>
+<li>最长前缀匹配</li>
+</ul>
+</li>
+</ul>
+<h1 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h1><h2 id="报文"><a href="#报文" class="headerlink" title="报文"></a>报文</h2><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612173214851.png" srcset="/img/loading.gif" lazyload alt="image-20220612173214851"></p>
+<h2 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h2><p>fragmentation</p>
+<ul>
+<li>MTU=20B头部+数据</li>
+<li>offset表示数据的偏移（MTU-20），还要除8</li>
+<li>flag置为0表示末端</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612174132763.png" srcset="/img/loading.gif" lazyload alt="image-20220612174132763"></p>
+<h1 id="ICMP"><a href="#ICMP" class="headerlink" title="ICMP"></a>ICMP</h1><p>当IP报头中的协议字段值为1时，就说明这是一个ICMP报文。用来传递错误报文信息。</p>
+<h2 id="traceroute"><a href="#traceroute" class="headerlink" title="traceroute"></a>traceroute</h2><p>Traceroute跟踪路由的原理是通过设置IP数据报的TTL（生存周期）。<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/5b7189789dc1">利用ICMP实现Traceroute - 简书 (jianshu.com)</a></p>
+<h1 id="路由算法"><a href="#路由算法" class="headerlink" title="路由算法"></a>路由算法</h1><h2 id="链路状态"><a href="#链路状态" class="headerlink" title="链路状态"></a>链路状态</h2><p>在链路状态(LS)算法中，每个节点都有完整地网络拓扑图，也就是完整的链路信息（距离矢量法只知道和相邻路由的），节点向<strong>相邻</strong>网络广播自己和邻居的信息，每当自己也收到这个信息，就用dijkstra算法来重新计算路由表。</p>
+<h3 id="Dijkstra最短路径算法"><a href="#Dijkstra最短路径算法" class="headerlink" title="Dijkstra最短路径算法"></a>Dijkstra最短路径算法</h3><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613114633972.png" srcset="/img/loading.gif" lazyload alt="image-20220613114633972"></p>
+<ul>
+<li>p(x)表示最短路径中x的上一个结点</li>
+<li>最小生成树<br><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613114801372.png" srcset="/img/loading.gif" lazyload alt="image-20220613114801372"></li>
+<li>转发表：下一条链路<br><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613114830494.png" srcset="/img/loading.gif" lazyload alt="image-20220613114830494"></li>
+</ul>
+<h3 id="OSPF"><a href="#OSPF" class="headerlink" title="OSPF"></a>OSPF</h3><h3 id="BGP"><a href="#BGP" class="headerlink" title="BGP"></a>BGP</h3><h2 id="距离矢量"><a href="#距离矢量" class="headerlink" title="距离矢量"></a>距离矢量</h2><p> 距离矢量算法（DV）他会把自己的路由表分享给自己的所有相邻节点，那么这些节点如果发现通过新的路由表自己到其他节点的距离改变了，那么再把自己的更新的路由表发送给自己的<strong>周围</strong>节点，所以这个过程是迭代的，异步的。</p>
+<h3 id="Bellman-Ford"><a href="#Bellman-Ford" class="headerlink" title="Bellman-Ford"></a>Bellman-Ford</h3><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613115325652.png" srcset="/img/loading.gif" lazyload alt="image-20220613115325652"></p>
+<ul>
+<li>从x到y的最短路径=min{x到邻居+邻居到y的最短路径}</li>
+<li>距离表：<br><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20180111115022267" srcset="/img/loading.gif" lazyload alt="img"></li>
+</ul>
+<h3 id="RIP"><a href="#RIP" class="headerlink" title="RIP"></a>RIP</h3><h2 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h2><table>
+<thead>
+<tr>
+<th>item</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LS</td>
+<td>1.收敛快</td>
+<td>1.振荡</td>
+</tr>
+<tr>
+<td>DV</td>
+<td>1.效率高</td>
+<td>1.无穷计数<br />2.环路</td>
+</tr>
+</tbody></table>
 
               
             </div>

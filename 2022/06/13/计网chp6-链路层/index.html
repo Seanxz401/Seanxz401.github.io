@@ -16,24 +16,21 @@
   <meta name="author" content="Sean">
   <meta name="keywords" content="">
   
-    <meta name="description" content="关于tinywebserver实践方面：压测&amp;文件上传">
+    <meta name="description" content="一些概念链路层提供服务：  link access framing flow control error control(detection+correction) half-duplex and full-duplex  多路访问协议for广播链路。结点通过这些协议来规范它们在共享的广播信道上的传输行为，从而协调多个发送和接收结点对一个共享广播信道的访问。4.1多路访问链路和协议（信道划分协议、">
 <meta property="og:type" content="article">
-<meta property="og:title" content="tinywebserver-实战">
-<meta property="og:url" content="http://example.com/2022/06/07/tinywebserver-%E5%AE%9E%E6%88%98/index.html">
+<meta property="og:title" content="计网chp6-链路层">
+<meta property="og:url" content="http://example.com/2022/06/13/%E8%AE%A1%E7%BD%91chp6-%E9%93%BE%E8%B7%AF%E5%B1%82/index.html">
 <meta property="og:site_name" content="Sean&#39;s Blog">
-<meta property="og:description" content="关于tinywebserver实践方面：压测&amp;文件上传">
+<meta property="og:description" content="一些概念链路层提供服务：  link access framing flow control error control(detection+correction) half-duplex and full-duplex  多路访问协议for广播链路。结点通过这些协议来规范它们在共享的广播信道上的传输行为，从而协调多个发送和接收结点对一个共享广播信道的访问。4.1多路访问链路和协议（信道划分协议、">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613235246692.png">
-<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613235326381.png">
-<meta property="article:published_time" content="2022-06-07T00:41:17.000Z">
-<meta property="article:modified_time" content="2022-06-13T16:09:17.296Z">
+<meta property="article:published_time" content="2022-06-13T04:58:01.000Z">
+<meta property="article:modified_time" content="2022-06-13T07:11:10.710Z">
 <meta property="article:author" content="Sean">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613235246692.png">
   
   
   
-  <title>tinywebserver-实战 - Sean&#39;s Blog</title>
+  <title>计网chp6-链路层 - Sean&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -196,7 +193,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="tinywebserver-实战"></span>
+            <span id="subtitle" data-typed-text="计网chp6-链路层"></span>
           
         </div>
 
@@ -207,8 +204,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-06-07 08:41" pubdate>
-          2022年6月7日 早上
+        <time datetime="2022-06-13 12:58" pubdate>
+          2022年6月13日 下午
         </time>
       </span>
     
@@ -219,7 +216,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          285 字
+          1.3k 字
         
       </span>
     
@@ -230,7 +227,7 @@
         
         
         
-          3 分钟
+          12 分钟
         
       </span>
     
@@ -268,49 +265,50 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">tinywebserver-实战</h1>
+            <h1 style="display: none">计网chp6-链路层</h1>
             
             <div class="markdown-body">
               
-              <p>关于tinywebserver实践方面：压测&amp;文件上传</p>
-<span id="more"></span>
+              <h1 id="一些概念"><a href="#一些概念" class="headerlink" title="一些概念"></a>一些概念</h1><h1 id="链路层"><a href="#链路层" class="headerlink" title="链路层"></a>链路层</h1><p>提供服务：</p>
+<ul>
+<li>link access</li>
+<li>framing</li>
+<li>flow control</li>
+<li>error control(detection+correction)</li>
+<li>half-duplex and full-duplex</li>
+</ul>
+<h1 id="多路访问协议"><a href="#多路访问协议" class="headerlink" title="多路访问协议"></a>多路访问协议</h1><p>for广播链路。结点通过这些协议来规范它们在共享的<strong>广播</strong>信道上的传输行为，从而协调多个发送和接收结点对一个共享广播信道的访问。<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39722922/article/details/88756287">4.1多路访问链路和协议（信道划分协议、随机接入协议、轮流协议）_/<em>chen</em>/的博客-CSDN博客_随机接入协议</a></p>
+<h2 id="信道划分协议"><a href="#信道划分协议" class="headerlink" title="信道划分协议"></a>信道划分协议</h2><h3 id="TDM"><a href="#TDM" class="headerlink" title="TDM"></a>TDM</h3><h3 id="FDM"><a href="#FDM" class="headerlink" title="FDM"></a>FDM</h3><h3 id="CDMA"><a href="#CDMA" class="headerlink" title="CDMA"></a>CDMA</h3><p>码分多址。CDMA对每一个结点分配一种不同的编码，能做到不同的结点同时传输。</p>
+<h2 id="随机接入协议"><a href="#随机接入协议" class="headerlink" title="随机接入协议"></a>随机接入协议</h2><p><strong>在随机接入协议中，一个传输结点总是以信道的全部速率（即R bps）进行发送。当有碰撞时，涉及碰撞的每个结点反复地重发它的帧，到该帧无碰撞地通过为止。但是当一个结点经历一次碰撞时，他不必立刻重发该帧。相反，它在重发该帧前等待一个随机时延。涉及碰撞的每个结点独立地选择随机时延。</strong></p>
+<h3 id="时隙ALOHA"><a href="#时隙ALOHA" class="headerlink" title="时隙ALOHA"></a>时隙ALOHA</h3><p>slotted ALOHA。</p>
+<ul>
+<li>当结点有一个新帧要发送时，它等到下一个时隙再传输</li>
+<li>如果有碰撞，结点会在接下来的每一个时隙中以概率p重传该帧，直至传输成功。</li>
+</ul>
+<h4 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h4><p>假设有n个结点，重传概率分别为p1,p2,,,pn</p>
+<p>结点i的吞吐量=$p_i*(1-p_1)…(1-p_{i-1})*(1-p_{i+1})…(1-p_n)$</p>
+<p>总效率=$\sum_{i}^{n}{结点i的吞吐量}$</p>
+<h3 id="ALOHA"><a href="#ALOHA" class="headerlink" title="ALOHA"></a>ALOHA</h3><p><strong>时隙ALOHA协议要求所有的结点同步他们的传输，以在每个时隙开始时开始传输</strong>。而ALOHA协议是非时隙、完全分散的协议。在纯ALOHA中，当一帧首次到达，结点<strong>立刻</strong>将该帧完整的传输进广播信道。如果一个传输的帧在一个或多个传输经历了碰撞，这个结点将<strong>立即</strong>（在完全传输完它的碰撞帧后）以概率p传输该帧，或者以概率1-p在另一个帧时间等待。</p>
+<ul>
+<li>纯ALOHA协议的最大效率是时隙ALOHA的一半</li>
+</ul>
+<h3 id="CSMA"><a href="#CSMA" class="headerlink" title="CSMA"></a>CSMA</h3><p>载波侦听多路访问协议。</p>
+<p><strong>载波侦听</strong>：一个结点在传输前先听信道，如果来自另一个结点的帧正向信道上发送，结点则等待直到检测到一小段时间没有传输，然后开始传输。</p>
+<h4 id="CSMA-CD"><a href="#CSMA-CD" class="headerlink" title="CSMA/CD"></a>CSMA/CD</h4><p>具有碰撞检测的载波侦听多路访问</p>
+<p><strong>碰撞检测</strong>：当一个传输结点在传输时一直在侦听此信道，如果它检测到另一个结点正在传输干扰帧，它就停止传输，在重复“侦听-当空闲时传输”循环之前等待一段随机时间。</p>
+<ul>
+<li>在有线网络中更容易检测到</li>
+</ul>
+<h5 id="二进制指数回退"><a href="#二进制指数回退" class="headerlink" title="二进制指数回退"></a>二进制指数回退</h5><p>经历n次碰撞后，从${0,1,2…2^{n-1}}$中随机选择一个K值，等待K·512 bit times，再开始侦听。</p>
+<h2 id="轮流协议"><a href="#轮流协议" class="headerlink" title="轮流协议"></a>轮流协议</h2><h3 id="轮询协议"><a href="#轮询协议" class="headerlink" title="轮询协议"></a>轮询协议</h3><p>要求这些结点之一要被指定为<strong>主结点</strong>。主结点以循环的方式轮询每个结点。特别是，主结点告诉每个结点能够传输的帧的最多数量。</p>
+<h4 id="计算-1"><a href="#计算-1" class="headerlink" title="计算"></a>计算</h4><p>广播链路中，N个节点，R bps传输速率，polling delay=d，一轮中一个结点最多传输Q bits。</p>
+<ul>
+<li>一轮总查询时延：$d_{poll}=N(Q/R+d)$</li>
+<li>广播链路中最大吞吐量=$NQ/d_{poll}$</li>
+</ul>
+<h3 id="令牌传递协议"><a href="#令牌传递协议" class="headerlink" title="令牌传递协议"></a>令牌传递协议</h3><p>一个称为<strong>令牌</strong>的小的特殊帧在结点之间以某种固定的次序传递。当一个结点收到令牌时，仅当它有一些帧要发送时，他才持有这个令牌。否则，他立即向下一个结点转发该令牌。</p>
+<h1 id="ARP"><a href="#ARP" class="headerlink" title="ARP"></a>ARP</h1><p>IP地址—MAC地址</p>
 
-<h1 id="压测"><a href="#压测" class="headerlink" title="压测"></a>压测</h1><ol>
-<li>部署到云服务器: <a target="_blank" rel="noopener" href="http://47.113.221.185:9006/">http://47.113.221.185:9006</a></li>
-<li>本地虚拟机使用webbench进行压测：fork failed，请求数量超过了本机的限制</li>
-</ol>
-<h1 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h1><h2 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h2><ul>
-<li><p>form表单，发起请求</p>
-</li>
-<li><pre><code class="hljs">Content-Type: multipart/form-data
-</code></pre>
-</li>
-<li><p>以二进制传输</p>
-</li>
-</ul>
-<p>请求头：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613235246692.png" srcset="/img/loading.gif" lazyload alt="image-20220613235246692"></p>
-<p>请求负载：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613235326381.png" srcset="/img/loading.gif" lazyload alt="image-20220613235326381"></p>
-<h2 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h2><ul>
-<li>在do_request判断url</li>
-<li>解析formdata，获取<ul>
-<li>filename</li>
-<li>boundary</li>
-<li>content</li>
-</ul>
-</li>
-<li>通过ofstream写入文件</li>
-</ul>
-<h2 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h2><ul>
-<li>字符指针、字符数组、字符串</li>
-</ul>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ul>
-<li>问题：<ul>
-<li>recv读取不全限制上传文件的大小</li>
-<li>上传文件重名</li>
-</ul>
-</li>
-</ul>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
               
             </div>
             <hr/>
@@ -327,8 +325,15 @@
     
       <span class="category-chain">
         
-  <a href="/categories/%E5%AE%9E%E8%B7%B5/" class="category-chain-item">实践</a>
+  <a href="/categories/university/" class="category-chain-item">university</a>
   
+  
+    <span>></span>
+    
+  <a href="/categories/university/%E8%AE%A1%E7%BD%91/" class="category-chain-item">计网</a>
+  
+  
+
   
 
       </span>
@@ -347,8 +352,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>tinywebserver-实战</div>
-      <div>http://example.com/2022/06/07/tinywebserver-实战/</div>
+      <div>计网chp6-链路层</div>
+      <div>http://example.com/2022/06/13/计网chp6-链路层/</div>
     </div>
     <div class="license-meta">
       
@@ -360,7 +365,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年6月7日</div>
+          <div>2022年6月13日</div>
         </div>
       
       
@@ -390,18 +395,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/06/13/%E8%AE%A1%E7%BD%91chp6-%E9%93%BE%E8%B7%AF%E5%B1%82/" title="计网chp6-链路层">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">计网chp6-链路层</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/06/07/tinywebserver-%E4%BB%A3%E7%A0%81%E8%AF%A6%E8%A7%A3/" title="tinywebserver-代码详解">
-                        <span class="hidden-mobile">tinywebserver-代码详解</span>
+                      <a href="/2022/06/07/tinywebserver-%E5%AE%9E%E6%88%98/" title="tinywebserver-实战">
+                        <span class="hidden-mobile">tinywebserver-实战</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>

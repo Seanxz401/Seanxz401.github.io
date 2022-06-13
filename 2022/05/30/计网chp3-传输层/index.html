@@ -16,17 +16,22 @@
   <meta name="author" content="Sean">
   <meta name="keywords" content="">
   
-    <meta name="description" content="热爱可抵岁月漫长">
+    <meta name="description" content="一些概念 rdt(reliable data transfer)：停等  不错without error 不乱in order 不丢   GBN：流水线  SR：流水线  multiplexing复用：发送方给来自不同socket的数据封装传输层头部  UDP：dest IP+dest port TCP: (source IP+port) + (dest IP+port)   demultiple">
 <meta property="og:type" content="article">
 <meta property="og:title" content="计网chp3-传输层">
 <meta property="og:url" content="http://example.com/2022/05/30/%E8%AE%A1%E7%BD%91chp3-%E4%BC%A0%E8%BE%93%E5%B1%82/index.html">
 <meta property="og:site_name" content="Sean&#39;s Blog">
-<meta property="og:description" content="热爱可抵岁月漫长">
+<meta property="og:description" content="一些概念 rdt(reliable data transfer)：停等  不错without error 不乱in order 不丢   GBN：流水线  SR：流水线  multiplexing复用：发送方给来自不同socket的数据封装传输层头部  UDP：dest IP+dest port TCP: (source IP+port) + (dest IP+port)   demultiple">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612164915586.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612165836865.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612170829221.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613135940693.png">
 <meta property="article:published_time" content="2022-05-30T08:41:22.000Z">
-<meta property="article:modified_time" content="2022-05-30T08:41:22.884Z">
+<meta property="article:modified_time" content="2022-06-13T13:32:27.223Z">
 <meta property="article:author" content="Sean">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612164915586.png">
   
   
   
@@ -216,7 +221,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          0 字
+          1.1k 字
         
       </span>
     
@@ -227,7 +232,7 @@
         
         
         
-          1 分钟
+          9 分钟
         
       </span>
     
@@ -269,12 +274,127 @@
             
             <div class="markdown-body">
               
-              
+              <h1 id="一些概念"><a href="#一些概念" class="headerlink" title="一些概念"></a>一些概念</h1><ul>
+<li><p>rdt(reliable data transfer)：停等</p>
+<ul>
+<li>不错without error</li>
+<li>不乱in order</li>
+<li>不丢</li>
+</ul>
+</li>
+<li><p>GBN：流水线</p>
+</li>
+<li><p>SR：流水线</p>
+</li>
+<li><p>multiplexing复用：发送方给来自不同socket的数据封装传输层头部</p>
+<ul>
+<li>UDP：dest IP+dest port</li>
+<li>TCP: (source IP+port) + (dest IP+port)</li>
+</ul>
+</li>
+<li><p>demultiplexing分解：接收方根据头部将segment传到不同的socket</p>
+</li>
+<li><p>congestion control: 拥塞控制是作用于网络的</p>
+<ul>
+<li>cwnd拥塞窗口</li>
+<li>ssthresh慢启动阈值</li>
+</ul>
+</li>
+<li><p>flow control：流量控制是作用于接收者的，通过控制发送者的发送速度实现。</p>
+</li>
+</ul>
+<h1 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h1><p>传输层协议提供的服务：</p>
+<ul>
+<li>应用程序（进程）间的逻辑通信</li>
+<li>差错检测</li>
+<li>无连接或面向连接的服务</li>
+<li>复用和分解</li>
+</ul>
+<p>不提供：</p>
+<ul>
+<li>delay guarantees</li>
+<li>bandwith guarantees</li>
+</ul>
+<p>除此之外，TCP还提供：</p>
+<ul>
+<li>connection setup</li>
+<li>flow control</li>
+<li>congestion control</li>
+</ul>
+<h1 id="可靠数据传输协议"><a href="#可靠数据传输协议" class="headerlink" title="可靠数据传输协议"></a>可靠数据传输协议</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/anlian523/article/details/114179826">计算机网络 可靠数据传输原理——从rdt协议到GBN到SR_anlian523的博客-CSDN博客_rdt协议</a></p>
+<h2 id="rdt"><a href="#rdt" class="headerlink" title="rdt"></a>rdt</h2><p>可靠数据传输。</p>
+<h2 id="GBN"><a href="#GBN" class="headerlink" title="GBN"></a>GBN</h2><p>回退N步</p>
+<h2 id="SR"><a href="#SR" class="headerlink" title="SR"></a>SR</h2><p>选择重传</p>
+<h1 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h1><h2 id="报文"><a href="#报文" class="headerlink" title="报文"></a>报文</h2><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612164915586.png" srcset="/img/loading.gif" lazyload alt="image-20220612164915586"></p>
+<ul>
+<li>length: UDP segment including header</li>
+<li>checksum：同上<ul>
+<li>有进位的加法（溢出则加到低位）</li>
+<li>取反码</li>
+</ul>
+</li>
+</ul>
+<h1 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h1><h2 id="报文-1"><a href="#报文-1" class="headerlink" title="报文"></a>报文</h2><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612165836865.png" srcset="/img/loading.gif" lazyload alt="image-20220612165836865"></p>
+<ul>
+<li>ACK：seq # of next byte expected from other side</li>
+<li>FIN：置1表示想要关闭连接</li>
+</ul>
+<h2 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h2><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612170829221.png" srcset="/img/loading.gif" lazyload alt="image-20220612170829221"></p>
+<ul>
+<li>前两步的seq是随机初始化的</li>
+</ul>
+<h2 id="可靠数据传输"><a href="#可靠数据传输" class="headerlink" title="可靠数据传输"></a>可靠数据传输</h2><p>是GBN和SR的混合。</p>
+<h2 id="拥塞控制"><a href="#拥塞控制" class="headerlink" title="拥塞控制"></a>拥塞控制</h2><p>在tcp双方建立逻辑链接关系时， 拥塞窗口cwnd的值被设置为1，还需设置慢开始门限ssthresh,在执行慢开始算法时，发送方每收到一个对新报文段的确认时，就把拥塞窗口cwnd的值加一，然后开始下一轮的传输，当拥塞窗口cwnd增长到慢开始门限值时，就使用拥塞避免算法。<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41431406/article/details/97926927">TCP的拥塞控制（详解）_程序媛_婷的博客-CSDN博客_拥塞控制</a></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613135940693.png" srcset="/img/loading.gif" lazyload alt="image-20220613135940693"></p>
+<h3 id="慢启动"><a href="#慢启动" class="headerlink" title="慢启动"></a>慢启动</h3><p>当cwnd=2时，发送方此时可以连续发送两个数据报文段，接收方收到该数据报文段后，给发送方一次发回2个确认报文段，发送方收到这两个确认报文后，将拥塞窗口的值加2变为4，因此整体看是呈<strong>指数增长</strong>。当cwnd=ssthresh时进入拥塞避免。</p>
+<h3 id="拥塞避免"><a href="#拥塞避免" class="headerlink" title="拥塞避免"></a>拥塞避免</h3><p>cwnd<strong>线性加一</strong>。直至出现：</p>
+<ul>
+<li>超时重传<ul>
+<li>ssthresh=cwnd/2</li>
+<li>cwnd=1</li>
+<li>重新开始慢启动</li>
+</ul>
+</li>
+<li>3次冗余ACK<ul>
+<li>ssthresh=cwnd/2</li>
+<li>cwnd=cwnd/2[+3]</li>
+</ul>
+</li>
+</ul>
+
               
             </div>
             <hr/>
             <div>
               <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/university/" class="category-chain-item">university</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/university/%E8%AE%A1%E7%BD%91/" class="category-chain-item">计网</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
   
   
 </div>
