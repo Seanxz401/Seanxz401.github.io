@@ -25,8 +25,9 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220510152817557.png">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220510153219573.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220617142158864.png">
 <meta property="article:published_time" content="2022-05-10T05:17:18.000Z">
-<meta property="article:modified_time" content="2022-05-10T08:09:34.339Z">
+<meta property="article:modified_time" content="2022-06-17T06:26:25.379Z">
 <meta property="article:author" content="Sean">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220510152817557.png">
@@ -219,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          3.2k 字
+          3.5k 字
         
       </span>
     
@@ -230,7 +231,7 @@
         
         
         
-          27 分钟
+          29 分钟
         
       </span>
     
@@ -401,14 +402,23 @@
 <h2 id="grant"><a href="#grant" class="headerlink" title="grant"></a>grant</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">GRANT</span> &#123;PrivilegeList <span class="hljs-operator">|</span> <span class="hljs-keyword">ALL</span> PRIVILEGES&#125;<br><span class="hljs-keyword">ON</span> ObjectName<br><span class="hljs-keyword">TO</span> &#123;AuthorizationIdList <span class="hljs-operator">|</span> PUBLIC&#125; <br>[<span class="hljs-keyword">WITH</span> <span class="hljs-keyword">GRANT</span> OPTION]<br></code></pre></td></tr></table></figure>
 
 <ul>
-<li>PrivilegeList 用逗号分开的⼀个或多个权限组成</li>
+<li>PrivilegeList 用逗号分开的⼀个或多个权限组成，关键词<code>ALL PRIVILEGES</code>表示全部权限</li>
 <li>Objecevame 可以是基表、视图、域、序列或转变规则的名字</li>
-<li>WITH GRANT OPTION ⼦句允许 AuthorizationtdList 中的用户将他们拥有的对 指定对象的权限传递给其他用户。</li>
+<li>AuthorizationIdList表示一个或多个用户名，关键词<code>PUBLIC</code>表示对所有用户</li>
+<li><code>WITH GRANT OPTION</code> ⼦句允许 AuthorizationtdList 中的用户将他们拥有的对指定对象的权限<strong>传递</strong>给其他用户。</li>
 </ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">GRANT</span> <span class="hljs-keyword">SELECT</span>, UPDATE(col1,col2) <span class="hljs-keyword">ON</span> tab<span class="hljs-operator">/</span><span class="hljs-keyword">view</span> <span class="hljs-keyword">TO</span> user1, user2 <span class="hljs-keyword">WITH</span> <span class="hljs-keyword">GRANT</span> OPTION<br></code></pre></td></tr></table></figure>
+
+<p>表示给user1，user2授予对某表或视图的查询 和修改col1，col2列的权利，并允许传递。</p>
 <h2 id="revoke"><a href="#revoke" class="headerlink" title="revoke"></a>revoke</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">REVOKE</span> [<span class="hljs-keyword">GRANT</span> OPTION <span class="hljs-keyword">FOR</span>] <br>&#123;PrivilegeList <span class="hljs-operator">|</span> <span class="hljs-keyword">ALL</span> PRIVILEGES&#125;<br><span class="hljs-keyword">ON</span> ObjectName<br><span class="hljs-keyword">FROM</span> &#123;AuthorizationIdList <span class="hljs-operator">|</span> PUBLIC&#125;<br>[RESTRICT <span class="hljs-operator">|</span> CASCADE]<br></code></pre></td></tr></table></figure>
 
 <ul>
 <li>⼦句 GRANT OPTION FOR 允许通过 GRANT 语句中的 WITH GRANT OPTION  传递的那些权限被独立地撤销。</li>
+<li>用户从其他用户那里获得的权限，并不受这个 REVOKE 语句的影响。<br><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220617142158864.png" srcset="/img/loading.gif" lazyload alt="image-20220617142158864"><ul>
+<li>A赋予B权限，连带传到C,D，A通过cascade撤回赋予B的权限则C，D权限也无。</li>
+<li>但由于E曾给C同样权限，因此C仍有权限。D是否有？</li>
+</ul>
+</li>
 </ul>
 
               

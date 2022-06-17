@@ -23,15 +23,19 @@
 <meta property="og:site_name" content="Sean&#39;s Blog">
 <meta property="og:description" content="一些概念 rdt(reliable data transfer)：停等  不错without error 不乱in order 不丢   GBN：流水线  SR：流水线  multiplexing复用：发送方给来自不同socket的数据封装传输层头部  UDP：dest IP+dest port TCP: (source IP+port) + (dest IP+port)   demultiple">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20210228154400512.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20210228160908959.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20210228162752890.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20210228133256987.png">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612164915586.png">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612165836865.png">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612170829221.png">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613135940693.png">
 <meta property="article:published_time" content="2022-05-30T08:41:22.000Z">
-<meta property="article:modified_time" content="2022-06-13T13:32:27.223Z">
+<meta property="article:modified_time" content="2022-06-14T06:06:35.674Z">
 <meta property="article:author" content="Sean">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612164915586.png">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20210228154400512.png">
   
   
   
@@ -221,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.1k 字
+          1.9k 字
         
       </span>
     
@@ -232,7 +236,7 @@
         
         
         
-          9 分钟
+          16 分钟
         
       </span>
     
@@ -322,9 +326,74 @@
 <li>congestion control</li>
 </ul>
 <h1 id="可靠数据传输协议"><a href="#可靠数据传输协议" class="headerlink" title="可靠数据传输协议"></a>可靠数据传输协议</h1><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/anlian523/article/details/114179826">计算机网络 可靠数据传输原理——从rdt协议到GBN到SR_anlian523的博客-CSDN博客_rdt协议</a></p>
+<h2 id="停等"><a href="#停等" class="headerlink" title="停等"></a>停等</h2><ul>
+<li>发送方利用率=发送端实际忙于发送比特送进信道的时间/发送时间—&gt;低。</li>
+<li>大部分的时间浪费在等待确认上</li>
+</ul>
 <h2 id="rdt"><a href="#rdt" class="headerlink" title="rdt"></a>rdt</h2><p>可靠数据传输。</p>
-<h2 id="GBN"><a href="#GBN" class="headerlink" title="GBN"></a>GBN</h2><p>回退N步</p>
-<h2 id="SR"><a href="#SR" class="headerlink" title="SR"></a>SR</h2><p>选择重传</p>
+<ul>
+<li><p>rdt1.0: 底层信道完全可靠-&gt;无错、按序</p>
+</li>
+<li><p>rdt2.0:考虑比特错误、按序</p>
+<ul>
+<li>ACK，NAK</li>
+<li>ARQ自动重传请求协议</li>
+<li>停等</li>
+</ul>
+</li>
+<li><p>rdt2.1:考虑ACK，NAK是否受损</p>
+<ul>
+<li>序号（0，1），包的序号=ACK的序号</li>
+</ul>
+</li>
+<li><p>rdt2.2:无NAK</p>
+</li>
+<li><p>rdt3.0：考虑分组受损+丢包-&gt;数据分组丢orACK丢+超时</p>
+<ul>
+<li>定时器</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20210228154400512.png" srcset="/img/loading.gif" lazyload alt="rdt3.0"></p>
+<ul>
+<li>d.Premature timeout过早超时</li>
+</ul>
+</li>
+</ul>
+<h2 id="流水线"><a href="#流水线" class="headerlink" title="流水线"></a>流水线</h2><p>允许发送端发送多个分组而无需等待确认。</p>
+<ul>
+<li>增加序号范围：每个传输中的分组必须有一个单独的序号</li>
+<li>协议的发送方和接收方两端必须能缓存多个分组。发送方至少得能缓存那些已发送但未确认的分组（因为这些分组有可能需要被发送方重传），而<strong>接收方或许也需要缓存那些已经正确接收的分组</strong>（因为这些分组有可能暂时还不能交付给上层，当小序号的分组迟迟未到，而大序号的分组却先到了）。</li>
+</ul>
+<h3 id="GBN"><a href="#GBN" class="headerlink" title="GBN"></a>GBN</h3><p>回退N步。受限于在流水线中未确认的分组数不能超过 N（流量控制是需要限制窗口长度的原因之一）。</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20210228160908959.png" srcset="/img/loading.gif" lazyload alt="GBN窗口"></p>
+<ul>
+<li>nextseqnum下一个即将被发送的分组将采用的序号</li>
+<li><strong>累积确认</strong>，接收方反馈的<code>(ACK, n)</code>代表的是 接收方已正确收到了序号n以及n以前的所有分组</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20210228162752890.png" srcset="/img/loading.gif" lazyload alt="GBN流程"></p>
+<ul>
+<li>pkt2丢失，在pkt2超时重传之前发送过的3，4，5都要重传</li>
+<li><strong>单个分组的差错可能会引起GBN重传大量的分组，然后许多本来不用重传的分组会充斥在信道中，造成资源浪费</strong></li>
+</ul>
+<h3 id="SR"><a href="#SR" class="headerlink" title="SR"></a>SR</h3><p>选择重传</p>
+<ul>
+<li>让发送方仅重传那些丢失和受损的分组而避免不必要的重传</li>
+<li><strong>接收方也需要维护一个接收窗口，并且需要缓存分组的能力。</strong></li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20210228133256987.png" srcset="/img/loading.gif" lazyload alt="SR流程"></p>
+<ul>
+<li>发送方接收到ACK则滑动窗口</li>
+<li>vs GBN<ul>
+<li>根据不同序号启动对应的定时器。而不是当发送窗口内第一个分组时才启动定时器。</li>
+<li>当需要发送滑动窗口所属序号以外的数据时，则把它缓存起来。而不是直接抛弃。</li>
+</ul>
+</li>
+</ul>
+<h3 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h3><ul>
+<li>累积应答-与GBN类似</li>
+<li>在接收端缓存失序分组-与SR类似</li>
+<li>快速重传：如果收到对于一个特定报文段的3个冗余ACK，则在超时事件发生前就会对该报文段进行重传，这大大节约了时间。</li>
+<li><strong>TCP中的ACK是指接收端希望从发送端收到的下一字节的序号。</strong></li>
+</ul>
 <h1 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h1><h2 id="报文"><a href="#报文" class="headerlink" title="报文"></a>报文</h2><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612164915586.png" srcset="/img/loading.gif" lazyload alt="image-20220612164915586"></p>
 <ul>
 <li>length: UDP segment including header</li>
@@ -334,7 +403,7 @@
 </ul>
 </li>
 </ul>
-<h1 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h1><h2 id="报文-1"><a href="#报文-1" class="headerlink" title="报文"></a>报文</h2><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612165836865.png" srcset="/img/loading.gif" lazyload alt="image-20220612165836865"></p>
+<h1 id="TCP-1"><a href="#TCP-1" class="headerlink" title="TCP"></a>TCP</h1><h2 id="报文-1"><a href="#报文-1" class="headerlink" title="报文"></a>报文</h2><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612165836865.png" srcset="/img/loading.gif" lazyload alt="image-20220612165836865"></p>
 <ul>
 <li>ACK：seq # of next byte expected from other side</li>
 <li>FIN：置1表示想要关闭连接</li>
