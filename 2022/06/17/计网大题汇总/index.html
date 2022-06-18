@@ -23,10 +23,16 @@
 <meta property="og:site_name" content="Sean&#39;s Blog">
 <meta property="og:description" content="计算题时延 处理时延：$d_{proc}$ 路由器处理时间 排队时延：$d_{queu}$ 前面还有分组未发送 传输时延：$d_{trans}&#x3D;\frac{L}{R}$ 包的长度&#x2F;链路传输速率(bps)，发生在结点发送数据时 传播时延：$d_{prop}&#x3D;\frac{d}{s}$ 链路距离&#x2F;链路媒介的传播速率(m&#x2F;s)  HTTP连接HTTP&#x2F;1.1的默认模式使用带流水线的持久连接 总请求数&#x3D;do">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220618193359284.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220618193759641.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612164915586.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612165836865.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612173214851.png">
 <meta property="article:published_time" content="2022-06-17T13:39:30.000Z">
-<meta property="article:modified_time" content="2022-06-17T14:56:07.317Z">
+<meta property="article:modified_time" content="2022-06-18T16:03:31.932Z">
 <meta property="article:author" content="Sean">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220618193359284.png">
   
   
   
@@ -216,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          554 字
+          2.8k 字
         
       </span>
     
@@ -227,7 +233,7 @@
         
         
         
-          5 分钟
+          24 分钟
         
       </span>
     
@@ -283,7 +289,7 @@
 <li>串行</li>
 <li>并行parallel：根据并行的分组数量</li>
 </ul>
-<h4 id="持续性连接"><a href="#持续性连接" class="headerlink" title="持续性连接"></a>持续性连接</h4><p>最开始建立连接是2RTT，后面对reference的请求都是1RTT</p>
+<h3 id="持续性连接"><a href="#持续性连接" class="headerlink" title="持续性连接"></a>持续性连接</h3><p>最开始建立连接是2RTT，后面对reference的请求都是1RTT</p>
 <ul>
 <li>带流水线pipeline：分组</li>
 <li>不带流水线</li>
@@ -303,6 +309,11 @@
 <li>带进位的加法，溢出则反卷</li>
 <li>取反码</li>
 </ol>
+<h2 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h2><p>IP报文，字段：fragmentation、offset、flag</p>
+<ul>
+<li>每一片能装载的数据=(MTU-IP header20bytes)</li>
+<li>flag=0表示已到最后一片</li>
+</ul>
 <h2 id="Dijkstra算法"><a href="#Dijkstra算法" class="headerlink" title="Dijkstra算法"></a>Dijkstra算法</h2><ul>
 <li>遇到相同的情况，随机选</li>
 <li>生成树</li>
@@ -322,6 +333,189 @@
 <li>开始侦听</li>
 <li>开始重传</li>
 <li>二进制指数退避</li>
+</ul>
+<h1 id="简答"><a href="#简答" class="headerlink" title="简答"></a>简答</h1><h2 id="SSL"><a href="#SSL" class="headerlink" title="SSL"></a>SSL</h2><p>是应用层协议，能增强TCP传输的安全性。通过程序员在应用层添加相关代码实现→HTTPS</p>
+<h2 id="P2P"><a href="#P2P" class="headerlink" title="P2P"></a>P2P</h2><p><a target="_blank" rel="noopener" href="https://www.eefocus.com/communication/210266">与P2P技术相关的信息安全问题-通信/网络-与非网 (eefocus.com)</a></p>
+<p>特点：</p>
+<ul>
+<li>分布式，不会出现单点故障，具有更好的健壮性和抗毁性</li>
+<li>缺乏统一管理</li>
+<li>它需要在没有中心节点的情况下，提供<strong>身份验证</strong>、授权、数据信息的安全传输、数字签名、加密等机制。</li>
+<li>P2P节点在下载的同时又能够上传，如果在局域网内部有相当数量的用户使用P2P软件交换数据，就会使<strong>带宽</strong>迅速耗尽以致妨碍正常的网络访问。</li>
+</ul>
+<p>安全风险：</p>
+<ul>
+<li>P2P信息共享与知识产权保护</li>
+<li>目标节点过载攻击：<br>攻击者通过向某些特定目标节点发送大量的垃圾分组消息，耗尽目标节点的处理能力，这是一种<strong>拒绝服务</strong>类型的攻击。在一段时间之后，系统会认为目标节点已经失效退出，从而将目标节点从系统中删除。</li>
+<li>P2P带来的新型网络病毒传播问题：<br>通过P2P系统传播的病毒，波及范围大，覆盖面广，从而造成的损失会很大。</li>
+</ul>
+<h2 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h2><h3 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h3><p><a target="_blank" rel="noopener" href="https://www.infoq.cn/article/99aGZWZLewtVqJvgRtTh">https://www.infoq.cn/article/99aGZWZLewtVqJvgRtTh</a></p>
+<ul>
+<li>DNS DDoS<ul>
+<li>主要是通过耗尽DNS服务器资源，导致DNS服务器不能接受正常的DNS请求或不能正常应答DNS请求。</li>
+<li>缓解：1.提升带宽；2.提升缓存应答能力；3.过滤或限制网络流量（拦截攻击者使用的 IP）</li>
+</ul>
+</li>
+<li>反射型DDoS<ul>
+<li>来自正常 DNS 解析器的 DNS 回答会被发回给受害者（被欺骗的 IP），而不是原攻击者的 IP，从而导致受害者受到 DDoS 攻击。</li>
+<li>缓解：限制同一 IP 地址的 DNS 请求/回答速率。</li>
+</ul>
+</li>
+<li>DNS缓存投毒<ul>
+<li>将访客从真正的网站重定向到恶意网站。</li>
+<li>缓解：DNSSEC</li>
+</ul>
+</li>
+<li>IP欺骗<ul>
+<li>缓解：使用 DNS 缓存服务器吸收大部分的 DNS 流量。</li>
+</ul>
+</li>
+</ul>
+<h3 id="集中-分布"><a href="#集中-分布" class="headerlink" title="集中/分布"></a>集中/分布</h3><p>集中式的缺点：</p>
+<ul>
+<li>单点故障</li>
+<li>流量</li>
+<li>维护</li>
+</ul>
+<h2 id="无线通信网络"><a href="#无线通信网络" class="headerlink" title="无线通信网络"></a>无线通信网络</h2><p><a target="_blank" rel="noopener" href="http://www.chinaqking.com/yc/2019/2067160.html">关于无线通信网络安全问题的分析–中国期刊网 (chinaqking.com)</a></p>
+<p>安全问题：</p>
+<ul>
+<li>流量分析与流量侦听</li>
+<li>篡改信息问题</li>
+<li>窃听</li>
+</ul>
+<p>防护：</p>
+<ul>
+<li>信道加密</li>
+<li>控制访问</li>
+<li>身份认证</li>
+<li>数据认证</li>
+</ul>
+<h2 id="校验方式"><a href="#校验方式" class="headerlink" title="校验方式"></a>校验方式</h2><ul>
+<li>CRC<ul>
+<li>硬件实现</li>
+<li>检验不出来的情况：收到的位串虽然是错误的，但是恰巧能被生成多项式整除</li>
+</ul>
+</li>
+<li>校验和<ul>
+<li>适用于高层协议，如IP，TCP，UDP等。检错率低于CRC。</li>
+</ul>
+</li>
+<li>奇偶校验码</li>
+</ul>
+<p><strong>高层不用CRC的原因</strong>：CRC主要采用除的计算方式，比累加的（校验和）计算方式效率要低，而数据链路层用这种方法可以用硬件实现，但是网络层和传输层一般只能通过软件实现，那么效率就降低了。而且数据链路层已经提供了比较可靠的支持，所以高层就可以用这种检错率相对低一点的检错法</p>
+<h2 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h2><p>三层：网络+链路+物理</p>
+<p>IP datagram经过路由器后，哪些字段会改变？</p>
+<ul>
+<li>TTL</li>
+<li>source IP</li>
+<li>checksum</li>
+<li>如果有MAC地址，则源MAC和目的MAC都会改变</li>
+</ul>
+<h2 id="即插即用"><a href="#即插即用" class="headerlink" title="即插即用"></a>即插即用</h2><ul>
+<li>交换机switch</li>
+<li>ARP，自学习</li>
+<li>集线器hub</li>
+<li>中继器repeater</li>
+</ul>
+<h2 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h2><h3 id="拥塞控制和流量控制的区别"><a href="#拥塞控制和流量控制的区别" class="headerlink" title="拥塞控制和流量控制的区别"></a>拥塞控制和流量控制的区别</h3><p>拥塞控制：拥塞控制是作用于网络的，它是防止过多的数据注入到网络中，避免出现网络负载过大的情况；常用的方法就是：慢启动、拥塞避免、快速恢复</p>
+<p>流量控制：流量控制是作用于接收者的，它是控制发送者的发送速度从而使接收者来得及接收，防止分组丢失的。</p>
+<h3 id="SYN-Flooding"><a href="#SYN-Flooding" class="headerlink" title="SYN Flooding"></a>SYN Flooding</h3><p>原理：SYN攻击利用的是TCP的<strong>三次握手</strong>机制，攻击端利用<strong>伪造的IP地址</strong>向被攻击端发出请求，而被攻击端发出的<strong>响应报文</strong>将永远发送不到目的地，那么被攻击端在<strong>等待关闭这个连接</strong>（半连接）的过程中消耗了资源，如果有成千上万的这种连接，主机资源将被耗尽，从而达到攻击的目的。</p>
+<h2 id="DHCP"><a href="#DHCP" class="headerlink" title="DHCP"></a>DHCP</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/OPBocai/article/details/80852159">DHCP分配IP地址过程描述_OPBocai的博客-CSDN博客_dhcp分配ip</a></p>
+<p>yiaddr=your ip address，即DHCP服务器提供给主机的IP</p>
+<p>步骤：(目的MAC地址也全是广播)</p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>源IP</th>
+<th>目的IP</th>
+<th>yiaddr</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DHCP discover</td>
+<td>0.0.0.0</td>
+<td>255.255.255.255</td>
+<td>0.0.0.0</td>
+</tr>
+<tr>
+<td>DHCP offer</td>
+<td>server’s IP</td>
+<td>255.255.255.255</td>
+<td>offered ip</td>
+</tr>
+<tr>
+<td>DHCP request</td>
+<td>0.0.0.0</td>
+<td>255.255.255.255</td>
+<td>0.0.0.0</td>
+</tr>
+<tr>
+<td>DHCP ok</td>
+<td>server’s IP</td>
+<td>255.255.255.255</td>
+<td>offered ip</td>
+</tr>
+</tbody></table>
+<p>DHCP服务器最终提供的东西：</p>
+<ul>
+<li>分配IP(your ip address)</li>
+<li>DNS服务器的地址</li>
+<li>主机第一跳（网关）的地址</li>
+<li>子网掩码</li>
+</ul>
+<h1 id="报文"><a href="#报文" class="headerlink" title="报文"></a>报文</h1><h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><p>请求：</p>
+<ul>
+<li>request line=method+URL+version<ul>
+<li>若问主机，不是URL，而是Host</li>
+</ul>
+</li>
+<li>header lines<ul>
+<li>Host</li>
+</ul>
+</li>
+<li>body</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220618193359284.png" srcset="/img/loading.gif" lazyload alt="image-20220618193359284"></p>
+<p>响应：</p>
+<ul>
+<li>status line=protocol+status code+status phrase<ul>
+<li>304</li>
+</ul>
+</li>
+<li>header lines<ul>
+<li>Last-Modified</li>
+<li>Connection</li>
+</ul>
+</li>
+<li>data</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220618193759641.png" srcset="/img/loading.gif" lazyload alt="image-20220618193759641"></p>
+<h2 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h2><ul>
+<li>8字节for header</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612164915586.png" srcset="/img/loading.gif" lazyload alt="image-20220612164915586"></p>
+<h2 id="TCP-1"><a href="#TCP-1" class="headerlink" title="TCP"></a>TCP</h2><ul>
+<li>40字节</li>
+<li>sequence number是该segment的first byte的序号；最开始的时候是随机的</li>
+<li>ACK是期待的下一个</li>
+<li>SYN：三次握手时SYN=1</li>
+<li>FIN：结束TCP时，FIN=1</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612165836865.png" srcset="/img/loading.gif" lazyload alt="image-20220612165836865"></p>
+<h2 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h2><ul>
+<li>IP header至少20字节→TCP/IP=40字节</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612173214851.png" srcset="/img/loading.gif" lazyload alt="image-20220612173214851"></p>
+<h1 id="other"><a href="#other" class="headerlink" title="other"></a>other</h1><h2 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h2><ul>
+<li>HTTP默认是持续连接+流水线</li>
+<li>FTP端口：21控制，20传数据</li>
+<li>IP是无连接、不可靠的</li>
+<li>TCP<ul>
+<li>全双工(允许同时双向传输)</li>
+</ul>
+</li>
 </ul>
 
               

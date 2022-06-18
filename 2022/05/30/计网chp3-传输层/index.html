@@ -16,12 +16,12 @@
   <meta name="author" content="Sean">
   <meta name="keywords" content="">
   
-    <meta name="description" content="一些概念 rdt(reliable data transfer)：停等  不错without error 不乱in order 不丢   GBN：流水线  SR：流水线  multiplexing复用：发送方给来自不同socket的数据封装传输层头部  UDP：dest IP+dest port TCP: (source IP+port) + (dest IP+port)   demultiple">
+    <meta name="description" content="一些概念 rdt(reliable data transfer)：停等  不错without error 不乱in order 不丢   GBN：流水线  SR：流水线  multiplexing复用：accept items from more than one source  UDP：dest IP+dest port TCP: (source IP+port) + (dest IP+port">
 <meta property="og:type" content="article">
 <meta property="og:title" content="计网chp3-传输层">
 <meta property="og:url" content="http://example.com/2022/05/30/%E8%AE%A1%E7%BD%91chp3-%E4%BC%A0%E8%BE%93%E5%B1%82/index.html">
 <meta property="og:site_name" content="Sean&#39;s Blog">
-<meta property="og:description" content="一些概念 rdt(reliable data transfer)：停等  不错without error 不乱in order 不丢   GBN：流水线  SR：流水线  multiplexing复用：发送方给来自不同socket的数据封装传输层头部  UDP：dest IP+dest port TCP: (source IP+port) + (dest IP+port)   demultiple">
+<meta property="og:description" content="一些概念 rdt(reliable data transfer)：停等  不错without error 不乱in order 不丢   GBN：流水线  SR：流水线  multiplexing复用：accept items from more than one source  UDP：dest IP+dest port TCP: (source IP+port) + (dest IP+port">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20210228154400512.png">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20210228160908959.png">
@@ -32,7 +32,7 @@
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612170829221.png">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613135940693.png">
 <meta property="article:published_time" content="2022-05-30T08:41:22.000Z">
-<meta property="article:modified_time" content="2022-06-14T06:06:35.674Z">
+<meta property="article:modified_time" content="2022-06-18T15:03:15.954Z">
 <meta property="article:author" content="Sean">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20210228154400512.png">
@@ -225,7 +225,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.9k 字
+          2k 字
         
       </span>
     
@@ -236,7 +236,7 @@
         
         
         
-          16 分钟
+          17 分钟
         
       </span>
     
@@ -290,13 +290,13 @@
 </li>
 <li><p>SR：流水线</p>
 </li>
-<li><p>multiplexing复用：发送方给来自不同socket的数据封装传输层头部</p>
+<li><p>multiplexing复用：accept items from more than one source</p>
 <ul>
 <li>UDP：dest IP+dest port</li>
 <li>TCP: (source IP+port) + (dest IP+port)</li>
 </ul>
 </li>
-<li><p>demultiplexing分解：接收方根据头部将segment传到不同的socket</p>
+<li><p>demultiplexing分解：deliver items to more than one source</p>
 </li>
 <li><p>congestion control: 拥塞控制是作用于网络的</p>
 <ul>
@@ -385,6 +385,7 @@
 <li>vs GBN<ul>
 <li>根据不同序号启动对应的定时器。而不是当发送窗口内第一个分组时才启动定时器。</li>
 <li>当需要发送滑动窗口所属序号以外的数据时，则把它缓存起来。而不是直接抛弃。</li>
+<li><strong>GBN和SR的发送最大窗口长度=2^n-1，n表示sequence number</strong></li>
 </ul>
 </li>
 </ul>
@@ -430,7 +431,7 @@
 </ul>
 </li>
 </ul>
-
+<h2 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h2>
               
             </div>
             <hr/>
