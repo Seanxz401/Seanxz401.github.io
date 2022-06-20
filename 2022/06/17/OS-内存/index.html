@@ -27,7 +27,7 @@
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20170502124403170">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220614162442678.png">
 <meta property="article:published_time" content="2022-06-17T12:51:20.000Z">
-<meta property="article:modified_time" content="2022-06-17T12:53:16.512Z">
+<meta property="article:modified_time" content="2022-06-19T13:16:24.638Z">
 <meta property="article:author" content="Sean">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20170502124303856">
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.2k 字
+          1.5k 字
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          11 分钟
+          13 分钟
         
       </span>
     
@@ -345,6 +345,14 @@
 </ul>
 </li>
 </ul>
+<h2 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h2><ul>
+<li>逻辑地址是对内存位置的引用，独立于实际位置(物理地址)</li>
+<li><strong>覆盖</strong>：将程序和数据组织起来，使不同的模块分配到同一内存区域</li>
+<li>共享：进程间通信或共享模块</li>
+<li>保护：未经允许进程不能引用其他进程的内存地址</li>
+<li>重定向：发生在load、run</li>
+<li>分页-内部碎片，分段-外部碎片</li>
+</ul>
 <h1 id="chp8虚拟内存"><a href="#chp8虚拟内存" class="headerlink" title="chp8虚拟内存"></a>chp8虚拟内存</h1><h2 id="简答-1"><a href="#简答-1" class="headerlink" title="简答"></a>简答</h2><h3 id="一、缺页异常的处理"><a href="#一、缺页异常的处理" class="headerlink" title="一、缺页异常的处理"></a>一、缺页异常的处理</h3><p>即页面置换算法？<a target="_blank" rel="noopener" href="https://www.cnblogs.com/Leophen/p/11397699.html">页面置换算法详解 - Leophen - 博客园 (cnblogs.com)</a></p>
 <table>
 <thead>
@@ -414,6 +422,19 @@
 <td>评估复杂</td>
 </tr>
 </tbody></table>
+<h2 id="选择-1"><a href="#选择-1" class="headerlink" title="选择"></a>选择</h2><ul>
+<li>内存管理设计取决于<ul>
+<li>是否使用虚拟内存技术</li>
+<li>使用分段/分页/段页式</li>
+<li>采用的策略算法</li>
+</ul>
+</li>
+<li><strong>抖动</strong>：处理器花费大量时间换入换出进程的页或段，而不是执行指令</li>
+<li>加载控制：决定驻留在主存中的进程数</li>
+<li>分段系统中实现共享：在两个及以上的进程中引用段表中的同一个段</li>
+<li>段页式：先分段再分页</li>
+<li>局部替换策略：发生页面错误时，仅在进程驻留的页面中选择页去替换</li>
+</ul>
 
               
             </div>

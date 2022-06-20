@@ -16,12 +16,12 @@
   <meta name="author" content="Sean">
   <meta name="keywords" content="">
   
-    <meta name="description" content="参考教材：《操作系统——精髓与设计原理》（第八版） chp3进程描述与控制一、进程概念  概念：进程是对运行时程序的封装，是系统进行资源调度和分配的基本单位。进程就是程序的执行过程。 vs程序 进程是程序的一次执行过程，它是动态地创建和消亡的，具有一定的生命周期，是暂时存在的；而程序则是一组代码的集合，他是永久存在的，可长期保存。 进程具有并发性，而程序没有； 一个程序可对应多个进程； 一个进程可">
+    <meta name="description" content="参考教材：《操作系统——精髓与设计原理》（第八版） chp3进程描述与控制简答一、进程概念 概念：进程是对运行时程序的封装，是系统进行资源调度和分配的基本单位。进程就是程序的执行过程。 vs程序 进程是程序的一次执行过程，它是动态地创建和消亡的，具有一定的生命周期，是暂时存在的；而程序则是一组代码的集合，他是永久存在的，可长期保存。 进程具有并发性，而程序没有； 一个程序可对应多个进程； 一个进程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OS-进程">
 <meta property="og:url" content="http://example.com/2022/06/17/OS-%E8%BF%9B%E7%A8%8B/index.html">
 <meta property="og:site_name" content="Sean&#39;s Blog">
-<meta property="og:description" content="参考教材：《操作系统——精髓与设计原理》（第八版） chp3进程描述与控制一、进程概念  概念：进程是对运行时程序的封装，是系统进行资源调度和分配的基本单位。进程就是程序的执行过程。 vs程序 进程是程序的一次执行过程，它是动态地创建和消亡的，具有一定的生命周期，是暂时存在的；而程序则是一组代码的集合，他是永久存在的，可长期保存。 进程具有并发性，而程序没有； 一个程序可对应多个进程； 一个进程可">
+<meta property="og:description" content="参考教材：《操作系统——精髓与设计原理》（第八版） chp3进程描述与控制简答一、进程概念 概念：进程是对运行时程序的封装，是系统进行资源调度和分配的基本单位。进程就是程序的执行过程。 vs程序 进程是程序的一次执行过程，它是动态地创建和消亡的，具有一定的生命周期，是暂时存在的；而程序则是一组代码的集合，他是永久存在的，可长期保存。 进程具有并发性，而程序没有； 一个程序可对应多个进程； 一个进程">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/bf096b63f6246b60d503e3eae0f81a4c510fa21b">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20200205162007779.png">
@@ -34,7 +34,7 @@
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20180317175828781">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/1358881-20191125164352815-1516999888.png">
 <meta property="article:published_time" content="2022-06-17T12:50:56.000Z">
-<meta property="article:modified_time" content="2022-06-17T12:53:08.762Z">
+<meta property="article:modified_time" content="2022-06-19T12:57:45.539Z">
 <meta property="article:author" content="Sean">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/bf096b63f6246b60d503e3eae0f81a4c510fa21b">
@@ -227,7 +227,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          6k 字
+          6.6k 字
         
       </span>
     
@@ -238,7 +238,7 @@
         
         
         
-          50 分钟
+          56 分钟
         
       </span>
     
@@ -281,8 +281,7 @@
             <div class="markdown-body">
               
               <p>参考教材：《操作系统——精髓与设计原理》（第八版）</p>
-<h1 id="chp3进程描述与控制"><a href="#chp3进程描述与控制" class="headerlink" title="chp3进程描述与控制"></a>chp3进程描述与控制</h1><p>一、进程概念</p>
-<ul>
+<h1 id="chp3进程描述与控制"><a href="#chp3进程描述与控制" class="headerlink" title="chp3进程描述与控制"></a>chp3进程描述与控制</h1><h2 id="简答"><a href="#简答" class="headerlink" title="简答"></a>简答</h2><h3 id="一、进程概念"><a href="#一、进程概念" class="headerlink" title="一、进程概念"></a>一、进程概念</h3><ul>
 <li>概念：进程是对运行时程序的封装，是系统进行资源调度和分配的基本单位。进程就是程序的执行过程。</li>
 <li>vs程序<ul>
 <li>进程是程序的一次执行过程，它是<strong>动态</strong>地创建和消亡的，具有一定的生命周期，是暂时存在的；而程序则是一组代码的集合，他是<strong>永久存在</strong>的，可长期保存。</li>
@@ -291,8 +290,7 @@
 </ul>
 </li>
 </ul>
-<p>二、进程控制块PCB</p>
-<ul>
+<h3 id="二、进程控制块PCB"><a href="#二、进程控制块PCB" class="headerlink" title="二、进程控制块PCB"></a>二、进程控制块PCB</h3><ul>
 <li>内容：<ul>
 <li>标识符：进程的唯一标识符</li>
 <li>状态：阻塞态/运行态</li>
@@ -301,27 +299,24 @@
 </li>
 <li>重要性：是操作系统为支持多线程并提供多重处理技术的关键工具。可以在中断后恢复进程的执行。</li>
 </ul>
-<p>三、操作系统为进程提供了哪些支持</p>
-<ul>
+<h3 id="三、操作系统为进程提供了哪些支持"><a href="#三、操作系统为进程提供了哪些支持" class="headerlink" title="三、操作系统为进程提供了哪些支持"></a>三、操作系统为进程提供了哪些支持</h3><ul>
 <li>操作系统维护了一组队列，表示系统中所有进程的当前状态。简单来说，每个进程的PCB都根据它的状态加入到相应的队列中，当一个进程的状态发生变化时，它的PCB从一个状态队列中脱离出来，加入到另一个队列。</li>
 <li>创建进程、调度</li>
 </ul>
-<p>四、程序如何变成进程的，及其在内存中的状态</p>
-<ol>
+<h3 id="四、程序如何变成进程的，及其在内存中的状态"><a href="#四、程序如何变成进程的，及其在内存中的状态" class="headerlink" title="四、程序如何变成进程的，及其在内存中的状态"></a>四、程序如何变成进程的，及其在内存中的状态</h3><ol>
 <li>操作系统将程序读入内存，为程序映射分配内存空间；</li>
 <li>操作系统向内核数据结构中添加了适当的信息，并为运行程序代码分配了必要的资源之后，程序就变成了进程。</li>
 <li>跳转到入口函数，OS将CPU控制权交给新创建的进程，进程获取到CPU后就可以执行了。</li>
 <li>程序在内存中的状态：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/bf096b63f6246b60d503e3eae0f81a4c510fa21b" srcset="/img/loading.gif" lazyload alt="img"></li>
 <li>进程映像在虚存中的结构：PCB+用户栈+进程专用地址空间（程序、数据）+内核栈+共享地址空间</li>
 </ol>
-<p>五、进程控制的相关系统调用</p>
-<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20200205162007779.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<h3 id="五、进程控制的相关系统调用"><a href="#五、进程控制的相关系统调用" class="headerlink" title="五、进程控制的相关系统调用"></a>五、进程控制的相关系统调用</h3><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20200205162007779.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
 <ul>
 <li>创建：Fork创建一个新的进程并分配pid；</li>
 <li>销毁：Exit终止运行中的进程，变为退出状态；</li>
 <li>切换：Wait导致进程由运行态变为等待态，操作系统根据调度算法将CPU交给下一个进程</li>
 </ul>
-<p>六、进程创建，以Fork为例</p>
+<h3 id="六、进程创建"><a href="#六、进程创建" class="headerlink" title="六、进程创建"></a>六、进程创建</h3><p>以Fork为例</p>
 <ul>
 <li>Fork创建一个继承的子进程：<ul>
 <li>分配标识符、PCB</li>
@@ -331,8 +326,7 @@
 </li>
 <li>调用一次，返回两次：子进程返回0，父进程返回子进程标识符</li>
 </ul>
-<p>七、五状态模型</p>
-<p><img src="https://pic3.zhimg.com/80/v2-9a35137516c911b1c2cb48296fe8c996_1440w.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
+<h3 id="七、五状态模型"><a href="#七、五状态模型" class="headerlink" title="七、五状态模型"></a>七、五状态模型</h3><p><img src="https://pic3.zhimg.com/80/v2-9a35137516c911b1c2cb48296fe8c996_1440w.jpg" srcset="/img/loading.gif" lazyload alt="img"></p>
 <ul>
 <li>创建态：PCB已创建但还未加载到内存中的新进程→</li>
 <li>就绪态：进入就绪队列，等待CPU的调度</li>
@@ -340,19 +334,39 @@
 <li>阻塞/等待态：进程因正在等待某些事件而暂停执行，如等待IO操作完成；</li>
 <li>退出态：操作系统释放进程</li>
 </ul>
-<p>八、进程/上下文切换</p>
-<ul>
+<h3 id="八、进程-上下文切换"><a href="#八、进程-上下文切换" class="headerlink" title="八、进程/上下文切换"></a>八、进程/上下文切换</h3><ul>
 <li>从OS的角度看：操作系统从就绪队列中选出下一个进程并把CPU控制权交给它；</li>
 <li>从cpu的角度看：寄存器先把当前进程的命令位置记录下来，然后保存起来，接着把当前进程的命令位置替换成内核态的指令的新位置，然后跳转到内核态执行任务，当系统调用结束后，还要切换回用户态继续执行</li>
 <li>从任何一个进程的角度：？？？</li>
 </ul>
-<p>九、模式/态(mode)的切换</p>
+<h3 id="九、模式-态-mode-的切换"><a href="#九、模式-态-mode-的切换" class="headerlink" title="九、模式/态(mode)的切换"></a>九、模式/态(mode)的切换</h3><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xumaomao/p/12860324.html">进程切换与模式切换 - xd_xumaomao - 博客园 (cnblogs.com)</a></p>
 <ul>
-<li>产生中断或者用户调用系统程序时，执行模式变成<strong>内核态</strong>；</li>
-<li>从系统服务返回到用户进程时，则变成<strong>用户态</strong>；</li>
+<li>用户模式到内核模式由<strong>中断/异常(如缺页故障)/系统调用</strong> 中断用户进程执行而触发</li>
+<li>内核模式到用户模式由OS执行中断返回指令<strong>将控制权交还用户</strong>进程而触发</li>
 </ul>
-<h1 id="chp4线程"><a href="#chp4线程" class="headerlink" title="chp4线程"></a>chp4线程</h1><p>一、线程的概念，与进程的关系</p>
-<ul>
+<h2 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h2><ul>
+<li>CPU的mode<ul>
+<li>当执行应用程序(用户程序时)：user mode</li>
+</ul>
+</li>
+<li>进程的五状态模型<ul>
+<li>点，边</li>
+<li>导致新建态的产生：新的批处理作业提交、新的用户登录、现有进程创建子进程</li>
+<li>导致退出态：执行了无效指令、系统管理员终止了它、父进程终止</li>
+</ul>
+</li>
+<li>新进程的创建步骤：<ul>
+<li>为新进程分配新的内存地址空间</li>
+<li>为新进程分配唯一的进程标识符</li>
+<li>初始化新进程的进程控制块PCB</li>
+</ul>
+</li>
+<li>进程切换必须在操作系统内核模式下完成，这就需要模式切换。<strong>即有进程切换，一定有处理器态的切换。</strong></li>
+<li>进程切换可能发生在：时钟中断、系统调用、缺页故障</li>
+<li>一些中断/异常不会引起进程状态转换，不会引起进程切换，只是在处理完成后把控制权交回给被中断进程</li>
+<li>进程两状态模型：运行态、非运行态</li>
+</ul>
+<h1 id="chp4线程"><a href="#chp4线程" class="headerlink" title="chp4线程"></a>chp4线程</h1><h2 id="简答-1"><a href="#简答-1" class="headerlink" title="简答"></a>简答</h2><h3 id="一、线程的概念，与进程的关系"><a href="#一、线程的概念，与进程的关系" class="headerlink" title="一、线程的概念，与进程的关系"></a>一、线程的概念，与进程的关系</h3><ul>
 <li>线程是进程的一条执行流程。是操作系统调度和分派的单位；</li>
 <li>vs进程：<ul>
 <li>进程是资源分配的单位，线程是调度的单位。</li>
@@ -362,11 +376,10 @@
 </li>
 <li>是轻量级进程：线程创建，终止时间比较短；同样具有就绪，阻塞和执行三种基本状态，同样具有状态之间的转换。</li>
 </ul>
-<p>二、？？？</p>
-<p>三、线程的实现方式&amp;四、ULT和KLT的优缺点 [线程的实现方式 - 云+社区 - 腾讯云 (tencent.com)](<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1350257#:~:text=%E4%B8%80%E3%80%81%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%B8%89%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F">https://cloud.tencent.com/developer/article/1350257#:~:text=一、线程的三种实现方式</a> 1 使用内核线程实现,2 使用用户线程实现 3 使用用户线程加轻量级进程混合实现)</p>
+<h3 id="二、？？？"><a href="#二、？？？" class="headerlink" title="二、？？？"></a>二、？？？</h3><h3 id="三、线程的实现方式-amp-四、ULT和KLT的优缺点"><a href="#三、线程的实现方式-amp-四、ULT和KLT的优缺点" class="headerlink" title="三、线程的实现方式&amp;四、ULT和KLT的优缺点"></a>三、线程的实现方式&amp;四、ULT和KLT的优缺点</h3><p> [线程的实现方式 - 云+社区 - 腾讯云 (tencent.com)](<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1350257#:~:text=%E4%B8%80%E3%80%81%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%B8%89%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F">https://cloud.tencent.com/developer/article/1350257#:~:text=一、线程的三种实现方式</a> 1 使用内核线程实现,2 使用用户线程实现 3 使用用户线程加轻量级进程混合实现)</p>
 <ol>
-<li>内核线程，一对一线程模型<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/hg2a7ctu9s.png" srcset="/img/loading.gif" lazyload alt="img"></li>
-<li>用户线程，一对多线程模型<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/640hvuwuem.png" srcset="/img/loading.gif" lazyload alt="img"></li>
+<li>内核线程KLT，一对一线程模型<br><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/hg2a7ctu9s.png" srcset="/img/loading.gif" lazyload alt="img"></li>
+<li>用户线程ULT，一对多线程模型<br><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/640hvuwuem.png" srcset="/img/loading.gif" lazyload alt="img"></li>
 <li>用户线程加轻量级进程混合实现，N:M线程模型<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/w14b8qzyxz.png" srcset="/img/loading.gif" lazyload alt="img"></li>
 </ol>
 <table>
@@ -397,14 +410,27 @@
 <td></td>
 </tr>
 </tbody></table>
-<p>五、Linux线程的系统调用机制</p>
-<ul>
+<h3 id="五、Linux线程的系统调用机制"><a href="#五、Linux线程的系统调用机制" class="headerlink" title="五、Linux线程的系统调用机制"></a>五、Linux线程的系统调用机制</h3><ul>
 <li>pthread_create创建线程</li>
 <li>pthread_exit退出线程</li>
 <li>pthread_join阻塞回收子线程</li>
 <li>pthread_cancel杀死线程</li>
 </ul>
-<h1 id="chp5互斥和同步"><a href="#chp5互斥和同步" class="headerlink" title="chp5互斥和同步"></a>chp5互斥和同步</h1><p>一、互斥和同步的解决办法&amp;二、硬件方法解决 <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/88017448">操作系统（三）—进程管理 - 知乎 (zhihu.com)</a></p>
+<h2 id="选择-1"><a href="#选择-1" class="headerlink" title="选择"></a>选择</h2><ul>
+<li>资源所有权for进程，调度/执行for线程</li>
+<li>创建线程、线程切换、终止线程都比直接操作进程花费的时间更少</li>
+<li>线程包含CPU线程，可以独立执行程序</li>
+<li>线程共享进程的地址空间</li>
+<li>Linux中，线程:进程=M:1</li>
+<li>与线程状态改变的4种基本操作<ul>
+<li>派生：线程可在同一进程中派生另一个线程</li>
+<li>阻塞：线程需要等待一个事件时</li>
+<li>解除阻塞：事件发生，移到就绪队列</li>
+<li>结束</li>
+</ul>
+</li>
+</ul>
+<h1 id="chp5互斥和同步"><a href="#chp5互斥和同步" class="headerlink" title="chp5互斥和同步"></a>chp5互斥和同步</h1><h2 id="简答-2"><a href="#简答-2" class="headerlink" title="简答"></a>简答</h2><h3 id="一、互斥和同步的解决办法-amp-二、硬件方法解决"><a href="#一、互斥和同步的解决办法-amp-二、硬件方法解决" class="headerlink" title="一、互斥和同步的解决办法&amp;二、硬件方法解决"></a>一、互斥和同步的解决办法&amp;二、硬件方法解决</h3><p> <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/88017448">操作系统（三）—进程管理 - 知乎 (zhihu.com)</a></p>
 <p><strong>ps:软件和硬件方法是实现互斥（只能有1个进程对临界区进行操作），信号量和管程是实现同步（限制进入临界区的进程数量），实现互斥&amp;同步是为了实现并发</strong></p>
 <ul>
 <li>软件方法<ul>
@@ -413,8 +439,8 @@
 </ul>
 </li>
 <li>硬件方法<ul>
-<li>关中断/中断禁用：（单处理器机器）处理器只能交替执行并发进程，不能重叠；让硬件将中断处理延迟到中断启用后。在临界区内，没有中断，没有上下文切换，因此没有并发。</li>
-<li>特殊指令：（多处理配置）保证原子性，将两个动作结合到一个指令周期。<ul>
+<li>关中断/中断禁用：（单处理器机器）处理器只能交替执行并发进程，不能重叠；让硬件将中断处理延迟到中断启用后。<strong>在临界区内，没有中断，没有上下文切换，因此没有并发</strong>。</li>
+<li>特殊指令：（多处理配置）保证原子性，<strong>将两个动作结合到一个指令周期</strong>。<ul>
 <li>testset：进入临界区之前，首先用TS指令测试lock，如果为false，则表示空闲，将lock赋为true，关闭临界资源；如果TestAndSet返回true，则一直循环测试，直到返回false，跳出循环，进入临界区。基于这个指令，我们可以实现获取资源和释放资源的操作。</li>
 <li>exchange/swap</li>
 </ul>
@@ -427,8 +453,7 @@
 </ul>
 </li>
 </ul>
-<p>三、条件竞争</p>
-<ul>
+<h3 id="三、条件竞争"><a href="#三、条件竞争" class="headerlink" title="三、条件竞争"></a>三、条件竞争</h3><ul>
 <li>发生在多个进程或线程读写数据时，其最终结果取决于多个线程的指令执行顺序</li>
 <li>举例<ul>
 <li>输入-赋值-输出<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220601224853485.png" srcset="/img/loading.gif" lazyload alt="image-20220601224853485"></li>
@@ -436,8 +461,7 @@
 </ul>
 </li>
 </ul>
-<p>四、信号量解决生产者/消费者问题</p>
-<p>1.使用二元信号量解决无限缓冲区：</p>
+<h3 id="四、信号量解决生产者-消费者问题"><a href="#四、信号量解决生产者-消费者问题" class="headerlink" title="四、信号量解决生产者/消费者问题"></a>四、信号量解决生产者/消费者问题</h3><p>1.使用二元信号量解决无限缓冲区：</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">int</span> n;<br>binary_semaphore s=<span class="hljs-number">1</span>,delay=<span class="hljs-number">0</span>;<span class="hljs-comment">//定义s只能为01来实现互斥（存商品和取商品之间），delay用于迫使消费者在缓冲区为空的时候等待</span><br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">producer</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>)&#123;<br>        <span class="hljs-built_in">produce</span>();	<span class="hljs-comment">//生产商品不属于共享资源</span><br>        <span class="hljs-built_in">semWaitB</span>(s);<br>        <span class="hljs-built_in">append</span>();	<span class="hljs-comment">//将商品存入仓库属于临界资源</span><br>        n++;<br>        <span class="hljs-keyword">if</span>(n==<span class="hljs-number">1</span>) <span class="hljs-built_in">semSignalB</span>(delay);	<span class="hljs-comment">//当n=1表示这是仓库为空后存入的第一个商品</span><br>        <span class="hljs-built_in">semSignalB</span>(s);<br>    &#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">consumer</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">int</span> m;<br>	<span class="hljs-built_in">semWaitB</span>(delay);	<span class="hljs-comment">//仓库不为空后唤醒消费者</span><br>    <span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>)&#123;<br>        <span class="hljs-built_in">semWaitB</span>(s);<br>        <span class="hljs-built_in">take</span>();	<span class="hljs-comment">//取商品属于临界资源</span><br>        n--;<br>        m=n;<br>        <span class="hljs-built_in">semSignalB</span>(s);<br>        <span class="hljs-built_in">consume</span>();	<span class="hljs-comment">//消费商品不属于临界资源</span><br>        <span class="hljs-keyword">if</span>(m==<span class="hljs-number">0</span>) <span class="hljs-built_in">semWaitB</span>(delay);	<span class="hljs-comment">//n=0表示仓库为空了</span><br>    &#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    n=<span class="hljs-number">0</span>;	<span class="hljs-comment">//初始化仓库内有n个产品</span><br>    <span class="hljs-built_in">parbegin</span>(producer,consumer);<br>&#125;<br></code></pre></td></tr></table></figure>
 
 <p>2.使用一般/计数信号量实现无限缓冲区:</p>
@@ -446,7 +470,7 @@
 <p>3.使用信号量解决有限缓冲区</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> sizeofbuffer=<span class="hljs-string">&quot;缓冲区大小&quot;</span>;<br>semaphore s=<span class="hljs-number">1</span>,n=<span class="hljs-number">0</span>,e=sizeofbuffer;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">producer</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>)&#123;<br>        <span class="hljs-built_in">produce</span>();<br>        <span class="hljs-built_in">semWait</span>(e);<br>        <span class="hljs-built_in">semWait</span>(s);<br>        <span class="hljs-built_in">append</span>();<br>        <span class="hljs-built_in">semSignal</span>(s);<br>        <span class="hljs-built_in">semSignal</span>(n);<br>    &#125;<br>&#125;<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">consumer</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">while</span>(<span class="hljs-literal">true</span>)&#123;<br>        <span class="hljs-built_in">semWait</span>(n);<br>        <span class="hljs-built_in">semWait</span>(s);<br>        <span class="hljs-built_in">take</span>();<br>        <span class="hljs-built_in">semSignal</span>(s);<br>        <span class="hljs-built_in">semSignal</span>(e);<br>        <span class="hljs-built_in">consume</span>();<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
 
-<p>五、并发的四个问题及解决办法 <a target="_blank" rel="noopener" href="https://blog.csdn.net/Zhou000815/article/details/116453890?spm=1001.2101.3001.6650.2&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-2-116453890-blog-45459351.pc_relevant_antiscanv4&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-2-116453890-blog-45459351.pc_relevant_antiscanv4&utm_relevant_index=5">【Linux】—互斥与同步、死锁与饥饿、实现生产者消费者模型、常见锁类型_想去吹吹海风的博客-CSDN博客_互斥死锁饥饿</a></p>
+<h3 id="五、并发的四个问题及解决办法"><a href="#五、并发的四个问题及解决办法" class="headerlink" title="五、并发的四个问题及解决办法"></a>五、并发的四个问题及解决办法</h3><p> <a target="_blank" rel="noopener" href="https://blog.csdn.net/Zhou000815/article/details/116453890?spm=1001.2101.3001.6650.2&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-2-116453890-blog-45459351.pc_relevant_antiscanv4&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-2-116453890-blog-45459351.pc_relevant_antiscanv4&utm_relevant_index=5">【Linux】—互斥与同步、死锁与饥饿、实现生产者消费者模型、常见锁类型_想去吹吹海风的博客-CSDN博客_互斥死锁饥饿</a></p>
 <table>
 <thead>
 <tr>
@@ -476,8 +500,18 @@
 <td>1.死锁预防；2.死锁避免；3.死锁检测与解除（</td>
 </tr>
 </tbody></table>
+<h2 id="选择-2"><a href="#选择-2" class="headerlink" title="选择"></a>选择</h2><ul>
+<li>为了实现互斥：<ul>
+<li>同一时间只允许一个程序进入程序的临界区</li>
+<li>一个进程驻留在临界区中的<strong>时间是有限的</strong></li>
+<li>对进程执行速度无要求</li>
+</ul>
+</li>
+<li><strong>临界区</strong>指并发进程中访问共享变量的代码段</li>
+<li>生产者和消费者同时是读者和写者</li>
+</ul>
 <h1 id="chp6死锁和饥饿"><a href="#chp6死锁和饥饿" class="headerlink" title="chp6死锁和饥饿"></a>chp6死锁和饥饿</h1><p>可重用资源：可被多个进程多次使用<br>（1）可抢占资源（处理器CPU）与不可抢占资源（打印机）<br>（2）处理器、I/O部件、内存、文件、数据库、信号量<br>可消耗资源：只可以使用一次、可创建和销毁的资源<br>（1）信号、中断、消息</p>
-<h2 id="简答"><a href="#简答" class="headerlink" title="简答"></a>简答</h2><h3 id="一、死锁的概念和举例"><a href="#一、死锁的概念和举例" class="headerlink" title="一、死锁的概念和举例"></a>一、死锁的概念和举例</h3><ul>
+<h2 id="简答-3"><a href="#简答-3" class="headerlink" title="简答"></a>简答</h2><h3 id="一、死锁的概念和举例"><a href="#一、死锁的概念和举例" class="headerlink" title="一、死锁的概念和举例"></a>一、死锁的概念和举例</h3><ul>
 <li>概念：当一组进程中的每个进程都在等待某个事件（如等待释放所请求的资源），而仅有这组进程中被阻塞的其他进程才可触发该事件时，就称这组进程发生了死锁。</li>
 <li>举例：<ul>
 <li>独木桥。A，B都要过独木桥，但是互不退让，僵死。</li>
@@ -543,7 +577,7 @@
 <li>恢复<ul>
 <li>资源剥夺</li>
 <li>进程回退</li>
-<li>进程撤销：1.CPU消耗时间最少者 2.产生的输出量最小者 3.预计剩余执行时间最长者 4.分得的资源数量最少者后优先级最低者</li>
+<li>进程撤销：1.CPU消耗时间最少者 2.产生的输出量最小者 3.预计剩余执行时间最长者 4.分得的资源数量最少者 5.优先级最低者</li>
 <li>系统重启</li>
 </ul>
 </li>
@@ -552,7 +586,7 @@
 </ul>
 <h3 id="五、银行家算法"><a href="#五、银行家算法" class="headerlink" title="五、银行家算法"></a>五、银行家算法</h3><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wkfvawl/p/11929508.html">操作系统——银行家算法（Banker’s Algorithm） - 王陸 - 博客园 (cnblogs.com)</a></p>
 <ul>
-<li>安全状态：至少有一个资源分配序列不会导致死锁。</li>
+<li><strong>安全状态：至少有一个资源分配序列不会导致死锁。</strong></li>
 <li>不安全状态：不一定是死锁状态</li>
 <li>系统处于安全状态一定可以避免死锁，而系统处于不安全状态则仅仅可能进入死锁状态。</li>
 </ul>
@@ -567,6 +601,15 @@
 <ul>
 <li>Claim：进程需要的资源数</li>
 <li>Allocation：已分配的资源数</li>
+</ul>
+<h2 id="选择-3"><a href="#选择-3" class="headerlink" title="选择"></a>选择</h2><ul>
+<li>可消耗资源：可以创建和销毁，如消息？</li>
+<li>死锁恢复中选择特定进程中止或回滚<ul>
+<li>已分配的总资源最少</li>
+<li>最低优先级</li>
+<li>预计剩余时间最长</li>
+</ul>
+</li>
 </ul>
 
               

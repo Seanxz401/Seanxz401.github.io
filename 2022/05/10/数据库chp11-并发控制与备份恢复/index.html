@@ -26,7 +26,7 @@
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220617133641811.png">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220617140231637.png">
 <meta property="article:published_time" content="2022-05-10T06:46:17.000Z">
-<meta property="article:modified_time" content="2022-06-17T06:02:36.310Z">
+<meta property="article:modified_time" content="2022-06-19T15:40:10.799Z">
 <meta property="article:author" content="Sean">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220617133641811.png">
@@ -335,7 +335,11 @@
 <li>两项操作的对象是同一个数据项</li>
 <li>至少有一个写操作</li>
 </ul>
-<p>precedence/serialization graph 优先图/串行化图：用来检测调度是否为冲突可串行的。</p>
+<p>precedence/serialization graph <strong>优先图</strong>/串行化图：用来检测调度是否为冲突可串行的。</p>
+<ul>
+<li>直到write(x)结束才算是真正修改了x</li>
+<li>事务提交不影响优先图边的存在</li>
+</ul>
 <h3 id="可恢复性"><a href="#可恢复性" class="headerlink" title="可恢复性"></a>可恢复性</h3><p>recoverability，若事务失败，要撤销事务对数据库造成的所有影响</p>
 <h3 id="并发控制技术"><a href="#并发控制技术" class="headerlink" title="并发控制技术"></a>并发控制技术</h3><h4 id="加锁"><a href="#加锁" class="headerlink" title="加锁"></a>加锁</h4><p>locking</p>
 <ul>

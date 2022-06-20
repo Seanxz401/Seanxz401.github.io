@@ -16,17 +16,17 @@
   <meta name="author" content="Sean">
   <meta name="keywords" content="">
   
-    <meta name="description" content="chp12文件管理简答一、文件系统架构  设备驱动：通过设备驱动程序直接与外围设备通信 基本文件系统&#x2F;物理I&#x2F;O层：处理在磁盘间或磁带系统间交换的数据块 基本I&#x2F;O管理程序：负责所有文件I&#x2F;O的初始化和终止 逻辑I&#x2F;O：使用户和应用程序能够访问记录 访问方法：即最上面一层，在应用程序和文件系统以及保存数据的设备之间提供了标准接口。  二、文件组织和访问逻辑层  堆 最简单的文件组织形式，数据按照到">
+    <meta name="description" content="chp11 I&#x2F;O管理和磁盘调度选择 I&#x2F;O设备的主要差别包括：错误条件、数据传送速率、数据表示 IO技术 中断驱动IO：1）CPU初始化I&#x2F;O并启动第一次I&#x2F;O操作。 2）CPU去忙别的事情。 3）当I&#x2F;O完成时，CPU将被中断。 4）CPU处理中断。 5）CPU恢复被中断的程序。 程序控制IO：处理器代表一个进程给IO模块发送一个IO命令，该进程进入忙等待，直到操作完成才能继续执行   面向块">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OS-IO和文件">
 <meta property="og:url" content="http://example.com/2022/06/17/OS-IO%E5%92%8C%E6%96%87%E4%BB%B6/index.html">
 <meta property="og:site_name" content="Sean&#39;s Blog">
-<meta property="og:description" content="chp12文件管理简答一、文件系统架构  设备驱动：通过设备驱动程序直接与外围设备通信 基本文件系统&#x2F;物理I&#x2F;O层：处理在磁盘间或磁带系统间交换的数据块 基本I&#x2F;O管理程序：负责所有文件I&#x2F;O的初始化和终止 逻辑I&#x2F;O：使用户和应用程序能够访问记录 访问方法：即最上面一层，在应用程序和文件系统以及保存数据的设备之间提供了标准接口。  二、文件组织和访问逻辑层  堆 最简单的文件组织形式，数据按照到">
+<meta property="og:description" content="chp11 I&#x2F;O管理和磁盘调度选择 I&#x2F;O设备的主要差别包括：错误条件、数据传送速率、数据表示 IO技术 中断驱动IO：1）CPU初始化I&#x2F;O并启动第一次I&#x2F;O操作。 2）CPU去忙别的事情。 3）当I&#x2F;O完成时，CPU将被中断。 4）CPU处理中断。 5）CPU恢复被中断的程序。 程序控制IO：处理器代表一个进程给IO模块发送一个IO命令，该进程进入忙等待，直到操作完成才能继续执行   面向块">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220617203443795.png">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220617211818719.png">
 <meta property="article:published_time" content="2022-06-17T12:51:33.000Z">
-<meta property="article:modified_time" content="2022-06-17T13:30:02.882Z">
+<meta property="article:modified_time" content="2022-06-19T13:50:53.748Z">
 <meta property="article:author" content="Sean">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220617203443795.png">
@@ -219,7 +219,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1k 字
+          1.5k 字
         
       </span>
     
@@ -230,7 +230,7 @@
         
         
         
-          9 分钟
+          13 分钟
         
       </span>
     
@@ -272,7 +272,20 @@
             
             <div class="markdown-body">
               
-              <h1 id="chp12文件管理"><a href="#chp12文件管理" class="headerlink" title="chp12文件管理"></a>chp12文件管理</h1><h2 id="简答"><a href="#简答" class="headerlink" title="简答"></a>简答</h2><h3 id="一、文件系统架构"><a href="#一、文件系统架构" class="headerlink" title="一、文件系统架构"></a>一、文件系统架构</h3><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220617203443795.png" srcset="/img/loading.gif" lazyload alt="image-20220617203443795"></p>
+              <h1 id="chp11-I-O管理和磁盘调度"><a href="#chp11-I-O管理和磁盘调度" class="headerlink" title="chp11 I/O管理和磁盘调度"></a>chp11 I/O管理和磁盘调度</h1><h2 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h2><ul>
+<li>I/O设备的主要差别包括：错误条件、数据传送速率、数据表示</li>
+<li>IO技术<ul>
+<li>中断驱动IO：1）CPU初始化I/O并启动第一次I/O操作。 2）CPU去忙别的事情。 3）当I/O完成时，CPU将被<strong>中断</strong>。 4）CPU处理中断。 5）CPU恢复被中断的程序。</li>
+<li>程序控制IO：处理器代表一个进程给IO模块发送一个<strong>IO命令</strong>，该进程进入忙等待，直到操作完成才能继续执行</li>
+</ul>
+</li>
+<li>面向块的设备：CD-ROM</li>
+<li>面向字节流的设备：打印机</li>
+<li>最接近硬件的层：调度和控制层</li>
+<li>循环缓冲：使用<strong>多于</strong>两个缓冲区的方案来处理进程需要执行大量IO操作的场景</li>
+<li>磁盘传输的一般时序：等待磁盘设备、寻道、旋转延迟</li>
+</ul>
+<h2 id="磁盘调度策略"><a href="#磁盘调度策略" class="headerlink" title="磁盘调度策略"></a>磁盘调度策略</h2><h1 id="chp12文件管理"><a href="#chp12文件管理" class="headerlink" title="chp12文件管理"></a>chp12文件管理</h1><h2 id="简答"><a href="#简答" class="headerlink" title="简答"></a>简答</h2><h3 id="一、文件系统架构"><a href="#一、文件系统架构" class="headerlink" title="一、文件系统架构"></a>一、文件系统架构</h3><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220617203443795.png" srcset="/img/loading.gif" lazyload alt="image-20220617203443795"></p>
 <ul>
 <li><strong>设备驱动</strong>：通过设备驱动程序直接与外围设备通信</li>
 <li><strong>基本文件系统</strong>/物理I/O层：处理在磁盘间或磁带系统间交换的<strong>数据块</strong></li>
@@ -359,6 +372,26 @@
 <li>强制模式（默认）：只要是违反策略的行动都会被禁止，并作为内核信息记录</li>
 <li>允许模式：违反策略的行动不会被禁止，但是会提示警告信息</li>
 <li>禁用模式：禁用SELinux</li>
+</ul>
+<h2 id="选择-1"><a href="#选择-1" class="headerlink" title="选择"></a>选择</h2><ul>
+<li>记录型文件：一组相似记录的集合</li>
+<li>记录型的文件组织包括：<ul>
+<li>堆：穷举查找</li>
+<li>顺序文件：适用于所有记录都需要被处理</li>
+<li>索引文件：与顺序文件类似，额外增加的两个特性是：<strong>文件索引和溢出文件</strong></li>
+<li>直接/散列文件：一次只访问一条记录；记录长度是固定的；适用于快速访问</li>
+</ul>
+</li>
+<li>文件目录<ul>
+<li>使用信息：包含了文件创建者的身份等信息</li>
+</ul>
+</li>
+<li>固定文件块-内部碎片</li>
+<li>磁盘分配表：维护可用磁盘空间信息</li>
+<li>磁盘空闲空间管理技术<ul>
+<li>链接空闲区</li>
+</ul>
+</li>
 </ul>
 
               
