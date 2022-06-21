@@ -24,13 +24,12 @@
 <meta property="og:description" content="5.2指令格式大端小端 大端big endian存储：低地址存高字节，可在低地址处判断正负 小端：16位转32位不需要变化  eg.使用32bit，存储value: 0xABCD1234, 0x00FE4321, 0x10，从地址0x200开始：  注意上图中0x10的存储，不足32bit补零。此时可明显看出若采用16位存储，大端方式需要变化而小端不用。 架构 堆栈架构stack：指令和操作数从堆">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/%E6%97%A0%E6%A0%87%E9%A2%98.png">
-<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/%E5%9B%BE%E7%89%87.png">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426195229436.png">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426200318303.png">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220427141028780.png">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220427143048662.png">
 <meta property="article:published_time" content="2022-04-20T08:11:07.000Z">
-<meta property="article:modified_time" content="2022-04-27T06:33:19.062Z">
+<meta property="article:modified_time" content="2022-06-21T16:54:06.713Z">
 <meta property="article:author" content="Sean">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/%E6%97%A0%E6%A0%87%E9%A2%98.png">
@@ -234,7 +233,7 @@
         
         
         
-          14 分钟
+          15 分钟
         
       </span>
     
@@ -305,13 +304,12 @@
 <li><p>单地址ISA(eg.MARIE)，其中一个操作数隐含在累加器中？</p>
 <figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">LOAD</span> X<br>MULT Y<br>STORE <span class="hljs-keyword">TEMP</span><br><span class="hljs-keyword">LOAD</span> W<br>MULT U<br><span class="hljs-keyword">ADD</span> <span class="hljs-keyword">TEMP</span><br>STORE Z<br></code></pre></td></tr></table></figure></li>
 </ul>
-<h2 id="扩展操作码"><a href="#扩展操作码" class="headerlink" title="扩展操作码"></a>扩展操作码</h2><p>通过改变操作码的长度和使用转义操作码实现多种多样的指令集。</p>
+<h2 id="扩展操作码"><a href="#扩展操作码" class="headerlink" title="扩展操作码"></a>扩展操作码</h2><p>通过<strong>改变操作码的长度</strong>和使用转义操作码实现多种多样的指令集。</p>
 <p>eg.8位指令可以构成：</p>
 <ul>
 <li>3条 3位双操作数</li>
 <li>2条 4位单操作数</li>
 <li>4条 3位单操作数</li>
-<li><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/%E5%9B%BE%E7%89%87.png" srcset="/img/loading.gif" lazyload alt="图片"></li>
 </ul>
 <h1 id="5-3指令类型"><a href="#5-3指令类型" class="headerlink" title="5.3指令类型"></a>5.3指令类型</h1><ul>
 <li>data movement</li>
@@ -329,7 +327,7 @@
 <li>寄存器寻址register：操作数是数据在寄存器中的位置</li>
 <li>间接寻址indirect：操作数是数据地址的地址（套娃？</li>
 <li>寄存器间接寻址register indirect：操作数是数据<strong>地址</strong>在寄存器中的位置</li>
-<li>索引寻址indexed：操作数是地址，最终有效地址=操作数＋指定偏移量（存于某寄存器）</li>
+<li>索引寻址indexed：操作数是地址，最终有效地址=操作数＋指定偏移量（存于某寄存器如图中的R1）</li>
 <li>基址寻址based：与indexed类似，<strong>区别在于indexed中的寄存器用来保存偏移量，based中的寄存器用来保存基地址。</strong></li>
 </ul>
 <p>eg.LOAD 800, R1 0x800(offset)<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426195229436.png" srcset="/img/loading.gif" lazyload alt="image-20220426195229436"></p>
@@ -372,7 +370,8 @@
 </ol>
 <p>题中说已有双地址和零地址指令，那就从两头减？</p>
 <h2 id="21-寻址"><a href="#21-寻址" class="headerlink" title="21.寻址"></a>21.寻址</h2><p>立即、直接、间接、索引</p>
-<h2 id="29-指令流水线"><a href="#29-指令流水线" class="headerlink" title="29.指令流水线"></a>29.指令流水线</h2>
+<h2 id="29-指令流水线"><a href="#29-指令流水线" class="headerlink" title="29.指令流水线"></a>29.指令流水线</h2><p>分别计算用的时间，需要根据实际情况判断<strong>当指令数为多少时二者用时相等</strong>。</p>
+
               
             </div>
             <hr/>

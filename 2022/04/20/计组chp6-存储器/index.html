@@ -26,8 +26,10 @@
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/%E5%9B%BE%E7%89%87.png">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20200224200839680.png">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426205500008.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220622004840995.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220621221350686.png">
 <meta property="article:published_time" content="2022-04-20T08:11:23.000Z">
-<meta property="article:modified_time" content="2022-05-11T07:29:56.498Z">
+<meta property="article:modified_time" content="2022-06-21T17:26:23.375Z">
 <meta property="article:author" content="Sean">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/%E5%9B%BE%E7%89%87.png">
@@ -220,7 +222,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.5k 字
+          1.7k 字
         
       </span>
     
@@ -231,7 +233,7 @@
         
         
         
-          13 分钟
+          15 分钟
         
       </span>
     
@@ -312,7 +314,7 @@
 </ul>
 <h1 id="6-3内存的层次结构"><a href="#6-3内存的层次结构" class="headerlink" title="6.3内存的层次结构"></a>6.3内存的层次结构</h1><p><strong>在存储层次中越往上，存储介质的访问速度越快，价格也越高，相对存储容量也越小。</strong><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/%E5%9B%BE%E7%89%87.png" srcset="/img/loading.gif" lazyload alt="图片"></p>
 <p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20200224200839680.png" srcset="/img/loading.gif" lazyload alt="img"></p>
-<h1 id="6-4高速缓存"><a href="#6-4高速缓存" class="headerlink" title="6.4高速缓存"></a>6.4高速缓存</h1><p>主存按地址访问，缓存按内容访问(内容可寻址存储器)</p>
+<h1 id="6-4高速缓存"><a href="#6-4高速缓存" class="headerlink" title="6.4高速缓存"></a>6.4高速缓存</h1><p>主存按地址访问，<strong>缓存按内容访问</strong>(内容可寻址存储器)</p>
 <ul>
 <li>命中hit<ul>
 <li>命中后复制<strong>整个数据块block</strong></li>
@@ -335,14 +337,16 @@
 </ul>
 <h2 id="全相联映射"><a href="#全相联映射" class="headerlink" title="全相联映射"></a>全相联映射</h2><p>fully associative cache</p>
 <p>只有标记字段和偏移字段，随机选择缓存块</p>
-<h2 id="组相联映射"><a href="#组相联映射" class="headerlink" title="组相联映射"></a>组相联映射</h2><p>set associative cache，结合了前两个</p>
+<h2 id="组相联映射"><a href="#组相联映射" class="headerlink" title="组相联映射"></a>组相联映射</h2><p>set associative cache，结合了前两个：选组为mod，组内为随机选择</p>
 <ul>
 <li>set字段为选择缓存块的分组</li>
 <li>只有一组时即为全相联映射</li>
 <li>一组只有一块时即为直接映射</li>
+<li> 2-way set associative mapping：2路组相联，即每个组里面有2个block</li>
 </ul>
 <h2 id="替换策略"><a href="#替换策略" class="headerlink" title="替换策略"></a>替换策略</h2><ul>
-<li>LRU最近最少使用，回顾过去，换出最长时间未使用的块<ul>
+<li>OPT最佳置换optimization algorithm</li>
+<li>LRU最近最少使用least recently used，回顾过去，换出最长时间未使用的块<ul>
 <li>缺点：复杂</li>
 </ul>
 </li>
@@ -352,12 +356,13 @@
 </ul>
 </li>
 </ul>
-<h2 id="有效访问时间"><a href="#有效访问时间" class="headerlink" title="有效访问时间"></a>有效访问时间</h2><p>EAT=$H×Access_c+(1-H)×Access_{MM}$</p>
+<h2 id="有效访问时间"><a href="#有效访问时间" class="headerlink" title="有效访问时间"></a>有效访问时间</h2><p> <em>effective access time</em></p>
+<p>EAT=$H×Access_c+(1-H)×Access_{MM}$</p>
 <ul>
 <li>H是命中率=命中次数/总访问次数</li>
 <li>$Access_c$是缓存访问时间</li>
 <li>$Access_{MM}$是主存访问时间</li>
-<li>访问重叠即同时访问高速缓存和主存<ul>
+<li>访问重叠 overlap即同时访问高速缓存和主存<ul>
 <li>访问重叠：$Access_{MM}$是主存访问时间</li>
 <li>访问不重叠：$Access_{MM}$是主存访问时间+缓存访问时间</li>
 </ul>
@@ -390,6 +395,8 @@
 </ul>
 </li>
 </ul>
+<p><strong>TLB+页表+主存</strong></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220622004840995.png" srcset="/img/loading.gif" lazyload alt="image-20220622004840995"></p>
 <h2 id="分段"><a href="#分段" class="headerlink" title="分段"></a>分段</h2><p>segmentation，长度可变，根据内存大小分配段</p>
 <h2 id="碎片"><a href="#碎片" class="headerlink" title="碎片"></a>碎片</h2><p>fragmentation</p>
 <ul>
@@ -402,8 +409,10 @@
 <h2 id="段页式"><a href="#段页式" class="headerlink" title="段页式"></a>段页式</h2><p>页式：页表查询较慢，但由于规范的映射，获取数据较快</p>
 <p>段式：相反</p>
 <p>段页式：结合paging and segmentation，每一段中存放一个页表</p>
-<h1 id="作业"><a href="#作业" class="headerlink" title="作业"></a>作业</h1><h2 id="1-直接映射"><a href="#1-直接映射" class="headerlink" title="1.直接映射"></a>1.直接映射</h2><p>分块</p>
-<p>地址表示</p>
+<h1 id="作业"><a href="#作业" class="headerlink" title="作业"></a>作业</h1><h2 id="1-直接映射"><a href="#1-直接映射" class="headerlink" title="1.直接映射"></a>1.直接映射</h2><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220621221350686.png" srcset="/img/loading.gif" lazyload alt="image-20220621221350686"></p>
+<p>分块=总存储容量/块的大小</p>
+<p>缓存中地址表示=tag+cache block+offset，<strong>tag由总的地址大小(主存总容量)减去后两个得到，即主存的前x位</strong></p>
+<p>主存地址映射到缓存→主存的块<strong>MOD</strong>缓存的块</p>
 <h2 id="11-缓存命中"><a href="#11-缓存命中" class="headerlink" title="11.缓存命中"></a>11.缓存命中</h2><p>the hit ratio=命中/总的访问</p>
 <p>替换：根据tag字段放入对应的block</p>
 <h2 id="20-分页式"><a href="#20-分页式" class="headerlink" title="20.分页式"></a>20.分页式</h2><p>确定地址位：页号+偏移量</p>
