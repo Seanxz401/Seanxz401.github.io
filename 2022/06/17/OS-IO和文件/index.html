@@ -16,12 +16,12 @@
   <meta name="author" content="Sean">
   <meta name="keywords" content="">
   
-    <meta name="description" content="chp11 I&#x2F;O管理和磁盘调度选择 I&#x2F;O设备的主要差别包括：错误条件、数据传送速率、数据表示 IO技术 中断驱动IO：1）CPU初始化I&#x2F;O并启动第一次I&#x2F;O操作。 2）CPU去忙别的事情。 3）当I&#x2F;O完成时，CPU将被中断。 4）CPU处理中断。 5）CPU恢复被中断的程序。 程序控制IO：处理器代表一个进程给IO模块发送一个IO命令，该进程进入忙等待，直到操作完成才能继续执行   面向块">
+    <meta name="description" content="chp11 I&#x2F;O管理和磁盘调度选择 I&#x2F;O设备的主要差别包括：错误条件、数据传送速率、数据表示 IO技术 中断驱动IO：1）CPU初始化I&#x2F;O并启动第一次I&#x2F;O操作。 2）CPU去忙别的事情。 3）当I&#x2F;O完成时，CPU将被中断。 4）CPU处理中断。 5）CPU恢复被中断的程序。 程序控制IO：处理器代表一个进程给IO模块发送一个IO命令，该进程进入忙等待，直到操作完成才能继续执行   面">
 <meta property="og:type" content="article">
 <meta property="og:title" content="OS-IO和文件">
 <meta property="og:url" content="http://example.com/2022/06/17/OS-IO%E5%92%8C%E6%96%87%E4%BB%B6/index.html">
 <meta property="og:site_name" content="Sean&#39;s Blog">
-<meta property="og:description" content="chp11 I&#x2F;O管理和磁盘调度选择 I&#x2F;O设备的主要差别包括：错误条件、数据传送速率、数据表示 IO技术 中断驱动IO：1）CPU初始化I&#x2F;O并启动第一次I&#x2F;O操作。 2）CPU去忙别的事情。 3）当I&#x2F;O完成时，CPU将被中断。 4）CPU处理中断。 5）CPU恢复被中断的程序。 程序控制IO：处理器代表一个进程给IO模块发送一个IO命令，该进程进入忙等待，直到操作完成才能继续执行   面向块">
+<meta property="og:description" content="chp11 I&#x2F;O管理和磁盘调度选择 I&#x2F;O设备的主要差别包括：错误条件、数据传送速率、数据表示 IO技术 中断驱动IO：1）CPU初始化I&#x2F;O并启动第一次I&#x2F;O操作。 2）CPU去忙别的事情。 3）当I&#x2F;O完成时，CPU将被中断。 4）CPU处理中断。 5）CPU恢复被中断的程序。 程序控制IO：处理器代表一个进程给IO模块发送一个IO命令，该进程进入忙等待，直到操作完成才能继续执行   面">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220623014427440.png">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220622161958096.png">
@@ -31,7 +31,7 @@
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220617203443795.png">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220617211818719.png">
 <meta property="article:published_time" content="2022-06-17T12:51:33.000Z">
-<meta property="article:modified_time" content="2022-06-23T06:24:30.285Z">
+<meta property="article:modified_time" content="2022-12-26T07:41:24.888Z">
 <meta property="article:author" content="Sean">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220623014427440.png">
@@ -277,7 +277,9 @@
             
             <div class="markdown-body">
               
-              <h1 id="chp11-I-O管理和磁盘调度"><a href="#chp11-I-O管理和磁盘调度" class="headerlink" title="chp11 I/O管理和磁盘调度"></a>chp11 I/O管理和磁盘调度</h1><h2 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h2><ul>
+              <span id="more"></span>
+
+<h1 id="chp11-I-O管理和磁盘调度"><a href="#chp11-I-O管理和磁盘调度" class="headerlink" title="chp11 I/O管理和磁盘调度"></a>chp11 I/O管理和磁盘调度</h1><h2 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h2><ul>
 <li>I/O设备的主要差别包括：错误条件、数据传送速率、数据表示</li>
 <li>IO技术<ul>
 <li>中断驱动IO：1）CPU初始化I/O并启动第一次I/O操作。 2）CPU去忙别的事情。 3）当I/O完成时，CPU将被<strong>中断</strong>。 4）CPU处理中断。 5）CPU恢复被中断的程序。</li>

@@ -1,0 +1,1291 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sean">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="w网络空间安全技术课程复习。主要涉及风险管理、安全保障、安全运维、安全技术（鉴别技术、访问控制、防火墙、入侵检测……）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络空间安全技术复习">
+<meta property="og:url" content="http://example.com/2022/12/26/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF%E5%A4%8D%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="w网络空间安全技术课程复习。主要涉及风险管理、安全保障、安全运维、安全技术（鉴别技术、访问控制、防火墙、入侵检测……）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221226190303925.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221226194547825.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221227211101614.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221227204634250.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221227220844120.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221228131827628.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221228132922925.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221228134155852.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230130002659.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230130233348.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230134802970.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230135400695.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230135127225.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230141224386.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230141753789.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230142242687.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230142402181.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230142900093.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230143218681.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230150358009.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230150626777.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230151935410.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230152040489.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230152741341.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230153546196.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230153859908.png">
+<meta property="article:published_time" content="2022-12-26T08:54:44.000Z">
+<meta property="article:modified_time" content="2022-12-30T07:42:29.136Z">
+<meta property="article:author" content="Sean">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221226190303925.png">
+  
+  
+  
+  <title>网络空间安全技术复习 - Sean&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Sean&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="网络空间安全技术复习"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-26 16:54" pubdate>
+          2022年12月26日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          64 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">网络空间安全技术复习</h1>
+            
+            <div class="markdown-body">
+              
+              <p>w网络空间安全技术课程复习。主要涉及风险管理、安全保障、安全运维、安全技术（鉴别技术、访问控制、防火墙、入侵检测……）</p>
+<span id="more"></span>
+
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><h2 id="信息安全"><a href="#信息安全" class="headerlink" title="信息安全"></a>信息安全</h2><ul>
+<li>涉及信息安全的机密性、完整性、可用性、真实性、可控性</li>
+<li>本质：<ul>
+<li>保护系统的硬件软件数据</li>
+<li>防止系统和数据遭受破坏、更改、泄露</li>
+<li>保证系统连续可靠正常地运行，服务不中断</li>
+</ul>
+</li>
+<li>技术层面：防止外部用户的非法入侵；管理层面：内部员工的教育和管理</li>
+<li><strong>基本目标</strong>：CIA<ul>
+<li><strong>机密性</strong>：防止未经授权使用信息</li>
+<li><strong>完整性</strong>：防止对信息的非法修改和破坏</li>
+<li><strong>可用性</strong>：确保及时可靠地使用信息</li>
+</ul>
+</li>
+<li>信息安全意识：能够认知可能存在的安全问题，明白安全事故对组织的危害，恪守正确的行为方式，清楚安全事故发生时所应采取的措施。</li>
+</ul>
+<h2 id="网络空间"><a href="#网络空间" class="headerlink" title="网络空间"></a>网络空间</h2><ul>
+<li>组成要素：<ul>
+<li>网络空间载体：设施，信息通信技术系统的集合</li>
+<li>网络空间资源/网络操作对象：数据</li>
+<li>网络活动主体：用户</li>
+<li>网络活动形式：操作，对数据的加工、存储、传输、展示等服务形式</li>
+</ul>
+</li>
+<li>定义：以……为载体，用户对数据进行……，以实现特定的信息通信技术活动。</li>
+<li>网络空间安全的四层次模型：电磁设备、电子信息系统、运行数据、系统应用<ul>
+<li>设备层：物理安全、环境安全、设备安全</li>
+<li>系统层：网络安全、软件安全</li>
+<li>数据层：数据安全、身份安全、隐私保护</li>
+<li>应用层：内容安全、应用安全</li>
+</ul>
+</li>
+</ul>
+<h1 id="风险管理"><a href="#风险管理" class="headerlink" title="风险管理"></a>风险管理</h1><p>定义：1.是识别、控制、消除或最小化可能影响系统资源的不确定因素的过程；2.在组织机构内部识别、优化、管理风险，使风险降低到可接受水平的过程</p>
+<h2 id="风险术语"><a href="#风险术语" class="headerlink" title="风险术语"></a>风险术语</h2><ul>
+<li>资产：有价值的</li>
+<li>脆弱性：与资产有关的弱点或安全隐患，是造成风险的内因（eg.代码缺陷）。脆弱性本身并不对资产构成危害，但是满足一定条件时，脆弱性会被威胁源利用恰当的威胁方式对资产造成不良后果（形成风险？</li>
+<li>控制措施：防范威胁，降低风险的措施。eg.部署防火墙</li>
+<li>可能性：威胁源利用脆弱性造成不良后果的可能性</li>
+<li>影响：威胁源利用脆弱性造成不良后果的程度大小</li>
+<li>风险：威胁源采用恰当的威胁方式利用脆弱性造成不良后果的可能性</li>
+<li>残余风险：采取了安全措施后仍然可能存在的风险（综合考虑成本与效益）</li>
+</ul>
+<h2 id="风险评估流程"><a href="#风险评估流程" class="headerlink" title="风险评估流程"></a>风险评估流程</h2><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221226190303925.png" srcset="/img/loading.gif" lazyload alt="image-20221226190303925"></p>
+<ol>
+<li>风险评估准备</li>
+<li>风险要素识别：资产、威胁、脆弱性</li>
+<li>风险分析<ul>
+<li>计算风险值=R( L(T,V), F(IA, VA) )<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221226194547825.png" srcset="/img/loading.gif" lazyload alt="image-20221226194547825"></li>
+<li>定性风险分析——矩阵法</li>
+</ul>
+</li>
+<li>风险处理</li>
+</ol>
+<p>Q：风险评估、检查评估和等级保护测评之间的关系</p>
+<ul>
+<li>等保测评、安全检查都是在既定安全基线的基础上开展的符合性测评</li>
+<li>等保测评：符合国家安全要求；安全检查：符合行业主管安全要求</li>
+<li>风险评估：在国家、行业安全要求的基础上，以被评估系统特定安全要求为目标而开展的风险识别、风险分析、风险评价活动。</li>
+<li>核心是风险的基本要素（威胁源、威胁行为、脆弱性、资产、影响）。</li>
+</ul>
+<p>Q：风险评估vs风险管理</p>
+<table>
+<thead>
+<tr>
+<th>vs</th>
+<th>风险管理</th>
+<th>风险评估</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>目标</td>
+<td>将风险降低到可接受水平</td>
+<td>确定面临的风险并确定其优先级</td>
+</tr>
+<tr>
+<td>周期</td>
+<td>风险评估、风险决策、风险控制</td>
+<td>属于风险管理中的单个阶段</td>
+</tr>
+<tr>
+<td>计划</td>
+<td>持续：PDCA循环<br />(Plan, Do, Check, Adjustment)</td>
+<td>按需要</td>
+</tr>
+</tbody></table>
+<h2 id="国产化替代"><a href="#国产化替代" class="headerlink" title="国产化替代"></a>国产化替代</h2><p>替代被垄断的国外产品：</p>
+<ul>
+<li>桌面计算机技术体系Wintel</li>
+<li>服务器和数据库IOE(IBM, ORACLE, EMC)</li>
+</ul>
+<h1 id="安全保障"><a href="#安全保障" class="headerlink" title="安全保障"></a>安全保障</h1><p>安全保障目标：</p>
+<ul>
+<li>保障和促进信息化发展</li>
+<li>维护企业与公民的合法权益</li>
+<li>构建安全可信的网络信息传播秩序</li>
+<li>保护互联网知识产权</li>
+</ul>
+<p>应急响应目标：</p>
+<ul>
+<li>积极预防：在事件显露趋势时就要有计划有准备地采取针对性防范措施</li>
+<li>及时发现：准确判断，尽可能了解全局的情况</li>
+<li>快速响应：及时处理并采取相应措施</li>
+<li>确保恢复：事后处理中的两个根本目标：确保回复+追究责任</li>
+</ul>
+<p>信息系统安全测评标准：GB/T20274《信息系统安全保障评估框架》，它从建设者的角度为信息系统安全测评提供了思路框架和操作规范<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221227211101614.png" srcset="/img/loading.gif" lazyload alt="image-20221227211101614"></p>
+<ul>
+<li>信息系统安全保障要素：<ul>
+<li>技术：密码、访问控制、网络安全、漏洞、恶意代码防护</li>
+<li>工程：信息系统安全工程、安全工程能力成熟度模型</li>
+<li>管理：安全管理体系、风险管理、应急响应、灾难恢复</li>
+<li>人员：普通员工+专业人员</li>
+</ul>
+</li>
+<li>安全特征：CIA</li>
+</ul>
+<h2 id="PDR-PPDR"><a href="#PDR-PPDR" class="headerlink" title="PDR PPDR"></a>PDR PPDR</h2><p>网络空间安全模型</p>
+<p>PDR：protect+detect+response</p>
+<p>PDRR：protect+detect+react+<strong>restore</strong>，强调自动故障恢复能力<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221227204634250.png" srcset="/img/loading.gif" lazyload alt="image-20221227204634250"></p>
+<ul>
+<li>protect：加密、鉴别、访问控制、防火墙……</li>
+<li>detect：入侵检测、漏洞检测、网络扫描……</li>
+<li>react：应急响应</li>
+</ul>
+<p>PPDR：protect+<strong>policy</strong>+detect+response。在整体的安全策略的控制和指导下，综合运用防护工具（如防火墙、身份鉴别、加密等）的同时，利用检测工具（如漏洞评估、入侵检测系统）了解和评估系统的安全状态，通过适当的响应将系统调整到一个比较安全的状态。保护、检测和响应组成了一个完整的、动态的安全循环。</p>
+<ul>
+<li>policy：策略，模型的核心。如访问控制策略、加密通信策略……</li>
+<li>detect：利用检测工具，监视、分析、审计网络活动，了解判断网络系统的安全状态。如实时监控、报警……</li>
+<li>response：在检测到安全漏洞和安全事件时，通过及时的响应措施将网络系统的安全性调整到风险最低的状态。如：关闭服务、跟踪、反击……</li>
+<li>Pt  &gt;Dt + Rt；Et = (Dt+Rt) - Pt。（防护时间、检测试剂、反应时间、暴露时间）</li>
+</ul>
+<h2 id="IATF"><a href="#IATF" class="headerlink" title="IATF"></a>IATF</h2><p>信息保障技术框架 Information Assurance Technical Framework</p>
+<p>IATF论述了系统工程、系统采购、风险管理、鉴别和鉴定以及生命周期支持等过程，指出了一条较为清晰的建设信息保障体系的路子。</p>
+<p>深度防御：三要素+四领域</p>
+<p>三要素：</p>
+<ul>
+<li>人：核心</li>
+<li>技术：实现信息保障的重要手段，动态的技术体系PDRR</li>
+<li>操作：构成安全保障的主动防御体系</li>
+</ul>
+<p>四领域：</p>
+<ul>
+<li>本地计算环境</li>
+<li>区域边界</li>
+<li>网络和基础设施</li>
+<li>支撑性基础设施</li>
+</ul>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>Webshell本地查找-河马Linux（hema）</p>
+<ol>
+<li>准备分析工具；</li>
+<li>现场了解实际情况；</li>
+<li>使用相关命令或工具进行排查；</li>
+<li>得出结论，记录攻击证据，清除攻击；</li>
+<li>总结报告</li>
+</ol>
+<p>DDOS攻击处理</p>
+<ul>
+<li>SYN Flood：使用抗DDOS设备或其他专用防护设备</li>
+<li>ACK Flood：<ul>
+<li>发送ACK，回复RST</li>
+<li>发送ACK+PSH，目标主机直接丢弃，导致目标主机性能严重下降</li>
+<li>处理：将防护目标纳入被保护的范围，然后调节黑洞的ACK-Flood专业数据同时使用：l)SYN-Flood的防护算法；2)DynaCheck.而且要注意，在流量较大的情况下，防火墙必须在抗DDOS后面，否则未经净化的流量有可能会使防火墙的负载大大增高。</li>
+</ul>
+</li>
+<li>UDP Flood<ul>
+<li>向目标主机未开放端口发送大量udp数据包，目标主机直接丢弃，并回复icmp不可达，消耗目标主机资源</li>
+<li>向目标主机的开放端口发送大量畸形udp数据包，目标主机直接丢弃，消耗目标主机资源。</li>
+<li>处理：尽量将这些垃圾数据限定在一定流量以下</li>
+</ul>
+</li>
+<li>DNS Flood<ul>
+<li>发送大量的标准dns请求，是的目标主机DNS服务缓慢</li>
+<li>处理：使用专用防护设备对DNS服务进行防护</li>
+</ul>
+</li>
+</ul>
+<h1 id="安全机制"><a href="#安全机制" class="headerlink" title="安全机制"></a>安全机制</h1><p>安全机制：</p>
+<ul>
+<li>加密：为数据、通信业务流提供机密性，还为其他机制提供补充</li>
+<li>数字签名机制：签名+验证，不可伪造+不可抵赖</li>
+<li>访问控制机制：访问权限，报警或审计跟踪</li>
+<li>数据完整性机制：与数据相关的附加码，验证。eg.hash</li>
+<li>鉴别交换机制：可以使用密码技术。eg.RSA</li>
+<li>通信业务填充机制：业务分析</li>
+<li>路由选择控制机制</li>
+<li>公证机制：第三方机构，一般通过数字签名、加密等</li>
+</ul>
+<p>安全服务与安全机制的关系：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221227220844120.png" srcset="/img/loading.gif" lazyload alt="image-20221227220844120"></p>
+<p>核心技术：<strong>密码技术</strong>、鉴别与认证技术、密钥管理</p>
+<p>计算机安全防护技术：操作系统安全、数据库安全、访问控制、安全审计</p>
+<p>计算机网络安全措施：网络隔离、防火墙、漏洞扫描、入侵检测、病毒防治</p>
+<p>物理安全：防辐射、抗电磁干扰、备份与恢复技术、物理隔离</p>
+<p>信息安全管理的重要举措：风险评估、等级保护、测评认证、应急响应</p>
+<h1 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h1><p>对称加密通信，eg.DES，3DES，AES，IDEA，RC5.模型:<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221228131827628.png" srcset="/img/loading.gif" lazyload alt="image-20221228131827628"></p>
+<p>RSA：</p>
+<ul>
+<li>功能：数字签名；密钥管理；加密</li>
+<li>私钥：签名+解密</li>
+<li>公钥：签名检验+加密</li>
+</ul>
+<p>ECC：</p>
+<ul>
+<li>基于有限域上椭圆曲线有理点群的密码系统</li>
+<li>更快的具有更小密码长度的公开密码系统</li>
+<li>功能同RSA</li>
+</ul>
+<h1 id="消息鉴别"><a href="#消息鉴别" class="headerlink" title="消息鉴别"></a>消息鉴别</h1><p>Message encryption：用整个消息的密文作为鉴别标识</p>
+<p>Hash Function：一个公开函数将任意长度的消息映射到一个固定长度的散列值，作为鉴别标识</p>
+<p>MAC：一个公开函数加上一个密钥，产生一个固定长度的值作为鉴定标识</p>
+<h1 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h1><p>作用：（前提都是私钥只有自己知道）</p>
+<ul>
+<li>身份鉴别：私钥签名，公钥验证</li>
+<li>防假冒</li>
+<li>抗抵赖</li>
+<li>防消息篡改</li>
+<li>数字签名在现代Web商务中具有重要意义：数字签名已经具有法律效力</li>
+</ul>
+<h2 id="基于RSA的数字签名"><a href="#基于RSA的数字签名" class="headerlink" title="基于RSA的数字签名"></a>基于RSA的数字签名<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221228132922925.png" srcset="/img/loading.gif" lazyload alt="image-20221228132922925"></h2><ul>
+<li>初始化：消息m, 私钥d, 公钥(e,n)</li>
+<li>签名：$s=(H(m))^dmodn$</li>
+<li>验证：判断等式是否成立$s^emodn==H(m)$</li>
+</ul>
+<h1 id="数据完整性"><a href="#数据完整性" class="headerlink" title="数据完整性"></a>数据完整性</h1><p>定义：数据完整性是防止非法实体对交换数据的修改、插入、替换和删除，或者如果被修改。插入、替换和删除时可以被检测出来。数据完整性可以通过消息认证模式来保证</p>
+<p>根据实现手段维度对完整性机制分类：</p>
+<ul>
+<li>密码学：对称密码、非对称密码、数字签名</li>
+<li>上下文：数据重复、预共识上下文</li>
+<li>探测和确认：正馈等幂运算</li>
+<li>阻止：阻止对数据存储或传输媒体的物理访问，通过访问控制提供</li>
+</ul>
+<h2 id="基于错误检测码与对称密钥加密的完整性验证机制"><a href="#基于错误检测码与对称密钥加密的完整性验证机制" class="headerlink" title="基于错误检测码与对称密钥加密的完整性验证机制"></a>基于错误检测码与对称密钥加密的完整性验证机制<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221228134155852.png" srcset="/img/loading.gif" lazyload alt="image-20221228134155852"></h2><ul>
+<li>FCS0/1/2表示错误检测码</li>
+<li>加解密时错误检测码与明文合在一起作为输入，防止了攻击者同时把原信息和错误检测码替换并保持它们之间的正确匹配关系的攻击</li>
+<li>前提是需要双方共享对称密钥k，存在密钥的发布问题。如果改成非对称加密，速度太慢，可以二者结合，用非对称加密技术加密共享密钥实现密钥的安全分发。</li>
+</ul>
+<h1 id="鉴别技术"><a href="#鉴别技术" class="headerlink" title="鉴别技术"></a>鉴别技术</h1><p>对身份鉴别系统的要求：</p>
+<ul>
+<li>验证者正确识别合法申请者的概率极大化</li>
+<li>不具有可传递性</li>
+<li>攻击者伪装成申请者欺骗验证者成功的概率要小到可以忽略的程度</li>
+<li>计算有效性</li>
+<li>通信有效性</li>
+<li>秘密参数能安全存储</li>
+</ul>
+<p>实现身份鉴别的途径：（依据：安全水平、系统通过率、用户可接受性、成本）</p>
+<ul>
+<li>所知：口令、密码……</li>
+<li>所有：身份证、令牌……</li>
+<li>个人特征：指纹、虹膜……</li>
+<li>双因素、多因素认证</li>
+</ul>
+<p>按保护等级分类：</p>
+<ol start="0">
+<li>无保护</li>
+<li>抗泄露保护</li>
+<li>抗泄露和对不同验证者重放的保护</li>
+<li>抗泄露和对同一验证者重放的保护</li>
+<li>抗泄露和对相同+不同验证者重放的保护</li>
+</ol>
+<h2 id="重放"><a href="#重放" class="headerlink" title="重放"></a>重放</h2><ul>
+<li>简单重放：复制消息再重新发送</li>
+<li>可被日志记录的复制品：攻击者可以在一个合法有效的时间窗内重放一个带时间戳的消息</li>
+<li>不能被检测到的复制品：原始信息被拦截，只有重放的消息到达目的地</li>
+<li>反向重放：当采用对称加密时，向消息发送者重放<ul>
+<li>针对同一验证者的重放：非重复值</li>
+<li>针对不同验证者的重放：验证者的标识符</li>
+</ul>
+</li>
+</ul>
+<p>非密码的鉴别机制：</p>
+<ul>
+<li>基于口令</li>
+<li>基于生物特征</li>
+<li>基于个人令牌</li>
+</ul>
+<h2 id="口令鉴别机制"><a href="#口令鉴别机制" class="headerlink" title="口令鉴别机制"></a>口令鉴别机制</h2><ul>
+<li>特点：易记、难猜、抗分析能力强</li>
+<li>用户二元组信息：用户身份信息+口令（明文或简单加密/变换）</li>
+<li>口令鉴别协议PAP：一般在通信连接建立阶段，不在数据传输阶段</li>
+<li>对付线路窃听：<ul>
+<li>引入散列函数。脆弱性：彩虹表攻击/字典攻击<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230130002659.png" srcset="/img/loading.gif" lazyload alt="image-20221230130002659"></li>
+<li>加盐机制。h=salt||H(salt||m)。缺陷：只能保护在多台计算机上使用相同口令的同一用户或在同一计算机上使用同一口令的不同用户。（？不同口令的不同用户呢）因为一个用户在数据库中只能有一个记录(ID唯一)，不支持对同一用户不同口令的保护。但是不同用户使用同一口令可以保护，因为ID不同，salt不同。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230130233348.png" srcset="/img/loading.gif" lazyload alt="image-20221230130233348"></li>
+</ul>
+</li>
+</ul>
+<h1 id="访问控制"><a href="#访问控制" class="headerlink" title="访问控制"></a>访问控制</h1><p>一般实现机制：</p>
+<ul>
+<li>基于访问控制属性：访问控制表/矩阵</li>
+<li>基于用户和资源分级(安全标签)：多级访问控制</li>
+</ul>
+<p>三元组(Subject, Access, Object)</p>
+<p>实现方法：</p>
+<ul>
+<li>访问控制表ACL，权限分配围绕object</li>
+<li>访问能力表CL，权限分配围绕subject</li>
+<li>访问控制矩阵</li>
+<li>授权关系表</li>
+<li>访问控制安全标签</li>
+</ul>
+<h2 id="自主访问控制DAC"><a href="#自主访问控制DAC" class="headerlink" title="自主访问控制DAC"></a>自主访问控制DAC</h2><p>自主访问控制：</p>
+<ul>
+<li>允许客体的属主决定主体对该客体的访问权限</li>
+<li>是一种分布式授权管理的模式。</li>
+</ul>
+<p>实现机制：访问控制表/矩阵</p>
+<p>实现方法：访问控制表、访问能力表</p>
+<p>优点：</p>
+<ul>
+<li>根据主体的身份和访问权限进行决策</li>
+<li>具有某种访问能力地主体能够自主地将访问权的某个子集授予其他主体</li>
+<li>灵活性高，被大量采用（常用于商业系统）</li>
+<li>具有较好的易用性和可扩展性</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>信息在传递过程中其访问权限关系会被改变</li>
+<li>安全性不高</li>
+</ul>
+<h2 id="强制访问控制MAC"><a href="#强制访问控制MAC" class="headerlink" title="强制访问控制MAC"></a>强制访问控制MAC</h2><p>强制访问控制：</p>
+<ul>
+<li>主体对客体的所有访问请求按照强制访问控制策略进行控制，客体的属主无权控制客体的访问权限，以防止对信息的非法或越权访问。</li>
+<li>每个主体和客体分配一个固定的安全级别，只有系统管理员可以修改（普密&lt;秘密&lt;机密&lt;绝密）</li>
+<li>只有在主体和客体的安全级别满足一定规则时，才允许访问</li>
+</ul>
+<p>特点：</p>
+<ul>
+<li>将主体和客体分级，根据主体和客体的级别标志来决定访问模式</li>
+<li>访问控制关系分为<ul>
+<li>上读/下写：实现数据完整性</li>
+<li>下读/上写</li>
+</ul>
+</li>
+</ul>
+<h3 id="Biba模型"><a href="#Biba模型" class="headerlink" title="Biba模型"></a>Biba模型</h3><p>不下读-不上写</p>
+<p>eg.Web服务器，保障Web数据完整性：网上的用户只能读取服务器上的数据而不能更改它<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230134802970.png" srcset="/img/loading.gif" lazyload alt="image-20221230134802970"></p>
+<h3 id="DAC-vs-MAC"><a href="#DAC-vs-MAC" class="headerlink" title="DAC vs MAC"></a>DAC vs MAC</h3><table>
+<thead>
+<tr>
+<th>cmp</th>
+<th>DAC</th>
+<th>MAC</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>控制粒度</td>
+<td>细粒度</td>
+<td>粒度大</td>
+</tr>
+<tr>
+<td>灵活性</td>
+<td>高</td>
+<td>不高</td>
+</tr>
+<tr>
+<td>安全与效率</td>
+<td>配置效率低</td>
+<td>安全性强</td>
+</tr>
+</tbody></table>
+<h2 id="基于角色的访问控制RBAC"><a href="#基于角色的访问控制RBAC" class="headerlink" title="基于角色的访问控制RBAC"></a>基于角色的访问控制RBAC</h2><p>基于角色的访问控制：</p>
+<ul>
+<li>根据用户所担任的角色来决定用户在系统中的访问权限</li>
+<li>一个用户必须扮演某种角色，而且还必须激活这一角色，才能对一个对象进行访问或执行某种操作</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230135400695.png" srcset="/img/loading.gif" lazyload alt="image-20221230135400695"></p>
+<p>RBAC96模型：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230135127225.png" srcset="/img/loading.gif" lazyload alt="image-20221230135127225"></p>
+<h1 id="防火墙技术"><a href="#防火墙技术" class="headerlink" title="防火墙技术"></a>防火墙技术</h1><p>数据流：</p>
+<ol>
+<li>bit-物理层</li>
+<li>frame-网络接口层/数据链路层</li>
+<li>packet-网络层</li>
+<li>segment-传输层</li>
+<li>会话层</li>
+<li>表示层</li>
+<li>data-应用层</li>
+</ol>
+<h2 id="检测与过滤技术"><a href="#检测与过滤技术" class="headerlink" title="检测与过滤技术"></a>检测与过滤技术</h2><ul>
+<li>包过滤：工作在网络层，根据packet中的IP、port、协议类型等标志确定是否允许通过</li>
+<li>应用代理：工作在应用层，通过编写不同的应用代理程序，实现对应用层数据的检测和分析</li>
+<li>状态检测：工作在2~4层，处理整个连接，通过规则表和连接状态表综合判断</li>
+<li>完全内容检测：工作在2~7层，不仅分析数据包头信息、状态信息、而且对应用层协议进行还原和内容分分析，有效防范混合型安全威胁<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230141224386.png" srcset="/img/loading.gif" lazyload alt="image-20221230141224386"></li>
+</ul>
+<h2 id="防火墙功能"><a href="#防火墙功能" class="headerlink" title="防火墙功能"></a>防火墙功能</h2><ul>
+<li>过滤进出网络的数据</li>
+<li>管理进出网络的访问行为</li>
+<li>封堵某些禁止的业务</li>
+<li>记录通过防火墙的信息内容和活动</li>
+<li>对网络攻击的检测和告警</li>
+<li>其他：<ul>
+<li>控制进出网络的信息流向和数据包，过滤不安全的服务</li>
+<li>隐藏内部IP地址及网络结构的细节</li>
+<li>提供使用流量的日志和审计功能</li>
+<li>部署NAT（网络地址转换）</li>
+<li>逻辑隔离内部网段，对外提供web和FTP</li>
+<li>实现集中的安全管理</li>
+<li>提供VPN功能</li>
+</ul>
+</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230141753789.png" srcset="/img/loading.gif" lazyload alt="image-20221230141753789"></p>
+<h2 id="工作接入方式"><a href="#工作接入方式" class="headerlink" title="工作接入方式"></a>工作接入方式</h2><p>路由接入：需要提供MAP或NAT功能<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230142242687.png" srcset="/img/loading.gif" lazyload alt="image-20221230142242687"></p>
+<p>透明接入：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230142402181.png" srcset="/img/loading.gif" lazyload alt="image-20221230142402181"></p>
+<p>混合接入：同时保留透明接入模式和路由接入模式，在使用时用户可以自行选择（？看不明白<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230142900093.png" srcset="/img/loading.gif" lazyload alt="image-20221230142900093"></p>
+<p>高可用性-双机热备功能：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230143218681.png" srcset="/img/loading.gif" lazyload alt="image-20221230143218681"></p>
+<h1 id="入侵检测"><a href="#入侵检测" class="headerlink" title="入侵检测"></a>入侵检测</h1><p>IDS：入侵检测系统Intrusion Detection System</p>
+<p>IDS两个指标：</p>
+<ul>
+<li>漏报率：攻击事件没有被IDS检测到</li>
+<li>误报率：把正常识别为异常并报警，与检出率成正比</li>
+</ul>
+<p>IDS面临的问题：</p>
+<ul>
+<li>误警率高：(漏报率+误报率)，已成为制约其发展的关键技术问题</li>
+<li>缺少统一的构建方法学：IDS缺少结构化的方法学以及有效的信息共享和协同机制，限制了对攻击的检测能力</li>
+<li>自学习能力差：添加检测规则常依赖于手工方式且更新缓慢，限制了可用性</li>
+<li>自身易受攻击：IDS本身是存在漏洞的软件程序</li>
+</ul>
+<h2 id="入侵检测模型"><a href="#入侵检测模型" class="headerlink" title="入侵检测模型"></a>入侵检测模型</h2><ul>
+<li>通用入侵检测模型Denning</li>
+<li>层次化入侵检测模型IDM</li>
+<li>管理式入侵检测模型SNMP-IDSM</li>
+</ul>
+<h3 id="Denning"><a href="#Denning" class="headerlink" title="Denning"></a>Denning</h3><p>基于规则的模式匹配系统，前提时异常使用系统的入侵行为可以通过检查系统的审计记录来识别。</p>
+<p>未包含已知系统漏洞或攻击方法方面的知识</p>
+<h3 id="IDM"><a href="#IDM" class="headerlink" title="IDM"></a>IDM</h3><p>IDM将IDS由低至高分为六个层次：</p>
+<ol>
+<li>数据层-data</li>
+<li>事件层-event</li>
+<li>主体层-subject</li>
+<li>上下文层-context</li>
+<li>威胁层-thread</li>
+<li>安全状态层-security state</li>
+</ol>
+<p>IDM通过把收集到的分散数据进行加工抽象和数据关联操作，简化了对跨越单机的入侵行为的识别</p>
+<h2 id="CIDF架构"><a href="#CIDF架构" class="headerlink" title="CIDF架构"></a>CIDF架构</h2><p>入侵检测系统的通用模型Common Intrusion Detection Framework</p>
+<p>CIDF将入侵检测系统需要分析的数据统称为事件(Event),事件可以是网络中的数据包，也可以是从系统日志等其他途径得到的信息。</p>
+<p>CDF讨论关于入侵检测系统协同的问题，主要介绍一种通用入侵说明语言(CISL),即系统事件、分析结果及响应指示的通用表示。把入侵检测系统从逻辑上分为面向任务的组件。CIDF试图规范一种通用的语法格式和编码方式以表示在组件边界传递的数据</p>
+<h2 id="IDS分类"><a href="#IDS分类" class="headerlink" title="IDS分类"></a>IDS分类</h2><p>按检测分析技术方法：</p>
+<ul>
+<li>异常检测：通过采集和统计来发现网络或系统中可能出现的异常行为，向管理员提出警告<ul>
+<li>建立用户的正常使用模式，即知识库</li>
+<li>标识出不符合正常模式的行为活动</li>
+<li>假设所有的入侵行为是异常的</li>
+<li>实现难度大：1.知识库难建立；2.正常与异常的界限划分</li>
+</ul>
+</li>
+<li>特征检测：通过对采集的信息按已知的知识进行分析，来发现正在发生和已经发生的入侵行为</li>
+</ul>
+<p>按检测范围：</p>
+<ul>
+<li>基于主机</li>
+<li>基于网络</li>
+<li>基于网络节点</li>
+</ul>
+<h2 id="典型部署"><a href="#典型部署" class="headerlink" title="典型部署"></a>典型部署</h2><p>以旁路的方式接入到网络中，且部署到需要的关键位置<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230150358009.png" srcset="/img/loading.gif" lazyload alt="image-20221230150358009"></p>
+<h1 id="入侵防御"><a href="#入侵防御" class="headerlink" title="入侵防御"></a>入侵防御</h1><p>IPS：入侵防御系统，集入侵检测和防御于一体（IDS+Firewall）。不但能检测入侵的发生，而且能通过一定的响应方式，实时地终止入侵行为地发生和发展，实时地保护信息系统不受实质性地攻击。</p>
+<p>基础理念：深层防御，需要深层分析和在线部署<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230150626777.png" srcset="/img/loading.gif" lazyload alt="image-20221230150626777"></p>
+<p>主要功能：</p>
+<ul>
+<li>识别对网络和主机的恶意攻击，并实时进行阻断</li>
+<li>向管理控制台发生日志信息</li>
+<li>集成病毒过滤、带宽管理和URL过滤等功能</li>
+</ul>
+<h2 id="IPS-vs-IDS"><a href="#IPS-vs-IDS" class="headerlink" title="IPS vs IDS"></a>IPS vs IDS</h2><table>
+<thead>
+<tr>
+<th>IPS</th>
+<th>IDS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>部署方式对比</td>
+<td></td>
+</tr>
+<tr>
+<td>在线，流量必须通过IPS</td>
+<td>旁路，通过镜像获得数据</td>
+</tr>
+<tr>
+<td>实时，其时延必须满足业务要求</td>
+<td>准实时，可接受秒级时延</td>
+</tr>
+<tr>
+<td>立刻影响网络报文</td>
+<td>对网络及业务无直接影响</td>
+</tr>
+<tr>
+<td>作用范围有限制</td>
+<td>监控范围广</td>
+</tr>
+<tr>
+<td>设计出发点对比</td>
+<td></td>
+</tr>
+<tr>
+<td>无误报</td>
+<td>无漏报</td>
+</tr>
+<tr>
+<td>满足峰值流量和时延要求</td>
+<td>满足平时流量，可接受秒级时延</td>
+</tr>
+<tr>
+<td>不能影响业务系统可用性</td>
+<td>只需关注自身功能实现</td>
+</tr>
+</tbody></table>
+<h1 id="网络准入控制"><a href="#网络准入控制" class="headerlink" title="网络准入控制"></a>网络准入控制</h1><p>网络准入控制NAC：使用网络准入安全策略，确保进入网络的设备符合策略<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230151935410.png" srcset="/img/loading.gif" lazyload alt="image-20221230151935410"></p>
+<p>主要功能：</p>
+<ol>
+<li>认证与授权</li>
+<li>扫描与评估</li>
+<li>隔离与实施</li>
+<li>更新与修复</li>
+</ol>
+<h2 id="网闸"><a href="#网闸" class="headerlink" title="网闸"></a>网闸</h2><p>国家保密局限定的安全隔离网闸使用环境<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230152040489.png" srcset="/img/loading.gif" lazyload alt="image-20221230152040489"></p>
+<h1 id="VPN"><a href="#VPN" class="headerlink" title="VPN"></a>VPN</h1><h2 id="IPSec"><a href="#IPSec" class="headerlink" title="IPSec"></a>IPSec</h2><p>IPSec因特网协议安全性：是一个协议集合。</p>
+<p>IPSec的安全协议由三个主要的协议组成，它由下图的第二层以及加密和鉴别算法组成。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230152741341.png" srcset="/img/loading.gif" lazyload alt="image-20221230152741341"></p>
+<p>Internet安全协商和密钥管理协议(ISAKMP)是IPSec的另一个主要组件。ISAKMP:提供了用于应用层服务的通用格式，它支持IPSec协商方的密钥管理需求。</p>
+<h3 id="IP鉴别头部AH"><a href="#IP鉴别头部AH" class="headerlink" title="IP鉴别头部AH"></a>IP鉴别头部AH</h3><p>AH通过为IP数据包插入一个AH头来提供安全服务。</p>
+<ul>
+<li>无连接完整性。通过消息鉴别码产生的校验值来保证</li>
+<li>数据起源鉴别。通过数据包中包含一个将要被验证的共享秘密或密钥来保证</li>
+<li>抗重放攻击。在AH中使用序列号实现</li>
+</ul>
+<h3 id="IP封装安全载荷ESP"><a href="#IP封装安全载荷ESP" class="headerlink" title="IP封装安全载荷ESP"></a>IP封装安全载荷ESP</h3><p>将整个IP分组或上层协议部分封装到一个ESP载荷中，然后对此载荷进行相应的安全处理，实现通信的机密性和完整性保护。</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230153546196.png" srcset="/img/loading.gif" lazyload alt="image-20221230153546196"></p>
+<ul>
+<li>序列号SN是一个单向递增的计数值，用于防止重放攻击</li>
+<li>填充项是根据加密算法的需要填充一定长度</li>
+<li>鉴别数据是进行数据完整性计算的结果</li>
+</ul>
+<h2 id="VPN通道的建立方式"><a href="#VPN通道的建立方式" class="headerlink" title="VPN通道的建立方式"></a>VPN通道的建立方式</h2><p>Host to Host</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221230153859908.png" srcset="/img/loading.gif" lazyload alt="image-20221230153859908"></p>
+<h1 id="SSL"><a href="#SSL" class="headerlink" title="SSL"></a>SSL</h1><p>SSL：安全套接层Secure Sockets Layer</p>
+<p>用于Web浏览器与服务器之间的身份认证和加密数据传输</p>
+<p>功能：</p>
+<ul>
+<li>认证用户和服务器，确保数据发送到正确的客户机和服务器</li>
+<li>加密数据以防止数据中途被窃取</li>
+<li>维护数据的完整性，确保数据在传输过程中不被改变</li>
+</ul>
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/university/" class="category-chain-item">university</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/university/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/" class="category-chain-item">网络空间安全技术</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>网络空间安全技术复习</div>
+      <div>http://example.com/2022/12/26/网络空间安全技术复习/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sean</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月26日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/12/27/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA/" title="网络攻防-缓冲区溢出">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">网络攻防-缓冲区溢出</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/12/26/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-%E5%8F%A3%E4%BB%A4%E6%94%BB%E5%87%BB/" title="网络攻防-口令攻击">
+                        <span class="hidden-mobile">网络攻防-口令攻击</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        MathJax = {
+          tex    : {
+            inlineMath: { '[+]': [['$', '$']] }
+          },
+          loader : {
+            load: ['ui/lazy']
+          },
+          options: {
+            renderActions: {
+              findScript    : [10, doc => {
+                document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                  const display = !!node.type.match(/; *mode=display/);
+                  const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                  const text = document.createTextNode('');
+                  node.parentNode.replaceChild(text, node);
+                  math.start = { node: text, delim: '', n: 0 };
+                  math.end = { node: text, delim: '', n: 0 };
+                  doc.math.push(math);
+                });
+              }, '', false],
+              insertedScript: [200, () => {
+                document.querySelectorAll('mjx-container').forEach(node => {
+                  let target = node.parentNode;
+                  if (target.nodeName.toLowerCase() === 'li') {
+                    target.parentNode.classList.add('has-jax');
+                  }
+                });
+              }, '', false]
+            }
+          }
+        };
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.1/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

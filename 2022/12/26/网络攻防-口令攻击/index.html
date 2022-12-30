@@ -1,0 +1,830 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sean">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="w针对口令的攻击与防范，相关实验：MD5碰撞">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络攻防-口令攻击">
+<meta property="og:url" content="http://example.com/2022/12/26/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-%E5%8F%A3%E4%BB%A4%E6%94%BB%E5%87%BB/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="w针对口令的攻击与防范，相关实验：MD5碰撞">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221226161907561.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010154221566.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010160008191.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010160040143.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010162626138.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010171615139.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010171628794.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010173145442.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010173238668.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010210039668.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010211506857.png">
+<meta property="article:published_time" content="2022-12-26T07:54:27.000Z">
+<meta property="article:modified_time" content="2022-12-26T08:52:04.513Z">
+<meta property="article:author" content="Sean">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221226161907561.png">
+  
+  
+  
+  <title>网络攻防-口令攻击 - Sean&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Sean&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="网络攻防-口令攻击"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-26 15:54" pubdate>
+          2022年12月26日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          3.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          28 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">网络攻防-口令攻击</h1>
+            
+            <div class="markdown-body">
+              
+              <p>w针对口令的攻击与防范，相关实验：MD5碰撞</p>
+<span id="more"></span>
+
+<h1 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h1><p>身份认证</p>
+<h2 id="针对口令强度的攻击"><a href="#针对口令强度的攻击" class="headerlink" title="针对口令强度的攻击"></a>针对口令强度的攻击</h2><ul>
+<li>字典攻击：统计使用概率高的</li>
+<li>暴力破解：排列组合</li>
+<li>撞库攻击：根据网络上已泄露的数据</li>
+<li>彩虹表攻击：破解MD5、HASH</li>
+</ul>
+<h2 id="针对口令存储的攻击"><a href="#针对口令存储的攻击" class="headerlink" title="针对口令存储的攻击"></a>针对口令存储的攻击</h2><p>Linux口令存储：<code>/etc/password</code>和<code>/etc/shadow</code></p>
+<p>shadow文件中密码字段的组成：算法、salt、密码哈希值（多轮哈希可减缓暴力破解）<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221226161907561.png" srcset="/img/loading.gif" lazyload alt="image-20221226161907561"></p>
+<p>salt：加盐，就是在哈希值前添加随机字符串，防止字典攻击和彩虹表攻击</p>
+<p>Windows口令存储：</p>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs taggerscript"><span class="hljs-variable">%systemroot%</span>system32<span class="hljs-symbol">\c</span>onfig<span class="hljs-symbol">\目</span>录下<br><span class="hljs-variable">%SystemRoot%</span><span class="hljs-symbol">\r</span>epair目录下的SAM._文件<br>注册表中HKEY_LOCAL_MACHINE<span class="hljs-symbol">\S</span>AM键<br>Winlogon.exe的内存块中<br></code></pre></td></tr></table></figure>
+
+<p>SAM文件：系统保存sam文件时将sam信息经过压缩处理，因此 不具有可读性。</p>
+<p>NTLM认证协议：将口令转换为Unicode字符串，用MD4对口令进行单向HASH，</p>
+<p>本地获取口令：硬盘、内存、破解SAM信息</p>
+<p>口令破解原理：尝试用已知算法加密单词，然后对比获取到的结果</p>
+<h2 id="针对口令传输的攻击"><a href="#针对口令传输的攻击" class="headerlink" title="针对口令传输的攻击"></a>针对口令传输的攻击</h2><ul>
+<li>嗅探攻击：混杂模式</li>
+<li>键盘记录</li>
+<li>网络钓鱼</li>
+<li>重放攻击</li>
+</ul>
+<h2 id="口令防范"><a href="#口令防范" class="headerlink" title="口令防范"></a>口令防范</h2><ul>
+<li>密码强度：长度、大小写字母+数字+特殊符号</li>
+<li>防止口令猜测攻击</li>
+<li>设置安全策略</li>
+</ul>
+<h1 id="实验-MD5碰撞"><a href="#实验-MD5碰撞" class="headerlink" title="实验-MD5碰撞"></a>实验-MD5碰撞</h1><h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><p>a) 使用md5collgen生成两个MD5值相同的文件，并利用bless十六进制编辑器查看输出的两个文件，描述你观察到的情况；</p>
+<p>b) 参考Lab3_task2.c的代码，生成两个MD5值相同但输出不同的两个可执行文件。</p>
+<p>c) 参考Lab3_task3.c的代码，生成两个MD5值相同但代码行为不相同的可执行文件。</p>
+<p>d) 回答问题：通过上面的实验，请解释为什么可以做到不同行为的两个可执行文件具有相同的MD5值？</p>
+<h2 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h2><p>Ubuntu20.04，gcc9.3.0，md5collgen</p>
+<h2 id="原理介绍"><a href="#原理介绍" class="headerlink" title="原理介绍"></a>原理介绍</h2><h3 id="md5collgen工具"><a href="#md5collgen工具" class="headerlink" title="md5collgen工具"></a>md5collgen工具</h3><p>由前缀生成MD5碰撞，即返回两个md5值相同的文件，但是内容不完全相同，为前缀+128字节填充</p>
+<h3 id="md5算法原理"><a href="#md5算法原理" class="headerlink" title="md5算法原理"></a>md5算法原理</h3><p>MD5将输入数据划分为64个字节的块，然后在这些块上迭代计算散列。第一次迭代的IHV输入(IHV0)是一个固定的值。因此，将特定的suffix添加到具有相同 MD5 散列的任何两个不同消息中，通过连接原始消息和suffix消息，得到两个新的更长消息，这两个消息也具有相同的 MD5 散列。给定两个输入<code>M</code>，<code>N</code>如果<code>MD5(M) = MD5(N)</code>，那么对于任何输入<code>T</code>，<code>MD5(M || T) = MD5(N || T)</code>。</p>
+<h3 id="一些命令"><a href="#一些命令" class="headerlink" title="一些命令"></a>一些命令</h3><h4 id="cat"><a href="#cat" class="headerlink" title="cat"></a>cat</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 将多个文件连接为一个文件</span><br>cat  file1  file2  &gt;  file3<br><span class="hljs-comment"># 将多个文件追加到已有文件后面</span><br>cat file4 file5 &gt;&gt; file3<br></code></pre></td></tr></table></figure>
+
+<h4 id="head-tail"><a href="#head-tail" class="headerlink" title="head tail"></a>head tail</h4><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs sh"><span class="hljs-comment"># 将file1中前x个字节写入file2，-c表示读取的二进制文件</span><br>head -c x file1 &gt; file2<br><span class="hljs-comment"># 将最后x个……</span><br>tail -c x file1 &gt; file2<br><span class="hljs-comment"># 从第x个字符开始</span><br>tail -c +x file1 &gt; file2<br></code></pre></td></tr></table></figure>
+
+<p>注：地址是从0开始的。</p>
+<h2 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h2><h3 id="a-md5collgen生成两个md5相同的文件"><a href="#a-md5collgen生成两个md5相同的文件" class="headerlink" title="a)md5collgen生成两个md5相同的文件"></a>a)md5collgen生成两个md5相同的文件</h3><p>先创建一个文本文件test.txt</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">md5collgen -p test.txt -o out1.bin out2.bin<br></code></pre></td></tr></table></figure>
+
+<p>查看两文件的md5值：相同<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010154221566.png" srcset="/img/loading.gif" lazyload alt="image-20221010154221566"></p>
+<p>查看十六进制：前缀相同(都是test.txt)，填充内容有不同之处(但是md5相同)。</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010160008191.png" srcset="/img/loading.gif" lazyload alt="image-20221010160008191"><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010160040143.png" srcset="/img/loading.gif" lazyload alt="image-20221010160040143"></p>
+<h3 id="b-生成两个MD5值相同但输出不同的两个可执行文件"><a href="#b-生成两个MD5值相同但输出不同的两个可执行文件" class="headerlink" title="b)生成两个MD5值相同但输出不同的两个可执行文件"></a>b)生成两个MD5值相同但输出不同的两个可执行文件</h3><p>填充数组，编译c文件生成a.out，使用bless查看，定位输出的数组：</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010162626138.png" srcset="/img/loading.gif" lazyload alt="image-20221010162626138"></p>
+<p>输出数组范围在0x3020<del>0x30e7，转为十进制为12320</del>12519，选择12352(凑64的整数倍)之前的作为prefix，中间改128字节，因此把12352+128=12480 后面的截取出来作为suffix：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">head -c 12352 a.out &gt; prefix<br>tail -c +12480 a.out &gt; suffix<br></code></pre></td></tr></table></figure>
+
+<p>根据 prefix 生成 md5 相同的两个文件</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">md5collgen -p prefix -o out1.bin out2.bin<br></code></pre></td></tr></table></figure>
+
+<p>取out1.bin out2.bin的后128字节：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">tail -c 128 out1.bin &gt; P<br>tail -c 128 out2.bin &gt; Q<br></code></pre></td></tr></table></figure>
+
+<p>将三部分进行拼接，并对生成的文件赋予执行权限：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sj">cat prefix P suffix &gt; a1.out<br>cat prefix Q suffix &gt; a2.out<br>chmod +x a1.out a2.out<br></code></pre></td></tr></table></figure>
+
+<p>执行a1.out a2.out输出结果如图，有不同之处，因为数组中间修改了一部分：</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010171615139.png" srcset="/img/loading.gif" lazyload alt="image-20221010171615139"></p>
+<p>查看两个执行文件的md5值，结果相同：</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010171628794.png" srcset="/img/loading.gif" lazyload alt="image-20221010171628794"></p>
+<h3 id="c-生成两个MD5值相同但代码行为不相同的可执行文件"><a href="#c-生成两个MD5值相同但代码行为不相同的可执行文件" class="headerlink" title="c)生成两个MD5值相同但代码行为不相同的可执行文件"></a>c)生成两个MD5值相同但代码行为不相同的可执行文件</h3><p>分别创建两个值相等的数组arr1,arr2，</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> arr1[<span class="hljs-number">200</span>] =&#123;...&#125;;<br><span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">char</span> arr2[<span class="hljs-number">200</span>] =&#123;...&#125;;<br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span>&#123;<br>    <span class="hljs-keyword">if</span>(!<span class="hljs-built_in">strcmp</span>(arr1,arr2))&#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;in benign code\n&quot;</span>);<br>    &#125;<span class="hljs-keyword">else</span>&#123;<br>        <span class="hljs-built_in">printf</span>(<span class="hljs-string">&quot;in malicious code&quot;</span>);<br>    &#125;<br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>直接编译执行输出”benign code”</p>
+<p>查看编译结果如下：</p>
+<p>arr1:0x3020<del>0x30e7(12320</del>12519)<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010173145442.png" srcset="/img/loading.gif" lazyload alt="image-20221010173145442"></p>
+<p>arr2:0x3100<del>0x31c7(12544</del>12743)<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010173238668.png" srcset="/img/loading.gif" lazyload alt="image-20221010173238668"></p>
+<p>arr1的位置与任务二相同，截取前12352作为前缀并生成两个md5相同的文件：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">head -c 12352 a.out &gt; prefix<br>md5collgen -p prefix -o out1.bin out2.bin<br></code></pre></td></tr></table></figure>
+
+<p>截取后缀（从GCC开始）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sh">tail -c +12745 a.out &gt; suffix<br></code></pre></td></tr></table></figure>
+
+<p>把其中一个新前缀p的后32(字符A)+128(md5填充物)=160个字节截取出来作为第二个数组的主体：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell">tail -c 160 out1.bin &gt; middle<br></code></pre></td></tr></table></figure>
+
+<p>获取填充字节0x00，由于数组200个字节，因此填充40个，注意两个数组间还有24字节的填充<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010210039668.png" srcset="/img/loading.gif" lazyload alt="image-20221010210039668"></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sh">head -c 12544 a.out &gt; temp<br>tail -c 24 temp &gt; m24<br>head -c 16 m24 &gt; temp<br>cat m24 temp &gt; m40<br></code></pre></td></tr></table></figure>
+
+<p>开始拼接：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sh">cat out1.bin m40 m24 middle m40 suffix &gt; a1.out<br>cat out2.bin m40 m24 middle m40 suffix &gt; a2.out<br></code></pre></td></tr></table></figure>
+
+<p>赋予权限并执行：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010211506857.png" srcset="/img/loading.gif" lazyload alt="image-20221010211506857"></p>
+<p>由图可得两个文件执行的函数不同(因为数组的值改变了)，但是md5值相同。</p>
+<h3 id="d-对c任务的解释"><a href="#d-对c任务的解释" class="headerlink" title="d)对c任务的解释"></a>d)对c任务的解释</h3><ul>
+<li><p>不同行为：在最后生成的可执行程序中，第二个数组与源程序无关，完全来自于第一个数组，因为middle取自out1.bin；因此经过填充后，两个文件中第二个数组的与其中一个相同而与(md5collgen产生的)另一个不相同导致if判断产生不一样的结果，最后执行不一样的函数。</p>
+</li>
+<li><p>相同md5：out1.bin与out2.bin是由md5collgen产生的具有相同md5值的不同prefix文件，而两个文件后面的填充+middle+suffix完全相同，因此在迭代运算中保持着相同的md5导致最后计算结果一样。</p>
+</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/skprimin/p/16177784.html">MD5 Collision Attack Lab seed solution - SKPrimin - 博客园 (cnblogs.com)</a></p>
+<p>[从入门到入土：[SEED-Lab]MD5碰撞试验|MD5collgen实验|linux|Ubuntu|MD5 Collision Attack Lab|详细讲解_桃地睡不着的博客-CSDN博客](<a target="_blank" rel="noopener" href="https://blog.csdn.net/Q_U_A_R_T_E_R/article/details/120455905">https://blog.csdn.net/Q_U_A_R_T_E_R/article/details/120455905</a>)</p>
+<p>[网络攻防技术——MD5碰撞试验_啦啦啦啦啦啦啦噜噜的博客-CSDN博客_md5碰撞](</p>
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/university/" class="category-chain-item">university</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/" class="category-chain-item">网络攻防</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>网络攻防-口令攻击</div>
+      <div>http://example.com/2022/12/26/网络攻防-口令攻击/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sean</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月26日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/12/26/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF%E5%A4%8D%E4%B9%A0/" title="网络空间安全技术复习">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">网络空间安全技术复习</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/12/26/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/" title="网络攻防-信息收集">
+                        <span class="hidden-mobile">网络攻防-信息收集</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        MathJax = {
+          tex    : {
+            inlineMath: { '[+]': [['$', '$']] }
+          },
+          loader : {
+            load: ['ui/lazy']
+          },
+          options: {
+            renderActions: {
+              findScript    : [10, doc => {
+                document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                  const display = !!node.type.match(/; *mode=display/);
+                  const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                  const text = document.createTextNode('');
+                  node.parentNode.replaceChild(text, node);
+                  math.start = { node: text, delim: '', n: 0 };
+                  math.end = { node: text, delim: '', n: 0 };
+                  doc.math.push(math);
+                });
+              }, '', false],
+              insertedScript: [200, () => {
+                document.querySelectorAll('mjx-container').forEach(node => {
+                  let target = node.parentNode;
+                  if (target.nodeName.toLowerCase() === 'li') {
+                    target.parentNode.classList.add('has-jax');
+                  }
+                });
+              }, '', false]
+            }
+          }
+        };
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.1/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
