@@ -1,0 +1,840 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Sean">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="w网络攻防-假消息攻击1-包嗅探和欺骗，涉及实验：SEED Labs – Packet Sniffifing and Spoofifing Lab 理论NIC网络接口卡：机器和网络之间的物理或逻辑链路，检查数据包的目的MAC，如果与该卡的MAC地址匹配，则会进一步复制到内核的缓冲区中 混杂模式下，NIC将接收到的每个帧都传给内核 BPF包过滤器通过setsockopt将编译好的BPF伪代码附加到套">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络攻防-包嗅探和欺骗">
+<meta property="og:url" content="http://example.com/2022/12/31/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-%E5%8C%85%E5%97%85%E6%8E%A2%E5%92%8C%E6%AC%BA%E9%AA%97/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="w网络攻防-假消息攻击1-包嗅探和欺骗，涉及实验：SEED Labs – Packet Sniffifing and Spoofifing Lab 理论NIC网络接口卡：机器和网络之间的物理或逻辑链路，检查数据包的目的MAC，如果与该卡的MAC地址匹配，则会进一步复制到内核的缓冲区中 混杂模式下，NIC将接收到的每个帧都传给内核 BPF包过滤器通过setsockopt将编译好的BPF伪代码附加到套">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231143338498.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221121232806657.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221121233217251.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221121233659805.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221121234313476.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221122005716405.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123224606010.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123224914878.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123225430511.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123232714044.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123233416435.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123234308382.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123235254708.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123235747895.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221124003818924.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221125151445579.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221125151316253.png">
+<meta property="article:published_time" content="2022-12-31T06:20:21.000Z">
+<meta property="article:modified_time" content="2022-12-31T06:55:56.121Z">
+<meta property="article:author" content="Sean">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231143338498.png">
+  
+  
+  
+  <title>网络攻防-包嗅探和欺骗 - Sean&#39;s Blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.1","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Sean&#39;s Blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="网络攻防-包嗅探和欺骗"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2022-12-31 14:20" pubdate>
+          2022年12月31日 下午
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          37 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">网络攻防-包嗅探和欺骗</h1>
+            
+            <div class="markdown-body">
+              
+              <p>w网络攻防-假消息攻击1-包嗅探和欺骗，涉及实验：SEED Labs – Packet Sniffifing and Spoofifing Lab</p>
+<h1 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h1><p>NIC网络接口卡：机器和网络之间的物理或逻辑链路，检查数据包的目的MAC，如果与该卡的MAC地址匹配，则会进一步复制到内核的缓冲区中</p>
+<p>混杂模式下，NIC将接收到的每个帧都传给内核</p>
+<h2 id="BPF包过滤器"><a href="#BPF包过滤器" class="headerlink" title="BPF包过滤器"></a>BPF包过滤器</h2><p>通过setsockopt将编译好的BPF伪代码附加到套接字：<code>setsockopt(sock, SOL_SOCKET, SO_ATTACH_FILTER, &amp;bpf, sizeof(bpf))</code>。当内核收到数据包时，BPF将被调用。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231143338498.png" srcset="/img/loading.gif" lazyload alt="image-20221231143338498"></p>
+<p>使用套接字/原始套接字接收数据包的局限性：</p>
+<ul>
+<li>不能跨操作系统进行移植</li>
+<li>没有任何可以提高性能的优化</li>
+<li>设置过滤器不容易（需要编码）</li>
+</ul>
+<p>使用pcap API的优点：</p>
+<ul>
+<li>在所有平台上都是标准的，隐藏了操作系统的细节</li>
+<li>允许使用可读的布尔表达式指定过滤规则</li>
+</ul>
+<p>捕获到的数据包，通过结构体的类型转换可以得到各协议层的内容。</p>
+<p>数据包欺骗：指数据包中的某些关键信息被伪造。</p>
+<p>嗅探然后欺骗：先捕获数据包，根据情况伪造响应</p>
+<p>网络字节序：大端存储</p>
+<p>具体的流程和细节见实验</p>
+<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><h2 id="Task1"><a href="#Task1" class="headerlink" title="Task1"></a>Task1</h2><h3 id="1-1A-sniffer-py"><a href="#1-1A-sniffer-py" class="headerlink" title="1.1A  sniffer.py"></a>1.1A  sniffer.py</h3><p>sniffer.py捕获指定网卡的ICMP包并打印信息：ICMP包可由ping任意主机产生</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-comment">#!/usr/bin/env python3</span><br><span class="hljs-keyword">from</span> scapy.<span class="hljs-built_in">all</span> <span class="hljs-keyword">import</span> *<br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">print_pkt</span>(<span class="hljs-params">pkt</span>):</span><br>    pkt.show()<br><br>pkt=sniff(iface=<span class="hljs-string">&#x27;enp0s3&#x27;</span>,<span class="hljs-built_in">filter</span>=<span class="hljs-string">&#x27;icmp&#x27;</span>,prn=print_pkt)<br></code></pre></td></tr></table></figure>
+
+<p>赋予可执行权限：<code>chmod a+x sniffer.py</code>，以root权限执行：成功。</p>
+<p>以seed用户权限执行：出现权限错误，因为创建原始套接字需要root权限</p>
+<h3 id="1-1B-BPF"><a href="#1-1B-BPF" class="headerlink" title="1.1B BPF"></a>1.1B BPF</h3><p>编写BPF过滤语法</p>
+<ol>
+<li><p>只捕获ICMP</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">filter</span>=<span class="hljs-string">&#x27;icmp&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>ping www.baidu.com</code><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221121232806657.png" srcset="/img/loading.gif" lazyload alt="image-20221121232806657"></p>
+</li>
+<li><p>捕获特定源IP和目的端口的TCP包</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">filter</span>=<span class="hljs-string">&#x27;tcp and src net 10.0.2.15 and dst port 23&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p><code>telnet IP 23</code>通过telnet远程连接主机可以生成满足条件的包：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221121233217251.png" srcset="/img/loading.gif" lazyload alt="image-20221121233217251"></p>
+</li>
+<li><p>捕获源或目的IP属于某特定子网</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-built_in">filter</span>=<span class="hljs-string">&#x27;net 10.134.160.0/21&#x27;</span><br></code></pre></td></tr></table></figure>
+
+<p>根据宿主机IP和子网掩码算出网络号如上，开始捕获后ping百度和宿主机，查看接收到的包只有目标为宿主机的icmp包：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221121233659805.png" srcset="/img/loading.gif" lazyload alt="image-20221121233659805"></p>
+</li>
+</ol>
+<h3 id="1-2-Spoofing-ICMP"><a href="#1-2-Spoofing-ICMP" class="headerlink" title="1.2 Spoofing ICMP"></a>1.2 Spoofing ICMP</h3><p>spoof.py制作虚假源IP的ICMP包并发送：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">from</span> scapy.<span class="hljs-built_in">all</span> <span class="hljs-keyword">import</span> *<br>a=IP()<br>srcip=<span class="hljs-built_in">input</span>(<span class="hljs-string">&#x27;please input fake srcIP:&#x27;</span>)<br>a.src=srcip<br>b=ICMP()<br>p=a/b<br>send(p)<br></code></pre></td></tr></table></figure>
+
+<p>由用户输入虚假IP来设置ICMP包的源IP，默认目的地址是<code>127.0.0.1</code>，利用wireshark查看环回地址捕获到的ICMP包：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221121234313476.png" srcset="/img/loading.gif" lazyload alt="image-20221121234313476"></p>
+<h3 id="1-3-TTL"><a href="#1-3-TTL" class="headerlink" title="1.3 TTL"></a>1.3 TTL</h3><p>ttl.py 自动ttl增1并发送ICMP包</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs python">a=IP()<br>a.dst=<span class="hljs-string">&#x27;...&#x27;</span><br>b=ICMP()<br><span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">1</span>,<span class="hljs-number">65</span>):<br>	a.ttl=i<br>	send(a/b)<br></code></pre></td></tr></table></figure>
+
+<p>ttl_sniff.py 捕获ICMP应答包并计算成功收到目标主机的应答前已经收到多少个路由器的错误反馈，根据此得出真正的ttl距离：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">global</span> ttl<br>ttl=<span class="hljs-number">0</span><br><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">count_ttl</span>(<span class="hljs-params">pkt</span>):</span><br>	<span class="hljs-keyword">global</span> ttl<br>	ttl=ttl+<span class="hljs-number">1</span><br>	<span class="hljs-keyword">if</span>(pkt[ICMP].<span class="hljs-built_in">type</span>==<span class="hljs-number">0</span> <span class="hljs-keyword">and</span> pkt[IP].src==<span class="hljs-string">&#x27;...&#x27;</span>): <span class="hljs-comment"># type=0是reply</span><br>		<span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;get reply from target host while ttl=&#x27;</span>+<span class="hljs-built_in">str</span>(ttl))<br>		exit(<span class="hljs-number">0</span>)<br><br><span class="hljs-built_in">print</span>(<span class="hljs-string">&#x27;sniff...icmp reply&#x27;</span>)<br>sniff(iface=<span class="hljs-string">&#x27;enp0s3&#x27;</span>,<span class="hljs-built_in">filter</span>=<span class="hljs-string">&#x27;icmp&#x27;</span>,prn=count_ttl)<br></code></pre></td></tr></table></figure>
+
+<p>启动ttl_sniff.py监听后开始发包，得到结果：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221122005716405.png" srcset="/img/loading.gif" lazyload alt="image-20221122005716405"></p>
+<h3 id="1-4-Sniff-amp-Spoof"><a href="#1-4-Sniff-amp-Spoof" class="headerlink" title="1.4 Sniff&amp;Spoof"></a>1.4 Sniff&amp;Spoof</h3><p>10.9.0.1(虚拟主机和attack都是)为主机A和B的网关，即10.9.0.1对应的网卡能接收到A和B的ICMP包。主机中运行嗅探和欺骗程序snsp.py:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">snsf</span>(<span class="hljs-params">pkt</span>):</span><br>    a=IP(src=pkt[IP].dst,dst=pkt[IP].src)<br>    b=ICMP(<span class="hljs-built_in">type</span>=<span class="hljs-string">&#x27;echo-reply&#x27;</span>,code=<span class="hljs-number">0</span>,<span class="hljs-built_in">id</span>=pkt[ICMP].<span class="hljs-built_in">id</span>,seq=pkt[ICMP].seq)<br>    p=a/b/pkt[Raw]<br>    send(p)<br></code></pre></td></tr></table></figure>
+
+<p><strong>Raw是应用层的数据，如果不加的话，被欺骗的主机能收到欺骗包，但是ping程序无法识别是响应包</strong></p>
+<p>容器hostA作为被欺骗者，分别ping：</p>
+<ol>
+<li>互联网中不存在的主机<code>1.2.3.4</code>：hostA能接收到响应包<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123224606010.png" srcset="/img/loading.gif" lazyload alt="image-20221123224606010"></li>
+<li>局域网中不存在的主机<code>10.9.0.99</code>：unreachable，hostA向局域网内的主机发包不会经过网关，因此攻击机不会收到ICMP包，也就不会返回欺骗包。由于hostA找不到<code>10.9.0.99</code>的MAC地址，导致包不可达。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123224914878.png" srcset="/img/loading.gif" lazyload alt="image-20221123224914878"></li>
+<li>互联网中存在的主机：虚拟主机。由于目标主机和攻击机都能收到ICMP包并做出响应，导致出现冗余包<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123225430511.png" srcset="/img/loading.gif" lazyload alt="image-20221123225430511"></li>
+</ol>
+<h2 id="Task2"><a href="#Task2" class="headerlink" title="Task2"></a>Task2</h2><h3 id="2-1A-sniff"><a href="#2-1A-sniff" class="headerlink" title="2.1A sniff"></a>2.1A sniff</h3><p>sniff.c：嗅探局域网中的ICMP包，并打印源IP和目的IP。</p>
+<h4 id="Question1："><a href="#Question1：" class="headerlink" title="Question1："></a>Question1：</h4><ul>
+<li><code>pcap_open_live</code>：打开指定网卡设备</li>
+<li><code>pcap_compile,pcap_setfilter</code>：编译BPF过滤条件并绑定到本次处理；</li>
+<li><code>pcap_loop</code>：开始循环捕获，通过回调函数对捕获到的每一个包进行处理</li>
+<li><code>pcap_close</code>：关闭本次捕获</li>
+</ul>
+<h4 id="Question2："><a href="#Question2：" class="headerlink" title="Question2："></a>Question2：</h4><p>对网卡设备(底层硬件)的操作需要root权限，从第一步打开网卡就需要权限：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123232714044.png" srcset="/img/loading.gif" lazyload alt="image-20221123232714044"></p>
+<h4 id="Question3"><a href="#Question3" class="headerlink" title="Question3"></a>Question3</h4><p>混杂模式开启后能接收目的地址不是本机的数据包。用<code>10.9.0.1</code>的网卡设备作为嗅探设备，用hostA ping hostB，A和B在同一局域网，不会发给网关。</p>
+<p>混杂模式开启时：<code>10.9.0.1</code>能接收到ICMP包<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123233416435.png" srcset="/img/loading.gif" lazyload alt="image-20221123233416435"></p>
+<p>修改<code>pcap_live_open</code>参数中的1为0，关闭混杂模式：<code>10.9.0.1</code>不能接收到hostA ping hostB的ICMP包，但是可以接收到出局域网的包。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123234308382.png" srcset="/img/loading.gif" lazyload alt="image-20221123234308382"></p>
+<h3 id="2-1B-filter"><a href="#2-1B-filter" class="headerlink" title="2.1B filter"></a>2.1B filter</h3><p>1.捕获两个特定主机之间的ICMP数据包</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">filter</span>=<span class="hljs-string">&quot;icmp and host 10.9.0.5 and host 10.9.0.6&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>只捕获<code>10.9.05</code>和<code>10.9.0.6</code>之间的，ping其他IP时则不会收到<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123235254708.png" srcset="/img/loading.gif" lazyload alt="image-20221123235254708"></p>
+<p>2.捕获目标端口号在10到100范围内的TCP数据包。</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">filter</span>=<span class="hljs-string">&quot;tcp and dst portrange 10-100&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>用curl对多个端口发起请求，只有10-100之间的才可以被捕获到<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123235747895.png" srcset="/img/loading.gif" lazyload alt="image-20221123235747895"></p>
+<h3 id="2-1C-telnet"><a href="#2-1C-telnet" class="headerlink" title="2.1C telnet"></a>2.1C telnet</h3><p>嗅探TCP包中的敏感数据，以telnet为例：telnet远程连接，捕获其登录名和密码。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221124003818924.png" srcset="/img/loading.gif" lazyload alt="image-20221124003818924"></p>
+<p><strong>Telnet发送的数据固定在报文第66字节，可以直接输出内容</strong></p>
+<h3 id="2-2A-spoof-IP"><a href="#2-2A-spoof-IP" class="headerlink" title="2.2A spoof IP"></a>2.2A spoof IP</h3><p>自定义报头结构体，根据需要指定字段内容：<strong>根据wireshark抓包可得，除了IP和ICMP的报文头，还有8个字节的时间戳和48个字节的填充数据</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-comment">//IP报头</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">IP_HEADER</span> &#123;</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">if</span> defined(__LITTLE_ENDIAN_BITFIELD)</span><br>	__u8	ihl:<span class="hljs-number">4</span>,			<span class="hljs-comment">//4位头部长度 一位4个字节，，最多15*4个字节(可选项)</span><br>		version:<span class="hljs-number">4</span>;		<span class="hljs-comment">//4位版本号</span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">elif</span> defined (__BIG_ENDIAN_BITFIELD)</span><br>	__u8	version:<span class="hljs-number">4</span>,<br>  		ihl:<span class="hljs-number">4</span>;<br><span class="hljs-meta">#<span class="hljs-meta-keyword">else</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">error</span>	<span class="hljs-meta-string">&quot;Please fix &lt;asm/byteorder.h&gt;&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-meta-keyword">endif</span></span><br>	__u8	tos;			<span class="hljs-comment">//8位服务类型</span><br>	__be16	tot_len;		<span class="hljs-comment">//16位总长度</span><br>	__be16	id;			<span class="hljs-comment">//16位标识符</span><br>	__be16	frag_off;		<span class="hljs-comment">//3位标志加13位片偏移</span><br>	__u8	ttl;			<span class="hljs-comment">//8位生存时间</span><br>	__u8	protocol;		<span class="hljs-comment">//8位上层协议号</span><br>	__sum16	check;		<span class="hljs-comment">//16位校验和</span><br>	__be32	saddr;			<span class="hljs-comment">//32位源IP地址</span><br>	__be32	daddr;			<span class="hljs-comment">//32位目的IP地址</span><br>	<span class="hljs-comment">/*The options start here. */</span><br>&#125; IP_HEADER;<br><br><span class="hljs-comment">//ICMP报头</span><br><span class="hljs-keyword">typedef</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ICMP_HEADER</span></span><br><span class="hljs-class">&#123;</span><br>    u_char type;    <span class="hljs-comment">//8位类型字段</span><br>    u_char code;    <span class="hljs-comment">//8位代码字段</span><br>    u_short cksum; <span class="hljs-comment">//16位校验和</span><br>    u_short id;    <span class="hljs-comment">//16位标识符</span><br>    u_short seq;   <span class="hljs-comment">//16位序列号</span><br>&#125; ICMP_HEADER;<br></code></pre></td></tr></table></figure>
+
+<p>使用原始套接字，<strong>根据数据包中的源IP构造对应的sockaddr_in</strong>，发送自定义IP数据包：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sockaddr_in</span> <span class="hljs-title">sin</span>;</span><br><span class="hljs-built_in">sin</span>.sin_family = AF_INET;<br><span class="hljs-built_in">sin</span>.sin_addr.s_addr=pIPHeader-&gt;daddr;<br></code></pre></td></tr></table></figure>
+
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221125151445579.png" srcset="/img/loading.gif" lazyload alt="image-20221125151445579"></p>
+<p>修改源和目的IP，用wireshark查看结果：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221125151316253.png" srcset="/img/loading.gif" lazyload alt="image-20221125151316253"></p>
+<h3 id="2-2B-spoof-echo-request"><a href="#2-2B-spoof-echo-request" class="headerlink" title="2.2B spoof echo-request"></a>2.2B spoof echo-request</h3><p>构造ICMP包与2.1A类似，以局域网中不存在的主机为源IP向某存活主机发起request，由于源IP是不可达的，所以无法收到存活主机的reply</p>
+<h4 id="Question4："><a href="#Question4：" class="headerlink" title="Question4："></a>Question4：</h4><p>可以随意设置IP报文头部的长度，但必须保证向socket发送的原始报文是正确的长度。</p>
+<h4 id="Question5："><a href="#Question5：" class="headerlink" title="Question5："></a>Question5：</h4><p>必须要计算校验和，若校验不通过则该数据包会被丢弃。</p>
+<h4 id="Question6："><a href="#Question6：" class="headerlink" title="Question6："></a>Question6：</h4><p>创建原始套接字需要root权限。若没有权限，<code> socket(AF_INET, SOCK_RAW, IPPROTO_RAW);</code>这一步就无法成功创建套接字。</p>
+<h3 id="2-3-Sniff-amp-Spoof"><a href="#2-3-Sniff-amp-Spoof" class="headerlink" title="2.3 Sniff&amp;Spoof"></a>2.3 Sniff&amp;Spoof</h3><p>结合以上的代码，实现在嗅探的同时发送欺骗响应包。</p>
+<p>结果与Task1.4类似</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>用C语言构造报文头比python难很多，但是可操作性强，可自定义每一个字节的数据；</li>
+<li>接发包不只是要构造源和目的的地址，对于操作系统和特定程序来说，都有其必要的检验机制，如本次实验中ping检验了Raw数据。</li>
+<li>对C语言的数据类型及其在内存中的具体情况还不是很清楚。</li>
+</ul>
+
+              
+            </div>
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+    <div class="post-meta mr-3 d-flex align-items-center">
+      <i class="iconfont icon-category"></i>
+      
+
+<span class="category-chains">
+  
+  
+    
+      <span class="category-chain">
+        
+  <a href="/categories/university/" class="category-chain-item">university</a>
+  
+  
+    <span>></span>
+    
+  <a href="/categories/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/" class="category-chain-item">网络攻防</a>
+  
+  
+
+  
+
+      </span>
+    
+  
+</span>
+
+    </div>
+  
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>网络攻防-包嗅探和欺骗</div>
+      <div>http://example.com/2022/12/31/网络攻防-包嗅探和欺骗/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Sean</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2022年12月31日</div>
+        </div>
+      
+      
+      <div class="license-meta-item">
+        <div>许可协议</div>
+        <div>
+          
+            
+            
+              <a target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+              <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                <i class="iconfont icon-by"></i>
+              </span>
+              </a>
+            
+          
+        </div>
+      </div>
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/12/31/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-TCP%E6%94%BB%E5%87%BB/" title="网络攻防-TCP攻击">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">网络攻防-TCP攻击</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/12/31/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-HTTP%E4%BC%9A%E8%AF%9D%E6%94%BB%E5%87%BB/" title="网络攻防-HTTP会话攻击">
+                        <span class="hidden-mobile">网络攻防-HTTP会话攻击</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.0/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.18.2/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      headingSelector : CONFIG.toc.headingSelector || 'h1,h2,h3,h4,h5,h6',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      collapseDepth   : CONFIG.toc.collapseDepth || 0,
+      scrollSmooth    : true,
+      headingsOffset  : -boardTop
+    });
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+  });
+</script>
+
+
+  <script>
+  (function() {
+    var enableLang = CONFIG.code_language.enable && CONFIG.code_language.default;
+    var enableCopy = CONFIG.copy_btn;
+    if (!enableLang && !enableCopy) {
+      return;
+    }
+
+    function getBgClass(ele) {
+      return Fluid.utils.getBackgroundLightness(ele) >= 0 ? 'code-widget-light' : 'code-widget-dark';
+    }
+
+    var copyTmpl = '';
+    copyTmpl += '<div class="code-widget">';
+    copyTmpl += 'LANG';
+    copyTmpl += '</div>';
+    jQuery('.markdown-body pre').each(function() {
+      var $pre = jQuery(this);
+      if ($pre.find('code.mermaid').length > 0) {
+        return;
+      }
+      if ($pre.find('span.line').length > 0) {
+        return;
+      }
+
+      var lang = '';
+
+      if (enableLang) {
+        lang = CONFIG.code_language.default;
+        if ($pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2 && $pre.children().hasClass('hljs')) {
+          lang = $pre[0].children[0].classList[1];
+        } else if ($pre[0].getAttribute('data-language')) {
+          lang = $pre[0].getAttribute('data-language');
+        } else if ($pre.parent().hasClass('sourceCode') && $pre[0].children.length > 0 && $pre[0].children[0].classList.length >= 2) {
+          lang = $pre[0].children[0].classList[1];
+          $pre.parent().addClass('code-wrapper');
+        } else if ($pre.parent().hasClass('markdown-body') && $pre[0].classList.length === 0) {
+          $pre.wrap('<div class="code-wrapper"></div>');
+        }
+        lang = lang.toUpperCase().replace('NONE', CONFIG.code_language.default);
+      }
+      $pre.append(copyTmpl.replace('LANG', lang).replace('code-widget">',
+        getBgClass($pre[0]) + (enableCopy ? ' code-widget copy-btn" data-clipboard-snippet><i class="iconfont icon-copy"></i>' : ' code-widget">')));
+
+      if (enableCopy) {
+        Fluid.utils.createScript('https://lib.baomitu.com/clipboard.js/2.0.10/clipboard.min.js', function() {
+          var clipboard = new window.ClipboardJS('.copy-btn', {
+            target: function(trigger) {
+              var nodes = trigger.parentNode.childNodes;
+              for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].tagName === 'CODE') {
+                  return nodes[i];
+                }
+              }
+            }
+          });
+          clipboard.on('success', function(e) {
+            e.clearSelection();
+            e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-copy', 'icon-success');
+            setTimeout(function() {
+              e.trigger.innerHTML = e.trigger.innerHTML.replace('icon-success', 'icon-copy');
+            }, 2000);
+          });
+        });
+      }
+    });
+  })();
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        MathJax = {
+          tex    : {
+            inlineMath: { '[+]': [['$', '$']] }
+          },
+          loader : {
+            load: ['ui/lazy']
+          },
+          options: {
+            renderActions: {
+              findScript    : [10, doc => {
+                document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+                  const display = !!node.type.match(/; *mode=display/);
+                  const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+                  const text = document.createTextNode('');
+                  node.parentNode.replaceChild(text, node);
+                  math.start = { node: text, delim: '', n: 0 };
+                  math.end = { node: text, delim: '', n: 0 };
+                  doc.math.push(math);
+                });
+              }, '', false],
+              insertedScript: [200, () => {
+                document.querySelectorAll('mjx-container').forEach(node => {
+                  let target = node.parentNode;
+                  if (target.nodeName.toLowerCase() === 'li') {
+                    target.parentNode.classList.add('has-jax');
+                  }
+                });
+              }, '', false]
+            }
+          }
+        };
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.1/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
