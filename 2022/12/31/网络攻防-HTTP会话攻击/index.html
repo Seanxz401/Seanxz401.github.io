@@ -24,7 +24,7 @@
 <meta property="og:description" content="w网络攻防-Web应用安全3-HTTP会话攻击，不涉及实验">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-12-31T06:16:44.000Z">
-<meta property="article:modified_time" content="2022-12-31T06:22:36.276Z">
+<meta property="article:modified_time" content="2023-01-02T06:52:05.553Z">
 <meta property="article:author" content="Sean">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -280,8 +280,7 @@
 <li>会话ID固定：支持会话采纳（Session Adoption）的Web环境，存在会话ID号固定的 风险比较高。因此，尽可能的采用非会话采纳的Web环境或对会话采纳方 式进行防范</li>
 <li>控制会话ID ：不能让会话ID号长期有效，如采用强制销毁措 施或用户登录后更改会话ID号</li>
 </ul>
-<p>跨站请求伪造攻击</p>
-<p>（Cross-Site Request Forgery，CSRF）</p>
+<h2 id="跨站请求伪造攻击"><a href="#跨站请求伪造攻击" class="headerlink" title="跨站请求伪造攻击"></a>跨站请求伪造攻击</h2><p>（Cross-Site Request Forgery，CSRF）</p>
 <ol>
 <li>victim正常访问网站www，获取该网站下的会话ID=xxx</li>
 <li>victim点击attacker构造好的链接，该链接包含了对www的请求，也就是victim用他的会话ID在www执行了attacker指定的任务</li>

@@ -46,7 +46,7 @@
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221210225235729.png">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221210225401775.png">
 <meta property="article:published_time" content="2022-12-31T14:34:51.000Z">
-<meta property="article:modified_time" content="2022-12-31T14:42:04.212Z">
+<meta property="article:modified_time" content="2023-01-02T07:19:27.537Z">
 <meta property="article:author" content="Sean">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231212728463.png">
@@ -312,7 +312,7 @@
 <p>权威名称服务器：提供DNS查询的原始和最终答案(每个域中至少有一个)</p>
 <h2 id="DNS查询过程"><a href="#DNS查询过程" class="headerlink" title="DNS查询过程"></a>DNS查询过程</h2><p>/etc/hosts：存储某些主机名的IP地址。在计算机联系本地DNS服务器之前，它 首先在该文件中查找IP地址。</p>
 <p> /etc/resolv.conf：向计算机的DNS解析器提供有关本地DNS服务器地址的信息。 DHCP提供的本地DNS服务器的IP地址也存储在这里。</p>
-<p>迭代过程：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231212728463.png" srcset="/img/loading.gif" lazyload alt="image-20221231212728463"></p>
+<p>迭代与递归混合查询过程：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231212728463.png" srcset="/img/loading.gif" lazyload alt="image-20221231212728463"></p>
 <h2 id="DNS响应"><a href="#DNS响应" class="headerlink" title="DNS响应"></a>DNS响应</h2><ul>
 <li>问题部分：向名称服务器描述问题</li>
 <li>回答部分：回答问题的记录</li>
@@ -326,9 +326,9 @@
 <li>拒绝服务攻击：使本地DNS服务器和权威名称服务器无法响应DNS查询</li>
 <li>DNS欺骗：向受害者提供欺诈性IP地址，诱使他们与不同于他们意图的机器进行通信</li>
 <li>如果攻击者获得了机器的根权限，可以修改 /etc/resolv.conf和 /etc/hosts</li>
-<li>来自恶意DNS服务器的攻击：恶意DNS Server在Authority Section和Additional Section中提供伪造数据</li>
+<li>来自恶意DNS服务器的回复伪造攻击：恶意DNS Server在Authority Section和Additional Section中提供伪造数据</li>
 <li>反向DNS查找中的应答伪造：如果数据包来自攻击者，则反向DNS查找将返回到攻击者的名称服务器。 攻击者可以使用他们想要的任何主机名进行回复。</li>
-<li>DNS重新绑定攻击：恶意网页会导致访问者运行客户端脚本客户端脚本，攻击网络上其他地方的计算机。<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/DNS%E9%87%8D%E6%96%B0%E7%BB%91%E5%AE%9A%E6%94%BB%E5%87%BB/23114197">DNS重新绑定攻击_百度百科 (baidu.com)</a></li>
+<li>DNS重新绑定攻击：可以绕过同源策略。<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/DNS%E9%87%8D%E6%96%B0%E7%BB%91%E5%AE%9A%E6%94%BB%E5%87%BB/23114197">DNS重新绑定攻击_百度百科 (baidu.com)</a></li>
 <li>DNS缓存中毒攻击：具体见下方</li>
 </ul>
 <p>本地DNS缓存中毒攻击：在看到来自本地DNS的查询后伪造DNS应答(Answer Section和Authority Section)</p>

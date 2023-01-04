@@ -35,7 +35,7 @@
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010210039668.png">
 <meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221010211506857.png">
 <meta property="article:published_time" content="2022-12-26T07:54:27.000Z">
-<meta property="article:modified_time" content="2022-12-31T06:21:54.312Z">
+<meta property="article:modified_time" content="2023-01-02T06:14:15.249Z">
 <meta property="article:author" content="Sean">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221226161907561.png">
@@ -293,7 +293,7 @@
 </ul>
 <h2 id="针对口令存储的攻击"><a href="#针对口令存储的攻击" class="headerlink" title="针对口令存储的攻击"></a>针对口令存储的攻击</h2><p>Linux口令存储：<code>/etc/password</code>和<code>/etc/shadow</code></p>
 <p>shadow文件中密码字段的组成：算法、salt、密码哈希值（多轮哈希可减缓暴力破解）<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221226161907561.png" srcset="/img/loading.gif" lazyload alt="image-20221226161907561"></p>
-<p>salt：加盐，就是在哈希值前添加随机字符串，防止字典攻击和彩虹表攻击</p>
+<p>salt：加盐，就是在哈希时添加随机字符串，防止字典攻击和彩虹表攻击</p>
 <p>Windows口令存储：</p>
 <figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs taggerscript"><span class="hljs-variable">%systemroot%</span>system32<span class="hljs-symbol">\c</span>onfig<span class="hljs-symbol">\目</span>录下<br><span class="hljs-variable">%SystemRoot%</span><span class="hljs-symbol">\r</span>epair目录下的SAM._文件<br>注册表中HKEY_LOCAL_MACHINE<span class="hljs-symbol">\S</span>AM键<br>Winlogon.exe的内存块中<br></code></pre></td></tr></table></figure>
 
