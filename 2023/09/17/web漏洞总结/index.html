@@ -24,7 +24,7 @@
 <meta property="og:description" content="111for 秋招 SQL注入原理：未对用户输入导致攻击者能够通过拼接SQL语句获取到敏感信息，或者执行带有攻击性的操作。 危害：数据泄露、数据篡改、getshell、提权 场景：与数据库有交互的场景都有可能，如登录、查询 防御：参数化查询、输入验证和过滤、数据库最小权限、不打印错误处理、 绕过：宽字节编码 注入类型 union联合注入：需要有结果回显，确定回显的位置  报错注入：需要有报错提示">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-09-17T03:21:55.000Z">
-<meta property="article:modified_time" content="2023-09-17T03:24:02.034Z">
+<meta property="article:modified_time" content="2023-09-26T08:56:55.022Z">
 <meta property="article:author" content="Sean">
 <meta name="twitter:card" content="summary_large_image">
   
@@ -216,7 +216,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.9k 字
+          3.7k 字
         
       </span>
     
@@ -227,7 +227,7 @@
         
         
         
-          16 分钟
+          31 分钟
         
       </span>
     
@@ -316,11 +316,30 @@
 <p><code>secure_file_priv</code>    参数</p>
 <p><code>load_file</code>、<code>into outfile</code>、<code>into dumpfile</code></p>
 <p>my.ini</p>
-<h4 id="sqlmap"><a href="#sqlmap" class="headerlink" title="sqlmap"></a>sqlmap</h4><p><code>-u</code>：目标url</p>
-<p><code>--data</code>：post参数</p>
-<p><code>-r</code>：请求包文件</p>
-<p><code>--os-shell</code>：getshell，也是通过文件写入</p>
-<h3 id="WAF绕过"><a href="#WAF绕过" class="headerlink" title="WAF绕过"></a>WAF绕过</h3><p>更改提交方法GET/POST…、<strong>打乱匹配规则</strong>（大小写混合、解密编码、注释符混用、等价函数替换、特殊符号混用）、借助数据库特性改变语法、HTTP参数污染</p>
+<h3 id="绕过姿势"><a href="#绕过姿势" class="headerlink" title="绕过姿势"></a>绕过姿势</h3><p>WAF绕过总结：更改提交方法GET/POST…、<strong>打乱匹配规则</strong>（大小写混合、解密编码、注释符混用、等价函数替换、特殊符号混用）、借助数据库特性改变语法、HTTP参数污染</p>
+<p>WAF可能过滤information_schema，解决：</p>
+<ol>
+<li><p>innodb（5.6以上） ，查不到列名</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs csharp"><span class="hljs-function"><span class="hljs-keyword">select</span> <span class="hljs-title">group_concat</span>(<span class="hljs-params">database_name</span>) <span class="hljs-keyword">from</span> mysql.innodb_table_stats</span>;<br><span class="hljs-function"><span class="hljs-keyword">select</span> <span class="hljs-title">group_concat</span>(<span class="hljs-params">table_name</span>) <span class="hljs-keyword">from</span> mysql.innodb_table_stats <span class="hljs-keyword">where</span> database_name</span>=database();<br></code></pre></td></tr></table></figure></li>
+<li><p>sys，也查不到列</p>
+</li>
+</ol>
+<p>无列名注入：</p>
+<ol>
+<li>join</li>
+<li>子查询</li>
+</ol>
+<p>过滤查询关键字select：</p>
+<ol>
+<li>堆叠注入，show查询数据库+表+列</li>
+<li>handler查询</li>
+<li>设置预编译语句，预编译语句中使用concat绕过过滤</li>
+</ol>
+<h3 id="题型收集"><a href="#题型收集" class="headerlink" title="题型收集"></a>题型收集</h3><ol>
+<li>攻防世界-ezsqli（无列名注入）</li>
+<li>攻防世界-filemanager（二次注入）</li>
+<li>攻防世界-supersqli（select绕过）</li>
+</ol>
 <h2 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h2><p>原理：未对用户输入进行正确过滤，导致攻击者能够注入恶意脚本代码且被执行</p>
 <p>危害：窃取敏感信息、网络钓鱼、网页挂马、篡改页面、网络钓鱼、结合CSRF</p>
 <p>场景：所有用户能够进行输入的地方，如富文本编辑器、</p>
@@ -334,8 +353,8 @@
 <h2 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h2><p>原理：未对发起操作的用户的身份进行正确校验，导致用户在不知情的情况下执行恶意操作</p>
 <p>危害：盗用身份、伪造交易</p>
 <p>场景：发布留言、支付</p>
-<p>防御：验证refer（白名单）、验证token、同源策略、不用GET请求</p>
-<p>绕过：</p>
+<p>防御：验证referer（白名单）、验证token、同源策略、不用GET请求、添加确认</p>
+<p>绕过：DNS重绑定可以绕过同源策略</p>
 <h2 id="SSFR"><a href="#SSFR" class="headerlink" title="SSFR"></a>SSFR</h2><p>原理：服务器端提供发起请求的功能，攻击者拼接恶意指令</p>
 <p>危害：命令执行、文件读取、本地和内网端口和服务扫描</p>
 <p>场景：下载远程资源、</p>
@@ -348,6 +367,68 @@
 <p><code>dict://</code></p>
 <p><code>php://</code></p>
 <p><code>gopher://</code></p>
+<h2 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h2><p>原理：对上传的文件没有进行正确的过滤，导致用户可以上传恶意文件</p>
+<p>危害：后门文件、病毒程序</p>
+<p>场景：能上传文件的地方（上传附件、上传头像</p>
+<p>防御：上传目录无执行权限、白名单文件后缀、不暴露上传目录路径、改写文件名</p>
+<p>绕过：双写、大小写、结合解析漏洞</p>
+<h3 id="解析漏洞"><a href="#解析漏洞" class="headerlink" title="解析漏洞"></a>解析漏洞</h3><ol>
+<li><p>IIS 6.0 </p>
+<ol>
+<li>目录解析 <code>/xxx.asp/sss.jpg</code>：sss.jpg在xxx.asp目录下会被当做asp解析</li>
+<li>文件解析 <code>/xxx.asp;.jpg</code>：分号后面的不被解析</li>
+<li>除了asp外IIS 6.0默认的可执行文件：asa, cer, cdx</li>
+</ol>
+</li>
+<li><p>IIS 7.0/IIS 7.5/Ngnix&lt;8.03 畸形解析漏洞（Fast-CGI开启时</p>
+<ol>
+<li>上传xxx.jpg，其中包含php代码</li>
+<li>访问xxx.jpg/1.php即可把jpg当作php执行</li>
+</ol>
+</li>
+<li><p>Ngnix&lt;8.03  空字节代码执行漏洞</p>
+<ol>
+<li>上传xxx.jpg，其中包含php代码</li>
+<li>访问xxx.jpg%00.php即可把jpg当作php执行</li>
+</ol>
+</li>
+<li><p>Apache解析漏洞：Apache 是从右到左开始判断解析,如果为<strong>不可识别</strong>解析,就再往左判断。eg.test.php.x1.x2.x3</p>
+</li>
+</ol>
+<h3 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h3><p>原理：服务器端引入的文件是攻击者能够控制的恶意文件</p>
+<p>利用条件：<code>allow_url_fopen</code>和<code>allow_url_include</code>开启</p>
+<p>危害：与文件上传可结合</p>
+<h4 id="相关函数-1"><a href="#相关函数-1" class="headerlink" title="相关函数"></a>相关函数</h4><p>PHP：include、require、fopen、readfile</p>
+<h4 id="读取协议"><a href="#读取协议" class="headerlink" title="读取协议"></a>读取协议</h4><p>file协议：读取绝对路径的文件</p>
+<p>php伪协议：</p>
+<ul>
+<li>php://input：执行php代码，适用于post和file_get_contents</li>
+<li>php://filter：读取源码，常用base64编码源码，<code>?filename=php://filter/read=convert.base64-encode/resource=./1.php</code>，resource可以说绝对路径也可以是相对</li>
+</ul>
+<p>data协议：data://text/plain;base42,…..==</p>
+<h2 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h2><p>原理：服务器能够接收攻击者反序列化过的字符串，导致攻击者能够控制程序中的变量或者操作</p>
+<ul>
+<li>魔术方法：类中使用某些函数会触发魔术方法，如果存在一些敏感功能如文件读取，加上攻击者可以控制变量，可能造成任意文件读取漏洞</li>
+</ul>
+<p>场景：篡改受害人的一些数据（这些数据会经过序列化和反序列化的操作</p>
+<h3 id="相关函数-2"><a href="#相关函数-2" class="headerlink" title="相关函数"></a>相关函数</h3><p>PHP：serialize, unserialize，魔术方法（<code>__construct</code>, <code>__sleep</code>, <code>__wakeup</code></p>
+<p>Java：writeObject，readObject（JSON反序列化、JDBC反序列化</p>
+<h3 id="shiro反序列化"><a href="#shiro反序列化" class="headerlink" title="shiro反序列化"></a>shiro反序列化</h3><p>Apache Shiro对cookie的处理涉及反序列化（特征：cookie名为rememberMe）</p>
+<p>处理过程：命令→序列化→aes加密→base64编码→rememberme</p>
+<p>利用条件：获取aes-key，构造恶意命令按照以上处理过程完成后上传到服务器端，服务器反序列化后执行恶意命令</p>
+<p>相关知识点：Java，aes，cookie、反序列化</p>
+<h2 id="模板注入"><a href="#模板注入" class="headerlink" title="模板注入"></a>模板注入</h2><p>原理：攻击者能够控制要通过模板引擎渲染的数据，可以让服务器执行一些命令</p>
+<p>危害：泄露敏感信息</p>
+<p>测试：数学表达式49</p>
+<h4 id="常见框架"><a href="#常见框架" class="headerlink" title="常见框架"></a>常见框架</h4><p>不同的框架会对应不同的敏感信息，获取的语法可能也会有不同，需要参考官方文档或者已有的相关wp</p>
+<ol>
+<li>Tornado</li>
+<li>Flask/Jinjia2</li>
+</ol>
+<h4 id="题型收集-1"><a href="#题型收集-1" class="headerlink" title="题型收集"></a>题型收集</h4><ol>
+<li>攻防世界-easytornado(from 护网杯)</li>
+<li></li>
+</ol>
 <h2 id="DNSlog"><a href="#DNSlog" class="headerlink" title="DNSlog"></a>DNSlog</h2><p>原理：攻击者注入恶意DNS请求，再输入字段中插入payload，服务器发起DNS请求时攻击者可以通过监视DNS服务器的响应来收集信息。</p>
 <p>危害：信息泄露、与其他漏洞结合使用完成无回显渗透</p>
 <ul>
@@ -358,6 +439,10 @@
 <li><p>无回显的SSRF</p>
 </li>
 </ul>
+<h2 id="Redis未授权"><a href="#Redis未授权" class="headerlink" title="Redis未授权"></a>Redis未授权</h2><h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="HTTPS中间人攻击"><a href="#HTTPS中间人攻击" class="headerlink" title="HTTPS中间人攻击"></a>HTTPS中间人攻击</h3><p>ARP中间人+中间人伪造证书</p>
+<p>HTST</p>
+<h2 id="New"><a href="#New" class="headerlink" title="New"></a>New</h2><h3 id="log4j2"><a href="#log4j2" class="headerlink" title="log4j2"></a>log4j2</h3><p>日志模块，格式化输出时会产生命令执行</p>
+<p>相关知识点：java, jndi:rmi</p>
 
               
             </div>

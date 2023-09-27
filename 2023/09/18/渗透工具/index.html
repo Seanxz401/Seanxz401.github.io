@@ -16,21 +16,21 @@
   <meta name="author" content="Sean">
   <meta name="keywords" content="">
   
-    <meta name="description" content="111for 秋招 渗透测试流程 信息收集（假设目标只是一个名字）  查询关联的网络资产（查备案域名、公众号、小程序、谷歌 收集服务器相关信息（域名查IP、系统、版本、开放端口和服务 网站指纹识别（cms、cdn、证书、防火墙 whois信息（敏感信息、社工信息 收集子域名、旁站、C段 扫描网站目录，查看是否有敏感信息泄露   漏洞挖掘-getshell  对开放的端口进行漏洞探测 浏览网站的功能">
+    <meta name="description" content="j记录一些工具的使用，主要是功能及常用参数 信息收集目录扫描多个工具扫描出来的结果可能不一样 dirbkali自带 1dirb [url]  dirsearchSQL注入sqlmap-u：目标url --data：post参数 -r：请求包文件 --os-shell：getshell，也是通过文件写入  原理：上传shell 条件：知道绝对路径、PHP magic_quotes_gpc关闭 MyS">
 <meta property="og:type" content="article">
-<meta property="og:title" content="渗透测试总结">
-<meta property="og:url" content="http://example.com/2023/09/17/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:title" content="渗透工具">
+<meta property="og:url" content="http://example.com/2023/09/18/%E6%B8%97%E9%80%8F%E5%B7%A5%E5%85%B7/index.html">
 <meta property="og:site_name" content="Sean&#39;s Blog">
-<meta property="og:description" content="111for 秋招 渗透测试流程 信息收集（假设目标只是一个名字）  查询关联的网络资产（查备案域名、公众号、小程序、谷歌 收集服务器相关信息（域名查IP、系统、版本、开放端口和服务 网站指纹识别（cms、cdn、证书、防火墙 whois信息（敏感信息、社工信息 收集子域名、旁站、C段 扫描网站目录，查看是否有敏感信息泄露   漏洞挖掘-getshell  对开放的端口进行漏洞探测 浏览网站的功能">
+<meta property="og:description" content="j记录一些工具的使用，主要是功能及常用参数 信息收集目录扫描多个工具扫描出来的结果可能不一样 dirbkali自带 1dirb [url]  dirsearchSQL注入sqlmap-u：目标url --data：post参数 -r：请求包文件 --os-shell：getshell，也是通过文件写入  原理：上传shell 条件：知道绝对路径、PHP magic_quotes_gpc关闭 MyS">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-09-17T03:22:30.000Z">
-<meta property="article:modified_time" content="2023-09-23T10:47:04.704Z">
+<meta property="article:published_time" content="2023-09-18T08:22:43.000Z">
+<meta property="article:modified_time" content="2023-09-23T10:49:45.171Z">
 <meta property="article:author" content="Sean">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>渗透测试总结 - Sean&#39;s Blog</title>
+  <title>渗透工具 - Sean&#39;s Blog</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -193,7 +193,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="渗透测试总结"></span>
+            <span id="subtitle" data-typed-text="渗透工具"></span>
           
         </div>
 
@@ -204,8 +204,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-09-17 11:22" pubdate>
-          2023年9月17日 上午
+        <time datetime="2023-09-18 16:22" pubdate>
+          2023年9月18日 下午
         </time>
       </span>
     
@@ -216,7 +216,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          1.6k 字
+          350 字
         
       </span>
     
@@ -227,7 +227,7 @@
         
         
         
-          13 分钟
+          3 分钟
         
       </span>
     
@@ -265,153 +265,32 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">渗透测试总结</h1>
+            <h1 style="display: none">渗透工具</h1>
             
             <div class="markdown-body">
               
-              <p>111for 秋招</p>
-<h2 id="渗透测试流程"><a href="#渗透测试流程" class="headerlink" title="渗透测试流程"></a>渗透测试流程</h2><ol>
-<li><p>信息收集（假设目标只是一个名字）</p>
-<ol>
-<li>查询关联的网络资产（查备案域名、公众号、小程序、谷歌</li>
-<li>收集服务器相关信息（域名查IP、系统、版本、开放端口和服务</li>
-<li>网站指纹识别（cms、cdn、证书、防火墙</li>
-<li>whois信息（敏感信息、社工信息</li>
-<li>收集子域名、旁站、C段</li>
-<li>扫描网站目录，查看是否有敏感信息泄露</li>
-</ol>
-</li>
-<li><p>漏洞挖掘-getshell</p>
-<ol>
-<li>对开放的端口进行漏洞探测</li>
-<li>浏览网站的功能，查找web漏洞，见web漏洞总结</li>
-<li>漏扫工具</li>
-</ol>
-</li>
-<li><p>安装后门实现远控</p>
-</li>
-<li><p>提权</p>
-<ol>
-<li>Windows：mysql-udf、低版本</li>
-<li>Linux：脏牛、suid提权、内核漏洞</li>
-</ol>
-</li>
-<li><p>权限维持：计划任务、隐藏账户</p>
-</li>
-<li><p>内网渗透</p>
-<ol>
-<li>内网扫描</li>
-<li>建立隧道</li>
-<li>内网攻击</li>
-<li>权限提升&amp;维持</li>
-</ol>
-</li>
-<li><p>清除痕迹（后门、日志</p>
-</li>
-<li><p>报告</p>
-</li>
-</ol>
-<h2 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h2><h3 id="关联资产收集"><a href="#关联资产收集" class="headerlink" title="关联资产收集"></a>关联资产收集</h3><ol>
-<li>ICP备案查域名<ol>
-<li>子域名收集，见下文</li>
-<li>域名查IP，见下文</li>
-</ol>
-</li>
-<li>公众号&amp;小程序<ol>
-<li>微信公众平台插入公众号/小程序时可以进行模糊搜索，需要登录</li>
-<li>微信公众平台找回密码处，可以精准定位</li>
-<li>搜狗微信</li>
-<li>小程序反编译，提取域名/IP</li>
-</ol>
-</li>
-</ol>
-<p>资产测绘平台：fofa、hunter、shodan、zoomeye、censys、virustotal、微步</p>
-<h3 id="子域名收集"><a href="#子域名收集" class="headerlink" title="子域名收集"></a>子域名收集</h3><ol>
-<li>Google hack：<code>site:domain</code></li>
-<li>DNS记录<ol>
-<li>不安全的域传送，获取指定nameserver的域文件</li>
-<li>域名缓存侦测：不使用递归，探测指定nameserver缓存中保存的域名</li>
-<li>DNSSEC：</li>
-</ol>
-</li>
-<li>证书：HTTPS的CA证书（SAN字段值</li>
-<li>当前网站本身，主要是静态文件（js、html）、资源链接（link、img）、安全策略（CSP、跨域策略文件</li>
-<li>子域名爆破<ol>
-<li>可能有泛解析:*符号将未指定的前缀指向某一个特定的地址。解决：采用随机值去判断返回内容的相似性，进一步判断是否存在泛解析。</li>
-</ol>
-</li>
-</ol>
-<p>工具：OneForAll</p>
-<h3 id="域名查服务器信息"><a href="#域名查服务器信息" class="headerlink" title="域名查服务器信息"></a>域名查服务器信息</h3><ol>
-<li>服务器的真实IP地址</li>
-<li>旁站：和target处于同一服务器上的其他网站</li>
-<li>C段：同一C段，D段不同的IP对应主机存活情况（主机发现：ARP扫描、nmap</li>
-<li>操作系统、版本</li>
-</ol>
-<h4 id="CDN绕过"><a href="#CDN绕过" class="headerlink" title="CDN绕过"></a>CDN绕过</h4><ol>
-<li>使用了CDN的域名的父域或者子域名不一定使用了CDN</li>
-<li>CDN可能是在网站上线一段时间后才上线的，可以通过查找域名解析记录的方式去查找真实IP。</li>
-<li>邮件探测（查看邮件的来源IP</li>
-<li>SSL证书探测（遍历IP</li>
-<li>多地Ping，偏远地区服务器可能不会访问到CDN节点</li>
-</ol>
-<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><ol>
-<li>全连接扫描</li>
-<li>半连接扫描 SYN：发送SYN，返回SYN/ACK表示开启，返回RST表示关闭</li>
-<li>FIN扫描：发送FIN，返回RST表示开启</li>
-</ol>
-<h4 id="常见服务及其漏洞"><a href="#常见服务及其漏洞" class="headerlink" title="常见服务及其漏洞"></a>常见服务及其漏洞</h4><ol>
-<li>80/8080 HTTP：Web服务，中间件可能存在漏洞，网站中可能有漏洞</li>
-<li>443 HTTPS：Heartbleed心脏出血漏洞，openssl漏洞，tls协议，</li>
-<li>22 SSH：爆破登录</li>
-<li>23 Telnet：爆破登录</li>
-<li>53 DNS：DDos（DNS查询、DNS反弹</li>
-<li>21 FTP：文件上传、匿名登陆、</li>
-<li>3389 RDP：爆破登录</li>
-<li>3306 MySQL：SQL注入、身份验证绕过</li>
-<li>1433 SQL server：SQL注入、未授权访问</li>
-<li>6347 Redis：未授权访问</li>
-<li>445 SMB：永恒之蓝</li>
-<li>139 NetBIOS：未授权访问</li>
-<li>7001+7002 Weblogic</li>
-<li>873 Rsync：未授权访问、提权？</li>
-</ol>
-<h2 id="拿webshell"><a href="#拿webshell" class="headerlink" title="拿webshell"></a>拿webshell</h2><ol>
-<li>文件上传</li>
-<li>sql注入写入文件</li>
-<li>命令执行/代码执行</li>
-<li>cms漏洞</li>
-</ol>
-<p>正向shell：受害机具有外网IP</p>
-<p>反向shell：受害机能够出网（可能是内网地址</p>
-<h2 id="登录框测试步骤"><a href="#登录框测试步骤" class="headerlink" title="登录框测试步骤"></a>登录框测试步骤</h2><ol>
-<li>登录<ol>
-<li>弱口令</li>
-<li>验证码爆破（eg.4位数），导致任意用户登录</li>
-<li>SQL注入</li>
-<li>短信轰炸</li>
-<li>用户名枚举（根据登录返回信息判断</li>
-<li>逻辑漏洞：绕过登录、越权</li>
-</ol>
-</li>
-<li>注册<ol>
-<li>任意用户注册</li>
-<li>任意用户接管（覆盖已有用户的信息</li>
-<li>用户名枚举</li>
-</ol>
-</li>
-<li>找回密码<ol>
-<li>逻辑漏洞→任意用户密码重置</li>
-<li>信息泄露（邮箱、姓名</li>
-</ol>
-</li>
-<li>未授权访问（隐藏接口</li>
-</ol>
-<h2 id="内网渗透"><a href="#内网渗透" class="headerlink" title="内网渗透"></a>内网渗透</h2><p>Windows hash传递</p>
-<p>ntlm hash</p>
-<h3 id="横向移动"><a href="#横向移动" class="headerlink" title="横向移动"></a>横向移动</h3><p>ipc</p>
-<h2 id="New"><a href="#New" class="headerlink" title="New"></a>New</h2><p>WinRAR命令执行</p>
+              <p>j记录一些工具的使用，主要是功能及常用参数</p>
+<h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><h2 id="目录扫描"><a href="#目录扫描" class="headerlink" title="目录扫描"></a>目录扫描</h2><p>多个工具扫描出来的结果可能不一样</p>
+<h3 id="dirb"><a href="#dirb" class="headerlink" title="dirb"></a>dirb</h3><p>kali自带</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">dirb [url]<br></code></pre></td></tr></table></figure>
 
+<h3 id="dirsearch"><a href="#dirsearch" class="headerlink" title="dirsearch"></a>dirsearch</h3><h1 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h1><h2 id="sqlmap"><a href="#sqlmap" class="headerlink" title="sqlmap"></a>sqlmap</h2><p><code>-u</code>：目标url</p>
+<p><code>--data</code>：post参数</p>
+<p><code>-r</code>：请求包文件</p>
+<p><code>--os-shell</code>：getshell，也是通过文件写入</p>
+<ul>
+<li>原理：上传shell</li>
+<li>条件：知道绝对路径、PHP magic_quotes_gpc关闭<ul>
+<li>MySQL：secure_file_priv为空或者为指定路径；当前用户有文件写入权限</li>
+<li>SQL Server：SA权限；xp_cmdshell</li>
+</ul>
+</li>
+</ul>
+<h1 id="内网渗透"><a href="#内网渗透" class="headerlink" title="内网渗透"></a>内网渗透</h1><h2 id="代理隧道"><a href="#代理隧道" class="headerlink" title="代理隧道"></a>代理隧道</h2><p>端口转发？</p>
+<p>frp</p>
+<p>stowaway</p>
+<h1 id="综合"><a href="#综合" class="headerlink" title="综合"></a>综合</h1><h2 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h2><p>Fuzz字典：<a target="_blank" rel="noopener" href="https://github.com/TheKingOfDuck/fuzzDicts/tree/master">https://github.com/TheKingOfDuck/fuzzDicts/tree/master</a></p>
+<h2 id="burpsuite"><a href="#burpsuite" class="headerlink" title="burpsuite"></a>burpsuite</h2>
               
             </div>
             <hr/>
@@ -428,7 +307,7 @@
     
       <span class="category-chain">
         
-  <a href="/categories/2024%E5%B1%8A%E7%A7%8B%E6%8B%9B/" class="category-chain-item">2024届秋招</a>
+  <a href="/categories/web%E5%AE%89%E5%85%A8/" class="category-chain-item">web安全</a>
   
   
 
@@ -448,8 +327,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>渗透测试总结</div>
-      <div>http://example.com/2023/09/17/渗透测试总结/</div>
+      <div>渗透工具</div>
+      <div>http://example.com/2023/09/18/渗透工具/</div>
     </div>
     <div class="license-meta">
       
@@ -461,7 +340,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年9月17日</div>
+          <div>2023年9月18日</div>
         </div>
       
       
@@ -491,9 +370,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/09/18/%E6%B8%97%E9%80%8F%E5%B7%A5%E5%85%B7/" title="渗透工具">
+                      <a href="/2023/09/22/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E6%80%BB%E7%BB%93/" title="应急响应总结">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">渗透工具</span>
+                        <span class="hidden-mobile">应急响应总结</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -501,8 +380,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/09/17/web%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/" title="web漏洞总结">
-                        <span class="hidden-mobile">web漏洞总结</span>
+                      <a href="/2023/09/17/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/" title="渗透测试总结">
+                        <span class="hidden-mobile">渗透测试总结</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
