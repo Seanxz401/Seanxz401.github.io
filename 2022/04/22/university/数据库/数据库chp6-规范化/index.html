@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="规范化normalization，范式，自下而上：1NF,2NF,3NF,BCNF,4NF,5NF.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库chp6-规范化">
+<meta property="og:url" content="http://example.com/2022/04/22/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp6-%E8%A7%84%E8%8C%83%E5%8C%96/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="规范化normalization，范式，自下而上：1NF,2NF,3NF,BCNF,4NF,5NF.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422175534912.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422181727632.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422185100640.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422195743665.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220617153017081.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220617153123244.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220617165407573.png">
+<meta property="article:published_time" content="2022-04-22T09:37:01.000Z">
+<meta property="article:modified_time" content="2022-06-17T11:13:42.000Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422175534912.png">
+
+<link rel="canonical" href="http://example.com/2022/04/22/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp6-%E8%A7%84%E8%8C%83%E5%8C%96/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>数据库chp6-规范化 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/22/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp6-%E8%A7%84%E8%8C%83%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据库chp6-规范化
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-22 17:37:01" itemprop="dateCreated datePublished" datetime="2022-04-22T17:37:01+08:00">2022-04-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-06-17 19:13:42" itemprop="dateModified" datetime="2022-06-17T19:13:42+08:00">2022-06-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/" itemprop="url" rel="index"><span itemprop="name">university</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>规范化normalization，范式，自下而上：1NF,2NF,3NF,BCNF,4NF,5NF.</p>
+<span id="more"></span>
+
+<h1 id="更新异常"><a href="#更新异常" class="headerlink" title="更新异常"></a>更新异常</h1><ul>
+<li><p>数据冗余data redundancy</p>
+</li>
+<li><p>更新异常update anomalies：很有可能由于数据冗余导致</p>
+</li>
+</ul>
+<h2 id="三种更新异常"><a href="#三种更新异常" class="headerlink" title="三种更新异常"></a>三种更新异常</h2><p>以下图中的数据为例（staff员工，branch分公司，应该是以staffNo为PK）：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422175534912.png" alt="image-20220422175534912"></p>
+<h3 id="insertion-anomalies"><a href="#insertion-anomalies" class="headerlink" title="insertion anomalies"></a>insertion anomalies</h3><p>指当用户想要插入某一实体实例时，还必须输入另一个实体的数据。</p>
+<p>eg.想正确添加新员工，必须保证对应的分公司的所有信息也要正确；想添加新分公司，此时没有员工，staff相关项为空值，可能更新失败</p>
+<h3 id="deletion-anomalies"><a href="#deletion-anomalies" class="headerlink" title="deletion anomalies"></a>deletion anomalies</h3><p>指当用户想要删除某一实体实例时，还必须删除另一个实体的数据。</p>
+<p>eg.想删除的员工是某公司的唯一一个员工，若删除他，分公司的信息也彻底没了</p>
+<h3 id="modification-anomalies"><a href="#modification-anomalies" class="headerlink" title="modification anomalies"></a>modification anomalies</h3><p>指当用户要修改某个值的时候，同样的修改操作需要重复多次。</p>
+<p>eg.想修改分公司，则该分公司下所有的员工信息都要更改</p>
+<h2 id="分解"><a href="#分解" class="headerlink" title="分解"></a>分解</h2><p>Two important properties of <strong>decomposition</strong>：</p>
+<ul>
+<li>lossless-join无损连接</li>
+<li>dependency preservation依赖保持</li>
+</ul>
+<h1 id="函数依赖"><a href="#函数依赖" class="headerlink" title="函数依赖"></a>函数依赖</h1><p>假设A和B均为关系R的属性，若A的每个值都和B 中的一个唯一的值相对应，则称<strong>B函数依赖于A</strong>，记为<strong>A→B（A决定B）</strong>。A、B可能由一或多个属性组成。</p>
+<p>eg.职位函数依赖于员工编号，每个员工都有一个职位？(why不能多个呢)<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422181727632.png" alt="image-20220422181727632"></p>
+<h2 id="恒成立函数依赖"><a href="#恒成立函数依赖" class="headerlink" title="恒成立函数依赖"></a>恒成立函数依赖</h2><p> Functional Dependency that holds for all Time</p>
+<p>？考虑整个属性值域</p>
+<h2 id="完全依赖"><a href="#完全依赖" class="headerlink" title="完全依赖"></a>完全依赖</h2><p>full function dependency</p>
+<p>A→B:B函数依赖于A，但不函数依赖于A的任一真子集。（能决定B的最小集）</p>
+<h2 id="传递依赖"><a href="#传递依赖" class="headerlink" title="传递依赖"></a>传递依赖</h2><p>transitive dependencies</p>
+<p>A→B&amp;&amp;B→C，则称C通过B传递依赖于A</p>
+<h2 id="确定PK"><a href="#确定PK" class="headerlink" title="确定PK"></a>确定PK</h2><p>identify the primary key for a relation using functional dependencies</p>
+<p>确定关系函数依赖集的主要目的是确定该关系必须满足的完整性约束集(候选关键字、主关键字、)</p>
+<p>首先要考虑辨别的一种重要完整性约束是候选关键宇，候选关键字中的一个将被选作关系的主关键字，候选关键字可决定其他任意列。（ps：可能有时候A→B看起来不太合理，但在客观逻辑上看确实有相应的依赖）</p>
+<h1 id="规范化过程"><a href="#规范化过程" class="headerlink" title="规范化过程"></a>规范化过程</h1><p>规范化基于primary&#x2F;candidate key和函数依赖</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422185100640.png" alt="image-20220422185100640"></p>
+<h2 id="UNF"><a href="#UNF" class="headerlink" title="UNF"></a>UNF</h2><p>unnormalized form非范式，包含重复组</p>
+<h2 id="1NF"><a href="#1NF" class="headerlink" title="1NF"></a>1NF</h2><p>一个表如果每一行都是唯一，并且任何行都<strong>没有包含多个值</strong>的列，则它满足1NF。但对于关系表来说，真正的规范化过程从第二范式开始，因为关系表本身已经满足1NF了。</p>
+<p>UNF TO 1NF:</p>
+<ol>
+<li>为非范式结构确定一个唯一标识（关键属性）（可以是组合的）（好好选……</li>
+<li>根据关键属性，确定重复组</li>
+<li>除去重复组<ul>
+<li>填充空值</li>
+<li>拆分多表</li>
+</ul>
+</li>
+</ol>
+<p>1NF中每个非关键属性都完全函数依赖于关键属性</p>
+<h2 id="2NF"><a href="#2NF" class="headerlink" title="2NF"></a>2NF</h2><p>1NF TO 2NF：</p>
+<ol>
+<li>检查非主属性，除去<strong>部分函数依赖</strong>（即主关键字并不是决定方的最小集）&#x3D;&#x3D;保留主关键字能决定的完全依赖<ul>
+<li>拆分多表</li>
+</ul>
+</li>
+</ol>
+<h2 id="3NF"><a href="#3NF" class="headerlink" title="3NF"></a>3NF</h2><p>2NF TO 3NF：</p>
+<ol>
+<li>除去<strong>传递依赖</strong>（某一非主属性能由其他非主属性决定）<ul>
+<li>拆分多表</li>
+</ul>
+</li>
+</ol>
+<h2 id="BCNF"><a href="#BCNF" class="headerlink" title="BCNF"></a>BCNF</h2><h3 id="函数依赖集"><a href="#函数依赖集" class="headerlink" title="函数依赖集"></a>函数依赖集</h3><p>函数依赖集X，被某一函数依赖集X所蕴涵的所有函数依赖的集合X+(X的闭包)</p>
+<h4 id="覆盖"><a href="#覆盖" class="headerlink" title="覆盖"></a>覆盖</h4><p>如果函数依赖集Y的每一个函数依赖都属于函数依赖集X的闭包X+，称Y 被X<strong>覆盖</strong>，即Y中每个函数依赖都可以从X推导出。</p>
+<h4 id="最小函数依赖集"><a href="#最小函数依赖集" class="headerlink" title="最小函数依赖集"></a>最小函数依赖集</h4><p>conditions：</p>
+<ul>
+<li>X中的每个依赖的右边都只包含单个属性</li>
+<li>X中的函数依赖全是完全函数依赖</li>
+</ul>
+<h3 id="BCNF-1"><a href="#BCNF-1" class="headerlink" title="BCNF"></a>BCNF</h3><p>boyce-codd normal form</p>
+<p>2NF，3NF消除了对候选关键字的部分依赖和传递依赖，但仍可能存在一些会引起冗余的依赖</p>
+<p><strong>BCNF中的每个决定性属性都是候选关键字</strong>，对于函数依赖A→B：</p>
+<ul>
+<li>3NF：<span color='red'>允许情况-B是主属性且A不是候选关键字</span>&gt;</li>
+<li>BCNF：A必须是候选关键字</li>
+</ul>
+<p>可能导致不满足BCNF：</p>
+<ul>
+<li>包含多个候选关键字</li>
+<li>候选关键字相互重叠</li>
+</ul>
+<h2 id="UNF-TO-BCNF"><a href="#UNF-TO-BCNF" class="headerlink" title="UNF TO BCNF"></a>UNF TO BCNF</h2><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422195743665.png" alt="image-20220422195743665"></p>
+<h2 id="4NF、5NF"><a href="#4NF、5NF" class="headerlink" title="4NF、5NF"></a>4NF、5NF</h2><p>4NF：消除多值依赖Multi-valued Dependency (MVD)</p>
+<p>5NF：消除连接依赖 join dependency</p>
+<h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><p>UNF：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220617153017081.png" alt="image-20220617153017081"></p>
+<p>1NF:转成正式的<strong>结构化的表</strong>，可以填充空值。选了（clientNo，propertyNo)作为组合关键字</p>
+<p>Rental：(<u>clientNo</u>, <u>propertyNo</u>, cName, pAddress, rentStart, rentFinish, rent, ownerNo, oName)</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220617153123244.png" alt="image-20220617153123244"></p>
+<p>2NF：消除<strong>部分依赖</strong>，如cName可由clientNo直接决定，不需要组合关键字确认。（即确保完全依赖）</p>
+<ul>
+<li>Rental：(<u>clientNo</u>, <u>propertyNo</u>,  rentStart, rentFinish)</li>
+<li>Client：(<u>clientNo</u>, cName)</li>
+<li>Property：(<u>propertyNo</u>,  pAddress, rent, ownerNo, oName)</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220617165407573.png" alt="image-20220617165407573"></p>
+<p>3NF:消除主关键字上的<strong>传递依赖</strong>，如propertyNo→ownerNo→oName</p>
+<ul>
+<li>Rental：(<u>clientNo</u>, <u>propertyNo</u>,  rentStart, rentFinish)</li>
+<li>Client：(<u>clientNo</u>, cName)</li>
+<li>Property：(<u>propertyNo</u>,  pAddress, rent, ownerNo)</li>
+<li>Owner：(<u>ownerNo</u>, oName)</li>
+</ul>
+<p>BCNF：满足</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/22/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp4-5-ER-EER/" rel="prev" title="数据库chp4&5-ER&EER">
+      <i class="fa fa-chevron-left"></i> 数据库chp4&5-ER&EER
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/22/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp10-%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C/" rel="next" title="数据库chp10-数据操作">
+      数据库chp10-数据操作 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E5%BC%82%E5%B8%B8"><span class="nav-number">1.</span> <span class="nav-text">更新异常</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E6%9B%B4%E6%96%B0%E5%BC%82%E5%B8%B8"><span class="nav-number">1.1.</span> <span class="nav-text">三种更新异常</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#insertion-anomalies"><span class="nav-number">1.1.1.</span> <span class="nav-text">insertion anomalies</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#deletion-anomalies"><span class="nav-number">1.1.2.</span> <span class="nav-text">deletion anomalies</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#modification-anomalies"><span class="nav-number">1.1.3.</span> <span class="nav-text">modification anomalies</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%86%E8%A7%A3"><span class="nav-number">1.2.</span> <span class="nav-text">分解</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E4%BE%9D%E8%B5%96"><span class="nav-number">2.</span> <span class="nav-text">函数依赖</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%81%92%E6%88%90%E7%AB%8B%E5%87%BD%E6%95%B0%E4%BE%9D%E8%B5%96"><span class="nav-number">2.1.</span> <span class="nav-text">恒成立函数依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E5%85%A8%E4%BE%9D%E8%B5%96"><span class="nav-number">2.2.</span> <span class="nav-text">完全依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E9%80%92%E4%BE%9D%E8%B5%96"><span class="nav-number">2.3.</span> <span class="nav-text">传递依赖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A1%AE%E5%AE%9APK"><span class="nav-number">2.4.</span> <span class="nav-text">确定PK</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%A7%84%E8%8C%83%E5%8C%96%E8%BF%87%E7%A8%8B"><span class="nav-number">3.</span> <span class="nav-text">规范化过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#UNF"><span class="nav-number">3.1.</span> <span class="nav-text">UNF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1NF"><span class="nav-number">3.2.</span> <span class="nav-text">1NF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2NF"><span class="nav-number">3.3.</span> <span class="nav-text">2NF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3NF"><span class="nav-number">3.4.</span> <span class="nav-text">3NF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BCNF"><span class="nav-number">3.5.</span> <span class="nav-text">BCNF</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E4%BE%9D%E8%B5%96%E9%9B%86"><span class="nav-number">3.5.1.</span> <span class="nav-text">函数依赖集</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A6%86%E7%9B%96"><span class="nav-number">3.5.1.1.</span> <span class="nav-text">覆盖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%80%E5%B0%8F%E5%87%BD%E6%95%B0%E4%BE%9D%E8%B5%96%E9%9B%86"><span class="nav-number">3.5.1.2.</span> <span class="nav-text">最小函数依赖集</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BCNF-1"><span class="nav-number">3.5.2.</span> <span class="nav-text">BCNF</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UNF-TO-BCNF"><span class="nav-number">3.6.</span> <span class="nav-text">UNF TO BCNF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4NF%E3%80%815NF"><span class="nav-number">3.7.</span> <span class="nav-text">4NF、5NF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BE%8B%E9%A2%98"><span class="nav-number">3.8.</span> <span class="nav-text">例题</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="数据结构比较">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构比较">
+<meta property="og:url" content="http://example.com/2021/12/21/university/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%AF%94%E8%BE%83/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="数据结构比较">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-12-20T16:04:03.000Z">
+<meta property="article:modified_time" content="2024-05-27T08:07:21.501Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/12/21/university/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%AF%94%E8%BE%83/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>数据结构比较 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/21/university/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%AF%94%E8%BE%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据结构比较
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-21 00:04:03" itemprop="dateCreated datePublished" datetime="2021-12-21T00:04:03+08:00">2021-12-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-27 16:07:21" itemprop="dateModified" datetime="2024-05-27T16:07:21+08:00">2024-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/" itemprop="url" rel="index"><span itemprop="name">university</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">数据结构与算法</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>数据结构比较</p>
+<span id="more"></span>
+
+<h1 id="顺序表-链表"><a href="#顺序表-链表" class="headerlink" title="顺序表&amp;链表"></a>顺序表&amp;链表</h1><table>
+<thead>
+<tr>
+<th></th>
+<th>顺序表</th>
+<th>链表</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>空间</td>
+<td>O(1)</td>
+<td></td>
+</tr>
+<tr>
+<td>存取</td>
+<td>O(1)</td>
+<td>O(n)</td>
+</tr>
+<tr>
+<td>插入删除</td>
+<td>O(n)</td>
+<td>O(1)</td>
+</tr>
+</tbody></table>
+<h1 id="栈与递归"><a href="#栈与递归" class="headerlink" title="栈与递归"></a>栈与递归</h1><ul>
+<li><p>空间：O(n)，与递归树的深度成正比</p>
+</li>
+<li><p>时间：O(2^n)，与递归树的结点成正比</p>
+</li>
+<li><p>执行次数：<br>$$<br>f(n)&#x3D;2^0+2^1+…+2^{n-2}+2^{n-1}f(1)&#x3D;2^n-1<br>$$</p>
+</li>
+</ul>
+<h1 id="串匹配"><a href="#串匹配" class="headerlink" title="串匹配"></a>串匹配</h1><table>
+<thead>
+<tr>
+<th></th>
+<th>BF</th>
+<th>KMP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>比较次数</td>
+<td>(n-m)*m+m</td>
+<td>n</td>
+</tr>
+<tr>
+<td>时间</td>
+<td>O(n*m)</td>
+<td>O(n+m),O(m)是求next的时间复杂度</td>
+</tr>
+</tbody></table>
+<h1 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h1><h2 id="先中后序遍历"><a href="#先中后序遍历" class="headerlink" title="先中后序遍历"></a>先中后序遍历</h2><ul>
+<li><p>时间：O(n)，每个结点只访问一次</p>
+</li>
+<li><p>空间：O(n)，<strong>栈</strong>占用的最大辅助空间</p>
+</li>
+</ul>
+<h1 id="图"><a href="#图" class="headerlink" title="图"></a>图</h1><h2 id="存储"><a href="#存储" class="headerlink" title="存储"></a>存储</h2><table>
+<thead>
+<tr>
+<th>item</th>
+<th>邻接矩阵</th>
+<th>邻接表</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>空间</td>
+<td>$O(n^2)$</td>
+<td>无向：$O(n+2e)$<br />有向：$O(n+e)$</td>
+</tr>
+<tr>
+<td>优点</td>
+<td>容易求某顶点的度、判断顶点之间是否有边、找顶点的邻接点</td>
+<td>空间效率高，容易找顶点的邻接点</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td>对稀疏图，浪费空间</td>
+<td>判断两顶点间是否有边需要搜索对应的单链表</td>
+</tr>
+<tr>
+<td>适用</td>
+<td>稠密图</td>
+<td>稀疏图</td>
+</tr>
+</tbody></table>
+<h2 id="遍历"><a href="#遍历" class="headerlink" title="遍历"></a>遍历</h2><table>
+<thead>
+<tr>
+<th>item</th>
+<th>DFS</th>
+<th>BFS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>时间</td>
+<td>邻接矩阵：$O(n^2)$<br />邻接表：$O(n+e)$</td>
+<td>同DFS，时间复杂度只与存储结构有关，而与搜索路径无关</td>
+</tr>
+<tr>
+<td>空间</td>
+<td>$O(n)$，借用堆栈</td>
+<td>$O(n)$，借用队列</td>
+</tr>
+</tbody></table>
+<h2 id="最短路径"><a href="#最短路径" class="headerlink" title="最短路径"></a>最短路径</h2><table>
+<thead>
+<tr>
+<th>item</th>
+<th>Dijkstra</th>
+<th>Floyd</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>时间</td>
+<td>$O(n^2)$</td>
+<td></td>
+</tr>
+</tbody></table>
+<h1 id="查找"><a href="#查找" class="headerlink" title="查找"></a>查找</h1><h2 id="查找算法"><a href="#查找算法" class="headerlink" title="查找算法"></a>查找算法</h2><table>
+<thead>
+<tr>
+<th>item</th>
+<th>顺序查找</th>
+<th>折半查找</th>
+<th>分块查找</th>
+<th>二叉排序树</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>空间</td>
+<td>O(1)</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>比较次数</td>
+<td>总：<br />success:$1+2+…+n&#x3D;\frac{n*(n+1)}{2}$<br />fail: n*(n+1)</td>
+<td>单次：<br />success: $&lt;&#x3D;d&#x3D;\lfloor{log_2n}\rfloor-1$<br />fail: d or d-1</td>
+<td></td>
+<td>第i层的结点需要比较i次</td>
+</tr>
+<tr>
+<td>ASL&#x2F;时间</td>
+<td>查找概率相等时<br />ASLs&#x3D;(n+1)&#x2F;2<br />ASLf&#x3D;n+1</td>
+<td>$O(log_2n)$<br /></td>
+<td>$ASL&#x3D;L_b+L_w$<br />$log_2n&lt;&#x3D;ASL_{bs}&lt;&#x3D;\frac{n+1}{2}$<br />$ASL_bs≈log_2(\frac{n}{s}+1)+\frac{s}{2}$<br />s表示每块中的记录个数</td>
+<td>$ASL&#x3D;\frac{1}{n}<em>\prod{i</em>m_i}$<br />最好$log_2n$<br />最坏(n+1)&#x2F;2</td>
+</tr>
+<tr>
+<td>优点</td>
+<td>算法简单，对表结构(顺序or链式)无要求</td>
+<td></td>
+<td>插入和删除较容易，无需进行大量移动，适用于既要快速查找又经常动态变化</td>
+<td></td>
+</tr>
+<tr>
+<td>缺点</td>
+<td>n很大时查找效率低</td>
+<td><strong>必须是顺序存储的关键字有序的线性表</strong></td>
+<td>要增加一个索引表的存储空间并<strong>对初始索引表进行排序运算</strong>。</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="哈希冲突"><a href="#哈希冲突" class="headerlink" title="哈希冲突"></a>哈希冲突</h2><table>
+<thead>
+<tr>
+<th>item</th>
+<th>线性探测</th>
+<th>链地址</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>优点</td>
+<td>只要哈希表未被填满，总能找到一个空地址解决冲突</td>
+<td>非同义词不会冲突；动态申请适于表长不确定的情况</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td>聚集现象</td>
+<td></td>
+</tr>
+</tbody></table>
+<h1 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h1><h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2><table>
+<thead>
+<tr>
+<th>item</th>
+<th>直接插入</th>
+<th>折半插入</th>
+<th>希尔排序</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>单次</td>
+<td>最好：比较1次，不移动<br />最坏：第i趟比较i次，移动i+1次</td>
+<td>插入第i个对象时比较$\lfloor log_2i\rfloor+1$</td>
+<td></td>
+</tr>
+<tr>
+<td>比较次数</td>
+<td>最好：n-1<br />最坏：$\sum_{i&#x3D;2}^{n}{i}&#x3D;\frac{(n+2)*(n-1)}{2}$<br />平均：$\frac{n^2}{4}$</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>移动次数</td>
+<td>最好：0<br />最坏：$\sum_{i&#x3D;2}^{n}{i+1}&#x3D;\frac{(n+4)*(n-1)}{2}$<br />平均：$\frac{n^2}{4}$</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>时间</td>
+<td>$O(n^2)$</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>空间</td>
+<td>O(1)</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>稳定</td>
+<td>是</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>特点</td>
+<td>比较次数和移动次数与初始排列有关</td>
+<td>比较次数与待排序对象序列的初始排列无关，移动次数仍依赖。&#x3D;&gt;减少了比较次数但没有减少移动次数</td>
+<td></td>
+</tr>
+</tbody></table>
+<h2 id="交换排序"><a href="#交换排序" class="headerlink" title="交换排序"></a>交换排序</h2><table>
+<thead>
+<tr>
+<th>item</th>
+<th>冒泡排序</th>
+<th>快速排序</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>比较次数</td>
+<td>最好：1趟排序，比较n-1次，不移动<br />最坏：需 n-1趟排序，第i趟比较n-i次，移动3(n-i)次&#x3D;&gt;n^2</td>
+<td>最好：$nlog_2n$<br />最坏：第i趟比较n-i次&#x3D;&gt;n^2</td>
+</tr>
+<tr>
+<td>时间</td>
+<td>$O(n^2)$</td>
+<td>$O(nlog_2n)$</td>
+</tr>
+<tr>
+<td>空间</td>
+<td>O(1)</td>
+<td>$O(log_2n)$</td>
+</tr>
+<tr>
+<td>稳定性</td>
+<td>是</td>
+<td>否</td>
+</tr>
+<tr>
+<td>优点</td>
+<td>每趟结束时，不仅能挤出一个最大值到最后面位置，还能同时部分理顺其他元素；<br />一旦下趟没有交换，还可提前结束排序</td>
+<td></td>
+</tr>
+<tr>
+<td>特点</td>
+<td>比较次数和移动次数与初始排列有关</td>
+<td>平均计算时间是最好的</td>
+</tr>
+</tbody></table>
+<h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><table>
+<thead>
+<tr>
+<th>item</th>
+<th>简单选择</th>
+<th>堆排序</th>
+<th>归并排序</th>
+<th>基数排序</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>比较次数</td>
+<td>$\sum_{i&#x3D;1}^{n-1}&#x3D;\frac{1}{2}(n^2-n)&#x3D;&#x3D;&gt;n^2$</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>移动次数</td>
+<td>最好：0<br />最坏：3n-1&#x3D;&#x3D;&gt;n</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>时间</td>
+<td>$O(n^2)$</td>
+<td>$O(nlog_2n)$</td>
+<td>$O(nlog_2n)$</td>
+<td>$O(d(n+rd))$</td>
+</tr>
+<tr>
+<td>空间</td>
+<td>O(1)</td>
+<td>O(1)</td>
+<td>O(n)</td>
+<td>O(n+rd)，rd表示关键字的取值范围</td>
+</tr>
+<tr>
+<td>稳定性</td>
+<td>是</td>
+<td>否</td>
+<td>是</td>
+<td>是</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/21/university/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%A0%91%E5%92%8C%E5%9B%BE/" rel="prev" title="树和图">
+      <i class="fa fa-chevron-left"></i> 树和图
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/21/university/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95/%E6%9F%A5%E6%89%BE%E6%8E%92%E5%BA%8F/" rel="next" title="查找排序">
+      查找排序 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%A1%BA%E5%BA%8F%E8%A1%A8-%E9%93%BE%E8%A1%A8"><span class="nav-number">1.</span> <span class="nav-text">顺序表&amp;链表</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%88%E4%B8%8E%E9%80%92%E5%BD%92"><span class="nav-number">2.</span> <span class="nav-text">栈与递归</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%B2%E5%8C%B9%E9%85%8D"><span class="nav-number">3.</span> <span class="nav-text">串匹配</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E5%8F%89%E6%A0%91"><span class="nav-number">4.</span> <span class="nav-text">二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%88%E4%B8%AD%E5%90%8E%E5%BA%8F%E9%81%8D%E5%8E%86"><span class="nav-number">4.1.</span> <span class="nav-text">先中后序遍历</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9B%BE"><span class="nav-number">5.</span> <span class="nav-text">图</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%98%E5%82%A8"><span class="nav-number">5.1.</span> <span class="nav-text">存储</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%81%8D%E5%8E%86"><span class="nav-number">5.2.</span> <span class="nav-text">遍历</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84"><span class="nav-number">5.3.</span> <span class="nav-text">最短路径</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9F%A5%E6%89%BE"><span class="nav-number">6.</span> <span class="nav-text">查找</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E6%89%BE%E7%AE%97%E6%B3%95"><span class="nav-number">6.1.</span> <span class="nav-text">查找算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E5%86%B2%E7%AA%81"><span class="nav-number">6.2.</span> <span class="nav-text">哈希冲突</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8E%92%E5%BA%8F"><span class="nav-number">7.</span> <span class="nav-text">排序</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8F%92%E5%85%A5%E6%8E%92%E5%BA%8F"><span class="nav-number">7.1.</span> <span class="nav-text">插入排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A4%E6%8D%A2%E6%8E%92%E5%BA%8F"><span class="nav-number">7.2.</span> <span class="nav-text">交换排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%89%E6%8B%A9%E6%8E%92%E5%BA%8F"><span class="nav-number">7.3.</span> <span class="nav-text">选择排序</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

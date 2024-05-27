@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="参考书：计算机网络自顶向下方法(第6版)（黑皮书）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计网大题汇总">
+<meta property="og:url" content="http://example.com/2022/06/17/university/%E8%AE%A1%E7%BD%91/%E8%AE%A1%E7%BD%91%E5%A4%A7%E9%A2%98%E6%B1%87%E6%80%BB/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="参考书：计算机网络自顶向下方法(第6版)（黑皮书）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220618193359284.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220618193759641.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612164915586.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612165836865.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612173214851.png">
+<meta property="article:published_time" content="2022-06-17T13:39:30.000Z">
+<meta property="article:modified_time" content="2024-05-27T08:05:47.506Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220618193359284.png">
+
+<link rel="canonical" href="http://example.com/2022/06/17/university/%E8%AE%A1%E7%BD%91/%E8%AE%A1%E7%BD%91%E5%A4%A7%E9%A2%98%E6%B1%87%E6%80%BB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>计网大题汇总 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/17/university/%E8%AE%A1%E7%BD%91/%E8%AE%A1%E7%BD%91%E5%A4%A7%E9%A2%98%E6%B1%87%E6%80%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          计网大题汇总
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-06-17 21:39:30" itemprop="dateCreated datePublished" datetime="2022-06-17T21:39:30+08:00">2022-06-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-27 16:05:47" itemprop="dateModified" datetime="2024-05-27T16:05:47+08:00">2024-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/" itemprop="url" rel="index"><span itemprop="name">university</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/%E8%AE%A1%E7%BD%91/" itemprop="url" rel="index"><span itemprop="name">计网</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>参考书：计算机网络自顶向下方法(第6版)（黑皮书）</p>
+<span id="more"></span>
+
+<h1 id="计算题"><a href="#计算题" class="headerlink" title="计算题"></a>计算题</h1><h2 id="时延"><a href="#时延" class="headerlink" title="时延"></a>时延</h2><ul>
+<li>处理时延：$d_{proc}$ 路由器处理时间</li>
+<li>排队时延：$d_{queu}$ 前面还有分组未发送</li>
+<li>传输时延：$d_{trans}&#x3D;\frac{L}{R}$ 包的长度&#x2F;链路传输速率(bps)，发生在结点<strong>发送</strong>数据时</li>
+<li>传播时延：$d_{prop}&#x3D;\frac{d}{s}$ 链路距离&#x2F;链路媒介的传播速率(m&#x2F;s)</li>
+</ul>
+<h2 id="HTTP连接"><a href="#HTTP连接" class="headerlink" title="HTTP连接"></a>HTTP连接</h2><p>HTTP&#x2F;1.1的默认模式使用带流水线的持久连接</p>
+<p>总请求数&#x3D;document+reference</p>
+<p>RTT&#x3D;一个来回</p>
+<h3 id="非持续连接"><a href="#非持续连接" class="headerlink" title="非持续连接"></a>非持续连接</h3><p>每次请求都是2RTT</p>
+<ul>
+<li>串行</li>
+<li>并行parallel：根据并行的分组数量</li>
+</ul>
+<h3 id="持续性连接"><a href="#持续性连接" class="headerlink" title="持续性连接"></a>持续性连接</h3><p>最开始建立连接是2RTT，后面对reference的请求都是1RTT</p>
+<ul>
+<li>带流水线pipeline：分组</li>
+<li>不带流水线</li>
+</ul>
+<h2 id="TCP拥塞控制"><a href="#TCP拥塞控制" class="headerlink" title="TCP拥塞控制"></a>TCP拥塞控制</h2><p>cwnd，ssthresh，向下取整</p>
+<ul>
+<li>慢启动：指数增长至ssthresh，进入拥塞避免</li>
+<li>拥塞避免：一个一个地加<ul>
+<li>3个冗余ACK: 进入快速恢复</li>
+<li>超时: ssthresh&#x3D;cwnd&#x2F;2，cwnd&#x3D;1，根据情况</li>
+</ul>
+</li>
+<li>快速恢复：ssthresh&#x3D;cwnd&#x2F;2，cwnd&#x3D;cwnd&#x2F;2+3</li>
+<li>轮数与发送的包数</li>
+</ul>
+<h2 id="校验和"><a href="#校验和" class="headerlink" title="校验和"></a>校验和</h2><ol>
+<li>带进位的加法，溢出则反卷</li>
+<li>取反码</li>
+</ol>
+<h2 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h2><p>IP报文，字段：fragmentation、offset、flag</p>
+<ul>
+<li>每一片能装载的数据&#x3D;(MTU-IP header20bytes)</li>
+<li>flag&#x3D;0表示已到最后一片</li>
+</ul>
+<h2 id="Dijkstra算法"><a href="#Dijkstra算法" class="headerlink" title="Dijkstra算法"></a>Dijkstra算法</h2><ul>
+<li>遇到相同的情况，随机选</li>
+<li>生成树</li>
+<li>转发表</li>
+</ul>
+<h2 id="CRC"><a href="#CRC" class="headerlink" title="CRC"></a>CRC</h2><ul>
+<li>求余数</li>
+<li>求校验码</li>
+</ul>
+<h2 id="IP地址"><a href="#IP地址" class="headerlink" title="IP地址"></a>IP地址</h2><ul>
+<li>子网掩码</li>
+<li>主机号，网络号</li>
+<li>分配</li>
+</ul>
+<h2 id="CSMA-CD"><a href="#CSMA-CD" class="headerlink" title="CSMA&#x2F;CD"></a>CSMA&#x2F;CD</h2><ul>
+<li>检测到碰撞</li>
+<li>开始侦听</li>
+<li>开始重传</li>
+<li>二进制指数退避</li>
+</ul>
+<h1 id="简答"><a href="#简答" class="headerlink" title="简答"></a>简答</h1><h2 id="SSL"><a href="#SSL" class="headerlink" title="SSL"></a>SSL</h2><p>是应用层协议，能增强TCP传输的安全性。通过程序员在应用层添加相关代码实现→HTTPS</p>
+<h2 id="P2P"><a href="#P2P" class="headerlink" title="P2P"></a>P2P</h2><p><a target="_blank" rel="noopener" href="https://www.eefocus.com/communication/210266">与P2P技术相关的信息安全问题-通信&#x2F;网络-与非网 (eefocus.com)</a></p>
+<p>特点：</p>
+<ul>
+<li>分布式，不会出现单点故障，具有更好的健壮性和抗毁性</li>
+<li>缺乏统一管理</li>
+<li>它需要在没有中心节点的情况下，提供<strong>身份验证</strong>、授权、数据信息的安全传输、数字签名、加密等机制。</li>
+<li>P2P节点在下载的同时又能够上传，如果在局域网内部有相当数量的用户使用P2P软件交换数据，就会使<strong>带宽</strong>迅速耗尽以致妨碍正常的网络访问。</li>
+</ul>
+<p>安全风险：</p>
+<ul>
+<li>P2P信息共享与知识产权保护</li>
+<li>目标节点过载攻击：<br>攻击者通过向某些特定目标节点发送大量的垃圾分组消息，耗尽目标节点的处理能力，这是一种<strong>拒绝服务</strong>类型的攻击。在一段时间之后，系统会认为目标节点已经失效退出，从而将目标节点从系统中删除。</li>
+<li>P2P带来的新型网络病毒传播问题：<br>通过P2P系统传播的病毒，波及范围大，覆盖面广，从而造成的损失会很大。</li>
+</ul>
+<h2 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h2><h3 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h3><p><a target="_blank" rel="noopener" href="https://www.infoq.cn/article/99aGZWZLewtVqJvgRtTh">https://www.infoq.cn/article/99aGZWZLewtVqJvgRtTh</a></p>
+<ul>
+<li>DNS DDoS<ul>
+<li>主要是通过耗尽DNS服务器资源，导致DNS服务器不能接受正常的DNS请求或不能正常应答DNS请求。</li>
+<li>缓解：1.提升带宽；2.提升缓存应答能力；3.过滤或限制网络流量（拦截攻击者使用的 IP）</li>
+</ul>
+</li>
+<li>反射型DDoS<ul>
+<li>来自正常 DNS 解析器的 DNS 回答会被发回给受害者（被欺骗的 IP），而不是原攻击者的 IP，从而导致受害者受到 DDoS 攻击。</li>
+<li>缓解：限制同一 IP 地址的 DNS 请求&#x2F;回答速率。</li>
+</ul>
+</li>
+<li>DNS缓存投毒<ul>
+<li>将访客从真正的网站重定向到恶意网站。</li>
+<li>缓解：DNSSEC</li>
+</ul>
+</li>
+<li>IP欺骗<ul>
+<li>缓解：使用 DNS 缓存服务器吸收大部分的 DNS 流量。</li>
+</ul>
+</li>
+</ul>
+<h3 id="集中-分布"><a href="#集中-分布" class="headerlink" title="集中&#x2F;分布"></a>集中&#x2F;分布</h3><p>集中式的缺点：</p>
+<ul>
+<li>单点故障</li>
+<li>流量</li>
+<li>维护</li>
+</ul>
+<h2 id="无线通信网络"><a href="#无线通信网络" class="headerlink" title="无线通信网络"></a>无线通信网络</h2><p><a target="_blank" rel="noopener" href="http://www.chinaqking.com/yc/2019/2067160.html">关于无线通信网络安全问题的分析–中国期刊网 (chinaqking.com)</a></p>
+<p>安全问题：</p>
+<ul>
+<li>流量分析与流量侦听</li>
+<li>篡改信息问题</li>
+<li>窃听</li>
+</ul>
+<p>防护：</p>
+<ul>
+<li>信道加密</li>
+<li>控制访问</li>
+<li>身份认证</li>
+<li>数据认证</li>
+</ul>
+<h2 id="校验方式"><a href="#校验方式" class="headerlink" title="校验方式"></a>校验方式</h2><ul>
+<li>CRC<ul>
+<li>硬件实现</li>
+<li>检验不出来的情况：收到的位串虽然是错误的，但是恰巧能被生成多项式整除</li>
+</ul>
+</li>
+<li>校验和<ul>
+<li>适用于高层协议，如IP，TCP，UDP等。检错率低于CRC。</li>
+</ul>
+</li>
+<li>奇偶校验码</li>
+</ul>
+<p><strong>高层不用CRC的原因</strong>：CRC主要采用除的计算方式，比累加的（校验和）计算方式效率要低，而数据链路层用这种方法可以用硬件实现，但是网络层和传输层一般只能通过软件实现，那么效率就降低了。而且数据链路层已经提供了比较可靠的支持，所以高层就可以用这种检错率相对低一点的检错法</p>
+<h2 id="路由器"><a href="#路由器" class="headerlink" title="路由器"></a>路由器</h2><p>三层：网络+链路+物理</p>
+<p>IP datagram经过路由器后，哪些字段会改变？</p>
+<ul>
+<li>TTL</li>
+<li>source IP</li>
+<li>checksum</li>
+<li>如果有MAC地址，则源MAC和目的MAC都会改变</li>
+</ul>
+<h2 id="即插即用"><a href="#即插即用" class="headerlink" title="即插即用"></a>即插即用</h2><ul>
+<li>交换机switch</li>
+<li>ARP，自学习</li>
+<li>集线器hub</li>
+<li>中继器repeater</li>
+</ul>
+<h2 id="TCP"><a href="#TCP" class="headerlink" title="TCP"></a>TCP</h2><h3 id="拥塞控制和流量控制的区别"><a href="#拥塞控制和流量控制的区别" class="headerlink" title="拥塞控制和流量控制的区别"></a>拥塞控制和流量控制的区别</h3><p>拥塞控制：拥塞控制是作用于网络的，它是防止过多的数据注入到网络中，避免出现网络负载过大的情况；常用的方法就是：慢启动、拥塞避免、快速恢复</p>
+<p>流量控制：流量控制是作用于接收者的，它是控制发送者的发送速度从而使接收者来得及接收，防止分组丢失的。</p>
+<h3 id="SYN-Flooding"><a href="#SYN-Flooding" class="headerlink" title="SYN Flooding"></a>SYN Flooding</h3><p>原理：SYN攻击利用的是TCP的<strong>三次握手</strong>机制，攻击端利用<strong>伪造的IP地址</strong>向被攻击端发出请求，而被攻击端发出的<strong>响应报文</strong>将永远发送不到目的地，那么被攻击端在<strong>等待关闭这个连接</strong>（半连接）的过程中消耗了资源，如果有成千上万的这种连接，主机资源将被耗尽，从而达到攻击的目的。</p>
+<h2 id="DHCP"><a href="#DHCP" class="headerlink" title="DHCP"></a>DHCP</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/OPBocai/article/details/80852159">DHCP分配IP地址过程描述_OPBocai的博客-CSDN博客_dhcp分配ip</a></p>
+<p>yiaddr&#x3D;your ip address，即DHCP服务器提供给主机的IP</p>
+<p>步骤：(目的MAC地址也全是广播)</p>
+<table>
+<thead>
+<tr>
+<th>步骤</th>
+<th>源IP</th>
+<th>目的IP</th>
+<th>yiaddr</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DHCP discover</td>
+<td>0.0.0.0</td>
+<td>255.255.255.255</td>
+<td>0.0.0.0</td>
+</tr>
+<tr>
+<td>DHCP offer</td>
+<td>server’s IP</td>
+<td>255.255.255.255</td>
+<td>offered ip</td>
+</tr>
+<tr>
+<td>DHCP request</td>
+<td>0.0.0.0</td>
+<td>255.255.255.255</td>
+<td>0.0.0.0</td>
+</tr>
+<tr>
+<td>DHCP ok</td>
+<td>server’s IP</td>
+<td>255.255.255.255</td>
+<td>offered ip</td>
+</tr>
+</tbody></table>
+<p>DHCP服务器最终提供的东西：</p>
+<ul>
+<li>分配IP(your ip address)</li>
+<li>DNS服务器的地址</li>
+<li>主机第一跳（网关）的地址</li>
+<li>子网掩码</li>
+</ul>
+<h1 id="报文"><a href="#报文" class="headerlink" title="报文"></a>报文</h1><h2 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h2><p>请求：</p>
+<ul>
+<li>request line&#x3D;method+URL+version<ul>
+<li>若问主机，不是URL，而是Host</li>
+</ul>
+</li>
+<li>header lines<ul>
+<li>Host</li>
+</ul>
+</li>
+<li>body</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220618193359284.png" alt="image-20220618193359284"></p>
+<p>响应：</p>
+<ul>
+<li>status line&#x3D;protocol+status code+status phrase<ul>
+<li>304</li>
+</ul>
+</li>
+<li>header lines<ul>
+<li>Last-Modified</li>
+<li>Connection</li>
+</ul>
+</li>
+<li>data</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220618193759641.png" alt="image-20220618193759641"></p>
+<h2 id="UDP"><a href="#UDP" class="headerlink" title="UDP"></a>UDP</h2><ul>
+<li>8字节for header</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612164915586.png" alt="image-20220612164915586"></p>
+<h2 id="TCP-1"><a href="#TCP-1" class="headerlink" title="TCP"></a>TCP</h2><ul>
+<li>40字节</li>
+<li>sequence number是该segment的first byte的序号；最开始的时候是随机的</li>
+<li>ACK是期待的下一个</li>
+<li>SYN：三次握手时SYN&#x3D;1</li>
+<li>FIN：结束TCP时，FIN&#x3D;1</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612165836865.png" alt="image-20220612165836865"></p>
+<h2 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h2><ul>
+<li>IP header至少20字节→TCP&#x2F;IP&#x3D;40字节</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612173214851.png" alt="image-20220612173214851"></p>
+<h1 id="other"><a href="#other" class="headerlink" title="other"></a>other</h1><h2 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h2><ul>
+<li>HTTP默认是持续连接+流水线</li>
+<li>FTP端口：21控制，20传数据</li>
+<li>IP是无连接、不可靠的</li>
+<li>TCP<ul>
+<li>全双工(允许同时双向传输)</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/17/university/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/OS-IO%E5%92%8C%E6%96%87%E4%BB%B6/" rel="prev" title="OS-IO和文件">
+      <i class="fa fa-chevron-left"></i> OS-IO和文件
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/06/20/university/%E5%85%B6%E4%BB%96/%E6%AF%9B%E6%A6%82%E5%A4%8D%E4%B9%A0/" rel="next" title="毛概复习">
+      毛概复习 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">计算题</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%B6%E5%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">时延</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.2.</span> <span class="nav-text">HTTP连接</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9D%9E%E6%8C%81%E7%BB%AD%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.2.1.</span> <span class="nav-text">非持续连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%81%E7%BB%AD%E6%80%A7%E8%BF%9E%E6%8E%A5"><span class="nav-number">1.2.2.</span> <span class="nav-text">持续性连接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6"><span class="nav-number">1.3.</span> <span class="nav-text">TCP拥塞控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%A1%E9%AA%8C%E5%92%8C"><span class="nav-number">1.4.</span> <span class="nav-text">校验和</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%87%E7%89%87"><span class="nav-number">1.5.</span> <span class="nav-text">切片</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dijkstra%E7%AE%97%E6%B3%95"><span class="nav-number">1.6.</span> <span class="nav-text">Dijkstra算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CRC"><span class="nav-number">1.7.</span> <span class="nav-text">CRC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP%E5%9C%B0%E5%9D%80"><span class="nav-number">1.8.</span> <span class="nav-text">IP地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSMA-CD"><span class="nav-number">1.9.</span> <span class="nav-text">CSMA&#x2F;CD</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E7%AD%94"><span class="nav-number">2.</span> <span class="nav-text">简答</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SSL"><span class="nav-number">2.1.</span> <span class="nav-text">SSL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#P2P"><span class="nav-number">2.2.</span> <span class="nav-text">P2P</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS"><span class="nav-number">2.3.</span> <span class="nav-text">DNS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E5%85%A8"><span class="nav-number">2.3.1.</span> <span class="nav-text">安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%86%E4%B8%AD-%E5%88%86%E5%B8%83"><span class="nav-number">2.3.2.</span> <span class="nav-text">集中&#x2F;分布</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%97%A0%E7%BA%BF%E9%80%9A%E4%BF%A1%E7%BD%91%E7%BB%9C"><span class="nav-number">2.4.</span> <span class="nav-text">无线通信网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%A1%E9%AA%8C%E6%96%B9%E5%BC%8F"><span class="nav-number">2.5.</span> <span class="nav-text">校验方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E5%99%A8"><span class="nav-number">2.6.</span> <span class="nav-text">路由器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%B3%E6%8F%92%E5%8D%B3%E7%94%A8"><span class="nav-number">2.7.</span> <span class="nav-text">即插即用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP"><span class="nav-number">2.8.</span> <span class="nav-text">TCP</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8B%A5%E5%A1%9E%E6%8E%A7%E5%88%B6%E5%92%8C%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">2.8.1.</span> <span class="nav-text">拥塞控制和流量控制的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SYN-Flooding"><span class="nav-number">2.8.2.</span> <span class="nav-text">SYN Flooding</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DHCP"><span class="nav-number">2.9.</span> <span class="nav-text">DHCP</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%A5%E6%96%87"><span class="nav-number">3.</span> <span class="nav-text">报文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HTTP"><span class="nav-number">3.1.</span> <span class="nav-text">HTTP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UDP"><span class="nav-number">3.2.</span> <span class="nav-text">UDP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP-1"><span class="nav-number">3.3.</span> <span class="nav-text">TCP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IP"><span class="nav-number">3.4.</span> <span class="nav-text">IP</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#other"><span class="nav-number">4.</span> <span class="nav-text">other</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE"><span class="nav-number">4.1.</span> <span class="nav-text">协议</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

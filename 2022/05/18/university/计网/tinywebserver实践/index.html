@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="开题报告">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tinywebserver实践">
+<meta property="og:url" content="http://example.com/2022/05/18/university/%E8%AE%A1%E7%BD%91/tinywebserver%E5%AE%9E%E8%B7%B5/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="开题报告">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220506123837020.png">
+<meta property="og:image" content="https://camo.githubusercontent.com/8813be3bb9590eba2207d27b95404ec996891960b47ebb3a447b6c943c0b714d/687474703a2f2f7777312e73696e61696d672e636e2f6c617267652f303035544a3263376c79316765306a3161747135686a33306736306c6d3077342e6a7067">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220518122538369.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220518122809423.png">
+<meta property="article:published_time" content="2022-05-18T08:32:16.000Z">
+<meta property="article:modified_time" content="2024-05-27T07:46:06.457Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220506123837020.png">
+
+<link rel="canonical" href="http://example.com/2022/05/18/university/%E8%AE%A1%E7%BD%91/tinywebserver%E5%AE%9E%E8%B7%B5/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>tinywebserver实践 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/18/university/%E8%AE%A1%E7%BD%91/tinywebserver%E5%AE%9E%E8%B7%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          tinywebserver实践
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-18 16:32:16" itemprop="dateCreated datePublished" datetime="2022-05-18T16:32:16+08:00">2022-05-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-27 15:46:06" itemprop="dateModified" datetime="2024-05-27T15:46:06+08:00">2024-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/" itemprop="url" rel="index"><span itemprop="name">university</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/%E8%AE%A1%E7%BD%91/" itemprop="url" rel="index"><span itemprop="name">计网</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>开题报告</p>
+<span id="more"></span>
+
+<h1 id="TinyWebServer"><a href="#TinyWebServer" class="headerlink" title="TinyWebServer"></a>TinyWebServer</h1><h2 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h2><p>简介：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Learn/Common_questions/What_is_a_web_server">https://developer.mozilla.org/zh-CN/docs/Learn/Common_questions/What_is_a_web_server</a></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220506123837020.png" alt="image-20220506123837020"></p>
+<p>关于我的疑问，目前的想法是一个webserver必须有applicationserver才能完整，一部分？application用于验证webserver能否完成预定功能。</p>
+<p>TinyWebServer项目地址：<a target="_blank" rel="noopener" href="https://github.com/qinguoyi/TinyWebServer">GitHub - qinguoyi&#x2F;TinyWebServer: Linux下C++轻量级Web服务器</a></p>
+<p>详解代码：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/364044293">TinyWebServer——从0到服务器开发！ - 知乎 (zhihu.com)</a></p>
+<p>原项目是Ubuntu16.04，我用的是是20.04，考虑简洁版还是原生版</p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Linux下C++轻量级Web服务器，助力初学者快速实践网络编程，搭建属于自己的服务器.相关知识：《linux高性能服务器编程》，《unix网络编程》</p>
+<ul>
+<li>使用线程池 + 非阻塞socket + epoll(ET和LT均实现) + 事件处理(Reactor和模拟Proactor均实现) 的并发模型；</li>
+<li>使用状态机解析HTTP请求报文，支持解析GET和POST请求；</li>
+<li>访问服务器数据库实现web端用户注册、登录功能，可以请求服务器图片和视频文件；</li>
+<li>实现同步&#x2F;异步日志系统（根据日志内容大小选择），记录服务器运行状态；</li>
+<li>经Webbench压力测试可以实现上万的并发连接数据交换；</li>
+</ul>
+<p><img src="https://camo.githubusercontent.com/8813be3bb9590eba2207d27b95404ec996891960b47ebb3a447b6c943c0b714d/687474703a2f2f7777312e73696e61696d672e636e2f6c617267652f303035544a3263376c79316765306a3161747135686a33306736306c6d3077342e6a7067" alt="架构"></p>
+<h1 id="Mysql"><a href="#Mysql" class="headerlink" title="Mysql"></a>Mysql</h1><p>思考过可不可以直接连接宿主机上的MySQL，好像是可以，看着有点麻烦，没有尝试了.</p>
+<h2 id="install"><a href="#install" class="headerlink" title="install"></a>install</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install mysql-server-5.7</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>“正在等待缓存锁：无法获得锁 &#x2F;var&#x2F;lib&#x2F;dpkg&#x2F;lock-frontend。锁正由进程 6968（unatten”<ul>
+<li>kill 6968</li>
+</ul>
+</li>
+<li>安装过程中会弹出让你配置密码的操作</li>
+</ul>
+<h2 id="检查状态"><a href="#检查状态" class="headerlink" title="检查状态"></a>检查状态</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">apt install net-tools</span><br><span class="line">netstat -tap | grep mysql	#查看运行mysql的端口状态</span><br><span class="line">mysql -V	#注意是大写V，小写有其他作用</span><br></pre></td></tr></table></figure>
+
+<p>查看运行状态</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl status mysql.service</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysql -uroot -p	<span class="comment">#回车后输入前面配置的密码，进入mysql</span></span><br><span class="line">mysql&gt; show databases;	<span class="comment">#mysql语句注意分号结尾</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="快速启动"><a href="#快速启动" class="headerlink" title="快速启动"></a>快速启动</h1><h2 id="数据库相关"><a href="#数据库相关" class="headerlink" title="数据库相关"></a>数据库相关</h2><p>创建数据库、user表、插入一条user数据（应该是用于测试</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> database webserver;</span><br><span class="line">use webserver;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">user</span>(username <span class="type">char</span>(<span class="number">50</span>) <span class="keyword">NULL</span>,passwd <span class="type">char</span>(<span class="number">50</span>) <span class="keyword">NULL</span>)engine<span class="operator">=</span>InnoDB;</span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">user</span>(username,passwd) <span class="keyword">values</span>(<span class="string">&#x27;name&#x27;</span>,<span class="string">&#x27;passwd&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>修改main.cpp中的数据库初始化信息</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//数据库登录名,密码,库名</span></span><br><span class="line">string user = <span class="string">&quot;root&quot;</span>;</span><br><span class="line">string passwd = <span class="string">&quot;123456&quot;</span>;</span><br><span class="line">string databasename = <span class="string">&quot;webserver&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<h2 id="编译运行"><a href="#编译运行" class="headerlink" title="编译运行"></a>编译运行</h2><p>切换到TinyWebServer-master目录下</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sh ./build.sh</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>fatal error: mysql&#x2F;mysql.h: 没有那个文件或目录 #include &lt;mysql&#x2F;mysql.h&gt;</p>
+<ul>
+<li><pre><code class="sh">apt-get install libmysqlclient-dev
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">运行服务端</span><br><span class="line"></span><br><span class="line">```sh</span><br><span class="line">./server</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<p>在127.0.0.1:9006查看结果</p>
+<ul>
+<li>视频看不了，说是不支持该格式（火狐）<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220518122538369.png" alt="image-20220518122538369"></li>
+</ul>
+<h2 id="再次启动报错"><a href="#再次启动报错" class="headerlink" title="再次启动报错"></a>再次启动报错</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cuiyong_xu/article/details/42556925%EF%BC%8C%E9%9D%9E%E6%AD%A3%E5%B8%B8%E9%80%80%E5%87%BA%E4%BA%A7%E7%94%9F%E9%97%AE%E9%A2%98%EF%BC%8C%E5%BC%BA%E8%A1%8C%E6%9D%80%E6%AD%BB%E5%8D%A0%E7%94%A8%E8%BF%9B%E7%A8%8B">https://blog.csdn.net/cuiyong_xu/article/details/42556925，非正常退出产生问题，强行杀死占用进程</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsof -i</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="压测"><a href="#压测" class="headerlink" title="压测"></a>压测</h1><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gcc webbench.c -o webbench</span><br><span class="line">./webbench -c 10001 -t 5 http://127.0.0.1:9006/</span><br></pre></td></tr></table></figure>
+
+<p>报错：problems forking worker no. 9754，fork failed.: Resource temporarily unavailable</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -u	#查看最大进程数</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/fightformylife/p/4140329.html">压力测试webbench（转） - 雄哼哼 - 博客园 (cnblogs.com)</a>？服务器挂了，-c设置小点儿，我的是好像有点不太行</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220518122809423.png" alt="image-20220518122809423"></p>
+<h1 id="计划"><a href="#计划" class="headerlink" title="计划"></a>计划</h1><ul>
+<li>阅读源码，整理项目架构，给出注释</li>
+<li>增加功能<ul>
+<li>文件上传和下载：该项目目前只实现了GET请求，没有真正的达到交互</li>
+<li>登录状态的保存：利用session或cookie</li>
+<li>大数据量情况下的用户登录验证：将所有用户信息加载到内存中耗时→hash建立多级索引</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/10/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp11-%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" rel="prev" title="数据库chp11-并发控制与备份恢复">
+      <i class="fa fa-chevron-left"></i> 数据库chp11-并发控制与备份恢复
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/26/university/%E5%AF%86%E7%A0%81%E5%AD%A6/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%A4%8D%E4%B9%A0/" rel="next" title="密码学复习">
+      密码学复习 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#TinyWebServer"><span class="nav-number">1.</span> <span class="nav-text">TinyWebServer</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.1.</span> <span class="nav-text">是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.2.</span> <span class="nav-text">简介</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Mysql"><span class="nav-number">2.</span> <span class="nav-text">Mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#install"><span class="nav-number">2.1.</span> <span class="nav-text">install</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E7%8A%B6%E6%80%81"><span class="nav-number">2.2.</span> <span class="nav-text">检查状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">2.3.</span> <span class="nav-text">测试</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E5%90%AF%E5%8A%A8"><span class="nav-number">3.</span> <span class="nav-text">快速启动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3"><span class="nav-number">3.1.</span> <span class="nav-text">数据库相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E8%BF%90%E8%A1%8C"><span class="nav-number">3.2.</span> <span class="nav-text">编译运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%8D%E6%AC%A1%E5%90%AF%E5%8A%A8%E6%8A%A5%E9%94%99"><span class="nav-number">3.3.</span> <span class="nav-text">再次启动报错</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8E%8B%E6%B5%8B"><span class="nav-number">4.</span> <span class="nav-text">压测</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E5%88%92"><span class="nav-number">5.</span> <span class="nav-text">计划</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

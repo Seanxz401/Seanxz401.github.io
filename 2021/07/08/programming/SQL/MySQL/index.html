@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="视频资源：黑马程序员完整JavaWeb快速入门教程【收藏比赞多系列】_哔哩哔哩_bilibili">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL">
+<meta property="og:url" content="http://example.com/2021/07/08/programming/SQL/MySQL/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="视频资源：黑马程序员完整JavaWeb快速入门教程【收藏比赞多系列】_哔哩哔哩_bilibili">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-08T14:34:16.000Z">
+<meta property="article:modified_time" content="2022-07-07T14:53:16.000Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="MySQL">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/07/08/programming/SQL/MySQL/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>MySQL | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/08/programming/SQL/MySQL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MySQL
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-08 22:34:16" itemprop="dateCreated datePublished" datetime="2021-07-08T22:34:16+08:00">2021-07-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-07-07 22:53:16" itemprop="dateModified" datetime="2022-07-07T22:53:16+08:00">2022-07-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">programming</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/programming/SQL/" itemprop="url" rel="index"><span itemprop="name">SQL</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>视频资源：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1mE411h7Co?from=search&seid=14787092919947680266">黑马程序员完整JavaWeb快速入门教程【收藏比赞多系列】_哔哩哔哩_bilibili</a></p>
+<span id="more"></span>
+
+<h1 id="MySQL下载安装"><a href="#MySQL下载安装" class="headerlink" title="MySQL下载安装"></a>MySQL下载安装</h1><p>[(4条消息) MySQL8.0.18安装自定义安装_思苑-CSDN博客_mysql自定义安装](<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_27009225/article/details/103956756#:~:text=%E6%88%91%E4%BB%AC%E9%80%89%E6%8B%A9">https://blog.csdn.net/qq_27009225/article/details/103956756#:~:text=我们选择</a> Custom：自定义安装，可以自由选择需要安装的组件、选择安装路径等。 MySQL Server：是数据库服务，要安装这个 。 MySQL Workbench：一款MySQL的ER%2F数据库建模工具。 MySQL,：是一款 MySQL 数据库的辅助工具。 它可以在系统任务栏通知区域（系统托盘） 处驻留图标，用于快捷监视、更改服务器实例（服务）的状态。 同时，也可以与一些图形化管理工具（如 MySQL Workbench）集成使用。)</p>
+<p>官网下载，一般来说历史版本会更稳定一点。</p>
+<p>server下载不了，require vc：<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/whyisthatyou/p/7251181.html">mysql的安装–visual studio C++ Redistritable Packag - whyisthatyou - 博客园 (cnblogs.com)</a></p>
+<p>看着很有道理的样子，但我还是无法安装，最后将server版本换到8.0才解决。</p>
+<p>接着在download环节卡住，一直很慢，于是我睡了一觉起来重新安装，就OK了。</p>
+<p>安装的过程中可以修改端口。</p>
+<h2 id="PHPstudy相关"><a href="#PHPstudy相关" class="headerlink" title="PHPstudy相关"></a>PHPstudy相关</h2><p>由于PHPstudy自带MySQL，若另外安装独立的MySQL则需要修改任意一方的<strong>端口</strong>号，否则会因为端口冲突而不能正常运行。</p>
+<p>查看端口被占用的情况：cmd命令行下输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -ano</span><br></pre></td></tr></table></figure>
+
+<h3 id="修改PHPstudy自带MySQL的端口"><a href="#修改PHPstudy自带MySQL的端口" class="headerlink" title="修改PHPstudy自带MySQL的端口"></a>修改PHPstudy自带MySQL的端口</h3><p>旧版：</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/bushui/p/12296944.html">phpStudy自带的MySQL和独立安装的MySQL冲突 - 不睡 - 博客园 (cnblogs.com)</a></p>
+<p>新版：</p>
+<p>首页-MySQL配置直接修改端口</p>
+<p>值得注意的是：修改端口后，与PHPstudy相关的数据库配置也要修改，如sqli-labs，自己创建的本地网站等，还未深入研究，下次一定！</p>
+<h3 id="修改独立的MySQL端口"><a href="#修改独立的MySQL端口" class="headerlink" title="修改独立的MySQL端口"></a>修改独立的MySQL端口</h3><p>1.安装过程中；</p>
+<p>2.安装完成后[怎么修改mysql的默认端口号-mysql教程-PHP中文网](<a target="_blank" rel="noopener" href="https://www.php.cn/mysql-tutorials-421503.html#:~:text=%E4%BF%AE%E6%94%B9mysql%E7%9A%84%E9%BB%98%E8%AE%A4%E7%AB%AF%E5%8F%A3%E5%8F%B7%E7%9A%84%E6%AD%A5%E9%AA%A4%EF%BC%9A">https://www.php.cn/mysql-tutorials-421503.html#:~:text=修改mysql的默认端口号的步骤：</a> 1、找到MYSQL安装目录的my.ini,2、打开my.ini文件，修改port端口。直接Ctrl%2BF，搜索port，如图所示 3306为mysql默认端口号，将它修改为你想要的端口号，注意两个地方都要修改；修改完成后保存关闭。)</p>
+<p>因为我PHPstudy端口不太方便改，所以将MySQL端口改为3366.</p>
+<h3 id="配置MySQL环境变量"><a href="#配置MySQL环境变量" class="headerlink" title="配置MySQL环境变量"></a>配置MySQL环境变量</h3><p>参考网上配置环境变量后可在cmd中打开。</p>
+<p>也可不配置，安装好后，可以在启动栏win中看到<strong>MySQL 8.0 Command Line Client</strong>，打开后也可进入mysql。</p>
+<h3 id="重置MySQL密码"><a href="#重置MySQL密码" class="headerlink" title="重置MySQL密码"></a>重置MySQL密码</h3><p>网上搜索到的结果都是在cmd命令行中操作，不过我没有配置cmd的环境，有待探索。</p>
+<h1 id="MySQL数据存储"><a href="#MySQL数据存储" class="headerlink" title="MySQL数据存储"></a>MySQL数据存储</h1><p>数据库—一个应用&#x2F;项目</p>
+<p>表—一个实体&#x2F;对象</p>
+<p>记录—一个实体的实例</p>
+<h1 id="SQL语句"><a href="#SQL语句" class="headerlink" title="SQL语句"></a>SQL语句</h1><p>不区分大小写</p>
+<h2 id="SQL分类"><a href="#SQL分类" class="headerlink" title="SQL分类"></a>SQL分类</h2><ul>
+<li>DDL（数据定义语言）：create，drop，alter</li>
+<li>DCL（数据控制语言）：grant，if</li>
+<li>DML（数据操纵语言）：insert，update，delete</li>
+<li>DQL（数据查询语言）：select</li>
+</ul>
+<h2 id="简单使用SQL"><a href="#简单使用SQL" class="headerlink" title="简单使用SQL"></a>简单使用SQL</h2><h3 id="对数据库进行操作"><a href="#对数据库进行操作" class="headerlink" title="对数据库进行操作"></a>对数据库进行操作</h3><h4 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h4><p>create database DBname </p>
+<p>可在后面接其他参数进行字符集的指定和校对；校对主要用于表中记录的排序规则。</p>
+<h4 id="查看数据库"><a href="#查看数据库" class="headerlink" title="查看数据库"></a>查看数据库</h4><ul>
+<li><p>show databases; 查看所有数据库</p>
+</li>
+<li><p>show create database DBname; 查看某个数据库的定义信息（如字符集和校对规则）</p>
+</li>
+</ul>
+<h4 id="修改数据库"><a href="#修改数据库" class="headerlink" title="修改数据库"></a>修改数据库</h4><p>alter database DBname; 修改字符集和校对规则</p>
+<h4 id="删除数据库"><a href="#删除数据库" class="headerlink" title="删除数据库"></a>删除数据库</h4><p>drop database DBname; </p>
+<h4 id="其他数据库操作"><a href="#其他数据库操作" class="headerlink" title="其他数据库操作"></a>其他数据库操作</h4><h5 id="切换数据库"><a href="#切换数据库" class="headerlink" title="切换数据库"></a>切换数据库</h5><p>use DBname;</p>
+<h5 id="查看当前使用数据库"><a href="#查看当前使用数据库" class="headerlink" title="查看当前使用数据库"></a>查看当前使用数据库</h5><p>select database();</p>
+<h3 id="对数据库表进行操作"><a href="#对数据库表进行操作" class="headerlink" title="对数据库表进行操作"></a>对数据库表进行操作</h3><h4 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h4><p>create table Tabname(字段名称 字段类型(长度) 约束,字段名称 字段类型(长度) 约束…);</p>
+<h5 id="字段类型"><a href="#字段类型" class="headerlink" title="字段类型"></a>字段类型</h5><p>Java与SQL的属性对应：</p>
+<p>byte-tinyint	short-smallint	int-int	long-bigint</p>
+<p>float-float	double-double</p>
+<p>boolean-bit(01)</p>
+<p>char-char	char&#x2F;string-varchar	</p>
+<ul>
+<li>char-固定长度的字符或字符串</li>
+<li>varchar-可变长度的字符串</li>
+</ul>
+<p>Date-date&#x2F;time&#x2F;datetime&#x2F;timestamp</p>
+<p>File-BLOB（二进制）&#x2F;TEXT（文本）</p>
+<h5 id="约束（单表）"><a href="#约束（单表）" class="headerlink" title="约束（单表）"></a>约束（单表）</h5><p>作用：保证数据的完整性</p>
+<ul>
+<li>主键约束：primary key（默认唯一&amp;非空）</li>
+<li>唯一约束：unique</li>
+<li>非空约束：not null</li>
+</ul>
+<p>创建表时，需要先use数据库。</p>
+<h4 id="查看表"><a href="#查看表" class="headerlink" title="查看表"></a>查看表</h4><ul>
+<li>show tables; 所有</li>
+<li>desc Tabname; 查看某个表的结构信息</li>
+</ul>
+<h4 id="删除表"><a href="#删除表" class="headerlink" title="删除表"></a>删除表</h4><p>drop table Tabname;</p>
+<h4 id="修改表"><a href="#修改表" class="headerlink" title="修改表"></a>修改表</h4><ul>
+<li>添加列：alter table Tabname add Colname 类型（长度） 约束;</li>
+<li>修改列类型，长度，约束：alter table Tabname modify Colname 类型（长度） 约束;</li>
+<li>删除列：alter table Tabname drop Colname;</li>
+<li>修改列名称：alter table Tabname change OldColname NewColname 类型（长度） 约束;</li>
+<li>修改表名：rename table OldTabname to NewTabname;</li>
+<li>修改表的字符集：alter table Tabname character set 字符集;</li>
+</ul>
+<h3 id="对数据库表的记录进行操作"><a href="#对数据库表的记录进行操作" class="headerlink" title="对数据库表的记录进行操作"></a>对数据库表的记录进行操作</h3><h4 id="添加"><a href="#添加" class="headerlink" title="添加"></a>添加</h4><ul>
+<li>insert into Tabname (Col1,Col2…) values (value1,value2…); 插入某些列</li>
+<li>insert into Tabname values (value1,value2…); 插入所有列</li>
+</ul>
+<p>值的类型是字符串或者是日期类型，使用单引号引起来。</p>
+<p>如果<strong>向数据库插入中文记录报错</strong>的话，可通过命令<code>show variable like &#39;%character%&#39;</code>查看数据库中与字符集相关参数。由于命令行使用gbk，所以要将MySQL数据库服务器中的客户端部分的字符集改为gbk。我用的8.0没有这种情况，如果其他版本有问题，可在my.ini中修改字符集，再重启MySQL<code>services.msc</code>。</p>
+<h4 id="修改"><a href="#修改" class="headerlink" title="修改"></a>修改</h4><ul>
+<li><p>update Tabname set Col1&#x3D;value1,Col2&#x3D;value2; 将一列中的所有记录都修改成相同的值</p>
+</li>
+<li><p>update Tabname set Col1&#x3D;value1,Col2&#x3D;value2 where 条件; 可用于修改特定的一条或几条记录</p>
+</li>
+</ul>
+<p>如<code> update user set telephone=180 where id=1;</code></p>
+<h4 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h4><p>delete from Tabname [where 条件]; 至少删除表中的一行记录，如果不加条件则默认删除表中所有记录。（DML）</p>
+<p>tips：<code>truncate table Tabname;</code>将表删除再重建一个结构一样的表，可达到删除所有记录的效果。（DDL）</p>
+<p>上述两种方法的区别与<strong>事务</strong>有关。</p>
+<h4 id="查看"><a href="#查看" class="headerlink" title="查看"></a>查看</h4><h5 id="基本查询"><a href="#基本查询" class="headerlink" title="基本查询"></a>基本查询</h5><p>select [distinct] *|Col1,Col2 from Tabname [条件];</p>
+<p>distinct: 表示去掉重复值</p>
+<p>select后可直接执行<strong>运算</strong>：select Col1+Col2 [as Sum] from Tabname; <code>as</code>可以将运算结果列进行命名</p>
+<p>时间查询：select * from 表名 where ColName between “2018-01-01” and “2018-10-31”;</p>
+<p>Q:以select查询结果作为另一个select的查询源时报错：Every derived table must have its own alias；</p>
+<p>A:mysql要求<strong>每一个派生出来的表都必须有一个自己的别名，那给派生表加上别名即可；</strong>例：<code>select * from ( select * from t_shop_xs limit 10) as s where...</code>(通过as)</p>
+<h5 id="条件查询"><a href="#条件查询" class="headerlink" title="条件查询"></a>条件查询</h5><p>where子句</p>
+<ul>
+<li><p>比较（&lt;,&gt;,&#x3D;,&gt;&#x3D;,&#x3D;!）；</p>
+</li>
+<li><p>模糊（like），l可以使用<code>_</code>或者<code>%</code>作为占位符，一个下划线代表一个字符，一个百分号代表任意个字符（可以为null）；</p>
+<p><code>select * from user where name like &#39;S%&#39;</code></p>
+</li>
+<li><p>范围（in&#x2F;not in&#x2F;between..and）<code>select * from user where id in (1,2,3)</code>；</p>
+</li>
+<li><p>条件（and，or，not），连接多个条件；</p>
+</li>
+</ul>
+<h5 id="排序查询"><a href="#排序查询" class="headerlink" title="排序查询"></a>排序查询</h5><p>order by Colname [asc&#x2F;desc];</p>
+<p>asc-升序（默认）；desc-降序。</p>
+<p>多个排序条件用逗号隔开（有优先级），即条件1有重复值时，按照条件2排序。<code>select * from user order by 条件1 asc,条件2 desc;</code></p>
+<p>tips:有条件时先写条件语句再排序</p>
+<h5 id="分组统计查询"><a href="#分组统计查询" class="headerlink" title="分组统计查询"></a>分组统计查询</h5><p>聚合函数</p>
+<p>sum();  求和<br><code>select sum(Col1),sum(Col2) from user where 条件;</code><br><code>select sum(Col1+Col2) from user;</code><br><code>select sum(Col1)+sum(Col2) from user;</code><br><strong>Null加上任何值都等于Null</strong><br>count();<br>max(); min();<br>avg(); 平均值</p>
+<p><code>group by Colname</code>  <strong>前后对应</strong><br>如果要加带有聚合函数的条件语句，<strong>不能用where</strong>，使用<code>having</code>。eg.<code>select Col1,sum(Col2) from Tab group by Col1 having sum(Col2)&gt;1 order by sum(Col2) asc;</code></p>
+<h5 id="语句顺序"><a href="#语句顺序" class="headerlink" title="语句顺序"></a>语句顺序</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select...from...where...group by...having...order by...;</span><br></pre></td></tr></table></figure>
+
+<h5 id="子查询some-all"><a href="#子查询some-all" class="headerlink" title="子查询some&#x2F;all"></a>子查询some&#x2F;all</h5><h2 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h2><p>单行：<code>--space  </code>或<code>#</code></p>
+<p>多行：&#x2F;**&#x2F;</p>
+<h1 id="可视化工具"><a href="#可视化工具" class="headerlink" title="可视化工具"></a>可视化工具</h1><p>在下载时，已经下载了官方的可视化工具workbench，英文界面有点为难。</p>
+<p>简单使用参考：<a target="_blank" rel="noopener" href="http://c.biancheng.net/view/2625.html">MySQL Workbench使用教程 (biancheng.net)</a></p>
+<p>Q：无法勾选<code>auto_increment</code><br>A：在上面勾选AI</p>
+<h1 id="多表"><a href="#多表" class="headerlink" title="多表"></a>多表</h1><h2 id="多表设计"><a href="#多表设计" class="headerlink" title="多表设计"></a>多表设计</h2><h3 id="外键约束"><a href="#外键约束" class="headerlink" title="外键约束"></a>外键约束</h3><p>Foreign Key(下面使用的是命令行，用workbench操作也可)</p>
+<p><code>alter table Tab1 add foreign key (Col1) references Tab2(Col2);</code></p>
+<p>一般不允许外键为空<code>alter table Tab1 modify Col1 int not null;</code></p>
+<p>Q:在workbench上设置外键时失败显示：Can’t DROP ‘res’; check that column&#x2F;key exists<br>A:对同一个表只能同时进行一种操作，即最上方的工作台只能有一个，单开，这件事做完了再去做其他的。</p>
+<h3 id="表间关系"><a href="#表间关系" class="headerlink" title="表间关系"></a>表间关系</h3><h4 id="一对多"><a href="#一对多" class="headerlink" title="一对多"></a>一对多</h4><p>建表时，在“多”的一方创建外键指向“一”这一方的主键。</p>
+<h5 id="多对多"><a href="#多对多" class="headerlink" title="多对多"></a>多对多</h5><p>创建第三方表（中间），让该表的至少两个字段作为外键分别指向两个“多”。</p>
+<h5 id="一对一"><a href="#一对一" class="headerlink" title="一对一"></a>一对一</h5><p>少见。可使用唯一外键约束或主键约束进行联系。</p>
+<h2 id="多表查询"><a href="#多表查询" class="headerlink" title="多表查询"></a>多表查询</h2><h3 id="连接查询"><a href="#连接查询" class="headerlink" title="连接查询"></a>连接查询</h3><h4 id="交叉连接"><a href="#交叉连接" class="headerlink" title="交叉连接"></a>交叉连接</h4><ul>
+<li><code>select * from Tab1 cross join Tab2;</code></li>
+<li><code>select * from Tab1,Tab2;</code></li>
+</ul>
+<h4 id="内连接"><a href="#内连接" class="headerlink" title="内连接"></a>内连接</h4><ul>
+<li><code>select * from Tab1 inner join Tab2 on 关联条件;</code> 显示内连接；<br>三张表则嵌套join：<code>from (tab1 join tab2 on condition1) as tab12 join tab3 on condition2</code></li>
+<li><code>select * from Tab1,Tab2 where 关联条件; </code> 隐式内连接；</li>
+</ul>
+<p>inner可省略；查询的是交集。</p>
+<h4 id="外连接"><a href="#外连接" class="headerlink" title="外连接"></a>外连接</h4><ul>
+<li><code>select * from Tab1 left outer join Tab2 on 关联条件;</code> 左外连接；</li>
+<li><code>select * from Tab1 right outer join Tab2 on 关联条件;</code> 右外连接；</li>
+</ul>
+<p><strong>outer可省略</strong>；<br>若关联条件是<code>Col1=Col2</code>，left查询的是以Col1为标准的所有Tab1加上交集部分；right以Col2为标准。</p>
+<h3 id="交并差"><a href="#交并差" class="headerlink" title="交并差"></a>交并差</h3><h1 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h1><p>概念：逻辑上的一组操作，组成这组操作的各个逻辑单元，要么全部成功要么全部失败。</p>
+<h2 id="在MySQL中的操作"><a href="#在MySQL中的操作" class="headerlink" title="在MySQL中的操作"></a>在MySQL中的操作</h2><ul>
+<li><code>start transaction;</code>开启事务；</li>
+<li><code>commit;</code>提交事务；</li>
+<li><code>rollback;</code>回滚。</li>
+</ul>
+<h2 id="事务的特性"><a href="#事务的特性" class="headerlink" title="事务的特性"></a>事务的特性</h2><ul>
+<li>原子性：事务不可分割，各个逻辑单元不可分割；</li>
+<li>一致性：事务执行前后数据完整性保持一致；</li>
+<li>隔离性：事务执行不应该受到其他事务的干扰；</li>
+<li>持久性：事务一旦结束，数据就持久化到数据库中。</li>
+</ul>
+<h2 id="事务的隔离级别"><a href="#事务的隔离级别" class="headerlink" title="事务的隔离级别"></a>事务的隔离级别</h2><h3 id="隔离性相关的安全问题"><a href="#隔离性相关的安全问题" class="headerlink" title="隔离性相关的安全问题"></a>隔离性相关的安全问题</h3><p>如果不考虑隔离性，即受到干扰，会影响读取数据。（事务2执行sql但事务未提交时，在事务1中查询）</p>
+<ul>
+<li>脏读：一个事务读到另一个事务未提交的数据，导致查询结果不一致；  </li>
+<li>不可重复读：一个事务读到另一个事务已经提交的update的数据，导致多次查询结果不一致。</li>
+<li>虚读&#x2F;幻读：一个事务读到另一个事务已经提交的insert的数据，导致……</li>
+</ul>
+<h3 id="设置事务的隔离级别"><a href="#设置事务的隔离级别" class="headerlink" title="设置事务的隔离级别"></a>设置事务的隔离级别</h3><p>隔离级别：</p>
+<ul>
+<li><code>read uncommitted</code></li>
+<li><code>read committed</code> 避免脏读；</li>
+<li><code>repeatable read</code> 避免脏读和不可重复读；(mysql默认)</li>
+<li><code>serializable </code> 都可避免，但效率低</li>
+</ul>
+<p>设置：<code>select session transaction isolation level 隔离级别</code>;</p>
+<p>查看：<code>select @@tx_isolation;</code></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/07/programming/Java/Java-web/" rel="prev" title="">
+      <i class="fa fa-chevron-left"></i> 
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/10/programming/web%E5%89%8D%E7%AB%AF/JavaScript/" rel="next" title="JavaScript">
+      JavaScript <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">MySQL下载安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PHPstudy%E7%9B%B8%E5%85%B3"><span class="nav-number">1.1.</span> <span class="nav-text">PHPstudy相关</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9PHPstudy%E8%87%AA%E5%B8%A6MySQL%E7%9A%84%E7%AB%AF%E5%8F%A3"><span class="nav-number">1.1.1.</span> <span class="nav-text">修改PHPstudy自带MySQL的端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E7%8B%AC%E7%AB%8B%E7%9A%84MySQL%E7%AB%AF%E5%8F%A3"><span class="nav-number">1.1.2.</span> <span class="nav-text">修改独立的MySQL端口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEMySQL%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-number">1.1.3.</span> <span class="nav-text">配置MySQL环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E7%BD%AEMySQL%E5%AF%86%E7%A0%81"><span class="nav-number">1.1.4.</span> <span class="nav-text">重置MySQL密码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MySQL%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8"><span class="nav-number">2.</span> <span class="nav-text">MySQL数据存储</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL%E8%AF%AD%E5%8F%A5"><span class="nav-number">3.</span> <span class="nav-text">SQL语句</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL%E5%88%86%E7%B1%BB"><span class="nav-number">3.1.</span> <span class="nav-text">SQL分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8SQL"><span class="nav-number">3.2.</span> <span class="nav-text">简单使用SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9B%E8%A1%8C%E6%93%8D%E4%BD%9C"><span class="nav-number">3.2.1.</span> <span class="nav-text">对数据库进行操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">创建数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">3.2.1.2.</span> <span class="nav-text">查看数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">3.2.1.3.</span> <span class="nav-text">修改数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">3.2.1.4.</span> <span class="nav-text">删除数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="nav-number">3.2.1.5.</span> <span class="nav-text">其他数据库操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E8%BF%9B%E8%A1%8C%E6%93%8D%E4%BD%9C"><span class="nav-number">3.2.2.</span> <span class="nav-text">对数据库表进行操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%A1%A8"><span class="nav-number">3.2.2.1.</span> <span class="nav-text">创建表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E8%A1%A8"><span class="nav-number">3.2.2.2.</span> <span class="nav-text">查看表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E8%A1%A8"><span class="nav-number">3.2.2.3.</span> <span class="nav-text">删除表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E8%A1%A8"><span class="nav-number">3.2.2.4.</span> <span class="nav-text">修改表</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%9A%84%E8%AE%B0%E5%BD%95%E8%BF%9B%E8%A1%8C%E6%93%8D%E4%BD%9C"><span class="nav-number">3.2.3.</span> <span class="nav-text">对数据库表的记录进行操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0"><span class="nav-number">3.2.3.1.</span> <span class="nav-text">添加</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9"><span class="nav-number">3.2.3.2.</span> <span class="nav-text">修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4"><span class="nav-number">3.2.3.3.</span> <span class="nav-text">删除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B"><span class="nav-number">3.2.3.4.</span> <span class="nav-text">查看</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E9%87%8A"><span class="nav-number">3.3.</span> <span class="nav-text">注释</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7"><span class="nav-number">4.</span> <span class="nav-text">可视化工具</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E8%A1%A8"><span class="nav-number">5.</span> <span class="nav-text">多表</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E8%A1%A8%E8%AE%BE%E8%AE%A1"><span class="nav-number">5.1.</span> <span class="nav-text">多表设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F"><span class="nav-number">5.1.1.</span> <span class="nav-text">外键约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A8%E9%97%B4%E5%85%B3%E7%B3%BB"><span class="nav-number">5.1.2.</span> <span class="nav-text">表间关系</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E5%AF%B9%E5%A4%9A"><span class="nav-number">5.1.2.1.</span> <span class="nav-text">一对多</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E8%A1%A8%E6%9F%A5%E8%AF%A2"><span class="nav-number">5.2.</span> <span class="nav-text">多表查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9E%E6%8E%A5%E6%9F%A5%E8%AF%A2"><span class="nav-number">5.2.1.</span> <span class="nav-text">连接查询</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%A4%E5%8F%89%E8%BF%9E%E6%8E%A5"><span class="nav-number">5.2.1.1.</span> <span class="nav-text">交叉连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E8%BF%9E%E6%8E%A5"><span class="nav-number">5.2.1.2.</span> <span class="nav-text">内连接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%96%E8%BF%9E%E6%8E%A5"><span class="nav-number">5.2.1.3.</span> <span class="nav-text">外连接</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%A4%E5%B9%B6%E5%B7%AE"><span class="nav-number">5.2.2.</span> <span class="nav-text">交并差</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1"><span class="nav-number">6.</span> <span class="nav-text">事务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8MySQL%E4%B8%AD%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-number">6.1.</span> <span class="nav-text">在MySQL中的操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E7%9A%84%E7%89%B9%E6%80%A7"><span class="nav-number">6.2.</span> <span class="nav-text">事务的特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="nav-number">6.3.</span> <span class="nav-text">事务的隔离级别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9A%94%E7%A6%BB%E6%80%A7%E7%9B%B8%E5%85%B3%E7%9A%84%E5%AE%89%E5%85%A8%E9%97%AE%E9%A2%98"><span class="nav-number">6.3.1.</span> <span class="nav-text">隔离性相关的安全问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E4%BA%8B%E5%8A%A1%E7%9A%84%E9%9A%94%E7%A6%BB%E7%BA%A7%E5%88%AB"><span class="nav-number">6.3.2.</span> <span class="nav-text">设置事务的隔离级别</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

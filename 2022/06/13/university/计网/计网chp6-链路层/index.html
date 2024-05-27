@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="参考书：计算机网络自顶向下方法(第6版)（黑皮书）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计网chp6-链路层">
+<meta property="og:url" content="http://example.com/2022/06/13/university/%E8%AE%A1%E7%BD%91/%E8%AE%A1%E7%BD%91chp6-%E9%93%BE%E8%B7%AF%E5%B1%82/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="参考书：计算机网络自顶向下方法(第6版)（黑皮书）">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-13T04:58:01.000Z">
+<meta property="article:modified_time" content="2024-05-27T08:05:30.163Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/06/13/university/%E8%AE%A1%E7%BD%91/%E8%AE%A1%E7%BD%91chp6-%E9%93%BE%E8%B7%AF%E5%B1%82/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>计网chp6-链路层 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/13/university/%E8%AE%A1%E7%BD%91/%E8%AE%A1%E7%BD%91chp6-%E9%93%BE%E8%B7%AF%E5%B1%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          计网chp6-链路层
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-06-13 12:58:01" itemprop="dateCreated datePublished" datetime="2022-06-13T12:58:01+08:00">2022-06-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-27 16:05:30" itemprop="dateModified" datetime="2024-05-27T16:05:30+08:00">2024-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/" itemprop="url" rel="index"><span itemprop="name">university</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/%E8%AE%A1%E7%BD%91/" itemprop="url" rel="index"><span itemprop="name">计网</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>参考书：计算机网络自顶向下方法(第6版)（黑皮书）</p>
+<span id="more"></span>
+
+<h1 id="一些概念"><a href="#一些概念" class="headerlink" title="一些概念"></a>一些概念</h1><ul>
+<li>half-duplex and full-duplex半双工全双工</li>
+<li>NIC</li>
+</ul>
+<h1 id="链路层"><a href="#链路层" class="headerlink" title="链路层"></a>链路层</h1><p>提供服务：</p>
+<ul>
+<li>link access</li>
+<li>framing</li>
+<li>flow control</li>
+<li>error control(detection+correction)</li>
+</ul>
+<h1 id="多路访问协议"><a href="#多路访问协议" class="headerlink" title="多路访问协议"></a>多路访问协议</h1><p>for广播链路。结点通过这些协议来规范它们在共享的<strong>广播</strong>信道上的传输行为，从而协调多个发送和接收结点对一个共享广播信道的访问。<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39722922/article/details/88756287">4.1多路访问链路和协议（信道划分协议、随机接入协议、轮流协议）_&#x2F;<em>chen</em>&#x2F;的博客-CSDN博客_随机接入协议</a></p>
+<h2 id="信道划分协议"><a href="#信道划分协议" class="headerlink" title="信道划分协议"></a>信道划分协议</h2><h3 id="TDM"><a href="#TDM" class="headerlink" title="TDM"></a>TDM</h3><h3 id="FDM"><a href="#FDM" class="headerlink" title="FDM"></a>FDM</h3><h3 id="CDMA"><a href="#CDMA" class="headerlink" title="CDMA"></a>CDMA</h3><p>码分多址。CDMA对每一个结点分配一种不同的编码，能做到不同的结点同时传输。</p>
+<h2 id="随机接入协议"><a href="#随机接入协议" class="headerlink" title="随机接入协议"></a>随机接入协议</h2><p><strong>在随机接入协议中，一个传输结点总是以信道的全部速率（即R bps）进行发送。当有碰撞时，涉及碰撞的每个结点反复地重发它的帧，到该帧无碰撞地通过为止。但是当一个结点经历一次碰撞时，他不必立刻重发该帧。相反，它在重发该帧前等待一个随机时延。涉及碰撞的每个结点独立地选择随机时延。</strong></p>
+<h3 id="时隙ALOHA"><a href="#时隙ALOHA" class="headerlink" title="时隙ALOHA"></a>时隙ALOHA</h3><p>slotted ALOHA。</p>
+<ul>
+<li>当结点有一个新帧要发送时，它等到下一个时隙再传输</li>
+<li>如果有碰撞，结点会在接下来的每一个时隙中以概率p重传该帧，直至传输成功。</li>
+</ul>
+<h4 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h4><p>假设有n个结点，重传概率分别为p1,p2,,,pn</p>
+<p>结点i的吞吐量&#x3D;$p_i*(1-p_1)…(1-p_{i-1})*(1-p_{i+1})…(1-p_n)$</p>
+<p>总效率&#x3D;$\sum_{i}^{n}{结点i的吞吐量}$</p>
+<h3 id="ALOHA"><a href="#ALOHA" class="headerlink" title="ALOHA"></a>ALOHA</h3><p><strong>时隙ALOHA协议要求所有的结点同步他们的传输，以在每个时隙开始时开始传输</strong>。而ALOHA协议是非时隙、完全分散的协议。在纯ALOHA中，当一帧首次到达，结点<strong>立刻</strong>将该帧完整的传输进广播信道。如果一个传输的帧在一个或多个传输经历了碰撞，这个结点将<strong>立即</strong>（在完全传输完它的碰撞帧后）以概率p传输该帧，或者以概率1-p在另一个帧时间等待。</p>
+<ul>
+<li>纯ALOHA协议的最大效率是时隙ALOHA的一半</li>
+</ul>
+<h3 id="CSMA"><a href="#CSMA" class="headerlink" title="CSMA"></a>CSMA</h3><p>载波侦听多路访问协议。</p>
+<p><strong>载波侦听</strong>：一个结点在传输前先听信道，如果来自另一个结点的帧正向信道上发送，结点则等待直到检测到一小段时间没有传输，然后开始传输。</p>
+<h4 id="CSMA-CD"><a href="#CSMA-CD" class="headerlink" title="CSMA&#x2F;CD"></a>CSMA&#x2F;CD</h4><p>具有碰撞检测的载波侦听多路访问</p>
+<p><strong>碰撞检测</strong>：当一个传输结点在传输时一直在侦听此信道，如果它检测到另一个结点正在传输干扰帧，它就停止传输，在重复“侦听-当空闲时传输”循环之前等待一段随机时间。</p>
+<ul>
+<li>在有线网络中更容易检测到</li>
+</ul>
+<h5 id="二进制指数回退"><a href="#二进制指数回退" class="headerlink" title="二进制指数回退"></a>二进制指数回退</h5><p>经历n次碰撞后，从${0,1,2…2^{n-1}}$中随机选择一个K值，等待K·512 bit times，再开始侦听。</p>
+<h5 id="计算-1"><a href="#计算-1" class="headerlink" title="计算"></a>计算</h5><ul>
+<li>检测到碰撞&#x3D;$d_{prop}$</li>
+<li>发送jam signal</li>
+<li>开始侦听</li>
+<li>有空闲，等待一会儿，开始重传</li>
+</ul>
+<h2 id="轮流协议"><a href="#轮流协议" class="headerlink" title="轮流协议"></a>轮流协议</h2><h3 id="轮询协议"><a href="#轮询协议" class="headerlink" title="轮询协议"></a>轮询协议</h3><p>要求这些结点之一要被指定为<strong>主结点</strong>。主结点以循环的方式轮询每个结点。特别是，主结点告诉每个结点能够传输的帧的最多数量。</p>
+<h4 id="计算-2"><a href="#计算-2" class="headerlink" title="计算"></a>计算</h4><p>广播链路中，N个节点，R bps传输速率，polling delay&#x3D;d，一轮中一个结点最多传输Q bits。</p>
+<ul>
+<li>一轮总查询时延：$d_{poll}&#x3D;N(Q&#x2F;R+d)$</li>
+<li>广播链路中最大吞吐量&#x3D;$NQ&#x2F;d_{poll}$</li>
+</ul>
+<h3 id="令牌传递协议"><a href="#令牌传递协议" class="headerlink" title="令牌传递协议"></a>令牌传递协议</h3><p>一个称为<strong>令牌</strong>的小的特殊帧在结点之间以某种固定的次序传递。当一个结点收到令牌时，仅当它有一些帧要发送时，他才持有这个令牌。否则，他立即向下一个结点转发该令牌。</p>
+<h1 id="ARP"><a href="#ARP" class="headerlink" title="ARP"></a>ARP</h1><p>IP地址—MAC地址</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/07/university/%E8%AE%A1%E7%BD%91/tinywebserver-%E5%AE%9E%E6%88%98/" rel="prev" title="tinywebserver-实战">
+      <i class="fa fa-chevron-left"></i> tinywebserver-实战
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/06/16/blog/%E7%BD%91%E9%A1%B5%E6%89%93%E5%8D%B0pdf/" rel="next" title="网页打印pdf">
+      网页打印pdf <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">一些概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="nav-number">2.</span> <span class="nav-text">链路层</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E8%B7%AF%E8%AE%BF%E9%97%AE%E5%8D%8F%E8%AE%AE"><span class="nav-number">3.</span> <span class="nav-text">多路访问协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%A1%E9%81%93%E5%88%92%E5%88%86%E5%8D%8F%E8%AE%AE"><span class="nav-number">3.1.</span> <span class="nav-text">信道划分协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TDM"><span class="nav-number">3.1.1.</span> <span class="nav-text">TDM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FDM"><span class="nav-number">3.1.2.</span> <span class="nav-text">FDM</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CDMA"><span class="nav-number">3.1.3.</span> <span class="nav-text">CDMA</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9A%8F%E6%9C%BA%E6%8E%A5%E5%85%A5%E5%8D%8F%E8%AE%AE"><span class="nav-number">3.2.</span> <span class="nav-text">随机接入协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%B6%E9%9A%99ALOHA"><span class="nav-number">3.2.1.</span> <span class="nav-text">时隙ALOHA</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97"><span class="nav-number">3.2.1.1.</span> <span class="nav-text">计算</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ALOHA"><span class="nav-number">3.2.2.</span> <span class="nav-text">ALOHA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSMA"><span class="nav-number">3.2.3.</span> <span class="nav-text">CSMA</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CSMA-CD"><span class="nav-number">3.2.3.1.</span> <span class="nav-text">CSMA&#x2F;CD</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AE%E6%B5%81%E5%8D%8F%E8%AE%AE"><span class="nav-number">3.3.</span> <span class="nav-text">轮流协议</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AE%E8%AF%A2%E5%8D%8F%E8%AE%AE"><span class="nav-number">3.3.1.</span> <span class="nav-text">轮询协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97-2"><span class="nav-number">3.3.1.1.</span> <span class="nav-text">计算</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A4%E7%89%8C%E4%BC%A0%E9%80%92%E5%8D%8F%E8%AE%AE"><span class="nav-number">3.3.2.</span> <span class="nav-text">令牌传递协议</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ARP"><span class="nav-number">4.</span> <span class="nav-text">ARP</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

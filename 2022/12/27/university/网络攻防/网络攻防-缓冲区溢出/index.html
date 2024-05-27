@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="网络攻防-软件漏洞1-缓冲区溢出，涉及实验：SEED Labs – Buffer Overflow Attack Lab，代码见：https:&#x2F;&#x2F;github.com&#x2F;Seanxz401&#x2F;seed-labs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络攻防-缓冲区溢出">
+<meta property="og:url" content="http://example.com/2022/12/27/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="网络攻防-软件漏洞1-缓冲区溢出，涉及实验：SEED Labs – Buffer Overflow Attack Lab，代码见：https:&#x2F;&#x2F;github.com&#x2F;Seanxz401&#x2F;seed-labs">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221227145514985.png">
+<meta property="og:image" content="c:/Users/ASUS/AppData/Roaming/Typora/typora-user-images/image-20221017172048539.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221022141354995.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221022141656663.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221022144845070.png">
+<meta property="og:image" content="c:/Users/ASUS/AppData/Roaming/Typora/typora-user-images/image-20221022154927382.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221022155407589.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221022161637203.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221022162614135.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221022163100118.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221022183913421.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221023191343260.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221023180721934.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221023183759737.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221023185512118.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221023194046014.png">
+<meta property="article:published_time" content="2022-12-27T08:00:40.000Z">
+<meta property="article:modified_time" content="2024-05-27T07:17:02.687Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221227145514985.png">
+
+<link rel="canonical" href="http://example.com/2022/12/27/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>网络攻防-缓冲区溢出 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/27/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-%E7%BC%93%E5%86%B2%E5%8C%BA%E6%BA%A2%E5%87%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          网络攻防-缓冲区溢出
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-12-27 16:00:40" itemprop="dateCreated datePublished" datetime="2022-12-27T16:00:40+08:00">2022-12-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-27 15:17:02" itemprop="dateModified" datetime="2024-05-27T15:17:02+08:00">2024-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/" itemprop="url" rel="index"><span itemprop="name">university</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/" itemprop="url" rel="index"><span itemprop="name">网络攻防</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>网络攻防-软件漏洞1-缓冲区溢出，涉及实验：SEED Labs – Buffer Overflow Attack Lab，代码见：<a target="_blank" rel="noopener" href="https://github.com/Seanxz401/seed-labs">https://github.com/Seanxz401/seed-labs</a></p>
+<span id="more"></span>
+
+<h1 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h1><h2 id="软件漏洞"><a href="#软件漏洞" class="headerlink" title="软件漏洞"></a>软件漏洞</h2><p>漏洞：可能被攻击者利用的系统弱点</p>
+<p>典型漏洞类型：栈溢出、堆溢出、格式化串、整型溢出、释放再使用</p>
+<p>漏洞攻击的步骤：1.漏洞发现；2.漏洞分析；3.漏洞利用</p>
+<p>可能导致：以匿名身份直接获取系统最高权限；2.从普通用户提升为管理员；实施远程dos攻击</p>
+<h2 id="栈溢出"><a href="#栈溢出" class="headerlink" title="栈溢出"></a>栈溢出</h2><p>当程序运行时，计算机会在内存区域中开辟一段连续的内存块， 包括代码段(.text)、数据段(.bss+.data)和堆栈段三部分。</p>
+<p>程序在内存中的存放形式：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221227145514985.png" alt="image-20221227145514985"></p>
+<ul>
+<li>对代码段进行写操作会导致段错误(Segmentation Fault)</li>
+<li>数据段在编译时分配</li>
+<li>堆中的变量由malloc、new这样的内存分配函数实现，用free、delete释放内存</li>
+<li>栈用来存储函数调用时的临时信息：参数、返回地址、函数内局部变量……，不需要时自动清除</li>
+<li>栈的特性：先入后出FILO</li>
+<li>函数栈帧由高地址到低地址（数组由低地址到高地址）</li>
+<li>栈顶指针ESP，基地址指针EBP</li>
+</ul>
+<p>函数fun()被调用时，压栈情况：</p>
+<table>
+<thead>
+<tr>
+<th>高地址</th>
+<th>传递的参数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td>退出fun函数后的返回地址RET<br />即调用fun的下一条指令的地址</td>
+</tr>
+<tr>
+<td></td>
+<td>调用fun函数之前的EBP<br />也就是上一个函数栈帧的EBP</td>
+</tr>
+<tr>
+<td>低地址<br />（后入栈）</td>
+<td>函数中的局部变量：<br />buf[10]<br />……<br />buf[0]</td>
+</tr>
+</tbody></table>
+<p>当局部变量buf发生溢出，可能会覆盖掉EBP和RET</p>
+<p>tips：这一块儿文字描述不好，建议找视频观看，还需要一点点寄存器的相关知识(EIP,ESP,EBP)</p>
+<h3 id="栈溢出实例gets"><a href="#栈溢出实例gets" class="headerlink" title="栈溢出实例gets"></a>栈溢出实例gets</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">fun</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="type">char</span> name[<span class="number">16</span>];</span><br><span class="line">    gets(name);</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;<span class="number">16</span>&amp;&amp;name[i];i++)</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">&quot;%c&quot;</span>,name[i]);    </span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">	fun();</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;EIP&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用fun函数时：</p>
+<ol>
+<li>将返回地址压入栈，也就是fun()的下一条指令printf(“EIP”)的地址</li>
+<li>将EBP压入栈(此处是main函数栈帧的栈底地址)，并将EBP修改为当前ESP(此处EBP内容变更为fun函数栈帧的栈底地址)</li>
+<li>ESP减16，即向低地址扩展16个字节，用来存放name数组</li>
+<li>执行gets获取输入，假设输入”hello world”，然后for循环打印，直至0x00截止符</li>
+<li>从fun返回到main<ol>
+<li>令ESP&#x3D;EBP，回收name数组空间，并使ESP指向当前EBP。当前EBP中的内容为main函数栈帧的栈底地址。</li>
+<li>程序将这个值弹出并赋给EBP，使EBP重新指向main()函数栈帧的栈底</li>
+<li>再弹出现在位于栈顶的返回地址RET，赋给EIP，CPU继续执行EIP所指向的命令，也就是printf(“EIP”)。</li>
+</ol>
+</li>
+</ol>
+<p>栈溢出情况：当输入的字符串超过16字节后，多出的内容会继续向高地址蔓延，导致覆盖掉EBP和RET，那么返回时会把新的内容视作EBP和RET，CPU会执行新的RET中地址指向的内容。</p>
+<h3 id="溢出漏洞利用"><a href="#溢出漏洞利用" class="headerlink" title="溢出漏洞利用"></a>溢出漏洞利用</h3><p>攻击流程：1.注入恶意数据；2.溢出缓冲区；3.控制流重定向；4.执行有效载荷</p>
+<ul>
+<li>溢出点定位<ul>
+<li>探测法：构造数据，根据出错情况来判断</li>
+<li>反汇编分析</li>
+</ul>
+</li>
+<li>覆盖执行控制地址：返回地址、函数指针变量、异常处理结构</li>
+<li>覆盖异常处理结构</li>
+<li>跳转地址的确定：用户空间的任意地址、系统dll、进程代码段、PEB、 TEB</li>
+<li>Shellcode的定位和跳转：具体见shellcode实验</li>
+</ul>
+<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><p>SEED Labs – Buffer Overflow Attack Lab (Server Version)</p>
+<p>实验环境：本实验将提供四台不同的服务器，每台服务器运行一个带有缓冲区溢出漏洞的程序。</p>
+<p>实验目的：开发一个利用漏洞的程序，并最终获得这些服务器上的root权限。除了进行这些攻击实验之外，还将尝试几种对抗缓冲区溢出攻击的对策，然后需要评估这些办法是否有效，并解释原因。</p>
+<h2 id="实验准备"><a href="#实验准备" class="headerlink" title="实验准备"></a>实验准备</h2><p>首先关闭实验环境(SEED虚拟机)中的随机化地址策略，此步骤是为了保证程序每次执行时的初始地址不变，以便于进行多次实验和调试：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /sbin/sysctl -w kernel.randomize_va_space=0</span><br></pre></td></tr></table></figure>
+
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>首先要清楚函数栈帧的结构，包括参数压栈、返回地址、ebp&#x2F;rbp等。</p>
+<h4 id="server"><a href="#server" class="headerlink" title="server"></a>server</h4><p>server.c中接收来自客户端的TCP连接并把TCP连接重定向至服务器的标准输入</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dup2(socket_fd, STDIN_FILENO);</span><br></pre></td></tr></table></figure>
+
+<p>然后执行stack(PROGRAM)程序</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">execle(PROGRAM, PROGRAM, (<span class="type">char</span> *)<span class="literal">NULL</span>, generate_random_env(random_n));</span><br></pre></td></tr></table></figure>
+
+<h4 id="stack"><a href="#stack" class="headerlink" title="stack"></a>stack</h4><p>stack从server的标准输入获取数据存入str[517]，而server的标准输入现在是来自TCP连接，相当于str存入的是客户端传来的指令。</p>
+<p>在bof函数中执行strcpy：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">strcpy</span>(buffer, str);</span><br></pre></td></tr></table></figure>
+
+<p>strcpy不检查缓冲区边界，由于源字符串str[517]大于目的字符串buffer[200]时会发生缓冲区溢出。因此可以在分配给buffer大小以外的部分构造攻击代码，溢出部分拥有当前用户权限来执行指令。</p>
+<h3 id="服务端代码编译"><a href="#服务端代码编译" class="headerlink" title="服务端代码编译"></a>服务端代码编译</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -DBUF_SIZE=$(L1) -o stack -z execstack -fno-stack-protector stack.c</span><br></pre></td></tr></table></figure>
+
+<p>编译时需要加上两个选项<code>-DBUF_SIZE</code>和<code>-fno-stack-protector</code>来关闭堆栈保护器和不可执行的堆栈保护。然后通过Makefile安装容器环境。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<h3 id="docker配置"><a href="#docker配置" class="headerlink" title="docker配置"></a>docker配置</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在docker-compose.yaml所属目录下编译</span></span><br><span class="line">docker-compose build</span><br><span class="line"><span class="comment"># 运行容器</span></span><br><span class="line">docker-compose up</span><br><span class="line"><span class="comment"># 查看是否开启成功</span></span><br><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
+
+<p><img src="C:/Users/ASUS/AppData/Roaming/Typora/typora-user-images/image-20221017172048539.png" alt="image-20221017172048539"></p>
+<p>可以看到4个容器已经在运行了</p>
+<h2 id="Task1"><a href="#Task1" class="headerlink" title="Task1"></a>Task1</h2><p>修改shellcode脚本中的命令为删除文件（先创建好这个文件），注意命令末尾<code>*</code>符号的位置要保持不变。(就是保持shellcode长度不变)<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221022141354995.png" alt="image-20221022141354995"></p>
+<p>运行脚本生成codefile→<code>make</code>→运行.out可执行文件结果如图，在执行命令行test.txt文件被删除了：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221022141656663.png" alt="image-20221022141656663"></p>
+<h2 id="Task2"><a href="#Task2" class="headerlink" title="Task2"></a>Task2</h2><p>向容器<code>10.9.0.5</code>发送消息：<code>echo hello | nc 10.9.0.5 9090</code>，观察容器端打印出的信息：</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221022144845070.png" alt="image-20221022144845070"></p>
+<ul>
+<li>ebp：<code>0xffffd5a8</code></li>
+<li>buffer开始的位置：<code>0xffffd538</code></li>
+</ul>
+<h3 id="2-1-shellcode编写"><a href="#2-1-shellcode编写" class="headerlink" title="2.1 shellcode编写"></a>2.1 shellcode编写</h3><p>需要修改的地方：</p>
+<ul>
+<li>shellcode：可以参照Task1的shellcode（32和64不一样，对应的后面步长不一样，以下内容参考32位的shellcode）；修改如下：<img src="C:/Users/ASUS/AppData/Roaming/Typora/typora-user-images/image-20221022154927382.png" alt="image-20221022154927382"></li>
+<li>start：<code>517-len(shellcode)</code>，把content(badfile)中的后面部分替换为攻击代码</li>
+<li>ret：覆盖返回地址，<code>ebp的地址+大于等于8的数量</code>(ps.填充若干长度的 <code>\x90</code>这个机器码对应的指令是 NOP (No Operation)，也就是告诉 CPU 什么也不做，然后跳到下一条指令。有了这一段 NOP 的填充，只要返回地址能够命中这一段中的任意位置，最后都可以跳转到 shellcode 的起始处。)；</li>
+<li>offset：<code>ebp-buffer+4</code></li>
+</ul>
+<p>执行脚本生成badfile，并将badfile发送给服务器（容器）：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> badfile | nc 10.9.0.5 9090</span><br></pre></td></tr></table></figure>
+
+<p>观察容器的输出，可以看到badfile中嵌入的代码已经被执行：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221022155407589.png" alt="image-20221022155407589"></p>
+<h3 id="2-2-reverse-shell"><a href="#2-2-reverse-shell" class="headerlink" title="2.2 reverse shell"></a>2.2 reverse shell</h3><p>2.1只能实现让服务器执行shellcode中既定的指令，因此我们要将shellcode改为reverse shell，使攻击者能远程连接上被攻击的服务器，拿到root权限。</p>
+<p>修改shellcode如下：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221022161637203.png" alt="image-20221022161637203"></p>
+<ul>
+<li><code>10.9.0.1</code>是攻击端的IP(从容器的打印输出可以看到)；</li>
+<li><code>0&lt;&amp;1</code>，0表示标准输入stdout，1表示标准输出stdin，即将stdout重定向到stdin，由于服务器的stdout重定向到了tcp连接，因此最终效果是将tcp连接中攻击者的输入定向到stdin</li>
+<li><code>2&gt;&amp;1</code>，2表示标准错误输出stderr</li>
+</ul>
+<p>重新生成badfile，先在攻击端1打开端口等待连接<code>nc -lnv 9090</code>，再新建终端2上传badfile。在终端1可以看到已经拿到shell的root权限(命令提示符为#)，用ifconfig测试可以看到确实是<code>10.9.0.5</code>。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221022162614135.png" alt="image-20221022162614135"></p>
+<h2 id="Task3"><a href="#Task3" class="headerlink" title="Task3"></a>Task3</h2><p>向容器<code>10.9.0.6</code>发送消息：<code>echo hello | nc 10.9.0.6 9090</code>，观察容器端打印出的信息，此次没有提示ebp的位置：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221022163100118.png" alt="image-20221022163100118"></p>
+<p>题目中给出了buffer_size的限制在：[100, 300]。需要修改的：</p>
+<ul>
+<li>ret：<code>buffer+大于等于(300+8)的值</code></li>
+<li>offset：由于不确定，因此将这个范围内[100+4,300+4]都填充为返回地址，以4为步长<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221022183913421.png" alt="image-20221022183913421"></li>
+</ul>
+<p>生成badfile上传，拿到root shell：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221023191343260.png" alt="image-20221023191343260"></p>
+<h2 id="Task4"><a href="#Task4" class="headerlink" title="Task4"></a>Task4</h2><p>前两节都是32bit，现在切换到64bit。向<code>10.9.0.7</code>发送消息可以看到<code>rbp</code>和<code>buffer</code>的地址信息，是64bit。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221023180721934.png" alt="image-20221023180721934"></p>
+<p>ps.Task的难点在于64位计算机中的地址范围为<code>0x00</code>~&#96;0x00007FFFFFFFFFFF<code>，因此所有地址最高位的两个字节都是</code>0x00&#96;。而strcpy函数遇到0会停止，如果和前面的方法一样，则shellcode不会被copy到缓冲区。因此解决办法是把shellcode移到badfile的前面部分，ret的值指向前面部分。由于是小端存储，在截止前ret的非零部分已经被copy到了缓冲区。需要如下：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221023183759737.png" alt="image-20221023183759737"></p>
+<ul>
+<li>shellcode：参考shellcode_64</li>
+<li>start：很小的值(0)，使shellcode位于缓冲区的前一部分</li>
+<li>ret：<code>buffer+start</code>的位置，这样覆盖后的返回地址就是shellcode的位置</li>
+<li>offset：<code>rbp-buffer+8</code>，后面将ret转为字节码的部分改为以8为步长</li>
+</ul>
+<p>生成badfile并上传到<code>10.9.0.7</code>，nc连接，顺利拿到root shell。</p>
+<h2 id="Task5"><a href="#Task5" class="headerlink" title="Task5"></a>Task5</h2><p>向<code>10.9.0.8</code>发送消息可得：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221023185512118.png" alt="image-20221023185512118"></p>
+<p>rbp与buffer之间的距离只有96bytes，修改如下：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221023194046014.png" alt="image-20221023194046014"></p>
+<ul>
+<li>将shellcode放在高位。</li>
+<li>offset&#x3D;rbp-buffer+8；</li>
+<li>ret：取一个较大值，在 1184到 1424之间。由于<code>\x00</code>截断了strcpy函数，因此需要触发的shellcode并没有被拷贝到缓冲区，因此ret指向的位置需是主函数中str数组中shellcode的位置。<ul>
+<li>调试L4级别的stack.c，可以获取到str数组的地址，我们需要跳转到str数组中的ret和shellcode中间的NOP中。</li>
+<li><code>str的地址+offset+8-rbp=1184</code>；</li>
+<li><code>str的地址+517-165-rbp=1424</code>；shellcode是165个字节。</li>
+</ul>
+</li>
+</ul>
+<p>生成badfile上传，nc连接。</p>
+<h2 id="Task6"><a href="#Task6" class="headerlink" title="Task6"></a>Task6</h2><p>关闭地址随机化：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /sbin/sysctl -w kernel.randomize_va_space=2</span><br></pre></td></tr></table></figure>
+
+<p>向容器多次发送消息可以看到每次得到的地址都在变化。因此使用爆破的办法，选定一个作为返回地址，一旦命中就停止。自动化sh脚本在实验环境中有。</p>
+<h2 id="Task7"><a href="#Task7" class="headerlink" title="Task7"></a>Task7</h2><h3 id="7-1栈溢出保护"><a href="#7-1栈溢出保护" class="headerlink" title="7.1栈溢出保护"></a>7.1栈溢出保护</h3><p>修改stack.c，使badfile作为fread的输入：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">FILE *file=fopen(<span class="string">&quot;badfile&quot;</span>,<span class="string">&quot;rb&quot;</span>);</span><br><span class="line"><span class="type">int</span> length = fread(str, <span class="keyword">sizeof</span>(<span class="type">char</span>), <span class="number">517</span>, file);</span><br></pre></td></tr></table></figure>
+
+<p>编译stack.c时不使用<code>-fno-stack-protector</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -DBUF_SIZE=80 -o stack -z execstack stack.c</span><br></pre></td></tr></table></figure>
+
+<p>可以看到错误提示：stack smashing</p>
+<h3 id="7-2栈不可执行"><a href="#7-2栈不可执行" class="headerlink" title="7.2栈不可执行"></a>7.2栈不可执行</h3><p>编译call_shellcode.c时不使用<code>-z execstack</code></p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -m32 -o a32.out call_shellcode.c</span><br></pre></td></tr></table></figure>
+
+<p>运行a32.out可以看到segmentation fault</p>
+<h2 id="结果分析"><a href="#结果分析" class="headerlink" title="结果分析"></a>结果分析</h2><p>实验中共提到了三种栈溢出攻击的防御措施：</p>
+<ul>
+<li>开启地址随机化：开启后较难猜中想要跳转的地址，但是我们在Task6中通过爆破还是能攻击成功；</li>
+<li>栈保护措施：开启后能检测到程序有栈溢出的风险，不允许执行。不保证能百分百检测出有栈溢出的点；</li>
+<li>栈不可执行措施：将数据所在内存页标识为不可执行，当程序溢出成功转入shellcode时，程序会尝试在数据页面上执行指令，此时CPU就会抛出异常，而不是去执行恶意指令。可以尝试ROP攻击。</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p>labs：<a target="_blank" rel="noopener" href="https://www.361shipin.com/blog/1566897080167825408%EF%BC%8Chttps://blog.csdn.net/qq_39678161/article/details/119907828">https://www.361shipin.com/blog/1566897080167825408，https://blog.csdn.net/qq_39678161/article/details/119907828</a></p>
+<p>strcpy栈溢出：<a target="_blank" rel="noopener" href="https://www.33ip.com/support/16.html">https://www.33ip.com/support/16.html</a></p>
+<p>函数栈帧及栈溢出攻击原理：<a target="_blank" rel="noopener" href="https://paper.seebug.org/271/%EF%BC%8Chttps://paper.seebug.org/272/">https://paper.seebug.org/271/，https://paper.seebug.org/272/</a></p>
+<p>linux程序保护机制&amp;gcc编译选项：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/91fae054f922">https://www.jianshu.com/p/91fae054f922</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/12/26/university/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF/%E7%BD%91%E7%BB%9C%E7%A9%BA%E9%97%B4%E5%AE%89%E5%85%A8%E6%8A%80%E6%9C%AF%E5%A4%8D%E4%B9%A0/" rel="prev" title="网络空间安全技术复习">
+      <i class="fa fa-chevron-left"></i> 网络空间安全技术复习
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/12/27/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-shellcode%E7%BC%96%E5%86%99/" rel="next" title="网络攻防-shellcode编写">
+      网络攻防-shellcode编写 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%90%86%E8%AE%BA"><span class="nav-number">1.</span> <span class="nav-text">理论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E6%BC%8F%E6%B4%9E"><span class="nav-number">1.1.</span> <span class="nav-text">软件漏洞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%88%E6%BA%A2%E5%87%BA"><span class="nav-number">1.2.</span> <span class="nav-text">栈溢出</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%88%E6%BA%A2%E5%87%BA%E5%AE%9E%E4%BE%8Bgets"><span class="nav-number">1.2.1.</span> <span class="nav-text">栈溢出实例gets</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BA%A2%E5%87%BA%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-number">1.2.2.</span> <span class="nav-text">溢出漏洞利用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C"><span class="nav-number">2.</span> <span class="nav-text">实验</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E5%87%86%E5%A4%87"><span class="nav-number">2.1.</span> <span class="nav-text">实验准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">2.1.1.</span> <span class="nav-text">原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#server"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#stack"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">stack</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BB%A3%E7%A0%81%E7%BC%96%E8%AF%91"><span class="nav-number">2.1.2.</span> <span class="nav-text">服务端代码编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker%E9%85%8D%E7%BD%AE"><span class="nav-number">2.1.3.</span> <span class="nav-text">docker配置</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task1"><span class="nav-number">2.2.</span> <span class="nav-text">Task1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task2"><span class="nav-number">2.3.</span> <span class="nav-text">Task2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-shellcode%E7%BC%96%E5%86%99"><span class="nav-number">2.3.1.</span> <span class="nav-text">2.1 shellcode编写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-reverse-shell"><span class="nav-number">2.3.2.</span> <span class="nav-text">2.2 reverse shell</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task3"><span class="nav-number">2.4.</span> <span class="nav-text">Task3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task4"><span class="nav-number">2.5.</span> <span class="nav-text">Task4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task5"><span class="nav-number">2.6.</span> <span class="nav-text">Task5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task6"><span class="nav-number">2.7.</span> <span class="nav-text">Task6</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task7"><span class="nav-number">2.8.</span> <span class="nav-text">Task7</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1%E6%A0%88%E6%BA%A2%E5%87%BA%E4%BF%9D%E6%8A%A4"><span class="nav-number">2.8.1.</span> <span class="nav-text">7.1栈溢出保护</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-2%E6%A0%88%E4%B8%8D%E5%8F%AF%E6%89%A7%E8%A1%8C"><span class="nav-number">2.8.2.</span> <span class="nav-text">7.2栈不可执行</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C%E5%88%86%E6%9E%90"><span class="nav-number">2.9.</span> <span class="nav-text">结果分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">2.10.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

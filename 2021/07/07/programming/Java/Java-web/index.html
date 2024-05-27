@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="视频资源：黑马程序员完整JavaWeb快速入门教程【收藏比赞多系列】_哔哩哔哩_bilibili">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sean&#39;s Blog">
+<meta property="og:url" content="http://example.com/2021/07/07/programming/Java/Java-web/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="视频资源：黑马程序员完整JavaWeb快速入门教程【收藏比赞多系列】_哔哩哔哩_bilibili">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-07T14:05:47.000Z">
+<meta property="article:modified_time" content="2024-05-27T07:20:27.798Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="JDBC">
+<meta property="article:tag" content="数据库">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/07/07/programming/Java/Java-web/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title> | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/07/programming/Java/Java-web/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-07 22:05:47" itemprop="dateCreated datePublished" datetime="2021-07-07T22:05:47+08:00">2021-07-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-27 15:20:27" itemprop="dateModified" datetime="2024-05-27T15:20:27+08:00">2024-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">programming</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/programming/Java/" itemprop="url" rel="index"><span itemprop="name">Java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>视频资源：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1mE411h7Co?from=search&seid=14787092919947680266">黑马程序员完整JavaWeb快速入门教程【收藏比赞多系列】_哔哩哔哩_bilibili</a></p>
+<span id="more"></span>
+
+<h1 id="JDBC"><a href="#JDBC" class="headerlink" title="JDBC"></a>JDBC</h1><h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>是一种用于执行SQL语句的Java API；</p>
+<p>由一组用Java语言编写的类和接口组成；</p>
+<p>SUN公司提供的统一的规范</p>
+<h2 id="使用入门"><a href="#使用入门" class="headerlink" title="使用入门"></a>使用入门</h2><h3 id="环境准备之MySQL"><a href="#环境准备之MySQL" class="headerlink" title="环境准备之MySQL"></a>环境准备之MySQL</h3><h4 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h4><p>参考另一篇文章“MySQL”</p>
+<h4 id="引入驱动包"><a href="#引入驱动包" class="headerlink" title="引入驱动包"></a>引入驱动包</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/HDZ1821/article/details/104373946">(4条消息) 在哪下载Mysql数据库的JDBC驱动jar包__清风明月的博客-CSDN博客_mysql驱动jar包在哪</a></p>
+<p>选择操作系统时，选Platform Independent，下载zip文件。</p>
+<p><strong>接下来的操作使用的IDE为eclipse</strong></p>
+<p>创建一个项目，新建一个文件夹lib，将connector中的jar包copy到lib中，右键选择<code>Build path</code>，可以看到多了一个文件夹【Referenced Library】，即引入了驱动包。</p>
+<h3 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h3><h4 id="开发步骤"><a href="#开发步骤" class="headerlink" title="开发步骤"></a>开发步骤</h4><ol>
+<li>加载驱动；</li>
+<li>获得连接；</li>
+<li>基本操作；</li>
+<li>释放资源。</li>
+</ol>
+<h4 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//1.加载驱动，固定写法</span></span><br><span class="line">Class.forName(<span class="string">&quot;com.mysql.cj.jdbc.Driver&quot;</span>);</span><br><span class="line"><span class="comment">//2.获得连接，固定写法</span></span><br><span class="line"><span class="type">Connection</span> <span class="variable">conn</span> <span class="operator">=</span> DriverManager.getConnection(<span class="string">&quot;jdbc:mysql://localhost:端口/数据库名&quot;</span>,<span class="string">&quot;MySQL用户名&quot;</span>,<span class="string">&quot;密码&quot;</span>);</span><br><span class="line"><span class="comment">//3.基本操作</span></span><br><span class="line"><span class="comment">//3.1.获得执行sql语句的对象</span></span><br><span class="line"><span class="type">Statement</span> <span class="variable">createStatement</span> <span class="operator">=</span> conn.createStatement();</span><br><span class="line"><span class="comment">//3.2.编写sql语句</span></span><br><span class="line"><span class="type">String</span> <span class="variable">sql</span> <span class="operator">=</span> <span class="string">&quot;select * from user&quot;</span>;</span><br><span class="line"><span class="comment">//3.3.执行sql语句</span></span><br><span class="line"><span class="type">ResultSet</span> <span class="variable">executeQuery</span> <span class="operator">=</span> createStatement.executeQuery(sql);</span><br><span class="line"><span class="comment">//3.4.遍历结果集</span></span><br><span class="line"><span class="keyword">while</span>(executeQuery.next()) &#123;</span><br><span class="line">    System.out.println(executeQuery.getInt(<span class="string">&quot;id&quot;</span>));</span><br><span class="line">    System.out.println(executeQuery.getString(<span class="string">&quot;username&quot;</span>));</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//4.释放资源</span></span><br><span class="line">conn.close();</span><br><span class="line">createStatement.close();</span><br><span class="line">executeQuery.close();</span><br></pre></td></tr></table></figure>
+
+<p><strong>更多内容参见另一篇文章“JDBC”</strong></p>
+<h1 id="JavaWeb"><a href="#JavaWeb" class="headerlink" title="JavaWeb"></a>JavaWeb</h1><h2 id="概述-1"><a href="#概述-1" class="headerlink" title="概述"></a>概述</h2><h3 id="软件架构"><a href="#软件架构" class="headerlink" title="软件架构"></a>软件架构</h3><h4 id="CS"><a href="#CS" class="headerlink" title="CS"></a>CS</h4><p>Client&#x2F;Server，一般需要安装。</p>
+<p>优点：减轻服务器压力；界面美观。<br>缺点：分布式开发较弱。</p>
+<h4 id="BS"><a href="#BS" class="headerlink" title="BS"></a>BS</h4><p>Browser&#x2F;Server，通过浏览器直接访问。</p>
+<p>优点：不需要更新客户端，客户端就是浏览器；分布式能力较强。<br>缺点：服务器压力比较大。</p>
+<h3 id="Web服务器"><a href="#Web服务器" class="headerlink" title="Web服务器"></a>Web服务器</h3><p>硬件：配置较高的电脑；<br>软件：需要在这台电脑上散装web服务器的软件。</p>
+<h4 id="常见web服务器"><a href="#常见web服务器" class="headerlink" title="常见web服务器"></a>常见web服务器</h4><ul>
+<li>Tomcat</li>
+<li>WebSphere</li>
+<li>WebLogic</li>
+<li>IIS</li>
+<li>Apache</li>
+</ul>
+<h3 id="Web开发中的资源"><a href="#Web开发中的资源" class="headerlink" title="Web开发中的资源"></a>Web开发中的资源</h3><h4 id="静态"><a href="#静态" class="headerlink" title="静态"></a>静态</h4><ul>
+<li>HTML</li>
+<li>CSS</li>
+<li>JavaScript</li>
+</ul>
+<h4 id="动态"><a href="#动态" class="headerlink" title="动态"></a>动态</h4><ul>
+<li>Servlet，JSP</li>
+<li>PHP</li>
+<li>ASP</li>
+</ul>
+<h2 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h2><p>一个web服务器，用来发布web项目。</p>
+<h3 id="安装使用"><a href="#安装使用" class="headerlink" title="安装使用"></a>安装使用</h3><p>以下步骤为已有Java环境的Windows系统</p>
+<ul>
+<li>官网下载zip，解压；</li>
+<li>在文件bin中找到startup.bat双击打开</li>
+<li>在浏览器中测试<code>localhost:8080/</code></li>
+</ul>
+<p>命令行乱码：<a target="_blank" rel="noopener" href="https://blog.csdn.net/what_how_why2020/article/details/114100385">(4条消息) Tomcat安装及配置_what_how_why2020的博客-CSDN博客_tomcat</a></p>
+<p>80端口是HTTP协议的默认端口，容易被占用产生冲突。</p>
+<h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><ul>
+<li>bin：二进制文件（含命令文件：startup，shutdown）；</li>
+<li>conf：配置文件；</li>
+<li>lib：Tomcat所需要的jar包；</li>
+<li>logs：Tomcat服务器日志文件；</li>
+<li>temp：Tomcat运行产生临时文件；</li>
+<li>webapps：存放需要发布的项目；</li>
+<li>work：JSP编译成Servlet产生的代码</li>
+</ul>
+<hr>
+<p>!!!!!!!以下紧急更改为IDEA工具!!!!!!!!!!!!!!!基于版本2021.1.3x64</p>
+<p>jdbc和mysql的连接与eclipse类似。</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><h4 id="部署项目"><a href="#部署项目" class="headerlink" title="部署项目"></a>部署项目</h4><ul>
+<li>将项目放到webapps目录下：将项目打包成war包，复制粘贴，war包在webapps下会自动解压缩；</li>
+<li>配置conf&#x2F;server.xml文件：添加<code>&lt;Context docBase=&quot;D:\eclipse\workspace\MyLirbary-master&quot; path=&quot;/lib&quot; /&gt;</code>  <ul>
+<li>docBase:项目路径；</li>
+<li>path:虚拟路径，URL中显示路径。</li>
+<li>缺点：对Tomcat系统配置不好</li>
+</ul>
+</li>
+<li>在conf\Catalina\localhost目录下添加xml文件，将上文添加的语句copy过来，删掉path属性，此时的虚拟目录即为xml文件的名称。</li>
+</ul>
+<h4 id="Java动态项目的目录结构"><a href="#Java动态项目的目录结构" class="headerlink" title="Java动态项目的目录结构"></a>Java动态项目的目录结构</h4><ul>
+<li>项目根目录  <ul>
+<li>WEB-INF目录  <ul>
+<li>web.xml：web项目的核心配置文件</li>
+<li>lib：放置依赖的jar包（可无）</li>
+<li>classes目录：放置字节码文件的目录（可无）</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="将Tomcat集成到IDEA"><a href="#将Tomcat集成到IDEA" class="headerlink" title="将Tomcat集成到IDEA"></a>将Tomcat集成到IDEA</h4><ul>
+<li>IDEA头部-run-Edit Configuration，通过左上角的加号导入Tomcat-local，并点击Configure设置好路径；</li>
+<li>新建module，选择Java Enterprise（新版不用添加Web Application）；</li>
+<li>Edit Configuration-Deployment，Application context为设置虚拟路径。</li>
+</ul>
+<h2 id="Servlet"><a href="#Servlet" class="headerlink" title="Servlet"></a>Servlet</h2><p>server applet，就是一个接口，定义了Java类被浏览器访问（即被Tomcat识别）的规则。</p>
+<h3 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h3><ol>
+<li><p>创建JavaEE项目；</p>
+</li>
+<li><p>定义一个类，实现Servlet接口（implements Servlet）；<br>继承体系：</p>
+<p>Servlet—GenericServlet—HttpServlet</p>
+<ul>
+<li>GenericServlet</li>
+</ul>
+<p>将Servlet接口中其他的方法做了默认空实现，只实现service()fangfa </p>
+<ul>
+<li>HttpServlet</li>
+</ul>
+<p>复写doGet&#x2F;doPost方法</p>
+</li>
+<li><p>实现接口中的抽象方法(overwrite)；</p>
+</li>
+<li><p>配置Servlet。  </p>
+<ul>
+<li>文件配置：在webapp-WEB-INF-web.xml，<code>&lt;web-app&gt;</code>标签中。</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!--    配置Servlet--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>Test1<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line"> <span class="comment">&lt;!--   以下路径要写全路径，包括上级包--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>servlet.Test1<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>Test1<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--URL访问--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/test1<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Servlet3.0注解配置：在类上使用<code>@WebServlet(&quot;资源路径&quot;)</code>注解进行配置,直接新建Servlet会自动生成，只需要添加路径即可。</li>
+</ul>
+</li>
+</ol>
+<p>src下不能new package，要在src-main-java下，新版的java目录就等于之前的src目录。</p>
+<h2 id="AJAX"><a href="#AJAX" class="headerlink" title="AJAX"></a>AJAX</h2><p>异步的JavaScript和XML，异步表示客户端不需要等待服务器端的响应，在服务器处理请求的过程中，客户端可以进行其他的操作。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">   <span class="keyword">function</span> <span class="title function_">fun</span>(<span class="params"></span>)&#123;</span></span><br><span class="line"><span class="language-javascript">       $.<span class="title function_">ajax</span>(&#123;</span></span><br><span class="line"><span class="language-javascript">            <span class="attr">type</span>:<span class="string">&quot;get/post&quot;</span>,	<span class="comment">//请求方式，默认get</span></span></span><br><span class="line"><span class="language-javascript">            <span class="attr">url</span>:<span class="string">&quot;/...&quot;</span>,			<span class="comment">//请求路径</span></span></span><br><span class="line"><span class="language-javascript">            <span class="attr">data</span>:&#123;<span class="string">&quot;id&quot;</span>:<span class="number">1</span>,<span class="string">&quot;name&quot;</span>:<span class="string">&quot;a&quot;</span>&#125;,	<span class="comment">//键值对传递请求参数</span></span></span><br><span class="line"><span class="language-javascript">            <span class="attr">success</span>:<span class="keyword">function</span>(<span class="params">data</span>)&#123;</span></span><br><span class="line"><span class="language-javascript">                <span class="title function_">alert</span>(data);</span></span><br><span class="line"><span class="language-javascript">            &#125;,					<span class="comment">//响应成功后的回调函数，data表示服务器响应的值</span></span></span><br><span class="line"><span class="language-javascript">       &#125;);</span></span><br><span class="line"><span class="language-javascript">   &#125; </span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h2><p>JavaScript对象表示法，多用于数据和文本信息的存储和交换。</p>
+<hr>
+<p>实训结束了，javaweb就告一段落了，毕竟也不是主攻开发的，有缘再见。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JDBC/" rel="tag"># JDBC</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/04/university/CS50/CS50-1/" rel="prev" title="CS50-1">
+      <i class="fa fa-chevron-left"></i> CS50-1
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/08/programming/SQL/MySQL/" rel="next" title="MySQL">
+      MySQL <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#JDBC"><span class="nav-number">1.</span> <span class="nav-text">JDBC</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.1.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%85%A5%E9%97%A8"><span class="nav-number">1.2.</span> <span class="nav-text">使用入门</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87%E4%B9%8BMySQL"><span class="nav-number">1.2.1.</span> <span class="nav-text">环境准备之MySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E5%AE%89%E8%A3%85"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">下载安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%95%E5%85%A5%E9%A9%B1%E5%8A%A8%E5%8C%85"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">引入驱动包</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E5%8D%95%E4%BD%BF%E7%94%A8"><span class="nav-number">1.2.2.</span> <span class="nav-text">简单使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E6%AD%A5%E9%AA%A4"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">开发步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">代码实现</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JavaWeb"><span class="nav-number">2.</span> <span class="nav-text">JavaWeb</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0-1"><span class="nav-number">2.1.</span> <span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E6%9E%B6%E6%9E%84"><span class="nav-number">2.1.1.</span> <span class="nav-text">软件架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CS"><span class="nav-number">2.1.1.1.</span> <span class="nav-text">CS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BS"><span class="nav-number">2.1.1.2.</span> <span class="nav-text">BS</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">2.1.2.</span> <span class="nav-text">Web服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81web%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">常见web服务器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E8%B5%84%E6%BA%90"><span class="nav-number">2.1.3.</span> <span class="nav-text">Web开发中的资源</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%99%E6%80%81"><span class="nav-number">2.1.3.1.</span> <span class="nav-text">静态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8A%A8%E6%80%81"><span class="nav-number">2.1.3.2.</span> <span class="nav-text">动态</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tomcat"><span class="nav-number">2.2.</span> <span class="nav-text">Tomcat</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8"><span class="nav-number">2.2.1.</span> <span class="nav-text">安装使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">2.2.2.</span> <span class="nav-text">目录结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE"><span class="nav-number">2.2.3.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE"><span class="nav-number">2.2.3.1.</span> <span class="nav-text">部署项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java%E5%8A%A8%E6%80%81%E9%A1%B9%E7%9B%AE%E7%9A%84%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">2.2.3.2.</span> <span class="nav-text">Java动态项目的目录结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%86Tomcat%E9%9B%86%E6%88%90%E5%88%B0IDEA"><span class="nav-number">2.2.3.3.</span> <span class="nav-text">将Tomcat集成到IDEA</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Servlet"><span class="nav-number">2.3.</span> <span class="nav-text">Servlet</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8"><span class="nav-number">2.3.1.</span> <span class="nav-text">快速入门</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AJAX"><span class="nav-number">2.4.</span> <span class="nav-text">AJAX</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSON"><span class="nav-number">2.5.</span> <span class="nav-text">JSON</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

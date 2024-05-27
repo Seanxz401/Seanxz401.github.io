@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="E-R模型和EER模型">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库chp4&amp;5-ER&amp;EER">
+<meta property="og:url" content="http://example.com/2022/04/22/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp4-5-ER-EER/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="E-R模型和EER模型">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422125226479.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422125836292.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422125913691.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422130148136.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422130430330.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422131956234.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422132329331.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422132611292.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422152045265.png">
+<meta property="article:published_time" content="2022-04-22T04:43:38.000Z">
+<meta property="article:modified_time" content="2022-06-17T11:35:16.000Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422125226479.png">
+
+<link rel="canonical" href="http://example.com/2022/04/22/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp4-5-ER-EER/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>数据库chp4&5-ER&EER | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/22/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp4-5-ER-EER/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据库chp4&5-ER&EER
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-22 12:43:38" itemprop="dateCreated datePublished" datetime="2022-04-22T12:43:38+08:00">2022-04-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-06-17 19:35:16" itemprop="dateModified" datetime="2022-06-17T19:35:16+08:00">2022-06-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/" itemprop="url" rel="index"><span itemprop="name">university</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>E-R模型和EER模型</p>
+<span id="more"></span>
+
+<h1 id="E-R-Modeling"><a href="#E-R-Modeling" class="headerlink" title="E-R Modeling"></a>E-R Modeling</h1><p>Entity-Relationship Modeling</p>
+<p>UML：Unified Modeling Language统一建模语言，图像呈现ER模型</p>
+<h2 id="Concepts"><a href="#Concepts" class="headerlink" title="Concepts"></a>Concepts</h2><p>实体、关系、属性、关键字、约束</p>
+<h3 id="Entity"><a href="#Entity" class="headerlink" title="Entity"></a>Entity</h3><ul>
+<li>Entity type类（可以是抽象概念）</li>
+<li>Entity occurrence实例：实体类型中可唯一标识的一个对象</li>
+<li>矩形</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422125226479.png" alt="image-20220422125226479"></p>
+<ul>
+<li>Strong Entity Type，有主键</li>
+<li>Weak                       ，没</li>
+</ul>
+<h3 id="Relationship"><a href="#Relationship" class="headerlink" title="Relationship"></a>Relationship</h3><ul>
+<li>relationship type</li>
+<li>relationship occurrence</li>
+<li>degree&#x3D;该关系涉及的实体类型个数，binary(2)、ternary(3)、quaternary(4)、complex(&gt;2)</li>
+</ul>
+<p>binary</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422125836292.png" alt="image-20220422125836292"></p>
+<p>complex-菱形<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422125913691.png" alt="image-20220422125913691"></p>
+<h4 id="recursive-relationship"><a href="#recursive-relationship" class="headerlink" title="recursive relationship"></a>recursive relationship</h4><p>自环？同一实体在某一关系中扮演不同角色role<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422130148136.png" alt="image-20220422130148136"></p>
+<h4 id="两实体俩关系"><a href="#两实体俩关系" class="headerlink" title="两实体俩关系"></a>两实体俩关系</h4><p>类似主动被动？交换主语宾语或者换个谓语表达？</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422130430330.png" alt="image-20220422130430330"></p>
+<h3 id="Attribute"><a href="#Attribute" class="headerlink" title="Attribute"></a>Attribute</h3><ul>
+<li>Attribute：不仅实体，联系也有属性</li>
+<li>Attribute Domain：属性的取值集合？</li>
+<li>Simple Attribute</li>
+<li>Composite Attribute组合属性，如name&#x3D;first+last</li>
+<li>Single-valued Attribute：一个实例只能取一个值，如一个人只有一个身份证号</li>
+<li>Multi-valued Attribute：一个实例可取多个值，如一个人可以办两张手机号码</li>
+<li>Derived Attribute导出属性，可由相关属性导出得到</li>
+</ul>
+<h4 id="Keys"><a href="#Keys" class="headerlink" title="Keys"></a>Keys</h4><ul>
+<li>Candidate Key候选关键字，能唯一标识实例的<strong>最小属性集合</strong></li>
+<li>Primary Key主关键字，候选关键字中选出来的</li>
+<li>Foreign Key外键，关系R中的一个属性组，它<strong>不是R的候选码</strong>，但它与另一个关系<strong>S的候选码</strong>相对应</li>
+<li>Composite Key合成关键字</li>
+</ul>
+<h4 id="diagram"><a href="#diagram" class="headerlink" title="diagram"></a>diagram</h4><p>实体+关系＋属性（多值+合成+导出）<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422131956234.png" alt="image-20220422131956234"></p>
+<p>关系的属性<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422132329331.png" alt="image-20220422132329331"></p>
+<h3 id="Structural-Constraints"><a href="#Structural-Constraints" class="headerlink" title="Structural Constraints"></a>Structural Constraints</h3><p>0..0, 0..1, 1..1, 1..*, <code>*..*</code>, 远端each做主语，不一定是0or1，可以是具体的数字234…</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422132611292.png" alt="image-20220422132611292"></p>
+<p>对于complex relationship中的约束，通过固定两端作为一端，将complex化为binary</p>
+<ul>
+<li>Cardinality基数：max of x..x</li>
+<li>Participation：min<ul>
+<li>mandatory强制参与</li>
+<li>optional部分参与</li>
+</ul>
+</li>
+</ul>
+<h1 id="EER"><a href="#EER" class="headerlink" title="EER"></a>EER</h1><p>Enhanced Entity-Relationship Model</p>
+<h2 id="Specialization-Generalization"><a href="#Specialization-Generalization" class="headerlink" title="Specialization&#x2F;Generalization"></a>Specialization&#x2F;Generalization</h2><ul>
+<li>superclass超类，一个超类不一定需要子类</li>
+<li>subclass子类</li>
+<li>Attribute Inheritance属性继承，三角符号</li>
+<li>Specialization特殊化，拆分-差异最大化</li>
+<li>Generalization泛化，合并-差异最小化</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422152045265.png" alt="image-20220422152045265"></p>
+<p>子类可单独与非超类实体建立关系；</p>
+<p>根据不同差异特征将同一实体进行多种形式的特殊化；</p>
+<h3 id="constraints"><a href="#constraints" class="headerlink" title="constraints"></a>constraints</h3><ul>
+<li>participation限定每个超类的成员是否一定是某个子类的成员<ul>
+<li>optional</li>
+<li>mandatory：每个超类成员必须是某一子类的成员</li>
+</ul>
+</li>
+<li>disjoint不相交<ul>
+<li>and非不相交：</li>
+<li>or不相交：某一超类的成员最多只能属于一个子类</li>
+</ul>
+</li>
+</ul>
+<h2 id="聚合-组合"><a href="#聚合-组合" class="headerlink" title="聚合&#x2F;组合"></a>聚合&#x2F;组合</h2><ul>
+<li>聚合：空心菱形，紧挨整体</li>
+<li>组合：实心</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/22/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp2-DB-ENV/" rel="prev" title="数据库chp2-DB-ENV">
+      <i class="fa fa-chevron-left"></i> 数据库chp2-DB-ENV
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/22/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp6-%E8%A7%84%E8%8C%83%E5%8C%96/" rel="next" title="数据库chp6-规范化">
+      数据库chp6-规范化 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#E-R-Modeling"><span class="nav-number">1.</span> <span class="nav-text">E-R Modeling</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Concepts"><span class="nav-number">1.1.</span> <span class="nav-text">Concepts</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Entity"><span class="nav-number">1.1.1.</span> <span class="nav-text">Entity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Relationship"><span class="nav-number">1.1.2.</span> <span class="nav-text">Relationship</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#recursive-relationship"><span class="nav-number">1.1.2.1.</span> <span class="nav-text">recursive relationship</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%A4%E5%AE%9E%E4%BD%93%E4%BF%A9%E5%85%B3%E7%B3%BB"><span class="nav-number">1.1.2.2.</span> <span class="nav-text">两实体俩关系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Attribute"><span class="nav-number">1.1.3.</span> <span class="nav-text">Attribute</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Keys"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">Keys</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#diagram"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">diagram</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Structural-Constraints"><span class="nav-number">1.1.4.</span> <span class="nav-text">Structural Constraints</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#EER"><span class="nav-number">2.</span> <span class="nav-text">EER</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Specialization-Generalization"><span class="nav-number">2.1.</span> <span class="nav-text">Specialization&#x2F;Generalization</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#constraints"><span class="nav-number">2.1.1.</span> <span class="nav-text">constraints</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%81%9A%E5%90%88-%E7%BB%84%E5%90%88"><span class="nav-number">2.2.</span> <span class="nav-text">聚合&#x2F;组合</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="网络攻防-软件漏洞3-环境变量攻击，涉及实验：SEED Labs – Environment Variable and Set-UID Program Lab ，代码见：https:&#x2F;&#x2F;github.com&#x2F;Seanxz401&#x2F;seed-labs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络攻防-环境变量攻击">
+<meta property="og:url" content="http://example.com/2022/12/29/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%94%BB%E5%87%BB/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="网络攻防-软件漏洞3-环境变量攻击，涉及实验：SEED Labs – Environment Variable and Set-UID Program Lab ，代码见：https:&#x2F;&#x2F;github.com&#x2F;Seanxz401&#x2F;seed-labs">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221031162155728.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221031162426853.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221031163326167.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221031170727647.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221031171909216.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221107162241366.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221107164732358.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221110112150784.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221110125137468.png">
+<meta property="og:image" content="c:/Users/ASUS/AppData/Roaming/Typora/typora-user-images/image-20221110125536637.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221111194500374.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221111195529773.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221111205820482.png">
+<meta property="article:published_time" content="2022-12-29T07:25:18.000Z">
+<meta property="article:modified_time" content="2024-05-27T07:16:58.222Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221031162155728.png">
+
+<link rel="canonical" href="http://example.com/2022/12/29/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%94%BB%E5%87%BB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>网络攻防-环境变量攻击 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/29/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E6%94%BB%E5%87%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          网络攻防-环境变量攻击
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-12-29 15:25:18" itemprop="dateCreated datePublished" datetime="2022-12-29T15:25:18+08:00">2022-12-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-27 15:16:58" itemprop="dateModified" datetime="2024-05-27T15:16:58+08:00">2024-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/" itemprop="url" rel="index"><span itemprop="name">university</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/" itemprop="url" rel="index"><span itemprop="name">网络攻防</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>网络攻防-软件漏洞3-环境变量攻击，涉及实验：SEED Labs – Environment Variable and Set-UID Program Lab ，代码见：<a target="_blank" rel="noopener" href="https://github.com/Seanxz401/seed-labs">https://github.com/Seanxz401/seed-labs</a></p>
+<span id="more"></span>
+
+<h1 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h1><p>C语言访问环境变量：</p>
+<ol>
+<li>从主函数中访问：<code>void main(int argc, char* argv[], char* envp[])</code></li>
+<li>使用全局变量：<code>extern char** environ</code></li>
+</ol>
+<p>ps.当对环境变量进行更改时，存储环境变量的位置可能会移动到堆中，因此environ会发生改变而envp[]不会。因为envp是main函数中的局部变量，从缓冲区溢出那一节的知识可以知道，函数内局部变量存储在栈中。</p>
+<p>进程获取环境变量：</p>
+<ol>
+<li>fork创建新进程，子进程继承父进程的环境变量</li>
+<li>execve启动新程序（此程序中的旧环境变量会丢失），通过参数传递环境变量<code>int execve(const char* filename, char* const argv[], char* const envp[])</code><ul>
+<li>filename是命令对应的文件，如<code>/bin/bash</code></li>
+<li>argv是命令及对应参数，如<code>bash -c ...</code></li>
+</ul>
+</li>
+</ol>
+<p> &#x2F;proc是linux中的一个虚拟文件系统。它包含每个进程的一个目录，使 用进程ID作为目录的名称。每个进程目录都有一个名为environ的虚拟文件，其中包含进程的环境。当在bash shell中调用env程序时，它将在子进程中运行。因此，它打印 出shell子进程的环境变量，而不是它自己的环境变量。</p>
+<p>shell命令变量与环境变量：<strong>当shell程序启动时，它会将环境变量复制到自己的shell变量中</strong>。对 shell变量所做的更改将不会反映出在环境变量上。但是exported后的shell变量可以传到子进程。</p>
+<h2 id="setuid"><a href="#setuid" class="headerlink" title="setuid"></a>setuid</h2><p>允许用户以程序所有者的权限运行程序</p>
+<p>每个进程都有两个用户ID：</p>
+<ul>
+<li>RUID：进程的真正所有者</li>
+<li>EUID：进程的权限，访问控制。</li>
+</ul>
+<p>攻击原理：当执行setuid程序时，RUID≠EUID，RUID是当前用户的UID，而EUID为程序所有者的UID，如果程序归root所有，则程序以root权限运行。</p>
+<p>设置为setuid程序：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">chown</span> root a.out</span><br><span class="line">sudo <span class="built_in">chmod</span> 4755 a.out</span><br></pre></td></tr></table></figure>
+
+<h2 id="通过动态链接器攻击"><a href="#通过动态链接器攻击" class="headerlink" title="通过动态链接器攻击"></a>通过动态链接器攻击</h2><p>链接：</p>
+<ul>
+<li>静态链接：包含源代码和涉及的外部库的代码（编译出的程序较大）</li>
+<li>动态链接：在运行时，使用环境变量，将外部库的可执行文件加载到内存(.so&#x2F;.dll)。（可以通过<code>ldd a.out</code>来查看a程序依赖什么共享库）</li>
+</ul>
+<p>通过动态链接器进行攻击：设置用户变量，控制链接过程的结果</p>
+<ul>
+<li>LD_PRELOAD包含一个共享库的，链接器将首先搜索它</li>
+<li>如果没找到，将在几个文件夹列表中搜索，包括LD_LIBRARY_PATH指定的文件夹</li>
+</ul>
+<p>eg.用户创建一个共享库（链接到用户指定的函数），并将共享库添加到LD_PRELOAD环境变量中。执行其他调用sleep函数程序时，执行的sleep为用户自定义的函数。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sleep.c中自定义sleep函数，main.c是调用了sleep函数的程序</span></span><br><span class="line">gcc -c sleep.c -o sleep.o</span><br><span class="line">gcc -shared -o libmylib.so.1.0.1 sleep.o</span><br><span class="line"><span class="built_in">export</span> LD_PRELOAD=./libmylib.so.1.0.1</span><br><span class="line">./main.o</span><br></pre></td></tr></table></figure>
+
+<p>ps.当EUID≠RUID时，动态链接器会忽略LD_PRELOAD和LD_LIBRARY_PATH</p>
+<h2 id="通过外部程序攻击"><a href="#通过外部程序攻击" class="headerlink" title="通过外部程序攻击"></a>通过外部程序攻击</h2><p>调用外部程序：</p>
+<ul>
+<li>exec函数家族，它们以不同的形式调用execve，直接运行程序</li>
+<li>system，调用execl，execl最终调用execve运行&#x2F;bin&#x2F;sh，然后通过shell运行程序。<strong>shell程序会继承环境变量</strong></li>
+</ul>
+<p>操作PATH变量进行攻击：shell运行命令而没有提供绝对路径时，它将使用PATH变量来找到该命令</p>
+<p>eg.正常的程序(vul.c)中存在<code>system(&quot;cal&quot;);</code>，通过操作路径变量，使shell将cal命令定位到自定义的cal程序(攻击者可在这个程序中通过system继续继承环境变量，以root权限执行其他命令)</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo <span class="built_in">chown</span> root vul.o</span><br><span class="line">sudo <span class="built_in">chmod</span> 4755 vul.o</span><br><span class="line">gcc cal.c -o cal.o</span><br><span class="line"><span class="built_in">export</span> PATH=.:<span class="variable">$PATH</span>	<span class="comment"># 将当前路径添加到PATH变量中</span></span><br><span class="line">./vul.o</span><br></pre></td></tr></table></figure>
+
+<p>ps.由此可知，当在特权程序中调用外部程序时，应该使用execve，不会继承环境变量。</p>
+<h2 id="通过外部库的攻击"><a href="#通过外部库的攻击" class="headerlink" title="通过外部库的攻击"></a>通过外部库的攻击</h2><p>程序通常使用来自外部库的函数。如果这些函数使用环境变量，则用户可以设置利用。</p>
+<h2 id="通过应用程序代码攻击"><a href="#通过应用程序代码攻击" class="headerlink" title="通过应用程序代码攻击"></a>通过应用程序代码攻击</h2><p>程序可以直接使 用环境变量。如 果这些是特权程 序，它可能会导 致不可信任的输 入。</p>
+<p>eg.<code>getenv(&quot;PWD&quot;);</code>获取环境变量PWD，PWD的值来自于shell程序，用户可以改变</p>
+<h2 id="服务方法"><a href="#服务方法" class="headerlink" title="服务方法"></a>服务方法</h2><p>允许正常用户执行特权操作的两种方法：</p>
+<ul>
+<li>setuid：普通用户必须运行一个特殊的程序才能临时获得根权限</li>
+<li>服务方法：普通用户必须请求特权服务才能为他们执行操作。（多了一个服务请求的过程）</li>
+</ul>
+<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><h2 id="Task1"><a href="#Task1" class="headerlink" title="Task1"></a>Task1</h2><p>查看指定环境变量<code>PWD</code><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221031162155728.png" alt="image-20221031162155728"></p>
+<p>export设置环境变量<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221031162426853.png" alt="image-20221031162426853"></p>
+<p>unset取消环境变量<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221031163326167.png" alt="image-20221031163326167"></p>
+<h2 id="Task2"><a href="#Task2" class="headerlink" title="Task2"></a>Task2</h2><ol>
+<li>编译运行：<code>gcc myprintenv.c</code></li>
+<li>将运行结果保存到文件中：<code>a.out &gt; child</code></li>
+<li>修改myprintenv.c文件，注释子进程中的printenv函数，并取消父进程中的注释，再次编译，将结果保存在另一个文件中：<code>a.out &gt; parent</code></li>
+<li>比较两个文件<code>diff child parent</code>，发现是相同的，即子进程完全继承父进程的环境变量。</li>
+</ol>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221031170727647.png" alt="image-20221031170727647"></p>
+<h2 id="Task3"><a href="#Task3" class="headerlink" title="Task3"></a>Task3</h2><p>myenv.c</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">execve(<span class="string">&quot;/usr/bin/env&quot;</span>, argv, <span class="literal">NULL</span>);<span class="comment">//修改前</span></span><br><span class="line">execve(<span class="string">&quot;/usr/bin/env&quot;</span>, argv, environ);<span class="comment">//修改后</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221031171909216.png" alt="image-20221031171909216"></p>
+<p>修改前没有输出，修改后能输出环境变量。原因：</p>
+<ol>
+<li><code>extern char **environ;</code>获取环境变量表；</li>
+<li>execve的第三个参数就是传入环境变量的位置；</li>
+</ol>
+<h2 id="Task4"><a href="#Task4" class="headerlink" title="Task4"></a>Task4</h2><p>编译运行，能输出环境变量。</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221107162241366.png" alt="image-20221107162241366"></p>
+<p><code>system(&#39;/usr/bin/env&#39;)</code>调用execl()执行<code>/bin/sh</code>，execl()调用execve()并将环境变量传给它。</p>
+<h2 id="Task5"><a href="#Task5" class="headerlink" title="Task5"></a>Task5</h2><p>编译得到foo后，修改权限：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chown root foo</span><br><span class="line">sudo chmod 4755 foo</span><br></pre></td></tr></table></figure>
+
+<p>以普通用户修改环境变量<code>ANY_NAME</code>，执行foo后可以看到修改后的<code>ANY_NAME</code>，即父进程中设置的环境变量能进入到setuid(foo)的子进程中。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221107164732358.png" alt="image-20221107164732358"></p>
+<h2 id="Task6"><a href="#Task6" class="headerlink" title="Task6"></a>Task6</h2><ul>
+<li>在原有PATH变量首部添加<code>/home/seed</code>路径：<code> export PATH=/home/seed:$PATH</code>，寻找命令时会优先选择靠前的。</li>
+<li>关闭保护措施：<code>sudo ln -sf /bin/zsh /bin/sh</code></li>
+<li>新建两个文件并编译。</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ls.c 真的调用ls命令，编译为ls，修改权限类似task5</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    system(<span class="string">&quot;ls&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//fakels.c 恶意代码，编译为ls(放在/home/seed路径下)</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;you are in fake ls!\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>执行真的ls程序时，system调用首选了&#x2F;home&#x2F;seed下的ls程序，即调用了恶意代码。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221110112150784.png" alt="image-20221110112150784"></li>
+</ul>
+<h2 id="Task7"><a href="#Task7" class="headerlink" title="Task7"></a>Task7</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">gcc -fPIC -g -c mylib.c</span><br><span class="line">gcc -shared -o libmylib.so.1.0.1 mylib.o -lc</span><br><span class="line">export LD_PRELOAD=./libmylib.so.1.0.1</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>普通程序+普通用户：seed用户已经拥有LD_PRELOAD环境变量<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221110125137468.png" alt="image-20221110125137468"></li>
+<li>setuid_root程序+普通用户：sleep 1秒；(进程ID与当前用户ID不一致时，忽略LD_PRELOAD环境变量)</li>
+<li>setuid_root程序+LD_PRELOAD环境(root)：(<code>sudo /bin/bash</code>进入root)<img src="C:/Users/ASUS/AppData/Roaming/Typora/typora-user-images/image-20221110125536637.png" alt="image-20221110125536637"></li>
+<li>setuid_user1程序+LD_PRELOAD环境(user2)：<ul>
+<li>seed用户编译程序后将权限改为sean用户；</li>
+<li>seed用户导入环境变量后执行，睡眠1s。</li>
+</ul>
+</li>
+</ul>
+<p>结论：LD_PRELOAD环境变量让链接器将sleep()函数和用户的代码链接起来，将该环境变量加入新的共享库，程序会调用用户的sleep()函数，输出I am not sleeping! 但是当进程的真实用户ID和有效用户ID不一致时，进程忽略LD_PRELOAD环境变量。因此第二个和第四个的sleep没有被替换。</p>
+<h2 id="Task8"><a href="#Task8" class="headerlink" title="Task8"></a>Task8</h2><h3 id="system"><a href="#system" class="headerlink" title="system()"></a>system()</h3><ol>
+<li><p>创建test.txt文件，修改权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chown root test.txt # 修改为root用户所有</span><br><span class="line">sudo chmod 600 test.txt	# 修改权限为所属用户能读写</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译catall.c，此时仍不能读取test.txt，修改权限如task5后可以读取。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221111194500374.png" alt="image-20221111194500374"></p>
+</li>
+<li><p>执行<code>./cat &quot;test.txt;rm test.txt&quot;</code>，会先输出内容再删除该文件。(以分号分割两条命令)</p>
+</li>
+</ol>
+<h3 id="execve"><a href="#execve" class="headerlink" title="execve()"></a>execve()</h3><ol>
+<li>创建test.txt步骤类似；</li>
+<li>注释掉system函数，取消execve的注释，编译，修改cat权限，仍然没有权限读取test.txt；</li>
+<li>构建删除语句，execve无法识别为两条命令</li>
+</ol>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221111195529773.png" alt="image-20221111195529773"></p>
+<p>可以看出execve()比system()更安全。</p>
+<h2 id="Task9"><a href="#Task9" class="headerlink" title="Task9"></a>Task9</h2><ol>
+<li><p>创建文件：<code>sudo vim /etc/zzz</code></p>
+</li>
+<li><p>注释execve函数，添加代码：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(fork())&#123;<span class="comment">//创建进程</span></span><br><span class="line">    close(fd);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">0</span>);                          </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;<span class="comment">//在子进程中，向已经打开的文件描述符中写入字符</span></span><br><span class="line">    write(fd,<span class="string">&quot;\ntask9 attack\n&quot;</span>,<span class="number">15</span>);</span><br><span class="line">    close(fd);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编译，修改权限，运行，发现指定字符串被写入文件<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221111205820482.png" alt="image-20221111205820482"></p>
+</li>
+</ol>
+<p>在此实验过程中，通过<code>setuid(getuid());</code>降低了程序的权限，但是由于文件已经被打开，降级后的进程仍可访问该文件。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/12/27/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-shellcode%E7%BC%96%E5%86%99/" rel="prev" title="网络攻防-shellcode编写">
+      <i class="fa fa-chevron-left"></i> 网络攻防-shellcode编写
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/12/29/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-XSS%E6%94%BB%E5%87%BB/" rel="next" title="网络攻防-XSS攻击">
+      网络攻防-XSS攻击 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%90%86%E8%AE%BA"><span class="nav-number">1.</span> <span class="nav-text">理论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#setuid"><span class="nav-number">1.1.</span> <span class="nav-text">setuid</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E5%8A%A8%E6%80%81%E9%93%BE%E6%8E%A5%E5%99%A8%E6%94%BB%E5%87%BB"><span class="nav-number">1.2.</span> <span class="nav-text">通过动态链接器攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E5%A4%96%E9%83%A8%E7%A8%8B%E5%BA%8F%E6%94%BB%E5%87%BB"><span class="nav-number">1.3.</span> <span class="nav-text">通过外部程序攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E5%A4%96%E9%83%A8%E5%BA%93%E7%9A%84%E6%94%BB%E5%87%BB"><span class="nav-number">1.4.</span> <span class="nav-text">通过外部库的攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E5%BA%94%E7%94%A8%E7%A8%8B%E5%BA%8F%E4%BB%A3%E7%A0%81%E6%94%BB%E5%87%BB"><span class="nav-number">1.5.</span> <span class="nav-text">通过应用程序代码攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E6%96%B9%E6%B3%95"><span class="nav-number">1.6.</span> <span class="nav-text">服务方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C"><span class="nav-number">2.</span> <span class="nav-text">实验</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Task1"><span class="nav-number">2.1.</span> <span class="nav-text">Task1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task2"><span class="nav-number">2.2.</span> <span class="nav-text">Task2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task3"><span class="nav-number">2.3.</span> <span class="nav-text">Task3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task4"><span class="nav-number">2.4.</span> <span class="nav-text">Task4</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task5"><span class="nav-number">2.5.</span> <span class="nav-text">Task5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task6"><span class="nav-number">2.6.</span> <span class="nav-text">Task6</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task7"><span class="nav-number">2.7.</span> <span class="nav-text">Task7</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task8"><span class="nav-number">2.8.</span> <span class="nav-text">Task8</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#system"><span class="nav-number">2.8.1.</span> <span class="nav-text">system()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#execve"><span class="nav-number">2.8.2.</span> <span class="nav-text">execve()</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task9"><span class="nav-number">2.9.</span> <span class="nav-text">Task9</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

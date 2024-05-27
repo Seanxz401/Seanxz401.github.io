@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="应急响应总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="应急响应总结">
+<meta property="og:url" content="http://example.com/2023/09/22/24%E5%B1%8A%E7%A7%8B%E6%8B%9B/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="应急响应总结">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-09-22T05:00:42.000Z">
+<meta property="article:modified_time" content="2024-05-27T08:01:45.668Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/09/22/24%E5%B1%8A%E7%A7%8B%E6%8B%9B/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E6%80%BB%E7%BB%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>应急响应总结 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/22/24%E5%B1%8A%E7%A7%8B%E6%8B%9B/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          应急响应总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-09-22 13:00:42" itemprop="dateCreated datePublished" datetime="2023-09-22T13:00:42+08:00">2023-09-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-27 16:01:45" itemprop="dateModified" datetime="2024-05-27T16:01:45+08:00">2024-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/24%E5%B1%8A%E7%A7%8B%E6%8B%9B/" itemprop="url" rel="index"><span itemprop="name">24届秋招</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>应急响应总结</p>
+<span id="more"></span>
+
+<h2 id="入侵排查"><a href="#入侵排查" class="headerlink" title="入侵排查"></a>入侵排查</h2><h3 id="Linux"><a href="#Linux" class="headerlink" title="Linux"></a>Linux</h3><p>查看系统信息：lscpu、uname -a、</p>
+<ol>
+<li><p>账户安全（是否有攻击者新建的账户、修改已有用户的密码</p>
+<ol>
+<li>&#x2F;etc&#x2F;passwd 重点关注组ID为0的用户（root权限</li>
+<li>lastlog</li>
+</ol>
+</li>
+<li><p>历史命令（查看攻击者进行的操作，history</p>
+</li>
+<li><p>异常端口（可能与攻击者存在连接，netstat</p>
+</li>
+<li><p>异常进程（木马程序，top</p>
+</li>
+<li><p>开机启动项（权限维持，</p>
+<ol>
+<li>&#x2F;etc&#x2F;init.d&#x2F;rc.local</li>
+<li>&#x2F;etc&#x2F;rc.local</li>
+</ol>
+</li>
+<li><p>定时任务（权限维持，</p>
+<ol>
+<li>crontab -l</li>
+<li>&#x2F;etc&#x2F;cron*</li>
+</ol>
+</li>
+<li><p>服务</p>
+</li>
+<li><p>异常文件（webshell、配置文件</p>
+</li>
+<li><p>系统日志：<code>/var/log</code></p>
+</li>
+<li><p>web日志：apache、ngnix</p>
+</li>
+</ol>
+<h3 id="Windows"><a href="#Windows" class="headerlink" title="Windows"></a>Windows</h3><p>查看系统信息：msinfo32、systeminfo</p>
+<ol>
+<li><p>隐藏用户 </p>
+<ol>
+<li>计算机管理→本地用户和组→用户</li>
+<li>注册表 HKEY_LOCAL_MACHINE</li>
+</ol>
+</li>
+<li><p>异常端口</p>
+</li>
+<li><p>异常进程</p>
+</li>
+<li><p>开机启动项</p>
+<ol>
+<li><p>msconfig</p>
+</li>
+<li><p>注册表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">HKEY_CLASSES_ROOT(HKCR)</span><br><span class="line">HKEY_CURRENT_USER(HKLM)</span><br><span class="line">HKEY_LOCAL_MACHINE(HKLM)</span><br><span class="line">HKEY_USERS(HKU)</span><br><span class="line">HKEY_CURRENT_CONFIG(HCU)</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>定时任务</p>
+<ol>
+<li>计算机管理→系统工具→任务计划程序</li>
+<li>powershell：Get-ScheduledTask</li>
+<li>cmd:schtasks</li>
+</ol>
+</li>
+<li><p>服务</p>
+</li>
+<li><p>日志</p>
+</li>
+<li></li>
+</ol>
+<h2 id="安全设备"><a href="#安全设备" class="headerlink" title="安全设备"></a>安全设备</h2><p>防火墙</p>
+<p>WAF：Web应用防火墙</p>
+<p>IDS：入侵检测，位于网络内部，能检测内部终端+外部</p>
+<p>IPS：入侵防御，位于防火墙与网络设备之间（网络边界），只能抵御外部攻击</p>
+<p>堡垒机</p>
+<h2 id="判断告警是否为真实攻击"><a href="#判断告警是否为真实攻击" class="headerlink" title="判断告警是否为真实攻击"></a>判断告警是否为真实攻击</h2><ol>
+<li>IP<ol>
+<li>内网IP→分析数据包→是否为内部测试或者业务逻辑导致→是否为跳板机</li>
+<li>外网→是否为授权方</li>
+</ol>
+</li>
+</ol>
+<h2 id="检测webshell"><a href="#检测webshell" class="headerlink" title="检测webshell"></a>检测webshell</h2><ol>
+<li>静态检测：代码审计、特征匹配</li>
+<li>动态检测：webshell运行时的动态特征、编译执行过程</li>
+<li>日志记录：web&#x2F;系统</li>
+<li>流量监测：webshell流量特征匹配</li>
+<li>WAF</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/09/18/%E6%B8%97%E9%80%8F/%E6%B8%97%E9%80%8F%E5%B7%A5%E5%85%B7/" rel="prev" title="渗透工具">
+      <i class="fa fa-chevron-left"></i> 渗透工具
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/09/29/%E5%8F%96%E8%AF%81/2021%E9%99%87%E5%89%91%E6%9D%AF/" rel="next" title="2021陇剑杯">
+      2021陇剑杯 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A5%E4%BE%B5%E6%8E%92%E6%9F%A5"><span class="nav-number">1.</span> <span class="nav-text">入侵排查</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux"><span class="nav-number">1.1.</span> <span class="nav-text">Linux</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows"><span class="nav-number">1.2.</span> <span class="nav-text">Windows</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E8%AE%BE%E5%A4%87"><span class="nav-number">2.</span> <span class="nav-text">安全设备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E5%91%8A%E8%AD%A6%E6%98%AF%E5%90%A6%E4%B8%BA%E7%9C%9F%E5%AE%9E%E6%94%BB%E5%87%BB"><span class="nav-number">3.</span> <span class="nav-text">判断告警是否为真实攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A3%80%E6%B5%8Bwebshell"><span class="nav-number">4.</span> <span class="nav-text">检测webshell</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

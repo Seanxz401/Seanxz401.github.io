@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="参考书：计算机网络自顶向下方法(第6版)（黑皮书）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计网chp45-网络层">
+<meta property="og:url" content="http://example.com/2022/05/30/university/%E8%AE%A1%E7%BD%91/%E8%AE%A1%E7%BD%91chp45-%E7%BD%91%E7%BB%9C%E5%B1%82/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="参考书：计算机网络自顶向下方法(第6版)（黑皮书）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612173214851.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612174132763.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220615130105082.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613114633972.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613114801372.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613114830494.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613115325652.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20180111115022267">
+<meta property="article:published_time" content="2022-05-30T08:40:56.000Z">
+<meta property="article:modified_time" content="2024-05-27T08:05:33.792Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612173214851.png">
+
+<link rel="canonical" href="http://example.com/2022/05/30/university/%E8%AE%A1%E7%BD%91/%E8%AE%A1%E7%BD%91chp45-%E7%BD%91%E7%BB%9C%E5%B1%82/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>计网chp45-网络层 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/30/university/%E8%AE%A1%E7%BD%91/%E8%AE%A1%E7%BD%91chp45-%E7%BD%91%E7%BB%9C%E5%B1%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          计网chp45-网络层
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-30 16:40:56" itemprop="dateCreated datePublished" datetime="2022-05-30T16:40:56+08:00">2022-05-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-27 16:05:33" itemprop="dateModified" datetime="2024-05-27T16:05:33+08:00">2024-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/" itemprop="url" rel="index"><span itemprop="name">university</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/%E8%AE%A1%E7%BD%91/" itemprop="url" rel="index"><span itemprop="name">计网</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>参考书：计算机网络自顶向下方法(第6版)（黑皮书）</p>
+<span id="more"></span>
+
+<h1 id="一些概念"><a href="#一些概念" class="headerlink" title="一些概念"></a>一些概念</h1><ul>
+<li>subnet mask子网掩码：按位与运算，主机号部分全0，网络号部分全1.</li>
+</ul>
+<h1 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h1><p>最重要的三个组成：</p>
+<ul>
+<li>IP协议</li>
+<li>路由协议</li>
+<li>ICMP协议</li>
+</ul>
+<p>提供：</p>
+<ul>
+<li>有限的error control</li>
+<li>拥塞控制</li>
+</ul>
+<h1 id="虚电路和数据报网络"><a href="#虚电路和数据报网络" class="headerlink" title="虚电路和数据报网络"></a>虚电路和数据报网络</h1><h2 id="虚电路"><a href="#虚电路" class="headerlink" title="虚电路"></a>虚电路</h2><p>VC（virtual circuit），面向连接</p>
+<ul>
+<li>一条虚电路&#x3D;源和目的之间的路径+（首部携带）VC号+链路号+路由器中的转发表</li>
+<li>每台中间路由器必须用一个新的VC号替代每个传输分组的VC 号</li>
+</ul>
+<h2 id="数据报"><a href="#数据报" class="headerlink" title="数据报"></a>数据报</h2><p>datagram，无连接</p>
+<ul>
+<li>路由算法：计算端到端的路径</li>
+<li>转发表：确认输出接口<ul>
+<li>最长前缀匹配</li>
+</ul>
+</li>
+</ul>
+<h1 id="IP"><a href="#IP" class="headerlink" title="IP"></a>IP</h1><h2 id="IPv4"><a href="#IPv4" class="headerlink" title="IPv4"></a>IPv4</h2><h3 id="报文"><a href="#报文" class="headerlink" title="报文"></a>报文</h3><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612173214851.png" alt="image-20220612173214851"></p>
+<h3 id="切片"><a href="#切片" class="headerlink" title="切片"></a>切片</h3><p>fragmentation</p>
+<ul>
+<li>MTU&#x3D;20B头部+数据</li>
+<li>offset表示数据的偏移（MTU-20），还要除8</li>
+<li>flag置为0表示末端</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220612174132763.png" alt="image-20220612174132763"></p>
+<h2 id="IPv6"><a href="#IPv6" class="headerlink" title="IPv6"></a>IPv6</h2><h3 id="报文-1"><a href="#报文-1" class="headerlink" title="报文"></a>报文</h3><p>共40字节<br><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220615130105082.png" alt="image-20220615130105082"></p>
+<ul>
+<li>pri是traffic class</li>
+<li>next hdr&#x3D;&#x3D;next header</li>
+</ul>
+<h3 id="compare-with-IPv4"><a href="#compare-with-IPv4" class="headerlink" title="compare with IPv4"></a>compare with IPv4</h3><p>相同&#x2F;类似字段：</p>
+<table>
+<thead>
+<tr>
+<th>item</th>
+<th>IPv4</th>
+<th>IPv6</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>指示服务&#x2F;流量类型</td>
+<td>TOS (type of service)</td>
+<td>traffic class</td>
+</tr>
+<tr>
+<td>指示下一层协议（运输层）</td>
+<td>protocol</td>
+<td>next header</td>
+</tr>
+<tr>
+<td>（路由器）跳数限制</td>
+<td>TTL(time to live)</td>
+<td>hop limit</td>
+</tr>
+<tr>
+<td>报文长度</td>
+<td>total datagram length</td>
+<td>payload length</td>
+</tr>
+</tbody></table>
+<p>独特点：</p>
+<ul>
+<li>IPv4：fragmentation，option</li>
+<li>IPv6：flow</li>
+</ul>
+<h1 id="ICMP"><a href="#ICMP" class="headerlink" title="ICMP"></a>ICMP</h1><p>当IP报头中的协议字段值为1时，就说明这是一个ICMP报文。用来传递错误报文信息。</p>
+<h2 id="traceroute"><a href="#traceroute" class="headerlink" title="traceroute"></a>traceroute</h2><p>Traceroute跟踪路由的原理是通过设置IP数据报的TTL（生存周期）。<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/5b7189789dc1">利用ICMP实现Traceroute - 简书 (jianshu.com)</a></p>
+<h1 id="路由算法"><a href="#路由算法" class="headerlink" title="路由算法"></a>路由算法</h1><h2 id="链路状态"><a href="#链路状态" class="headerlink" title="链路状态"></a>链路状态</h2><p>在链路状态(LS)算法中，每个节点都有完整地网络拓扑图，也就是完整的链路信息（距离矢量法只知道和相邻路由的），节点向<strong>相邻</strong>网络广播自己和邻居的信息，每当自己也收到这个信息，就用dijkstra算法来重新计算路由表。</p>
+<h3 id="Dijkstra最短路径算法"><a href="#Dijkstra最短路径算法" class="headerlink" title="Dijkstra最短路径算法"></a>Dijkstra最短路径算法</h3><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613114633972.png" alt="image-20220613114633972"></p>
+<ul>
+<li>p(x)表示最短路径中x的上一个结点</li>
+<li>最小生成树<br><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613114801372.png" alt="image-20220613114801372"></li>
+<li>转发表：下一条链路<br><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613114830494.png" alt="image-20220613114830494"></li>
+</ul>
+<h3 id="OSPF"><a href="#OSPF" class="headerlink" title="OSPF"></a>OSPF</h3><h3 id="BGP"><a href="#BGP" class="headerlink" title="BGP"></a>BGP</h3><h2 id="距离矢量"><a href="#距离矢量" class="headerlink" title="距离矢量"></a>距离矢量</h2><p> 距离矢量算法（DV）他会把自己的路由表分享给自己的所有相邻节点，那么这些节点如果发现通过新的路由表自己到其他节点的距离改变了，那么再把自己的更新的路由表发送给自己的<strong>周围</strong>节点，所以这个过程是迭代的，异步的。</p>
+<h3 id="Bellman-Ford"><a href="#Bellman-Ford" class="headerlink" title="Bellman-Ford"></a>Bellman-Ford</h3><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613115325652.png" alt="image-20220613115325652"></p>
+<ul>
+<li>从x到y的最短路径&#x3D;min{x到邻居+邻居到y的最短路径}</li>
+<li>距离表：<br><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20180111115022267" alt="img"></li>
+</ul>
+<h3 id="RIP"><a href="#RIP" class="headerlink" title="RIP"></a>RIP</h3><h2 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h2><table>
+<thead>
+<tr>
+<th>item</th>
+<th>描述</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>LS</td>
+<td>全局计算</td>
+<td>1.收敛快</td>
+<td>1.振荡</td>
+</tr>
+<tr>
+<td>DV</td>
+<td>迭代、分布式</td>
+<td>1.效率高</td>
+<td>1.无穷计数<br />2.环路</td>
+</tr>
+</tbody></table>
+<ul>
+<li>RIP是应用层协议</li>
+<li>OSPF是传输层协议</li>
+<li>BGP是应用层协议</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/27/blog/%E9%98%BF%E9%87%8CECS/" rel="prev" title="阿里ECS">
+      <i class="fa fa-chevron-left"></i> 阿里ECS
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/30/university/%E8%AE%A1%E7%BD%91/%E8%AE%A1%E7%BD%91chp3-%E4%BC%A0%E8%BE%93%E5%B1%82/" rel="next" title="计网chp3-传输层">
+      计网chp3-传输层 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">一些概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%B1%82"><span class="nav-number">2.</span> <span class="nav-text">网络层</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%99%9A%E7%94%B5%E8%B7%AF%E5%92%8C%E6%95%B0%E6%8D%AE%E6%8A%A5%E7%BD%91%E7%BB%9C"><span class="nav-number">3.</span> <span class="nav-text">虚电路和数据报网络</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E7%94%B5%E8%B7%AF"><span class="nav-number">3.1.</span> <span class="nav-text">虚电路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%8A%A5"><span class="nav-number">3.2.</span> <span class="nav-text">数据报</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IP"><span class="nav-number">4.</span> <span class="nav-text">IP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IPv4"><span class="nav-number">4.1.</span> <span class="nav-text">IPv4</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%A5%E6%96%87"><span class="nav-number">4.1.1.</span> <span class="nav-text">报文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%87%E7%89%87"><span class="nav-number">4.1.2.</span> <span class="nav-text">切片</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IPv6"><span class="nav-number">4.2.</span> <span class="nav-text">IPv6</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8A%A5%E6%96%87-1"><span class="nav-number">4.2.1.</span> <span class="nav-text">报文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#compare-with-IPv4"><span class="nav-number">4.2.2.</span> <span class="nav-text">compare with IPv4</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ICMP"><span class="nav-number">5.</span> <span class="nav-text">ICMP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#traceroute"><span class="nav-number">5.1.</span> <span class="nav-text">traceroute</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B7%AF%E7%94%B1%E7%AE%97%E6%B3%95"><span class="nav-number">6.</span> <span class="nav-text">路由算法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%93%BE%E8%B7%AF%E7%8A%B6%E6%80%81"><span class="nav-number">6.1.</span> <span class="nav-text">链路状态</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Dijkstra%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84%E7%AE%97%E6%B3%95"><span class="nav-number">6.1.1.</span> <span class="nav-text">Dijkstra最短路径算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OSPF"><span class="nav-number">6.1.2.</span> <span class="nav-text">OSPF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BGP"><span class="nav-number">6.1.3.</span> <span class="nav-text">BGP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B7%9D%E7%A6%BB%E7%9F%A2%E9%87%8F"><span class="nav-number">6.2.</span> <span class="nav-text">距离矢量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Bellman-Ford"><span class="nav-number">6.2.1.</span> <span class="nav-text">Bellman-Ford</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RIP"><span class="nav-number">6.2.2.</span> <span class="nav-text">RIP</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AF%94%E8%BE%83"><span class="nav-number">6.3.</span> <span class="nav-text">比较</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

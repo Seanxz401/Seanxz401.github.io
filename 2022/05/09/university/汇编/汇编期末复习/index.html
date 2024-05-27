@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="汇编期末复习的一些碎碎念">
+<meta property="og:type" content="article">
+<meta property="og:title" content="汇编期末复习">
+<meta property="og:url" content="http://example.com/2022/05/09/university/%E6%B1%87%E7%BC%96/%E6%B1%87%E7%BC%96%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="汇编期末复习的一些碎碎念">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-05-09T10:27:18.000Z">
+<meta property="article:modified_time" content="2024-05-27T07:11:54.558Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/05/09/university/%E6%B1%87%E7%BC%96/%E6%B1%87%E7%BC%96%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>汇编期末复习 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/09/university/%E6%B1%87%E7%BC%96/%E6%B1%87%E7%BC%96%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          汇编期末复习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-09 18:27:18" itemprop="dateCreated datePublished" datetime="2022-05-09T18:27:18+08:00">2022-05-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-27 15:11:54" itemprop="dateModified" datetime="2024-05-27T15:11:54+08:00">2024-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/" itemprop="url" rel="index"><span itemprop="name">university</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/%E6%B1%87%E7%BC%96/" itemprop="url" rel="index"><span itemprop="name">汇编</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>汇编期末复习的一些碎碎念</p>
+<span id="more"></span>
+
+<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><h2 id="算数逻辑移位"><a href="#算数逻辑移位" class="headerlink" title="算数逻辑移位"></a>算数逻辑移位</h2><ul>
+<li>逻辑移位：不考虑符号位，空位补零</li>
+<li>算术移位：有符号的<ul>
+<li>正数与逻辑移位相同</li>
+<li>负数补码：高位补1低位补0，<strong>符号位要跟着一起移动</strong></li>
+</ul>
+</li>
+</ul>
+<h2 id="32位浮点数编码"><a href="#32位浮点数编码" class="headerlink" title="32位浮点数编码"></a>32位浮点数编码</h2><p>32&#x3D;1符号位+8指数+23有效数字</p>
+<ul>
+<li>符号位：0正1负</li>
+<li>指数：阶码（2的幂次数），是<strong>移码</strong>，$M&#x3D;2^{n-1}-1&#x3D;127$</li>
+<li>有效数字：小数点后面的，<strong>小数点前是1</strong></li>
+</ul>
+<p>注意进制转换</p>
+<h2 id="操作数"><a href="#操作数" class="headerlink" title="操作数"></a>操作数</h2><ol>
+<li>双操作数——(目的 源)<br><code>MOV</code> <code>ADD</code> <code>LEA</code></li>
+<li>单操作数——可能是目的&#x2F;源&#x2F;目的+源<br><code>INC</code> <code>PUSH</code> <code>CALL</code></li>
+<li>无操作数<br><code>NOP</code> <code>CLC</code> <code>HLT</code></li>
+</ol>
+<h2 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h2><ul>
+<li>eax：累加器，加法乘法指令的缺省寄存器<ul>
+<li>32位寄存器</li>
+<li>ax是低16位</li>
+<li>al是低8位，ah是高8位</li>
+</ul>
+</li>
+<li>ebx：基地址寄存器，在内存寻址时存放基地址</li>
+<li>ebp：基址指针，栈底</li>
+<li>esp：栈顶指针，栈顶是低地址，压入数据越多，esp越小</li>
+<li>eip：指示下一条运行指令的地址</li>
+<li>ecx：计数器</li>
+</ul>
+<h2 id="指令"><a href="#指令" class="headerlink" title="指令"></a>指令</h2><h3 id="数值"><a href="#数值" class="headerlink" title="数值"></a>数值</h3><ul>
+<li><code>sub eax, 1</code>&#x3D;&#x3D;<code>dec eax</code>：减1，与<code>cmp eax, 1</code>以及<code>add eax, 0xFFFFFFFF</code>不同是因为标志位</li>
+<li><code>cmp eax, ebx</code>：通过减法运算来影响标志位</li>
+<li><code>test eax, ebx</code>：通过与运算来影响标志位，<ul>
+<li>通常用来测试寄存器是否为空</li>
+</ul>
+</li>
+<li>test和and的关系类似cmp和sub</li>
+<li>sal|sar算术移位，shl|shr逻辑移位</li>
+<li><code>add|sub eax, ebx</code>结果保存在eax，即计算<code>eax=eax+ebx</code></li>
+</ul>
+<h3 id="跳转"><a href="#跳转" class="headerlink" title="跳转"></a>跳转</h3><ul>
+<li><code>jmp</code>：无条件跳转</li>
+<li><code>je</code>：jump when equal，ZF&#x3D;1时（零标志位）</li>
+<li><code>jge</code>：jump when greater or equal</li>
+<li><code>jne</code>：jump when not equal</li>
+<li><code>jnz</code>：jump when not zero</li>
+<li><code>call 函数地址</code> : 将函数地址的下一条地址压入栈，将函数内操作的第一个地址放入EIP，<a target="_blank" rel="noopener" href="http://c.biancheng.net/view/3537.html?msclkid=88bf3c13cea811ecb50d070e8daefb94">汇编语言CALL和RET指令：调用一个过程 (biancheng.net)</a></li>
+<li><code>ret</code>把之前call放进堆栈中的地址弹回EIP</li>
+</ul>
+<h3 id="传输"><a href="#传输" class="headerlink" title="传输"></a>传输</h3><ul>
+<li><code>lea op1, op2</code>：将op2的有效地址传输到op1（寄存器）</li>
+<li><code>mov op1, op2</code>只允许一个为寄存器</li>
+</ul>
+<h3 id="堆栈"><a href="#堆栈" class="headerlink" title="堆栈"></a>堆栈</h3><ul>
+<li><code>push eax</code>：将eax压入栈，<strong>esp-&#x3D;4</strong></li>
+</ul>
+<h3 id="others"><a href="#others" class="headerlink" title="others"></a>others</h3><ul>
+<li><code>loop op</code>&#x3D;&#x3D;<code>dec ecx</code>+<code>jnz op</code><ul>
+<li>先ecx–</li>
+<li>再判断ecx是否为0，不为0则跳转</li>
+</ul>
+</li>
+</ul>
+<h2 id="寻址"><a href="#寻址" class="headerlink" title="寻址"></a>寻址</h2><ul>
+<li>寄存器寻址<br>寄存器在CPU内部，不需要执行系统总线周期，快</li>
+<li>立即数寻址<br>立即数-操作数在指令代码中，只能是源操作数</li>
+<li>存储器寻址<br>CPU需要访问内存，此时的指令中要给出操作数的<strong>内存地址</strong><ol>
+<li>直接寻址<br>使用位移量EA，<strong>变量名称实质上是符号位移量</strong><br><code>[偏移的字节]</code> 、<code>[变量名]</code></li>
+<li>寄存器间接寻址<br>EA直接由地址指针寄存器：SI, DI, BX, BP中获得<br><code>[寄存器]</code></li>
+<li>基址寻址&amp;变址寻址<br>偏移量&#x3D;地址指针寄存器（4个中的1个）中的内容+指令中的位移量<br>基址-BX&#x2F;BP， 变址-SI&#x2F;DI</li>
+<li>基址变址寻址<br>偏移量&#x3D;基址指针寄存器+变址寄存器+指令中的位移量</li>
+</ol>
+</li>
+</ul>
+<h2 id="函数调用"><a href="#函数调用" class="headerlink" title="函数调用"></a>函数调用</h2><ul>
+<li>cdecl：C的默认，所有参数<strong>从右到左</strong>依次入栈，手动清栈。不会要求调用者传递多少参数，<strong>可用于传递不定参数</strong></li>
+<li>stdcall：C++ 的标准调用方式：所有参数<strong>从右到左</strong>依次入栈，自动清栈</li>
+<li>fastcall：<strong>使用寄存器传递函数参数</strong></li>
+<li>函数的返回值一般在寄存器eax</li>
+<li>函数传参顺序：从右到左</li>
+</ul>
+<h2 id="大端小端"><a href="#大端小端" class="headerlink" title="大端小端"></a>大端小端</h2><p>大端更自然</p>
+<p>1字&#x3D;16比特</p>
+<h2 id="碎碎念"><a href="#碎碎念" class="headerlink" title="碎碎念"></a>碎碎念</h2><p>32位类型：(unsigned)int, float</p>
+<p>16位：short</p>
+<p>push 对esp，ebp，4字节&#x3D;32位</p>
+<p><code>push ecx</code> 和<code>add esp, 0xFFFFFFFC</code>对esp的作用相同</p>
+<p>汇编指令对操作数的要求（寄存器、立即数、地址）</p>
+<ul>
+<li>mov 只允许一个为存储器寻址<ul>
+<li>[eax]是寄存器间接寻址，属于存储器寻址，表示将eax中的内容作为地址，去相应地址中找数据</li>
+<li>[1000H]是直接寻址，表示去1000H这个位置找数据</li>
+</ul>
+</li>
+<li>add和sub<ul>
+<li>源操作数（2nd）可以为通用寄存器、内存单元、立即数</li>
+<li>目的操作数（1st）可以为通用寄存器、内存单元</li>
+</ul>
+</li>
+<li>lea <strong>作用是把源操作数的地址放进目标操作数中</strong>，源操作数必须是内存操作数，目标操作数只能是16位通用寄存器，<strong>因为有效地址是16位</strong></li>
+</ul>
+<p>函数开辟栈帧的指令是push ebp、mov ebp,esp；</p>
+<p>关闭：mov esp,ebp、pop ebp</p>
+<p>2push+1call，esp减4减4减4</p>
+<p><code>x-FFFFFFFF</code>&#x3D;&#x3D;<code>x+1</code></p>
+<h1 id="例题分析"><a href="#例题分析" class="headerlink" title="例题分析"></a>例题分析</h1><p>题：C语言条件跳转中<strong>a&lt;b</strong>对应的汇编的汇编代码是(A)</p>
+<ul>
+<li>A. mov eax, [a]; cmp eax, [b]; jge XXX;</li>
+<li>B. mov eax, [a]; cmp eax, [b]; jl XXX;</li>
+<li>C. mov eax, [a]; cmp eax, [b]; jle XXX;</li>
+<li>D. mov eax, [a]; cmp eax, [b]; jg XXX;</li>
+</ul>
+<p>解：jge是当大于等于时跳转。C语言中<code>if(a&lt;b)</code>换句话说就是a&gt;&#x3D;b时才跳转。</p>
+<p>题：F是函数</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">F:</span><br><span class="line">    push ebp;</span><br><span class="line">    mov ebp, esp;</span><br><span class="line">    sub esp, <span class="number">4</span>;</span><br><span class="line">    mov eax, [ebp + <span class="number">8</span>];</span><br><span class="line">    cmp eax, <span class="number">1</span>;</span><br><span class="line">    jg ELSE;</span><br><span class="line">    mov eax, <span class="number">1</span>;</span><br><span class="line">    jmp END;</span><br><span class="line">ELSE:</span><br><span class="line">    sub eax, <span class="number">1</span>;</span><br><span class="line">    push eax;</span><br><span class="line">    call F;</span><br><span class="line">    add esp, <span class="number">4</span>;</span><br><span class="line">    mov [esp], eax;</span><br><span class="line">    mov eax, [ebp + <span class="number">8</span>];</span><br><span class="line">    sub eax, <span class="number">2</span>;</span><br><span class="line">    push eax;</span><br><span class="line">    call F;</span><br><span class="line">    add esp, <span class="number">4</span>;</span><br><span class="line">    add eax, [esp];</span><br><span class="line">END:</span><br><span class="line">    mov esp, ebp;</span><br><span class="line">    pop ebp;</span><br><span class="line">    ret;</span><br></pre></td></tr></table></figure>
+
+<p>解：</p>
+<ul>
+<li><p>函数的调用方式是_cdecl</p>
+<ul>
+<li>观察ret<ul>
+<li><code>ret 8</code>结束时自动清理堆栈，是stdcall或fastcall</li>
+<li><code>ret</code>没有修改堆栈，需函数结束后手动清理</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>函数F有1个参数</p>
+<ul>
+<li>call之前push的次数就是参数的个数</li>
+</ul>
+</li>
+<li><p>还原成C代码</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">F</span><span class="params">(<span class="type">int</span> arg0)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(arg0&lt;=<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> F(arg0<span class="number">-1</span>)+F(arg0<span class="number">-2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/26/university/%E8%AE%A1%E7%BD%91/%E8%AE%A1%E7%BD%91chp2-%E5%BA%94%E7%94%A8%E5%B1%82/" rel="prev" title="计网chp2-应用层">
+      <i class="fa fa-chevron-left"></i> 计网chp2-应用层
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/10/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp9-%E6%95%B0%E6%8D%AE%E5%AE%9A%E4%B9%89/" rel="next" title="数据库chp9-数据定义">
+      数据库chp9-数据定义 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%97%E6%95%B0%E9%80%BB%E8%BE%91%E7%A7%BB%E4%BD%8D"><span class="nav-number">1.1.</span> <span class="nav-text">算数逻辑移位</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#32%E4%BD%8D%E6%B5%AE%E7%82%B9%E6%95%B0%E7%BC%96%E7%A0%81"><span class="nav-number">1.2.</span> <span class="nav-text">32位浮点数编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%95%B0"><span class="nav-number">1.3.</span> <span class="nav-text">操作数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-number">1.4.</span> <span class="nav-text">寄存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%87%E4%BB%A4"><span class="nav-number">1.5.</span> <span class="nav-text">指令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%80%BC"><span class="nav-number">1.5.1.</span> <span class="nav-text">数值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%B3%E8%BD%AC"><span class="nav-number">1.5.2.</span> <span class="nav-text">跳转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%A0%E8%BE%93"><span class="nav-number">1.5.3.</span> <span class="nav-text">传输</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A0%86%E6%A0%88"><span class="nav-number">1.5.4.</span> <span class="nav-text">堆栈</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#others"><span class="nav-number">1.5.5.</span> <span class="nav-text">others</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%BB%E5%9D%80"><span class="nav-number">1.6.</span> <span class="nav-text">寻址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8"><span class="nav-number">1.7.</span> <span class="nav-text">函数调用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%A7%E7%AB%AF%E5%B0%8F%E7%AB%AF"><span class="nav-number">1.8.</span> <span class="nav-text">大端小端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A2%8E%E7%A2%8E%E5%BF%B5"><span class="nav-number">1.9.</span> <span class="nav-text">碎碎念</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BE%8B%E9%A2%98%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text">例题分析</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

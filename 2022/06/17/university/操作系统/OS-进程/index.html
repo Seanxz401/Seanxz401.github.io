@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="参考教材：《操作系统——精髓与设计原理》（第八版）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OS-进程">
+<meta property="og:url" content="http://example.com/2022/06/17/university/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/OS-%E8%BF%9B%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="参考教材：《操作系统——精髓与设计原理》（第八版）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/bf096b63f6246b60d503e3eae0f81a4c510fa21b">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20200205162007779.png">
+<meta property="og:image" content="https://pic3.zhimg.com/80/v2-9a35137516c911b1c2cb48296fe8c996_1440w.jpg">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2035133/202005/2035133-20200522164338324-1491135241.png">
+<meta property="og:image" content="https://img2020.cnblogs.com/blog/2035133/202005/2035133-20200522165512933-851446445.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/hg2a7ctu9s.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/640hvuwuem.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/w14b8qzyxz.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220601224853485.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20190525220133778.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20180317175828781">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/1358881-20191125164352815-1516999888.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220623001456593.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220623001756750.png">
+<meta property="article:published_time" content="2022-06-17T12:50:56.000Z">
+<meta property="article:modified_time" content="2022-12-26T07:41:18.000Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/bf096b63f6246b60d503e3eae0f81a4c510fa21b">
+
+<link rel="canonical" href="http://example.com/2022/06/17/university/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/OS-%E8%BF%9B%E7%A8%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>OS-进程 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/06/17/university/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/OS-%E8%BF%9B%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OS-进程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-06-17 20:50:56" itemprop="dateCreated datePublished" datetime="2022-06-17T20:50:56+08:00">2022-06-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-12-26 15:41:18" itemprop="dateModified" datetime="2022-12-26T15:41:18+08:00">2022-12-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/" itemprop="url" rel="index"><span itemprop="name">university</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">操作系统</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>参考教材：《操作系统——精髓与设计原理》（第八版）</p>
+<span id="more"></span>
+
+<h1 id="chp3进程描述与控制"><a href="#chp3进程描述与控制" class="headerlink" title="chp3进程描述与控制"></a>chp3进程描述与控制</h1><h2 id="简答"><a href="#简答" class="headerlink" title="简答"></a>简答</h2><h3 id="一、进程概念"><a href="#一、进程概念" class="headerlink" title="一、进程概念"></a>一、进程概念</h3><ul>
+<li>概念：进程是对运行时程序的封装，是系统进行资源调度和分配的基本单位。进程就是程序的执行过程。</li>
+<li>vs程序<ul>
+<li>进程是程序的一次执行过程，它是<strong>动态</strong>地创建和消亡的，具有一定的生命周期，是暂时存在的；而程序则是一组代码的集合，他是<strong>永久存在</strong>的，可长期保存。</li>
+<li>进程具有并发性，而程序没有；</li>
+<li>一个程序可对应多个进程； 一个进程可以执行一个程序或多个程序</li>
+</ul>
+</li>
+</ul>
+<h3 id="二、进程控制块PCB"><a href="#二、进程控制块PCB" class="headerlink" title="二、进程控制块PCB"></a>二、进程控制块PCB</h3><ul>
+<li>内容：<ul>
+<li>标识符：进程的唯一标识符</li>
+<li>状态：阻塞态&#x2F;运行态</li>
+<li>进程控制信息</li>
+</ul>
+</li>
+<li>重要性：是操作系统为支持<strong>多线程</strong>并提供多重处理技术的关键工具。可以在中断后恢复进程的执行。</li>
+</ul>
+<h3 id="三、操作系统为进程提供了哪些支持"><a href="#三、操作系统为进程提供了哪些支持" class="headerlink" title="三、操作系统为进程提供了哪些支持"></a>三、操作系统为进程提供了哪些支持</h3><ul>
+<li>操作系统维护了一组队列，表示系统中所有进程的当前状态。简单来说，每个进程的PCB都根据它的状态加入到相应的队列中，当一个进程的状态发生变化时，它的PCB从一个状态队列中脱离出来，加入到另一个队列。</li>
+<li>创建进程、调度</li>
+</ul>
+<h3 id="四、程序如何变成进程的，及其在内存中的状态"><a href="#四、程序如何变成进程的，及其在内存中的状态" class="headerlink" title="四、程序如何变成进程的，及其在内存中的状态"></a>四、程序如何变成进程的，及其在内存中的状态</h3><ol>
+<li>操作系统将程序读入内存，为程序映射分配内存空间；</li>
+<li>操作系统向内核数据结构中添加了适当的信息，并为运行程序代码分配了必要的资源之后，程序就变成了进程。</li>
+<li>跳转到入口函数，OS将CPU控制权交给新创建的进程，进程获取到CPU后就可以执行了。</li>
+<li>程序在内存中的状态：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/bf096b63f6246b60d503e3eae0f81a4c510fa21b" alt="img"></li>
+<li>进程映像在虚存中的结构：PCB+用户栈+进程专用地址空间（程序、数据）+内核栈+共享地址空间</li>
+</ol>
+<h3 id="五、进程控制的相关系统调用"><a href="#五、进程控制的相关系统调用" class="headerlink" title="五、进程控制的相关系统调用"></a>五、进程控制的相关系统调用</h3><p>系统调用：此时CPU为内核态</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20200205162007779.png" alt="在这里插入图片描述"></p>
+<ul>
+<li>创建：Fork创建一个新的进程并分配pid；</li>
+<li>销毁：Exit终止运行中的进程，变为退出状态；</li>
+<li>切换：Wait导致进程由运行态变为等待态，操作系统根据调度算法将CPU交给下一个进程</li>
+</ul>
+<h3 id="六、进程创建"><a href="#六、进程创建" class="headerlink" title="六、进程创建"></a>六、进程创建</h3><p>以Fork为例</p>
+<ul>
+<li>Fork创建一个继承的子进程：<ul>
+<li>分配标识符、PCB</li>
+<li>复制父进程的变量和内存</li>
+<li>将进程设为就绪态，放入就绪队列</li>
+</ul>
+</li>
+<li>调用一次，返回两次：子进程返回0，父进程返回子进程标识符</li>
+</ul>
+<h3 id="七、五状态模型"><a href="#七、五状态模型" class="headerlink" title="*七、五状态模型"></a>*七、五状态模型</h3><p><img src="https://pic3.zhimg.com/80/v2-9a35137516c911b1c2cb48296fe8c996_1440w.jpg" alt="img"></p>
+<p><img src="https://img2020.cnblogs.com/blog/2035133/202005/2035133-20200522164338324-1491135241.png" alt="传统的五状态模型"></p>
+<ul>
+<li>创建态：PCB已创建但还未加载到内存中的新进程→</li>
+<li>就绪态：进入就绪队列，等待CPU的调度</li>
+<li>运行态：进程正在处理器上执行</li>
+<li>阻塞&#x2F;等待态：进程因正在等待某些事件而暂停执行，如等待IO操作完成；</li>
+<li>退出态：操作系统释放进程</li>
+</ul>
+<h3 id="八、进程-上下文切换"><a href="#八、进程-上下文切换" class="headerlink" title="八、进程&#x2F;上下文切换"></a>八、进程&#x2F;上下文切换</h3><ul>
+<li>从OS的角度看：操作系统从就绪队列中选出下一个进程并把CPU控制权交给它；</li>
+<li>从cpu的角度看：寄存器先把当前进程的命令位置记录下来，然后保存起来，接着把当前进程的命令位置替换成内核态的指令的新位置，然后跳转到内核态执行任务，当系统调用结束后，还要切换回用户态继续执行</li>
+<li>从任何一个进程的角度：？？？</li>
+</ul>
+<h3 id="九、模式-态-mode-的切换"><a href="#九、模式-态-mode-的切换" class="headerlink" title="九、模式&#x2F;态(mode)的切换"></a>九、模式&#x2F;态(mode)的切换</h3><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xumaomao/p/12860324.html">进程切换与模式切换 - xd_xumaomao - 博客园 (cnblogs.com)</a></p>
+<ul>
+<li>用户模式到内核模式由<strong>中断&#x2F;异常(如缺页故障)&#x2F;系统调用</strong> 中断用户进程执行而触发</li>
+<li>内核模式到用户模式由OS执行中断返回指令<strong>将控制权交还用户</strong>进程而触发</li>
+</ul>
+<h2 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h2><ul>
+<li>CPU的mode<ul>
+<li>当执行应用程序(用户程序时)：user mode</li>
+</ul>
+</li>
+<li>进程的五状态模型<ul>
+<li>点，边</li>
+<li>导致新建态的产生：新的批处理作业提交、新的用户登录、现有进程创建子进程</li>
+<li>导致退出态：执行了无效指令、系统管理员终止了它、父进程终止</li>
+</ul>
+</li>
+<li>新进程的创建步骤：<ul>
+<li>为新进程分配新的内存地址空间</li>
+<li>为新进程分配唯一的进程标识符</li>
+<li>初始化新进程的进程控制块PCB</li>
+</ul>
+</li>
+<li>进程切换必须在操作系统内核模式下完成，这就需要模式切换。<strong>即有进程切换，一定有处理器态的切换。</strong></li>
+<li>进程切换可能发生在：时钟中断、系统调用、缺页故障</li>
+<li>一些中断&#x2F;异常不会引起进程状态转换，不会引起进程切换，只是在处理完成后把控制权交回给被中断进程</li>
+<li>进程两状态模型：运行态、非运行态</li>
+<li>多道环境下：<ul>
+<li>单个进程的行为，可由单个进程的轨迹来进行描述；</li>
+<li>CPU的行为可由多个进程轨迹交替执行来描述</li>
+</ul>
+</li>
+</ul>
+<h2 id="others"><a href="#others" class="headerlink" title="others"></a>others</h2><h3 id="七状态模型"><a href="#七状态模型" class="headerlink" title="七状态模型"></a>七状态模型</h3><p>增加了挂起状态</p>
+<p><img src="https://img2020.cnblogs.com/blog/2035133/202005/2035133-20200522165512933-851446445.png" alt="状态模型"></p>
+<h1 id="chp4线程"><a href="#chp4线程" class="headerlink" title="chp4线程"></a>chp4线程</h1><h2 id="简答-1"><a href="#简答-1" class="headerlink" title="简答"></a>简答</h2><h3 id="一、线程的概念，与进程的关系"><a href="#一、线程的概念，与进程的关系" class="headerlink" title="*一、线程的概念，与进程的关系"></a>*一、线程的概念，与进程的关系</h3><ul>
+<li>线程是进程的一条执行流程。是操作系统调度和分派的单位；</li>
+<li>vs进程：<ul>
+<li>进程是资源分配的单位，线程是调度的单位。</li>
+<li>一个进程有一个或多个线程；</li>
+<li>线程有就绪、阻塞、执行状态及状态转换</li>
+</ul>
+</li>
+<li>是轻量级进程：线程创建，终止时间比较短；同样具有就绪，阻塞和执行三种基本状态，同样具有状态之间的转换。</li>
+</ul>
+<h3 id="二、？？？"><a href="#二、？？？" class="headerlink" title="二、？？？"></a>二、？？？</h3><h3 id="三、线程的实现方式-四、ULT和KLT的优缺点"><a href="#三、线程的实现方式-四、ULT和KLT的优缺点" class="headerlink" title="*三、线程的实现方式&amp;四、ULT和KLT的优缺点"></a>*三、线程的实现方式&amp;四、ULT和KLT的优缺点</h3><p> [线程的实现方式 - 云+社区 - 腾讯云 (tencent.com)](<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1350257#:~:text=%E4%B8%80%E3%80%81%E7%BA%BF%E7%A8%8B%E7%9A%84%E4%B8%89%E7%A7%8D%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F">https://cloud.tencent.com/developer/article/1350257#:~:text=一、线程的三种实现方式</a> 1 使用内核线程实现,2 使用用户线程实现 3 使用用户线程加轻量级进程混合实现)</p>
+<ol>
+<li>内核线程KLT，一对一线程模型<br><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/hg2a7ctu9s.png" alt="img"></li>
+<li>用户线程ULT，一对多线程模型<br><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/640hvuwuem.png" alt="img"></li>
+<li>用户线程加轻量级进程混合实现，N:M线程模型<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/w14b8qzyxz.png" alt="img"></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>实现方式</th>
+<th>描述</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>内核线程实现<br />KLT</td>
+<td>直接由操作系统内核支持的线程，由内核来完成线程切换，内核通过操纵调度器（Scheduler）对线程进行调度，并负责将线程的任务映射到各个处理器上。程序一般不会去直接使用内核线程，而是去使用内核线程的一种高级接口——轻量级进程（Light Weight Process，LWP）</td>
+<td>内核线程保证了每个轻量级进程都成为一个独立的调度单元，<strong>即使有一个轻量级进程在系统调用中阻塞了，也不会影响整个进程的继续工作。</strong></td>
+<td>1.<strong>系统调用代价高</strong>，需要在用户态和内核态来回切换；<br />2.轻量级进程要消耗一定的内核资源，一个系统支持轻量级进程的数量是有限的</td>
+</tr>
+<tr>
+<td>用户线程实现<br />ULT</td>
+<td>完全建立在用户空间的线程库上，系统内核不能感知线程存在的实现。用户线程的建立、同步、销毁和调度完全在用户态中完成</td>
+<td>不需要切换内核态，效率非常高且低消耗；<br /><strong>可以支持规模更大的线程数量</strong></td>
+<td>由于没有系统内核的支援，<strong>阻塞处理</strong>等问题的解决十分困难</td>
+</tr>
+<tr>
+<td>混合</td>
+<td>用户线程与轻量级进程的数量比是不定的，线程创建完全在用户空间完成，线程的调度和同步也在应用程序中进行；一个程序中的多个用户级线程会被映射到内核级线程</td>
+<td>应用程序可以使用内核提供的线程调度功能及处理器映射；<br />同一个用户程序中的多个线程可以在多个处理器上并行，某一线程阻塞不会阻塞整个进程</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="五、Linux线程的系统调用机制"><a href="#五、Linux线程的系统调用机制" class="headerlink" title="五、Linux线程的系统调用机制"></a>五、Linux线程的系统调用机制</h3><ul>
+<li>pthread_create创建线程</li>
+<li>pthread_exit退出线程</li>
+<li>pthread_join阻塞回收子线程</li>
+<li>pthread_cancel杀死线程</li>
+</ul>
+<h2 id="选择-1"><a href="#选择-1" class="headerlink" title="选择"></a>选择</h2><ul>
+<li><strong>资源所有权for进程，调度&#x2F;执行for线程</strong></li>
+<li>创建线程、线程切换、终止线程都比直接操作进程花费的时间更少</li>
+<li>线程包含CPU线程，可以独立执行程序</li>
+<li>线程共享进程的地址空间</li>
+<li>Linux中，线程:进程&#x3D;M:1</li>
+<li>与线程状态改变的4种基本操作<ul>
+<li>派生：线程可在同一进程中派生另一个线程</li>
+<li>阻塞：线程需要等待一个事件时</li>
+<li>解除阻塞：事件发生，移到就绪队列</li>
+<li>结束</li>
+</ul>
+</li>
+<li>线程同步：使线程访问同一进程的共享资源时不产生冲突<ul>
+<li>线程有各自的PCB（进程控制块）</li>
+</ul>
+</li>
+</ul>
+<h1 id="chp5互斥和同步"><a href="#chp5互斥和同步" class="headerlink" title="chp5互斥和同步"></a>chp5互斥和同步</h1><h2 id="简答-2"><a href="#简答-2" class="headerlink" title="简答"></a>简答</h2><h3 id="一、互斥和同步的解决办法-二、硬件方法解决"><a href="#一、互斥和同步的解决办法-二、硬件方法解决" class="headerlink" title="*一、互斥和同步的解决办法&amp;二、硬件方法解决"></a>*一、互斥和同步的解决办法&amp;二、硬件方法解决</h3><p> <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/88017448">操作系统（三）—进程管理 - 知乎 (zhihu.com)</a></p>
+<ul>
+<li><p>软件方法</p>
+<ul>
+<li>Dekker算法-2个进程</li>
+<li>Peterson算法-N个进程</li>
+</ul>
+</li>
+<li><p>硬件方法</p>
+<ul>
+<li>关中断&#x2F;中断禁用：（单处理器机器）处理器只能交替执行并发进程，不能重叠；让<strong>硬件</strong>将中断处理延迟到中断启用后。<strong>在临界区内，没有中断，没有上下文切换，因此没有并发</strong>。</li>
+<li>特殊指令：（多处理配置）保证原子性，<strong>将两个动作结合到一个指令周期</strong>。<ul>
+<li><p>testset：进入临界区之前，首先用TS指令测试lock，如果为false，则表示空闲，将lock赋为true，关闭临界资源；如果TestAndSet返回true，则一直循环测试，直到返回false，跳出循环，进入临界区。基于这个指令，我们可以实现获取资源和释放资源的操作。</p>
+</li>
+<li><p>exchange&#x2F;swap</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">exchange_swap</span><span class="params">(<span class="type">int</span> <span class="keyword">register</span>, <span class="type">int</span> memory)</span> &#123; </span><br><span class="line">    <span class="type">int</span> temp; </span><br><span class="line">    temp = memory; </span><br><span class="line">    memory = <span class="keyword">register</span>; </span><br><span class="line">    <span class="keyword">register</span> = temp; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>OS&#x2F;开发语言提供的机制</p>
+<ul>
+<li>信号量：互斥+条件同步，容易造成死锁</li>
+<li>管程&#x3D;共享资源数据结构+对数据结构的操作，利用少量的共享数据结构抽象的表示系统中共享资源，并且讲对该共享数据结构的特定操作定义为一组过程。对于共享资源的访问必须通过这组过程，每次只有一个进程进入管程。</li>
+</ul>
+</li>
+</ul>
+<h3 id="三、条件竞争"><a href="#三、条件竞争" class="headerlink" title="三、条件竞争"></a>三、条件竞争</h3><ul>
+<li>发生在多个进程或线程读写数据时，其最终结果取决于多个线程的指令执行顺序</li>
+<li>举例<ul>
+<li>输入-赋值-输出<br><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220601224853485.png" alt="image-20220601224853485"></li>
+<li>算术运算</li>
+</ul>
+</li>
+</ul>
+<h3 id="四、信号量解决生产者-消费者问题"><a href="#四、信号量解决生产者-消费者问题" class="headerlink" title="*四、信号量解决生产者&#x2F;消费者问题"></a>*四、信号量解决生产者&#x2F;消费者问题</h3><p>1.使用二元信号量解决无限缓冲区：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> n;</span><br><span class="line">binary_semaphore s=<span class="number">1</span>,delay=<span class="number">0</span>;<span class="comment">//定义s只能为01来实现互斥（存商品和取商品之间），delay用于迫使消费者在缓冲区为空的时候等待</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">producer</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">        <span class="built_in">produce</span>();	<span class="comment">//生产商品不属于共享资源</span></span><br><span class="line">        <span class="built_in">semWaitB</span>(s);</span><br><span class="line">        <span class="built_in">append</span>();	<span class="comment">//将商品存入仓库属于临界资源</span></span><br><span class="line">        n++;</span><br><span class="line">        <span class="keyword">if</span>(n==<span class="number">1</span>) <span class="built_in">semSignalB</span>(delay);	<span class="comment">//当n=1表示这是仓库为空后存入的第一个商品</span></span><br><span class="line">        <span class="built_in">semSignalB</span>(s);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">consumer</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="type">int</span> m;</span><br><span class="line">	<span class="built_in">semWaitB</span>(delay);	<span class="comment">//仓库不为空后唤醒消费者</span></span><br><span class="line">    <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">        <span class="built_in">semWaitB</span>(s);</span><br><span class="line">        <span class="built_in">take</span>();	<span class="comment">//取商品属于临界资源</span></span><br><span class="line">        n--;</span><br><span class="line">        m=n;</span><br><span class="line">        <span class="built_in">semSignalB</span>(s);</span><br><span class="line">        <span class="built_in">consume</span>();	<span class="comment">//消费商品不属于临界资源</span></span><br><span class="line">        <span class="keyword">if</span>(m==<span class="number">0</span>) <span class="built_in">semWaitB</span>(delay);	<span class="comment">//n=0表示仓库为空了</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    n=<span class="number">0</span>;	<span class="comment">//初始化仓库内有n个产品</span></span><br><span class="line">    <span class="built_in">parbegin</span>(producer,consumer);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2.使用一般&#x2F;计数信号量实现无限缓冲区:</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">semaphore n=<span class="number">0</span>,s=<span class="number">1</span>;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">producer</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">        <span class="built_in">produce</span>();</span><br><span class="line">        <span class="built_in">semWait</span>(s);</span><br><span class="line">        <span class="built_in">append</span>();</span><br><span class="line">        <span class="built_in">semSignal</span>(s);</span><br><span class="line">        <span class="built_in">semSignal</span>(n);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">consumer</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">        <span class="built_in">semWait</span>(n);</span><br><span class="line">        <span class="built_in">semWait</span>(s);</span><br><span class="line">        <span class="built_in">take</span>();</span><br><span class="line">        <span class="built_in">semSignal</span>(s);</span><br><span class="line">        <span class="built_in">consume</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>3.使用信号量解决有限缓冲区</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">const</span> <span class="type">int</span> sizeofbuffer=<span class="string">&quot;缓冲区大小&quot;</span>;</span><br><span class="line">semaphore s=<span class="number">1</span>,n=<span class="number">0</span>,e=sizeofbuffer;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">producer</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">        <span class="built_in">produce</span>();</span><br><span class="line">        <span class="built_in">semWait</span>(e);</span><br><span class="line">        <span class="built_in">semWait</span>(s);</span><br><span class="line">        <span class="built_in">append</span>();</span><br><span class="line">        <span class="built_in">semSignal</span>(s);</span><br><span class="line">        <span class="built_in">semSignal</span>(n);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">consumer</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">        <span class="built_in">semWait</span>(n);</span><br><span class="line">        <span class="built_in">semWait</span>(s);</span><br><span class="line">        <span class="built_in">take</span>();</span><br><span class="line">        <span class="built_in">semSignal</span>(s);</span><br><span class="line">        <span class="built_in">semSignal</span>(e);</span><br><span class="line">        <span class="built_in">consume</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="五、并发的四个问题及解决办法"><a href="#五、并发的四个问题及解决办法" class="headerlink" title="*五、并发的四个问题及解决办法"></a>*五、并发的四个问题及解决办法</h3><p> <a target="_blank" rel="noopener" href="https://blog.csdn.net/Zhou000815/article/details/116453890?spm=1001.2101.3001.6650.2&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-2-116453890-blog-45459351.pc_relevant_antiscanv4&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-2-116453890-blog-45459351.pc_relevant_antiscanv4&utm_relevant_index=5">【Linux】—互斥与同步、死锁与饥饿、实现生产者消费者模型、常见锁类型_想去吹吹海风的博客-CSDN博客_互斥死锁饥饿</a></p>
+<table>
+<thead>
+<tr>
+<th>问题</th>
+<th>描述</th>
+<th>解决</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>互斥</td>
+<td>为了保证多个线程或进程访问同一份资源时，保证不产生数据二义性，用原子性的操作，去限制一部分线程的访问。</td>
+<td>1.软件方法（Dekker，Peterson）；2.硬件方法（关中断，专用指令）</td>
+</tr>
+<tr>
+<td>同步</td>
+<td>为了保证各个线程之间互斥访问共享资源的顺序合理且高效，用条件变量和信号量（原子性操作）去安排访问顺序。</td>
+<td>信号量</td>
+</tr>
+<tr>
+<td>饥饿</td>
+<td>由于竞争条件不平等，与其他进程或线程竞争访问共享资源运行期间，被调度器无限忽视，无法访问共享资源的情况，称为饥饿。</td>
+<td>哲学家就餐问题</td>
+</tr>
+<tr>
+<td>死锁</td>
+<td>两个或两个以上的进程（LWP）都在等待互相释放自己的资源，导致进程都不能继续执行的情形</td>
+<td>1.死锁预防；2.死锁避免；3.死锁检测与解除（</td>
+</tr>
+</tbody></table>
+<h2 id="选择-2"><a href="#选择-2" class="headerlink" title="选择"></a>选择</h2><ul>
+<li>为了实现互斥：<ul>
+<li>同一时间只允许一个程序进入程序的临界区</li>
+<li>一个进程驻留在临界区中的<strong>时间是有限的</strong></li>
+<li>对进程执行速度无要求</li>
+</ul>
+</li>
+<li><strong>临界区</strong>指并发进程中访问共享变量的<strong>代码段</strong></li>
+<li>生产者和消费者同时是读者和写者</li>
+</ul>
+<h1 id="chp6死锁和饥饿"><a href="#chp6死锁和饥饿" class="headerlink" title="chp6死锁和饥饿"></a>chp6死锁和饥饿</h1><p>可重用资源：可被多个进程多次使用<br>（1）可抢占资源（处理器CPU）与不可抢占资源（打印机）<br>（2）处理器、I&#x2F;O部件、内存、文件、数据库、信号量<br><strong>可消耗资源</strong>：只可以使用一次、可创建和销毁的资源<br>（1）信号、中断、消息</p>
+<h2 id="简答-3"><a href="#简答-3" class="headerlink" title="简答"></a>简答</h2><h3 id="一、死锁的概念和举例"><a href="#一、死锁的概念和举例" class="headerlink" title="一、死锁的概念和举例"></a>一、死锁的概念和举例</h3><ul>
+<li>概念：当一组进程中的每个进程都在等待某个事件（如等待释放所请求的资源），而仅有这组进程中被阻塞的其他进程才可触发该事件时，就称这组进程发生了死锁。</li>
+<li>举例：<ul>
+<li>独木桥。A，B都要过独木桥，但是互不退让，僵死。</li>
+<li>十字路口。A，B，C，D四辆车各占据一个资源，且由于所需要的第二个资源被另一辆汽车占有，因此他们都不能通行。</li>
+</ul>
+</li>
+</ul>
+<h3 id="二、数学方法描述死锁"><a href="#二、数学方法描述死锁" class="headerlink" title="二、数学方法描述死锁"></a>二、数学方法描述死锁</h3><ul>
+<li>联合进程图：一种记录进程共享资源的历史和分析死锁的工具 <a target="_blank" rel="noopener" href="https://blog.csdn.net/D5__J9/article/details/90552063">操作系统理论知识：死锁_刻苦驴啊的博客-CSDN博客_操作系统死锁的定义</a>：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20190525220133778.png" alt="img"><ul>
+<li>死锁区域又称为敏感区域</li>
+</ul>
+</li>
+<li>资源分配图：描述资源和进程间的分配和占用关系的有向图。两种圆点（进程，资源）两种边（请求，占有）。一个资源模块可以由多个资源实例。<a target="_blank" rel="noopener" href="https://blog.csdn.net/yesyes120/article/details/79593277">操作系统之死锁概念和资源分配图_Cookie1997的博客-CSDN博客_资源分配图判断死锁</a><br><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/20180317175828781" alt="img"><ul>
+<li>不能根据是否有“圈圈”来判断是否会出现死锁。图中进程P4和进程P2在经过一段时间后，都会释放出各自占有的资源，进程P1和进程P3也由此可以申请到自己想要的资源，并不会循环等待下去。</li>
+</ul>
+</li>
+</ul>
+<h3 id="三、死锁的条件"><a href="#三、死锁的条件" class="headerlink" title="三、死锁的条件"></a>三、死锁的条件</h3><ul>
+<li>互斥。一次只有一个进程可以使用一个资源。其他进程不能访问已分配给其他进程的资源。</li>
+<li>占有且等待。当一个进程等待其他进程时，继续占有已分配的资源。</li>
+<li>不可抢占。不能强行抢占进程已占有的资源。</li>
+<li>循环等待。存在一个闭合的进程链，每个进程至少占有此链中下一个进程所需的一个资源。</li>
+</ul>
+<h3 id="四、死锁的解决办法"><a href="#四、死锁的解决办法" class="headerlink" title="*四、死锁的解决办法"></a>*四、死锁的解决办法</h3><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/61221667">死锁的产生、防止、避免、检测和解除 - 知乎 (zhihu.com)</a></p>
+<ul>
+<li><strong>死锁预防</strong>：破坏死锁的四个条件，但是都会导致<strong>低效的资源使用和低效的进程执行</strong>。<ul>
+<li>互斥：<strong>使资源同时访问</strong>而非互斥使用，就没有进程会阻塞在资源上，从而不发生死锁。比如可以同时多个读访问，但是写访问必须互斥，因此很多操作不能破坏该条件。<ul>
+<li>一般来说，第一个条件不可能禁止。</li>
+</ul>
+</li>
+<li>占有且等待：要求进程<strong>一次性地请求所有需要的资源</strong>，并阻塞这个进程直到所有请求都同时满足。<ul>
+<li>低效：1.可能被阻塞很久；2.请求满足后占有该资源但是可能在很长时间内不使用，此时其他进程也不能使用</li>
+<li>该进程可能事先并不知道它所需要的所有资源</li>
+</ul>
+</li>
+<li>不可抢占：<ul>
+<li>若请求资源被拒绝，则<strong>释放</strong>之前占有的资源（必要时可再次请求）</li>
+<li>请求被其他进程占用的资源时，操作系统<strong>可以根据优先级进行抢占</strong>。（俩进程优先级必须不同）</li>
+<li>适用情况：资源状态可以很容易地保存和恢复的情况下。</li>
+</ul>
+</li>
+<li>循环等待：定义资源类型的线性顺序。<ul>
+<li>低效：1.使进程执行速度变慢；2.可能在没有必要的情况下拒绝资源访问。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>死锁避免</strong>：允许前三个条件，通过选择确保不会到达死锁点。<strong>需要知道未来进程资源请求的情况</strong>。<ul>
+<li>若一个进程的请求会导致死锁，则不启动该进程；</li>
+<li>若一个进程增加的资源请求会导致死锁，则不允许这一资源分配。</li>
+</ul>
+</li>
+<li><strong>死锁检测和恢复</strong><ul>
+<li>检测-<strong>进程资源分配图</strong><ul>
+<li>无环路：无死锁</li>
+<li>有环路<ul>
+<li>每种资源类中仅有一个资源，则系统发生了死锁。</li>
+<li>每种资源类中有多个资源，则环路的存在只是产生死锁的必要不充分条件，系统未必会发生死锁。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>恢复<ul>
+<li>资源剥夺</li>
+<li>进程回退</li>
+<li>进程撤销：1.CPU消耗时间最少者 2.产生的输出量最小者 3.预计剩余执行时间最长者 4.分得的资源数量最少者 5.优先级最低者</li>
+<li>系统重启</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="五、银行家算法"><a href="#五、银行家算法" class="headerlink" title="*五、银行家算法"></a>*五、银行家算法</h3><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/wkfvawl/p/11929508.html">操作系统——银行家算法（Banker’s Algorithm） - 王陸 - 博客园 (cnblogs.com)</a></p>
+<ul>
+<li><strong>安全状态：至少有一个资源分配序列不会导致死锁。</strong></li>
+<li>不安全状态：不一定是死锁状态</li>
+<li>系统处于安全状态一定可以避免死锁，而系统处于不安全状态则仅仅可能进入死锁状态。</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/1358881-20191125164352815-1516999888.png" alt="img"></p>
+<p>银行家算法是死锁避免算法。实质是要设法保证系统<strong>动态分配资源后不进入不安全状态</strong>，以避免可能产生的死锁。</p>
+<p>两个向量：</p>
+<ul>
+<li>Resource：资源总数</li>
+<li>Available：分配后还剩的</li>
+</ul>
+<p>两个矩阵：</p>
+<ul>
+<li>Claim：进程需要的资源数</li>
+<li>Allocation：已分配的资源数</li>
+</ul>
+<h4 id="计算"><a href="#计算" class="headerlink" title="计算"></a>计算</h4><p>有进程P1,P2,P3,P4,P5, 资源R1,R2,R3,R4, 当前可用资源数Available(R1,R2,R3,R4)&#x3D;(2,1,0,0), 已分配情况如下：</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220623001456593.png" alt="image-20220623001456593"></p>
+<ol>
+<li>分别计算仍然需要&#x3D;最大需求-当前分配<br><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220623001756750.png" alt="image-20220623001756750"></li>
+<li>选择可以分配资源且不造成死锁的进程<ol>
+<li>选择P1后，P1顺利执行完毕并释放已占有资源，即Available&#x3D;(2 1 0 0) + (0 0 1 2) &#x3D;(2,1,1,2)</li>
+<li>选择P4,顺利结束后 Available&#x3D;(2 1 1 2) + (2 3 5 4) &#x3D; (4 4 6 6)</li>
+<li>选择P5，Available&#x3D;(4 4 6 6) + (0 3 3 2) &#x3D; (4 7 9 8)</li>
+<li>选择P2，Available&#x3D;(4 7 9 8 ) + (2 0 0 0) &#x3D; (6 7 9 8)</li>
+<li>选择P3，Available&#x3D;(6 7 9 8 ) + (0 0 3 4 )&#x3D; (6 7 12 12)</li>
+</ol>
+</li>
+</ol>
+<p>ps：1.如果所拥有的可用资源可支持多个进程，选其一；2.如果没有满足条件的，则为不安全状态</p>
+<h2 id="选择-3"><a href="#选择-3" class="headerlink" title="选择"></a>选择</h2><ul>
+<li>可消耗资源：可以创建和销毁，如消息？</li>
+<li>死锁恢复中选择特定进程中止或回滚<ul>
+<li>已分配的总资源最少</li>
+<li>最低优先级</li>
+<li>预计剩余时间最长</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/17/university/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/OS-%E8%83%8C%E6%99%AF%E6%A6%82%E8%BF%B0/" rel="prev" title="OS-背景概述">
+      <i class="fa fa-chevron-left"></i> OS-背景概述
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/06/17/university/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/OS-%E8%B0%83%E5%BA%A6/" rel="next" title="OS-调度">
+      OS-调度 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#chp3%E8%BF%9B%E7%A8%8B%E6%8F%8F%E8%BF%B0%E4%B8%8E%E6%8E%A7%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">chp3进程描述与控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E7%AD%94"><span class="nav-number">1.1.</span> <span class="nav-text">简答</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%BF%9B%E7%A8%8B%E6%A6%82%E5%BF%B5"><span class="nav-number">1.1.1.</span> <span class="nav-text">一、进程概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%9D%97PCB"><span class="nav-number">1.1.2.</span> <span class="nav-text">二、进程控制块PCB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E4%B8%BA%E8%BF%9B%E7%A8%8B%E6%8F%90%E4%BE%9B%E4%BA%86%E5%93%AA%E4%BA%9B%E6%94%AF%E6%8C%81"><span class="nav-number">1.1.3.</span> <span class="nav-text">三、操作系统为进程提供了哪些支持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E7%A8%8B%E5%BA%8F%E5%A6%82%E4%BD%95%E5%8F%98%E6%88%90%E8%BF%9B%E7%A8%8B%E7%9A%84%EF%BC%8C%E5%8F%8A%E5%85%B6%E5%9C%A8%E5%86%85%E5%AD%98%E4%B8%AD%E7%9A%84%E7%8A%B6%E6%80%81"><span class="nav-number">1.1.4.</span> <span class="nav-text">四、程序如何变成进程的，及其在内存中的状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E8%BF%9B%E7%A8%8B%E6%8E%A7%E5%88%B6%E7%9A%84%E7%9B%B8%E5%85%B3%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8"><span class="nav-number">1.1.5.</span> <span class="nav-text">五、进程控制的相关系统调用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E8%BF%9B%E7%A8%8B%E5%88%9B%E5%BB%BA"><span class="nav-number">1.1.6.</span> <span class="nav-text">六、进程创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E4%BA%94%E7%8A%B6%E6%80%81%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.1.7.</span> <span class="nav-text">*七、五状态模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E8%BF%9B%E7%A8%8B-%E4%B8%8A%E4%B8%8B%E6%96%87%E5%88%87%E6%8D%A2"><span class="nav-number">1.1.8.</span> <span class="nav-text">八、进程&#x2F;上下文切换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B9%9D%E3%80%81%E6%A8%A1%E5%BC%8F-%E6%80%81-mode-%E7%9A%84%E5%88%87%E6%8D%A2"><span class="nav-number">1.1.9.</span> <span class="nav-text">九、模式&#x2F;态(mode)的切换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%89%E6%8B%A9"><span class="nav-number">1.2.</span> <span class="nav-text">选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#others"><span class="nav-number">1.3.</span> <span class="nav-text">others</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%83%E7%8A%B6%E6%80%81%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.3.1.</span> <span class="nav-text">七状态模型</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#chp4%E7%BA%BF%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text">chp4线程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E7%AD%94-1"><span class="nav-number">2.1.</span> <span class="nav-text">简答</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E7%BA%BF%E7%A8%8B%E7%9A%84%E6%A6%82%E5%BF%B5%EF%BC%8C%E4%B8%8E%E8%BF%9B%E7%A8%8B%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">2.1.1.</span> <span class="nav-text">*一、线程的概念，与进程的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%EF%BC%9F%EF%BC%9F%EF%BC%9F"><span class="nav-number">2.1.2.</span> <span class="nav-text">二、？？？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E7%BA%BF%E7%A8%8B%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F-%E5%9B%9B%E3%80%81ULT%E5%92%8CKLT%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">2.1.3.</span> <span class="nav-text">*三、线程的实现方式&amp;四、ULT和KLT的优缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94%E3%80%81Linux%E7%BA%BF%E7%A8%8B%E7%9A%84%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8%E6%9C%BA%E5%88%B6"><span class="nav-number">2.1.4.</span> <span class="nav-text">五、Linux线程的系统调用机制</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%89%E6%8B%A9-1"><span class="nav-number">2.2.</span> <span class="nav-text">选择</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#chp5%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5"><span class="nav-number">3.</span> <span class="nav-text">chp5互斥和同步</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E7%AD%94-2"><span class="nav-number">3.1.</span> <span class="nav-text">简答</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%BA%92%E6%96%A5%E5%92%8C%E5%90%8C%E6%AD%A5%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95-%E4%BA%8C%E3%80%81%E7%A1%AC%E4%BB%B6%E6%96%B9%E6%B3%95%E8%A7%A3%E5%86%B3"><span class="nav-number">3.1.1.</span> <span class="nav-text">*一、互斥和同步的解决办法&amp;二、硬件方法解决</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89"><span class="nav-number">3.1.2.</span> <span class="nav-text">三、条件竞争</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E4%BF%A1%E5%8F%B7%E9%87%8F%E8%A7%A3%E5%86%B3%E7%94%9F%E4%BA%A7%E8%80%85-%E6%B6%88%E8%B4%B9%E8%80%85%E9%97%AE%E9%A2%98"><span class="nav-number">3.1.3.</span> <span class="nav-text">*四、信号量解决生产者&#x2F;消费者问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%B9%B6%E5%8F%91%E7%9A%84%E5%9B%9B%E4%B8%AA%E9%97%AE%E9%A2%98%E5%8F%8A%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="nav-number">3.1.4.</span> <span class="nav-text">*五、并发的四个问题及解决办法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%89%E6%8B%A9-2"><span class="nav-number">3.2.</span> <span class="nav-text">选择</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#chp6%E6%AD%BB%E9%94%81%E5%92%8C%E9%A5%A5%E9%A5%BF"><span class="nav-number">4.</span> <span class="nav-text">chp6死锁和饥饿</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E7%AD%94-3"><span class="nav-number">4.1.</span> <span class="nav-text">简答</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%AD%BB%E9%94%81%E7%9A%84%E6%A6%82%E5%BF%B5%E5%92%8C%E4%B8%BE%E4%BE%8B"><span class="nav-number">4.1.1.</span> <span class="nav-text">一、死锁的概念和举例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E6%95%B0%E5%AD%A6%E6%96%B9%E6%B3%95%E6%8F%8F%E8%BF%B0%E6%AD%BB%E9%94%81"><span class="nav-number">4.1.2.</span> <span class="nav-text">二、数学方法描述死锁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%AD%BB%E9%94%81%E7%9A%84%E6%9D%A1%E4%BB%B6"><span class="nav-number">4.1.3.</span> <span class="nav-text">三、死锁的条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E6%AD%BB%E9%94%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="nav-number">4.1.4.</span> <span class="nav-text">*四、死锁的解决办法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E9%93%B6%E8%A1%8C%E5%AE%B6%E7%AE%97%E6%B3%95"><span class="nav-number">4.1.5.</span> <span class="nav-text">*五、银行家算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97"><span class="nav-number">4.1.5.1.</span> <span class="nav-text">计算</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%89%E6%8B%A9-3"><span class="nav-number">4.2.</span> <span class="nav-text">选择</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

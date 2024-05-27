@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本章主要讲了数据库系统的三层架构：内部层、概念层、外部层。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库chp2-DB-ENV">
+<meta property="og:url" content="http://example.com/2022/04/22/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp2-DB-ENV/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="本章主要讲了数据库系统的三层架构：内部层、概念层、外部层。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422110510292.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422112539840.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422113932102.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422114550341.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422114640052.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422115330545.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422115518344.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422123920343.png">
+<meta property="article:published_time" content="2022-04-22T02:59:22.000Z">
+<meta property="article:modified_time" content="2022-04-22T04:39:38.000Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422110510292.png">
+
+<link rel="canonical" href="http://example.com/2022/04/22/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp2-DB-ENV/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>数据库chp2-DB-ENV | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/22/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp2-DB-ENV/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据库chp2-DB-ENV
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-22 10:59:22 / 修改时间：12:39:38" itemprop="dateCreated datePublished" datetime="2022-04-22T10:59:22+08:00">2022-04-22</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/" itemprop="url" rel="index"><span itemprop="name">university</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本章主要讲了数据库系统的三层架构：内部层、概念层、外部层。</p>
+<span id="more"></span>
+
+<h1 id="三层架构"><a href="#三层架构" class="headerlink" title="三层架构"></a>三层架构</h1><p>ansi-sparc three-level architecture<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422110510292.png" alt="image-20220422110510292"></p>
+<ul>
+<li>view视图: Allows each user to have his or her own view of the database</li>
+<li>schema模式：数据的结构</li>
+<li>external level外部层：呈现(external)view</li>
+<li>conceptual level概念层：有实体、属性、关系、约束、语义描述、安全与完整性信息</li>
+<li>internal level内部层：存储空间分配、物理存储、数据压缩与加密</li>
+</ul>
+<h2 id="两层映像"><a href="#两层映像" class="headerlink" title="两层映像"></a>两层映像</h2><p>指的是模式之间的映射，进而实现视图的转换</p>
+<ul>
+<li>E-C Mapping：外模式→概念，便于用户观察和使用</li>
+<li>C-I Mapping：概念模式→内模式，便于计算机进行存储和处理</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422112539840.png" alt="image-20220422112539840"></p>
+<h2 id="Data-Independence"><a href="#Data-Independence" class="headerlink" title="Data Independence"></a>Data Independence</h2><ul>
+<li>逻辑数据独立性<br><strong>当概念模式变化时</strong>，可以不改变外部模式(<strong>只需改变E-C Mapping</strong>)，从而无需改变应用程序</li>
+<li>物理数据独立性<br><strong>当内部模式变化时</strong>，可以不改变概念模式(<strong>只需改变C-I Mapping</strong>) ，从而不改变外部模式</li>
+</ul>
+<h2 id="Data-Model"><a href="#Data-Model" class="headerlink" title="Data Model"></a>Data Model</h2><p>数据模型：模式的结构。（模式是数据的结构）</p>
+<ul>
+<li><p>Logical Model</p>
+<ul>
+<li>Hierarchical</li>
+<li>Network</li>
+<li>Relational</li>
+</ul>
+</li>
+<li><p>Conceptual Model</p>
+</li>
+<li><p>External Model</p>
+</li>
+</ul>
+<p>三级模式结构：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422113932102.png" alt="image-20220422113932102"></p>
+<h1 id="多用户架构"><a href="#多用户架构" class="headerlink" title="多用户架构"></a>多用户架构</h1><h2 id="Teleprocessing"><a href="#Teleprocessing" class="headerlink" title="Teleprocessing"></a>Teleprocessing</h2><p>远程处理：DBMS只在服务器上<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422114550341.png" alt="image-20220422114550341"></p>
+<h2 id="File-Server"><a href="#File-Server" class="headerlink" title="File-Server"></a>File-Server</h2><p>File-server is connected to several workstations across a <strong>network</strong>。每台计算机上都有DBMS。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422114640052.png" alt="image-20220422114640052"></p>
+<h2 id="Client-Server"><a href="#Client-Server" class="headerlink" title="Client-Server"></a>Client-Server</h2><p>DBMS在服务器<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422115330545.png" alt="image-20220422115330545"></p>
+<h3 id="Two-Tier-Client-Server"><a href="#Two-Tier-Client-Server" class="headerlink" title="Two-Tier Client-Server"></a>Two-Tier Client-Server</h3><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422115518344.png" alt="image-20220422115518344"></p>
+<h3 id="Three-Tier-Client-Server"><a href="#Three-Tier-Client-Server" class="headerlink" title="Three-Tier Client-Server"></a>Three-Tier Client-Server</h3><p>简化了client端的功能</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220422123920343.png" alt="image-20220422123920343"></p>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><ul>
+<li>System Catalog</li>
+<li>Functions of a DBMS</li>
+<li>Components of a DBMS</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/22/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp1-%E6%A6%82%E5%BF%B5%E7%AF%87/" rel="prev" title="数据库chp1-概念篇">
+      <i class="fa fa-chevron-left"></i> 数据库chp1-概念篇
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/22/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp4-5-ER-EER/" rel="next" title="数据库chp4&5-ER&EER">
+      数据库chp4&5-ER&EER <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%89%E5%B1%82%E6%9E%B6%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">三层架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%A4%E5%B1%82%E6%98%A0%E5%83%8F"><span class="nav-number">1.1.</span> <span class="nav-text">两层映像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Data-Independence"><span class="nav-number">1.2.</span> <span class="nav-text">Data Independence</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Data-Model"><span class="nav-number">1.3.</span> <span class="nav-text">Data Model</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E7%94%A8%E6%88%B7%E6%9E%B6%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">多用户架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Teleprocessing"><span class="nav-number">2.1.</span> <span class="nav-text">Teleprocessing</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#File-Server"><span class="nav-number">2.2.</span> <span class="nav-text">File-Server</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Client-Server"><span class="nav-number">2.3.</span> <span class="nav-text">Client-Server</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Two-Tier-Client-Server"><span class="nav-number">2.3.1.</span> <span class="nav-text">Two-Tier Client-Server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Three-Tier-Client-Server"><span class="nav-number">2.3.2.</span> <span class="nav-text">Three-Tier Client-Server</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">3.</span> <span class="nav-text">其他</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

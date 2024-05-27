@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="2022年实训 from国信安">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2022实训-web安全">
+<meta property="og:url" content="http://example.com/2022/07/13/web%E5%AE%89%E5%85%A8/2022%E5%AE%9E%E8%AE%AD-web%E5%AE%89%E5%85%A8/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="2022年实训 from国信安">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-07-13T01:18:06.000Z">
+<meta property="article:modified_time" content="2024-05-27T08:04:18.451Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/07/13/web%E5%AE%89%E5%85%A8/2022%E5%AE%9E%E8%AE%AD-web%E5%AE%89%E5%85%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>2022实训-web安全 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/07/13/web%E5%AE%89%E5%85%A8/2022%E5%AE%9E%E8%AE%AD-web%E5%AE%89%E5%85%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2022实训-web安全
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-13 09:18:06" itemprop="dateCreated datePublished" datetime="2022-07-13T09:18:06+08:00">2022-07-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-27 16:04:18" itemprop="dateModified" datetime="2024-05-27T16:04:18+08:00">2024-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">web安全</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>2022年实训 from国信安</p>
+<span id="more"></span>
+
+<h1 id="20220711"><a href="#20220711" class="headerlink" title="20220711"></a>20220711</h1><p>ipcofig返回值，虚拟网络，公网内网</p>
+<p>VMware</p>
+<ul>
+<li>虚拟机管理：安装LiteXP</li>
+<li>虚拟网卡：NAT，桥接，仅主机使用</li>
+<li>VMtools安装</li>
+</ul>
+<p>phpstudy</p>
+<ul>
+<li>安装在虚拟机LiteXP中，开启Apache&amp;MySQL</li>
+<li>搭建论坛网站，物理主机访问虚拟机IP进行安装</li>
+</ul>
+<p>网站架构</p>
+<ul>
+<li>动态vs静态</li>
+<li>WAMP：Windows，Apache，MySQL，PHP</li>
+<li>LNMP：Linux，Nginx，MySQL，PHP</li>
+</ul>
+<p>xsser网站搭建</p>
+<p>Linux，Nginx，MariaDB，PHP-FPM7.4。Ubuntu22.04-live-server虚拟机安装</p>
+<p>参考：</p>
+<p>xsser搭建：<a target="_blank" rel="noopener" href="https://note.youdao.com/s/L3NFmEiz">https://note.youdao.com/s/L3NFmEiz</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/abc1069/p/16296050.html">vmware中安装 ubuntu 22.04 live-server - 醉马踏千秋 - 博客园 (cnblogs.com)</a></p>
+<p>LNMP搭建：<a target="_blank" rel="noopener" href="https://note.youdao.com/s/PVb41kOb">https://note.youdao.com/s/PVb41kOb</a></p>
+<p>问题：</p>
+<p>nginx 403 Forbidden</p>
+<h1 id="20220712"><a href="#20220712" class="headerlink" title="20220712"></a>20220712</h1><p>sql注入</p>
+<ul>
+<li>inspect：查看变量名、哪里可能可以拼接</li>
+<li>network：找请求，查看参数</li>
+<li>sql语句拼接<ul>
+<li>查返回需要的列数</li>
+<li>查数据库、表、列、字段</li>
+</ul>
+</li>
+</ul>
+<h2 id="构造sql查询语句"><a href="#构造sql查询语句" class="headerlink" title="构造sql查询语句"></a>构造sql查询语句</h2><ul>
+<li>union、order by</li>
+<li>information_schema</li>
+<li>group_concat</li>
+<li>load_file, outfile, dumpfile (my.ini配置文件中添加secure_file_priv属性)</li>
+<li>left, substr, mid,,,从1开始！</li>
+<li>extractvalue()：xpath</li>
+</ul>
+<p>问题：</p>
+<p>sql <code>into oufile</code>的换行符是<code>\n</code>，使用<code>into dumpfile</code>不会自动换行。<a target="_blank" rel="noopener" href="https://blog.csdn.net/u014029795/article/details/105222309">https://blog.csdn.net/u014029795/article/details/105222309</a></p>
+<h2 id="教务系统"><a href="#教务系统" class="headerlink" title="教务系统"></a>教务系统</h2><p>db：double_fish</p>
+<p>table: t_admin,t_classinfo,t_collegeinfo,t_courseinfo,t_news,t_scoreinfo,t_specialfieldinfo,t_student,t_teacher</p>
+<p>t_admin: username, password→admin|980e943f09ecc5913a63d637947bb9bc</p>
+<p>t_student: studentNumber,studentName,studentPassword,studentSex,studentClassNumber,studentBirthday,studentState,studentPhoto,studentTelephone,studentEmail,studentQQ,studentAddress,studentMemo</p>
+<h2 id="sqli-labs"><a href="#sqli-labs" class="headerlink" title="sqli-labs"></a>sqli-labs</h2><p>db: security</p>
+<p>table: emails,referers,uagents,users</p>
+<p>users: id, username, password →group_concat(concat_ws(‘|’,id,username,password))</p>
+<h2 id="判断闭合符"><a href="#判断闭合符" class="headerlink" title="判断闭合符"></a>判断闭合符</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=1</span><br><span class="line">?id=1&#x27;</span><br><span class="line">?id=1&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="判断变量类型"><a href="#判断变量类型" class="headerlink" title="判断变量类型"></a>判断变量类型</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=1</span><br><span class="line">?id=2</span><br><span class="line">?id=2-1	#数字型的在sql语句中会自动计算</span><br></pre></td></tr></table></figure>
+
+<h1 id="20220713"><a href="#20220713" class="headerlink" title="20220713"></a>20220713</h1><h2 id="uploads-labs"><a href="#uploads-labs" class="headerlink" title="uploads-labs"></a>uploads-labs</h2><p>修改IP映射：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hosts文件路径：C:\Windows\System32\drivers\etc</span><br></pre></td></tr></table></figure>
+
+<p>修改hosts需要管理员权限：<a target="_blank" rel="noopener" href="https://blog.csdn.net/bingqilin_/article/details/100582989">windows 管理员权限编辑文件_bingqilin_的博客-CSDN博客_以管理员身份打开文件</a></p>
+<p>Windows Terminal管理员权限：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_30262407/article/details/114921714">https://blog.csdn.net/qq_30262407/article/details/114921714</a></p>
+<h2 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h2><p>cookie：<a target="_blank" rel="noopener" href="http://xss8.cc获取,firefox-modheader插件修改cookie/">http://xss8.cc获取，Firefox-ModHeader插件修改cookie</a></p>
+<p>XSS-LABS</p>
+<ul>
+<li><strong>注意有两个输入点两个输出点</strong></li>
+<li>不过滤引号时：闭合前面的input标签</li>
+<li>过滤script的尖角括号，可以使用onclick等事件</li>
+<li>可以使用a或img标签引入js文件</li>
+<li>使用了str_replace()<strong>替换</strong>，则可以使用大小写进行绕过</li>
+<li><code>//content//</code>可以形成注释</li>
+<li><code>&lt;a href=&quot;javascript:alert(1)&quot;&gt;</code></li>
+<li><code>&lt;script src=&quot;http//.../xss.js&quot;&gt;&lt;/script&gt;</code>远程引入js文件</li>
+<li>前端观察是否有hidden被隐藏的输入框</li>
+<li>修改请求头时注意格式，eg.Referer位置，Cookie变量名</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/xf555er/article/details/104642586">我的渗透笔记之XSS绕过技巧_shinyruo开始了的博客-CSDN博客_xss绕过尖括号转义</a></p>
+<h1 id="20220714"><a href="#20220714" class="headerlink" title="20220714"></a>20220714</h1><p>xss-labs搭建</p>
+<h2 id="upload-labs"><a href="#upload-labs" class="headerlink" title="upload-labs"></a>upload-labs</h2><ul>
+<li>前端改后缀绕过，抓包再改后缀</li>
+<li>改Content-Type</li>
+<li>后缀用黑名单限制不全，考虑…</li>
+<li><code>::$DATA</code>：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44032232/article/details/109005766">【文件上传绕过】八、::$DATA上传绕过_多学点技术的博客-CSDN博客</a></li>
+<li><code>.htaccess</code>-&gt;<code>FilesMatch</code></li>
+</ul>
+<h1 id="20220715"><a href="#20220715" class="headerlink" title="20220715"></a>20220715</h1><h2 id="uploads-labs-1"><a href="#uploads-labs-1" class="headerlink" title="uploads-labs"></a>uploads-labs</h2><p><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/1740497">Upload-labs(1-15)详解 - 腾讯云开发者社区-腾讯云 (tencent.com)</a></p>
+<ul>
+<li><p>Pass-4：上传<code>.htaccess</code>文件，再上传一个无后缀shell文件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#多种解决形式</span><br><span class="line">#1. 将该文件夹下的所有文件视为php文件</span><br><span class="line">SetHandler application/x-httpd-php	</span><br><span class="line">#2. 将abc后缀的文件作为php</span><br><span class="line">AddType application/x-httpd-php .abc </span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Pass-11：<code>%00</code>截断：phpstudy切换php版本为5.2，修改php.ini的<code>magic_quotes_gpc=Off</code>，在浏览器打开时注意去除掉乱码及以后的部分</p>
+</li>
+<li><p>Pass-12：注意解码</p>
+</li>
+</ul>
+<h2 id="文件包含漏洞"><a href="#文件包含漏洞" class="headerlink" title="文件包含漏洞"></a>文件包含漏洞</h2><p>编写include.php，添加参数</p>
+<p>图片马：<a target="_blank" rel="noopener" href="https://blog.csdn.net/TimeOldman/article/details/78692128">图片一句话木马简单制作方法_TimeOldman的博客-CSDN博客_一句话木马图片制作</a></p>
+<ul>
+<li>pass-15开启php的php_exif模块</li>
+<li>pass-16</li>
+</ul>
+<p>20220716休息</p>
+<h1 id="20220717"><a href="#20220717" class="headerlink" title="20220717"></a>20220717</h1><p>总结上周，开启代码审计</p>
+<h2 id="PHP"><a href="#PHP" class="headerlink" title="PHP"></a>PHP</h2><p>变量以$符号开始，不需要定义类型</p>
+<p><code>PHP_EOL</code>换行符</p>
+<p>关联数组（类似字典）：<a target="_blank" rel="noopener" href="https://www.runoob.com/php/php-arrays.html">https://www.runoob.com/php/php-arrays.html</a></p>
+<h2 id="PDO"><a href="#PDO" class="headerlink" title="PDO"></a>PDO</h2><p>pdo prepare防止sql注入</p>
+<h1 id="20220719"><a href="#20220719" class="headerlink" title="20220719"></a>20220719</h1><p>control userpasswords2-&gt;管理用户</p>
+<p>[<a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-271314.htm">原创]32位xp系统 永恒之蓝漏洞利用-二进制漏洞-看雪论坛-安全社区|安全招聘|bbs.pediy.com</a></p>
+<h1 id="20220720"><a href="#20220720" class="headerlink" title="20220720"></a>20220720</h1><p>要求：</p>
+<ol>
+<li>通过hostname命令更改本机名称为自己姓名的拼音；</li>
+<li>新建一个db_web1数据库，新建一个user_web1用户，让user_web1拥有db_web1的所有权限；</li>
+<li>user_web1只能从本地和10.10.10.200上登录；</li>
+</ol>
+<p>步骤：</p>
+<ol>
+<li><code>hostname yourname</code>, <code>hostname</code>查看验证；</li>
+<li><code>vi /etc/hosts</code>，将原来的hostname改为新的；</li>
+<li><code>mysql -uroot -p</code>进入SQL语句编写；</li>
+<li><code>create database db_web1;</code>创建数据库；</li>
+<li><code>create user  &#39;user_web1&#39;@&#39;localhost&#39;;</code>创建用户；</li>
+<li><code> grant all privileges on db_web1.* to &#39;user_web1&#39;@&#39;host&#39; with grant option;</code>赋权限；</li>
+<li><code>show grants for &quot;user_web1&quot;@&quot;localhost&quot;;</code>查看权限；</li>
+<li><code>create user  &#39;user_web1&#39;@&#39;10.10.10.200&#39;;</code>创建用户；</li>
+<li><code>vim /etc/mysql/mariadb.conf.d/50-server.cnf</code>，将<code>bind-address</code>注释</li>
+<li>防火墙ufw放行端口3306<code>ufw allow 3306</code></li>
+</ol>
+<p>公网IP，总结：计网太烂</p>
+<h1 id="re"><a href="#re" class="headerlink" title="re"></a>re</h1><h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><p>VMware workstation16 pro</p>
+<p>(LiteXP+phpstudy)*2</p>
+<ul>
+<li>LiteXP<ul>
+<li>discuz论坛网站</li>
+<li>xsser</li>
+</ul>
+</li>
+<li>bachang<ul>
+<li>sqli-labs</li>
+<li>xss-labs</li>
+<li>upload-labs</li>
+</ul>
+</li>
+</ul>
+<p>Ubuntu22.4-live-server+Nginx+MariaDB+php7.4</p>
+<p>物理主机Win10+Firefox+Burpsuit</p>
+<h1 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h1><p>手工注入：</p>
+<ul>
+<li>判断类型（字符or数值）、闭合符</li>
+<li>联合查询union</li>
+<li>报错注入mysql_error()</li>
+<li>布尔盲注</li>
+<li>延时盲注</li>
+<li>GET&#x2F;POST注入</li>
+</ul>
+<p>工具辅助：sqlmap</p>
+<p>概念和原理：攻击者通过注入sql语句片段导致后端执行预期外的SQL查询</p>
+<p>危害：</p>
+<ul>
+<li>拖库：loadfile</li>
+<li>读写文件：outfile</li>
+<li>执行系统命令</li>
+</ul>
+<p>另：</p>
+<ul>
+<li>网站数据被窃取</li>
+<li>网站页面被篡改</li>
+<li>服务器被攻击者控制</li>
+</ul>
+<p>防护：</p>
+<ul>
+<li>对特殊字符进行转义：引号等</li>
+<li>正确使用预编译技术进行防护</li>
+<li>非必要不开启文件和命令执行权限</li>
+<li>进行库和用户的隔离</li>
+</ul>
+<h1 id="XSS-1"><a href="#XSS-1" class="headerlink" title="XSS"></a>XSS</h1><p>危害：</p>
+<ul>
+<li>窃取凭证cookie</li>
+<li>篡改页面</li>
+<li>构造XSS蠕虫</li>
+</ul>
+<p>绕过方法：</p>
+<ul>
+<li>不同的js引入方式</li>
+<li>大小写绕过</li>
+<li>双写绕过</li>
+<li><strong>字符串</strong>HTML实体化编码绕过，<strong>双引号中间的</strong></li>
+</ul>
+<p>防护：</p>
+<ul>
+<li>简单输入框：识别和转义特殊字符，eg.尖括号、引号、javascript中任意字符等</li>
+<li>复杂的富文本：使用成熟的前端富文本输入框组件，如uedior等</li>
+</ul>
+<h1 id="upload"><a href="#upload" class="headerlink" title="upload"></a>upload</h1>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/07/07/blog/%E6%88%91%E4%B8%8E%E7%94%B5%E8%84%91%E7%9B%B8%E7%88%B1%E7%9B%B8%E6%9D%80%E7%9A%84%E9%82%A3%E4%BA%9B%E4%BA%8B/" rel="prev" title="我与电脑相爱相杀的那些事">
+      <i class="fa fa-chevron-left"></i> 我与电脑相爱相杀的那些事
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/12/26/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2%E6%A6%82%E8%BF%B0/" rel="next" title="网络攻防概述">
+      网络攻防概述 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#20220711"><span class="nav-number">1.</span> <span class="nav-text">20220711</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#20220712"><span class="nav-number">2.</span> <span class="nav-text">20220712</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%84%E9%80%A0sql%E6%9F%A5%E8%AF%A2%E8%AF%AD%E5%8F%A5"><span class="nav-number">2.1.</span> <span class="nav-text">构造sql查询语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%99%E5%8A%A1%E7%B3%BB%E7%BB%9F"><span class="nav-number">2.2.</span> <span class="nav-text">教务系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sqli-labs"><span class="nav-number">2.3.</span> <span class="nav-text">sqli-labs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E9%97%AD%E5%90%88%E7%AC%A6"><span class="nav-number">2.4.</span> <span class="nav-text">判断闭合符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E5%8F%98%E9%87%8F%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.5.</span> <span class="nav-text">判断变量类型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#20220713"><span class="nav-number">3.</span> <span class="nav-text">20220713</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#uploads-labs"><span class="nav-number">3.1.</span> <span class="nav-text">uploads-labs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XSS"><span class="nav-number">3.2.</span> <span class="nav-text">XSS</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#20220714"><span class="nav-number">4.</span> <span class="nav-text">20220714</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#upload-labs"><span class="nav-number">4.1.</span> <span class="nav-text">upload-labs</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#20220715"><span class="nav-number">5.</span> <span class="nav-text">20220715</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#uploads-labs-1"><span class="nav-number">5.1.</span> <span class="nav-text">uploads-labs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E6%BC%8F%E6%B4%9E"><span class="nav-number">5.2.</span> <span class="nav-text">文件包含漏洞</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#20220717"><span class="nav-number">6.</span> <span class="nav-text">20220717</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PHP"><span class="nav-number">6.1.</span> <span class="nav-text">PHP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PDO"><span class="nav-number">6.2.</span> <span class="nav-text">PDO</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#20220719"><span class="nav-number">7.</span> <span class="nav-text">20220719</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#20220720"><span class="nav-number">8.</span> <span class="nav-text">20220720</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#re"><span class="nav-number">9.</span> <span class="nav-text">re</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="nav-number">10.</span> <span class="nav-text">环境配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL%E6%B3%A8%E5%85%A5"><span class="nav-number">11.</span> <span class="nav-text">SQL注入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#XSS-1"><span class="nav-number">12.</span> <span class="nav-text">XSS</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#upload"><span class="nav-number">13.</span> <span class="nav-text">upload</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

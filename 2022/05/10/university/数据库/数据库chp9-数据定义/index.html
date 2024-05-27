@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="DDL：data definition language,这个章节放在了在前面，但实际上先学的chp10，因此在chp10也草草介绍了一下create。好多概念啊，也不知道重不重要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库chp9-数据定义">
+<meta property="og:url" content="http://example.com/2022/05/10/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp9-%E6%95%B0%E6%8D%AE%E5%AE%9A%E4%B9%89/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="DDL：data definition language,这个章节放在了在前面，但实际上先学的chp10，因此在chp10也草草介绍了一下create。好多概念啊，也不知道重不重要">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220510152817557.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220510153219573.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220617142158864.png">
+<meta property="article:published_time" content="2022-05-10T05:17:18.000Z">
+<meta property="article:modified_time" content="2022-06-17T06:26:26.000Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220510152817557.png">
+
+<link rel="canonical" href="http://example.com/2022/05/10/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp9-%E6%95%B0%E6%8D%AE%E5%AE%9A%E4%B9%89/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>数据库chp9-数据定义 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/10/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp9-%E6%95%B0%E6%8D%AE%E5%AE%9A%E4%B9%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据库chp9-数据定义
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-10 13:17:18" itemprop="dateCreated datePublished" datetime="2022-05-10T13:17:18+08:00">2022-05-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-06-17 14:26:26" itemprop="dateModified" datetime="2022-06-17T14:26:26+08:00">2022-06-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/" itemprop="url" rel="index"><span itemprop="name">university</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/%E6%95%B0%E6%8D%AE%E5%BA%93/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>DDL：data definition language,这个章节放在了在前面，但实际上先学的chp10，因此在chp10也草草介绍了一下create。好多概念啊，也不知道重不重要</p>
+<span id="more"></span>
+
+<h1 id="Overview-for-SQL"><a href="#Overview-for-SQL" class="headerlink" title="Overview for SQL"></a>Overview for SQL</h1><ul>
+<li>DDL语句引导词：Create(建立), Alter (修改), Drop(撤消) <ul>
+<li>模式的定义和删除，包括定义Database, Table, View, Index,完整性约束条件等，<br>也包括定义对象(RowType⾏对象, Type列对象) </li>
+<li>创建和删除模式schema、域domain、表、视图view和索引index等数据库对象</li>
+</ul>
+</li>
+<li>DML语句引导词：Insert , Delete, Update, Select <ul>
+<li>各种⽅式的更新与检索操作，如直接输⼊记录，从其他Table输⼊</li>
+<li>各种复杂条件的检索，如连接查找，模糊查找，分组查找，嵌套查找等</li>
+<li>各种聚集操作，求平均、求和、…等，分组聚集，分组过滤等</li>
+</ul>
+</li>
+<li>DCL语句引导词：Grant, Revoke <ul>
+<li>安全性控制：授权和撤消授权</li>
+</ul>
+</li>
+</ul>
+<h1 id="DDL"><a href="#DDL" class="headerlink" title="DDL"></a>DDL</h1><h2 id="database"><a href="#database" class="headerlink" title="database"></a>database</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> database DB</span><br></pre></td></tr></table></figure>
+
+<h2 id="table"><a href="#table" class="headerlink" title="table"></a>table</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span>(COL1 数据类型 [<span class="keyword">Primary</span> key<span class="operator">|</span><span class="keyword">Unique</span>][<span class="keyword">Not</span> <span class="keyword">null</span>], COL2...)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>Primary key：主键</li>
+<li>Unique：候选键，唯一性</li>
+<li>Not null：非空约束</li>
+</ul>
+<h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><ul>
+<li><code>boolean</code>：True|False</li>
+<li><code>char(LEN)</code>定长</li>
+<li><code>varchar(LEN)</code>变长</li>
+<li><code>int|integer</code></li>
+<li><code>numeric(p, q)</code>固定精度数字，小数点左边p位，右边p-q位</li>
+<li><code>date</code>2022-05-01</li>
+<li><code>time</code>00:00:00</li>
+</ul>
+<h3 id="约束"><a href="#约束" class="headerlink" title="约束"></a>约束</h3><p>integrity enhancement feature -IEF</p>
+<h4 id="required-data"><a href="#required-data" class="headerlink" title="required data"></a>required data</h4><p>必须有值：<code>Not null</code></p>
+<h4 id="domain-constraints"><a href="#domain-constraints" class="headerlink" title="domain constraints"></a>domain constraints</h4><p>域约束（域是什么？合法值的集合。例如，员⼯性别的域是“男 女”），以下以性别为例（COLNAME&#x3D;sex，取值范围为{男，女}）</p>
+<h5 id="check"><a href="#check" class="headerlink" title="check"></a>check</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sex <span class="type">char</span> <span class="keyword">not</span> <span class="keyword">null</span>  </span><br><span class="line">	<span class="keyword">check</span>(sex <span class="keyword">in</span>(<span class="string">&#x27;M&#x27;</span>,<span class="string">&#x27;F&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>check子句只能引用已定义列</p>
+<h5 id="create-domain"><a href="#create-domain" class="headerlink" title="create domain"></a>create domain</h5><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> domain DOMAINNAME <span class="keyword">as</span> DATATYPE</span><br><span class="line">[<span class="keyword">default</span> OPTION]</span><br><span class="line">[<span class="keyword">check</span>(searchCondition)]</span><br></pre></td></tr></table></figure>
+
+<p>以性别列为例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> domain SexType <span class="keyword">as</span> <span class="type">char</span></span><br><span class="line">	<span class="keyword">check</span>(<span class="keyword">value</span> <span class="keyword">in</span>(<span class="string">&#x27;M&#x27;</span>, <span class="string">&#x27;F&#x27;</span>));</span><br><span class="line">	或 <span class="keyword">check</span>(<span class="keyword">value</span> <span class="keyword">in</span>(<span class="keyword">select</span>子查询));</span><br><span class="line">sex SexType <span class="keyword">not</span> <span class="keyword">null</span></span><br></pre></td></tr></table></figure>
+
+<p>更常用，<strong>可复用</strong></p>
+<p>撤销域约束<code>drop domain DOMAINNAME [restrict|cascade]</code></p>
+<h4 id="entity-integrity"><a href="#entity-integrity" class="headerlink" title="entity integrity"></a>entity integrity</h4><p>实体完整性</p>
+<ul>
+<li>primary key<strong>子句</strong><ul>
+<li>组合关键字 <code>primary key(COL1,COL2)</code></li>
+</ul>
+</li>
+<li>unique保证列的唯一性<ul>
+<li><code>unique(COL)</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="referential-integrity"><a href="#referential-integrity" class="headerlink" title="referential integrity"></a>referential integrity</h4><p>引用完整性，外部关键字必领是⽗表中已存在的有效的元组。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">foreign</span> key(COL) <span class="keyword">references</span> 父表</span><br></pre></td></tr></table></figure>
+
+<p><strong>在⼦表中</strong>若试图用<strong>INSERT 和 UPDATE</strong> 操作，创建与⽗表中候选关键字不匹配的外部关键字，SQL 则会拒绝该操作。</p>
+<p>⽽<strong>在⽗表中</strong>，若试图用 <strong>UPDATE 和DELETE</strong> 操作，更新或删除与⼦表有匹配⾏的候选关键字，SQL 将根据 FOREIGN KEY ⼦句中的 ON UPDATE 或 ON DELETE ⼦句 来决定如何执⾏该操作。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">foreign</span> key(COL) <span class="keyword">references</span> TAB <span class="keyword">on</span> <span class="keyword">update</span><span class="operator">|</span><span class="keyword">delete</span> cascade<span class="operator">|</span><span class="keyword">set</span> <span class="keyword">null</span><span class="operator">|</span><span class="keyword">set</span> <span class="keyword">default</span><span class="operator">|</span><span class="keyword">no</span> action</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>cascade:删除⽗表中的⾏并且自动删除⼦表中匹配的⾏</li>
+<li>set null:删除⽗表中的元组，且设置⼦表中的外部关键字为 NULL。<strong>只有当外部关键字列没有指定为 NOT NULL 时，这样做才是有效的。</strong></li>
+<li>set default:删除⽗表中的元组，且设⼦表中的外部关键字为默认值。<strong>只有当外部关键字 列指定了 DEFAULT 值时，这样做才是有效的。</strong></li>
+<li>no action:拒绝对⽗表进⾏删除操作。ON DELETE 规则的默认设置为NO ACTION。</li>
+</ul>
+<h4 id="general-constraints"><a href="#general-constraints" class="headerlink" title="general constraints"></a>general constraints</h4><p>一般性约束</p>
+<ul>
+<li>unique</li>
+<li>check</li>
+<li>assertion</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> assertion NAME <span class="keyword">check</span>(searchCondition)</span><br></pre></td></tr></table></figure>
+
+<p>类似创建域domain</p>
+<h4 id="constraint子句"><a href="#constraint子句" class="headerlink" title="constraint子句"></a>constraint子句</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">constraint</span> NAME</span><br></pre></td></tr></table></figure>
+
+<h3 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h3><p>建表：</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220510152817557.png" alt="image-20220510152817557"></p>
+<p>修改表alter：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220510153219573.png" alt="image-20220510153219573"></p>
+<p>删除drop：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> TAB [restrict<span class="operator">|</span>cascade]</span><br></pre></td></tr></table></figure>
+
+<h2 id="schema"><a href="#schema" class="headerlink" title="schema"></a>schema</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> schema [NAME<span class="operator">|</span><span class="keyword">authorization</span> CREATOR]</span><br><span class="line"><span class="keyword">drop</span> schema NAME [restrict<span class="operator">|</span>cascade]</span><br></pre></td></tr></table></figure>
+
+<h2 id="index"><a href="#index" class="headerlink" title="index"></a>index</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> [<span class="keyword">unique</span>] index NAME <span class="keyword">on</span> TAB(COL);</span><br><span class="line"><span class="keyword">drop</span> index NAME;</span><br></pre></td></tr></table></figure>
+
+<h2 id="view"><a href="#view" class="headerlink" title="view"></a>view</h2><p>table是实表，view是虚表，根据特定用户的要求临时⽣成。DBMS 在数据库中只存储视图定义。</p>
+<h3 id="视图引用"><a href="#视图引用" class="headerlink" title="视图引用"></a>视图引用</h3><ul>
+<li>视图分解resolution：查找视图定义，将对视图的查询转换为对基表的查询</li>
+<li>视图物化materialization：把视图存 储在数据库的临时表中，并在基表变化时更新临时表以及时维护视图。物化的难点在于，基表更新的同时还要保证视图的实时性。</li>
+</ul>
+<h3 id="create-view"><a href="#create-view" class="headerlink" title="create view"></a>create view</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">view</span> NAME [视图的列名表] <span class="keyword">as</span> <span class="keyword">select</span>子查询 [<span class="keyword">with</span> [cascade<span class="operator">|</span><span class="keyword">local</span>] <span class="keyword">check</span> option]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>如果给出列名表，那它必须与subselect ⼦句产⽣的列数目相同。</li>
+<li>如果省略列名表，视图中列的名宇即采用subselect ⼦句中相应列的名宇。</li>
+<li>视图类别：<ul>
+<li>horizontal水平视图：限制行，where</li>
+<li>vertical垂直视图：限制列，只有指定列能被查看</li>
+<li>分组视图：有group by</li>
+<li>连接视图：有多表</li>
+</ul>
+</li>
+</ul>
+<h3 id="视图更新"><a href="#视图更新" class="headerlink" title="视图更新"></a>视图更新</h3><p>视图可更新的充要条件：？</p>
+<p><code>with check option</code>视图更新后判断是否还满足条件</p>
+<h3 id="视图维护"><a href="#视图维护" class="headerlink" title="视图维护"></a>视图维护</h3><p>maintenance，更新基表的同时引起物化视图更新的过程</p>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><h1 id="DCL"><a href="#DCL" class="headerlink" title="DCL"></a>DCL</h1><h2 id="访问控制"><a href="#访问控制" class="headerlink" title="访问控制"></a>访问控制</h2><p>access control</p>
+<ul>
+<li><p>授权标识符Authorization identifier：是 SQL 用于辨别用户的⼀般标识符。可用授权标识符来确定用户可访问哪些数据库对象，以及对哪些对象能进⾏ 什么操作。</p>
+</li>
+<li><p>所有者ownership：SQL 中创建的每个对象都有⼀个所有者。所有者就是创建该对象所属的模式时<strong>AUTHORIZATION</strong> ⼦句定义的授权标识符。</p>
+</li>
+<li><p>权限privilege：是指允许用户对指定基表或视图进⾏的操作</p>
+</li>
+</ul>
+<h2 id="grant"><a href="#grant" class="headerlink" title="grant"></a>grant</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GRANT</span> &#123;PrivilegeList <span class="operator">|</span> <span class="keyword">ALL</span> PRIVILEGES&#125;</span><br><span class="line"><span class="keyword">ON</span> ObjectName</span><br><span class="line"><span class="keyword">TO</span> &#123;AuthorizationIdList <span class="operator">|</span> PUBLIC&#125; </span><br><span class="line">[<span class="keyword">WITH</span> <span class="keyword">GRANT</span> OPTION]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>PrivilegeList 用逗号分开的⼀个或多个权限组成，关键词<code>ALL PRIVILEGES</code>表示全部权限</li>
+<li>Objecevame 可以是基表、视图、域、序列或转变规则的名字</li>
+<li>AuthorizationIdList表示一个或多个用户名，关键词<code>PUBLIC</code>表示对所有用户</li>
+<li><code>WITH GRANT OPTION</code> ⼦句允许 AuthorizationtdList 中的用户将他们拥有的对指定对象的权限<strong>传递</strong>给其他用户。</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GRANT</span> <span class="keyword">SELECT</span>, <span class="keyword">UPDATE</span>(col1,col2) <span class="keyword">ON</span> tab<span class="operator">/</span><span class="keyword">view</span> <span class="keyword">TO</span> user1, user2 <span class="keyword">WITH</span> <span class="keyword">GRANT</span> OPTION</span><br></pre></td></tr></table></figure>
+
+<p>表示给user1，user2授予对某表或视图的查询 和修改col1，col2列的权利，并允许传递。</p>
+<h2 id="revoke"><a href="#revoke" class="headerlink" title="revoke"></a>revoke</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">REVOKE</span> [<span class="keyword">GRANT</span> OPTION <span class="keyword">FOR</span>] </span><br><span class="line">&#123;PrivilegeList <span class="operator">|</span> <span class="keyword">ALL</span> PRIVILEGES&#125;</span><br><span class="line"><span class="keyword">ON</span> ObjectName</span><br><span class="line"><span class="keyword">FROM</span> &#123;AuthorizationIdList <span class="operator">|</span> PUBLIC&#125;</span><br><span class="line">[RESTRICT <span class="operator">|</span> CASCADE]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>⼦句 GRANT OPTION FOR 允许通过 GRANT 语句中的 WITH GRANT OPTION  传递的那些权限被独立地撤销。</li>
+<li>用户从其他用户那里获得的权限，并不受这个 REVOKE 语句的影响。<br><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220617142158864.png" alt="image-20220617142158864"><ul>
+<li>A赋予B权限，连带传到C,D，A通过cascade撤回赋予B的权限则C，D权限也无。</li>
+<li>但由于E曾给C同样权限，因此C仍有权限。D是否有？</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/09/university/%E6%B1%87%E7%BC%96/%E6%B1%87%E7%BC%96%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" rel="prev" title="汇编期末复习">
+      <i class="fa fa-chevron-left"></i> 汇编期末复习
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/10/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp11-%E5%B9%B6%E5%8F%91%E6%8E%A7%E5%88%B6%E4%B8%8E%E5%A4%87%E4%BB%BD%E6%81%A2%E5%A4%8D/" rel="next" title="数据库chp11-并发控制与备份恢复">
+      数据库chp11-并发控制与备份恢复 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Overview-for-SQL"><span class="nav-number">1.</span> <span class="nav-text">Overview for SQL</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DDL"><span class="nav-number">2.</span> <span class="nav-text">DDL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#database"><span class="nav-number">2.1.</span> <span class="nav-text">database</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#table"><span class="nav-number">2.2.</span> <span class="nav-text">table</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.2.1.</span> <span class="nav-text">数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BA%A6%E6%9D%9F"><span class="nav-number">2.2.2.</span> <span class="nav-text">约束</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#required-data"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">required data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#domain-constraints"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">domain constraints</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#entity-integrity"><span class="nav-number">2.2.2.3.</span> <span class="nav-text">entity integrity</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#referential-integrity"><span class="nav-number">2.2.2.4.</span> <span class="nav-text">referential integrity</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#general-constraints"><span class="nav-number">2.2.2.5.</span> <span class="nav-text">general constraints</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#constraint%E5%AD%90%E5%8F%A5"><span class="nav-number">2.2.2.6.</span> <span class="nav-text">constraint子句</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90"><span class="nav-number">2.2.3.</span> <span class="nav-text">例子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#schema"><span class="nav-number">2.3.</span> <span class="nav-text">schema</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#index"><span class="nav-number">2.4.</span> <span class="nav-text">index</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#view"><span class="nav-number">2.5.</span> <span class="nav-text">view</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%86%E5%9B%BE%E5%BC%95%E7%94%A8"><span class="nav-number">2.5.1.</span> <span class="nav-text">视图引用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#create-view"><span class="nav-number">2.5.2.</span> <span class="nav-text">create view</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%86%E5%9B%BE%E6%9B%B4%E6%96%B0"><span class="nav-number">2.5.3.</span> <span class="nav-text">视图更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%86%E5%9B%BE%E7%BB%B4%E6%8A%A4"><span class="nav-number">2.5.4.</span> <span class="nav-text">视图维护</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">2.5.5.</span> <span class="nav-text">优缺点</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DCL"><span class="nav-number">3.</span> <span class="nav-text">DCL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="nav-number">3.1.</span> <span class="nav-text">访问控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#grant"><span class="nav-number">3.2.</span> <span class="nav-text">grant</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#revoke"><span class="nav-number">3.3.</span> <span class="nav-text">revoke</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

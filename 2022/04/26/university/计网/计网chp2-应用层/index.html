@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="参考书：计算机网络自顶向下方法(第6版)（黑皮书）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计网chp2-应用层">
+<meta property="og:url" content="http://example.com/2022/04/26/university/%E8%AE%A1%E7%BD%91/%E8%AE%A1%E7%BD%91chp2-%E5%BA%94%E7%94%A8%E5%B1%82/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="参考书：计算机网络自顶向下方法(第6版)（黑皮书）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425234359821.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425235116518.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426001007503.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426001408547.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426001910531.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426004224229.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426005324687.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/858807-20170820124445615-743355102.png">
+<meta property="article:published_time" content="2022-04-25T17:17:11.000Z">
+<meta property="article:modified_time" content="2024-05-27T08:05:25.429Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425234359821.png">
+
+<link rel="canonical" href="http://example.com/2022/04/26/university/%E8%AE%A1%E7%BD%91/%E8%AE%A1%E7%BD%91chp2-%E5%BA%94%E7%94%A8%E5%B1%82/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>计网chp2-应用层 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/26/university/%E8%AE%A1%E7%BD%91/%E8%AE%A1%E7%BD%91chp2-%E5%BA%94%E7%94%A8%E5%B1%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          计网chp2-应用层
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-26 01:17:11" itemprop="dateCreated datePublished" datetime="2022-04-26T01:17:11+08:00">2022-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-27 16:05:25" itemprop="dateModified" datetime="2024-05-27T16:05:25+08:00">2024-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/" itemprop="url" rel="index"><span itemprop="name">university</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/%E8%AE%A1%E7%BD%91/" itemprop="url" rel="index"><span itemprop="name">计网</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>参考书：计算机网络自顶向下方法(第6版)（黑皮书）</p>
+<span id="more"></span>
+
+<h1 id="一些概念"><a href="#一些概念" class="headerlink" title="一些概念"></a>一些概念</h1><ul>
+<li>application architecture<ul>
+<li>client-server</li>
+<li>peer-to-peer</li>
+</ul>
+</li>
+<li>process communication进程通信</li>
+<li>socket套接字</li>
+<li>process-identifier&#x3D;IP address+port numbers</li>
+<li>URL&#x3D;host name+path name</li>
+</ul>
+<h1 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h1><p>提供了哪些服务：</p>
+<ul>
+<li>logic communication between hosts</li>
+<li>the type of messages exchanged类型</li>
+<li>the syntax of various message types语法</li>
+<li>the semantics of the fields字段语义</li>
+<li>rules for when and how process send&amp;response</li>
+</ul>
+<p>网络架构：</p>
+<ul>
+<li>client-server</li>
+<li>p2p</li>
+</ul>
+<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><ul>
+<li>client-server model</li>
+<li>使用TCP</li>
+<li>stateless无状态协议</li>
+<li>connections<ul>
+<li>non-persistent</li>
+<li>persistent</li>
+</ul>
+</li>
+<li>RTT: 一个来回</li>
+<li>non-persistent HTTP response time&#x3D;2RTT+file transmission time</li>
+<li>default in HTTP&#x2F;1.1: persistent with pipelining</li>
+</ul>
+<h2 id="报文格式"><a href="#报文格式" class="headerlink" title="报文格式"></a>报文格式</h2><h3 id="request"><a href="#request" class="headerlink" title="request"></a>request</h3><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425234359821.png" alt="image-20220425234359821"></p>
+<ul>
+<li>request line<ul>
+<li>method：GET&#x2F;POST&#x2F;…</li>
+<li>目标url</li>
+<li>version：HTTP版本<ul>
+<li>HTTP&#x2F;1.0: GET&#x2F;POST&#x2F;HEAD</li>
+<li>HTTP&#x2F;1.0: GET&#x2F;POST&#x2F;HEAD&#x2F;PUT&#x2F;DELETE</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>header lines：header field name+value<ul>
+<li>Host</li>
+<li>User-Agent</li>
+<li>Accept</li>
+<li>Accept-Language</li>
+<li>Accept-Encoding</li>
+<li>Accept-Charset</li>
+<li>Keep-Alive</li>
+<li>Connection</li>
+</ul>
+</li>
+<li>body：POST提交数据时携带的数据放在body</li>
+</ul>
+<h3 id="response"><a href="#response" class="headerlink" title="response"></a>response</h3><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425235116518.png" alt="image-20220425235116518"></p>
+<ul>
+<li>status line<ul>
+<li>protocol: HTTP</li>
+<li>status code</li>
+<li>status phrase<ul>
+<li>200 OK</li>
+<li>301 Moved Permanently: 访问对象改变位置了，新的位置会赋在返回的Location字段中</li>
+<li>400 Bad Request：服务器不理解，语义有误或请求参数有误</li>
+<li>404 Not Found</li>
+<li>505 HTTP Version Not Supported</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>header lines<ul>
+<li>Server</li>
+<li>Last-Modified</li>
+</ul>
+</li>
+<li>data</li>
+</ul>
+<h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><p>cookie的4个组成：</p>
+<ul>
+<li>cookie值由response返回</li>
+<li>下一次请求会加上cookie首部行</li>
+<li>cookie文件保存在用户主机上，由浏览器管理</li>
+<li>后端数据库back-end database at website</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426001007503.png" alt="image-20220426001007503"></p>
+<h2 id="Web-caches-proxy-server"><a href="#Web-caches-proxy-server" class="headerlink" title="Web caches&#x2F;proxy server"></a>Web caches&#x2F;proxy server</h2><p>web缓存器既是客户端又是服务器端，一般由ISP使用(eg.大学校园网，公司，运营商)。</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426001408547.png" alt="image-20220426001408547"></p>
+<p>作用&#x2F;原因：</p>
+<ul>
+<li>减少用户请求的响应时间</li>
+<li>减少接入链路的通信量</li>
+<li>通过减少通信量能够在较小带宽的情况下高效传输数据。</li>
+</ul>
+<h3 id="一个计算"><a href="#一个计算" class="headerlink" title="一个计算"></a>一个计算</h3><p>utilization流量强度&#x3D;分组到达的速度&#x2F;结点处理的速度？</p>
+<p>原始情况：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426001910531.png" alt="image-20220426001910531"></p>
+<p>局域网上的流量强度&#x3D;$(15个请求&#x2F;sec)×(100Kb&#x2F;请求)&#x2F;1Gbps&#x3D;15%$</p>
+<p>接入链路上的流量强度&#x3D;$(15个请求&#x2F;sec)×(100Kb&#x2F;请求)&#x2F;1.54Mbps&#x3D;97.4%$</p>
+<p>ps：流量强度接近1，链路上的时延非常大</p>
+<p>解决办法：</p>
+<ol>
+<li>增大接入链路的带宽，开销大</li>
+<li>增加本地缓存<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426004224229.png" alt="image-20220426004224229"></li>
+</ol>
+<h2 id="Conditional-GET"><a href="#Conditional-GET" class="headerlink" title="Conditional GET"></a>Conditional GET</h2><ul>
+<li>request: If-modified-since</li>
+<li>response: 304 Not Modified</li>
+</ul>
+<h1 id="Email"><a href="#Email" class="headerlink" title="Email"></a>Email</h1><p>组成：</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220426005324687.png" alt="image-20220426005324687"></p>
+<ul>
+<li>user agent: Outlook,</li>
+<li>mail server<ul>
+<li>mail box: 存放用户发送的邮件</li>
+<li>message queue：server将要发送至另一server的邮件</li>
+</ul>
+</li>
+<li>protocol<ul>
+<li>SMTP</li>
+</ul>
+</li>
+</ul>
+<h2 id="SMTP"><a href="#SMTP" class="headerlink" title="SMTP"></a>SMTP</h2><p>用于push发送，TCP，port 25，7位ASCII码，持续连接</p>
+<p>与HTTP比较：</p>
+<ul>
+<li>push vs pull(主要)</li>
+<li>7位ASCII vs 无限制</li>
+<li>对象存放，HTTP单独封装，SMTP把？</li>
+</ul>
+<h2 id="access-protocols"><a href="#access-protocols" class="headerlink" title="access protocols"></a>access protocols</h2><h3 id="POP"><a href="#POP" class="headerlink" title="POP"></a>POP</h3><ul>
+<li>authorization</li>
+<li>只download</li>
+<li>stateless</li>
+<li>port 110</li>
+</ul>
+<h3 id="IMAP"><a href="#IMAP" class="headerlink" title="IMAP"></a>IMAP</h3><p>操作manipulation of stored messages on server</p>
+<h3 id="HTTP-1"><a href="#HTTP-1" class="headerlink" title="HTTP"></a>HTTP</h3><p>gmail</p>
+<h1 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h1><p>distributed database分布式数据库，53 port</p>
+<p>为什么不是集中式（完全没有拓展能力）：</p>
+<ul>
+<li>单点故障a single point of failure</li>
+<li>通信容量traffic volume太多</li>
+<li>远距离的集中式数据库distant centralized database</li>
+<li>维护：数据库过大+频繁更新</li>
+</ul>
+<p>一些分类</p>
+<ul>
+<li>TLD ：top-level domain server顶级域名</li>
+<li>authoritative server</li>
+<li>local DNS server：每个ISP都有</li>
+</ul>
+<h2 id="查询过程"><a href="#查询过程" class="headerlink" title="查询过程"></a>查询过程</h2><p>ps：都是先查询本地DNS</p>
+<ul>
+<li>recursive query递归查询-一直往下查直至返回最终结果</li>
+<li>iterative query迭代查询-返回当下结果</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/858807-20170820124445615-743355102.png" alt="img"></p>
+<h1 id="P2P"><a href="#P2P" class="headerlink" title="P2P"></a>P2P</h1><p>应用：</p>
+<ul>
+<li>file distribution-&gt;BitTorrent</li>
+<li>VoIP-&gt;skype</li>
+<li>迅雷</li>
+</ul>
+<h2 id="BitTorrent"><a href="#BitTorrent" class="headerlink" title="BitTorrent"></a>BitTorrent</h2><ul>
+<li>requests missing chunks from peers, rarest first（最稀少优先）</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/26/university/%E8%AE%A1%E7%BD%91/%E8%AE%A1%E7%BD%91chp1/" rel="prev" title="计网chp1-">
+      <i class="fa fa-chevron-left"></i> 计网chp1-
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/09/university/%E6%B1%87%E7%BC%96/%E6%B1%87%E7%BC%96%E6%9C%9F%E6%9C%AB%E5%A4%8D%E4%B9%A0/" rel="next" title="汇编期末复习">
+      汇编期末复习 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">一些概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%B1%82"><span class="nav-number">2.</span> <span class="nav-text">应用层</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTP"><span class="nav-number">3.</span> <span class="nav-text">HTTP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%A5%E6%96%87%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.1.</span> <span class="nav-text">报文格式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#request"><span class="nav-number">3.1.1.</span> <span class="nav-text">request</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#response"><span class="nav-number">3.1.2.</span> <span class="nav-text">response</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#cookie"><span class="nav-number">3.2.</span> <span class="nav-text">cookie</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Web-caches-proxy-server"><span class="nav-number">3.3.</span> <span class="nav-text">Web caches&#x2F;proxy server</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E8%AE%A1%E7%AE%97"><span class="nav-number">3.3.1.</span> <span class="nav-text">一个计算</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conditional-GET"><span class="nav-number">3.4.</span> <span class="nav-text">Conditional GET</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Email"><span class="nav-number">4.</span> <span class="nav-text">Email</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SMTP"><span class="nav-number">4.1.</span> <span class="nav-text">SMTP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#access-protocols"><span class="nav-number">4.2.</span> <span class="nav-text">access protocols</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#POP"><span class="nav-number">4.2.1.</span> <span class="nav-text">POP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IMAP"><span class="nav-number">4.2.2.</span> <span class="nav-text">IMAP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-1"><span class="nav-number">4.2.3.</span> <span class="nav-text">HTTP</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#DNS"><span class="nav-number">5.</span> <span class="nav-text">DNS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E8%BF%87%E7%A8%8B"><span class="nav-number">5.1.</span> <span class="nav-text">查询过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#P2P"><span class="nav-number">6.</span> <span class="nav-text">P2P</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#BitTorrent"><span class="nav-number">6.1.</span> <span class="nav-text">BitTorrent</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

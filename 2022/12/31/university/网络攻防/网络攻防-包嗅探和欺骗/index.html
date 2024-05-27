@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="网络攻防-假消息攻击1-包嗅探和欺骗，涉及实验：SEED Labs – Packet Sniffifing and Spoofifing Lab，代码见：https:&#x2F;&#x2F;github.com&#x2F;Seanxz401&#x2F;seed-labs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络攻防-包嗅探和欺骗">
+<meta property="og:url" content="http://example.com/2022/12/31/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-%E5%8C%85%E5%97%85%E6%8E%A2%E5%92%8C%E6%AC%BA%E9%AA%97/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="网络攻防-假消息攻击1-包嗅探和欺骗，涉及实验：SEED Labs – Packet Sniffifing and Spoofifing Lab，代码见：https:&#x2F;&#x2F;github.com&#x2F;Seanxz401&#x2F;seed-labs">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231143338498.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221121232806657.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221121233217251.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221121233659805.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221121234313476.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221122005716405.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123224606010.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123224914878.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123225430511.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123232714044.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123233416435.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123234308382.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123235254708.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123235747895.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221124003818924.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221125151445579.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221125151316253.png">
+<meta property="article:published_time" content="2022-12-31T06:20:21.000Z">
+<meta property="article:modified_time" content="2024-05-27T08:08:12.021Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231143338498.png">
+
+<link rel="canonical" href="http://example.com/2022/12/31/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-%E5%8C%85%E5%97%85%E6%8E%A2%E5%92%8C%E6%AC%BA%E9%AA%97/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>网络攻防-包嗅探和欺骗 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/31/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-%E5%8C%85%E5%97%85%E6%8E%A2%E5%92%8C%E6%AC%BA%E9%AA%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          网络攻防-包嗅探和欺骗
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-12-31 14:20:21" itemprop="dateCreated datePublished" datetime="2022-12-31T14:20:21+08:00">2022-12-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-27 16:08:12" itemprop="dateModified" datetime="2024-05-27T16:08:12+08:00">2024-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/" itemprop="url" rel="index"><span itemprop="name">university</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/" itemprop="url" rel="index"><span itemprop="name">网络攻防</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>网络攻防-假消息攻击1-包嗅探和欺骗，涉及实验：SEED Labs – Packet Sniffifing and Spoofifing Lab，代码见：<a target="_blank" rel="noopener" href="https://github.com/Seanxz401/seed-labs">https://github.com/Seanxz401/seed-labs</a></p>
+<span id="more"></span>
+
+<h1 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h1><p>NIC网络接口卡：机器和网络之间的物理或逻辑链路，检查数据包的目的MAC，如果与该卡的MAC地址匹配，则会进一步复制到内核的缓冲区中</p>
+<p>混杂模式下，NIC将接收到的每个帧都传给内核</p>
+<h2 id="BPF包过滤器"><a href="#BPF包过滤器" class="headerlink" title="BPF包过滤器"></a>BPF包过滤器</h2><p>通过setsockopt将编译好的BPF伪代码附加到套接字：<code>setsockopt(sock, SOL_SOCKET, SO_ATTACH_FILTER, &amp;bpf, sizeof(bpf))</code>。当内核收到数据包时，BPF将被调用。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221231143338498.png" alt="image-20221231143338498"></p>
+<p>使用套接字&#x2F;原始套接字接收数据包的局限性：</p>
+<ul>
+<li>不能跨操作系统进行移植</li>
+<li>没有任何可以提高性能的优化</li>
+<li>设置过滤器不容易（需要编码）</li>
+</ul>
+<p>使用pcap API的优点：</p>
+<ul>
+<li>在所有平台上都是标准的，隐藏了操作系统的细节</li>
+<li>允许使用可读的布尔表达式指定过滤规则</li>
+</ul>
+<p>捕获到的数据包，通过结构体的类型转换可以得到各协议层的内容。</p>
+<p>数据包欺骗：指数据包中的某些关键信息被伪造。</p>
+<p>嗅探然后欺骗：先捕获数据包，根据情况伪造响应</p>
+<p>网络字节序：大端存储</p>
+<p>具体的流程和细节见实验</p>
+<h1 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h1><h2 id="Task1"><a href="#Task1" class="headerlink" title="Task1"></a>Task1</h2><h3 id="1-1A-sniffer-py"><a href="#1-1A-sniffer-py" class="headerlink" title="1.1A  sniffer.py"></a>1.1A  sniffer.py</h3><p>sniffer.py捕获指定网卡的ICMP包并打印信息：ICMP包可由ping任意主机产生</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/env python3</span></span><br><span class="line"><span class="keyword">from</span> scapy.<span class="built_in">all</span> <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">print_pkt</span>(<span class="params">pkt</span>):</span><br><span class="line">    pkt.show()</span><br><span class="line"></span><br><span class="line">pkt=sniff(iface=<span class="string">&#x27;enp0s3&#x27;</span>,<span class="built_in">filter</span>=<span class="string">&#x27;icmp&#x27;</span>,prn=print_pkt)</span><br></pre></td></tr></table></figure>
+
+<p>赋予可执行权限：<code>chmod a+x sniffer.py</code>，以root权限执行：成功。</p>
+<p>以seed用户权限执行：出现权限错误，因为创建原始套接字需要root权限</p>
+<h3 id="1-1B-BPF"><a href="#1-1B-BPF" class="headerlink" title="1.1B BPF"></a>1.1B BPF</h3><p>编写BPF过滤语法</p>
+<ol>
+<li><p>只捕获ICMP</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">filter</span>=<span class="string">&#x27;icmp&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>ping www.baidu.com</code><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221121232806657.png" alt="image-20221121232806657"></p>
+</li>
+<li><p>捕获特定源IP和目的端口的TCP包</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">filter</span>=<span class="string">&#x27;tcp and src net 10.0.2.15 and dst port 23&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p><code>telnet IP 23</code>通过telnet远程连接主机可以生成满足条件的包：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221121233217251.png" alt="image-20221121233217251"></p>
+</li>
+<li><p>捕获源或目的IP属于某特定子网</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">filter</span>=<span class="string">&#x27;net 10.134.160.0/21&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>根据宿主机IP和子网掩码算出网络号如上，开始捕获后ping百度和宿主机，查看接收到的包只有目标为宿主机的icmp包：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221121233659805.png" alt="image-20221121233659805"></p>
+</li>
+</ol>
+<h3 id="1-2-Spoofing-ICMP"><a href="#1-2-Spoofing-ICMP" class="headerlink" title="1.2 Spoofing ICMP"></a>1.2 Spoofing ICMP</h3><p>spoof.py制作虚假源IP的ICMP包并发送：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scapy.<span class="built_in">all</span> <span class="keyword">import</span> *</span><br><span class="line">a=IP()</span><br><span class="line">srcip=<span class="built_in">input</span>(<span class="string">&#x27;please input fake srcIP:&#x27;</span>)</span><br><span class="line">a.src=srcip</span><br><span class="line">b=ICMP()</span><br><span class="line">p=a/b</span><br><span class="line">send(p)</span><br></pre></td></tr></table></figure>
+
+<p>由用户输入虚假IP来设置ICMP包的源IP，默认目的地址是<code>127.0.0.1</code>，利用wireshark查看环回地址捕获到的ICMP包：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221121234313476.png" alt="image-20221121234313476"></p>
+<h3 id="1-3-TTL"><a href="#1-3-TTL" class="headerlink" title="1.3 TTL"></a>1.3 TTL</h3><p>ttl.py 自动ttl增1并发送ICMP包</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a=IP()</span><br><span class="line">a.dst=<span class="string">&#x27;...&#x27;</span></span><br><span class="line">b=ICMP()</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">65</span>):</span><br><span class="line">	a.ttl=i</span><br><span class="line">	send(a/b)</span><br></pre></td></tr></table></figure>
+
+<p>ttl_sniff.py 捕获ICMP应答包并计算成功收到目标主机的应答前已经收到多少个路由器的错误反馈，根据此得出真正的ttl距离：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">global</span> ttl</span><br><span class="line">ttl=<span class="number">0</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">count_ttl</span>(<span class="params">pkt</span>):</span><br><span class="line">	<span class="keyword">global</span> ttl</span><br><span class="line">	ttl=ttl+<span class="number">1</span></span><br><span class="line">	<span class="keyword">if</span>(pkt[ICMP].<span class="built_in">type</span>==<span class="number">0</span> <span class="keyword">and</span> pkt[IP].src==<span class="string">&#x27;...&#x27;</span>): <span class="comment"># type=0是reply</span></span><br><span class="line">		<span class="built_in">print</span>(<span class="string">&#x27;get reply from target host while ttl=&#x27;</span>+<span class="built_in">str</span>(ttl))</span><br><span class="line">		exit(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;sniff...icmp reply&#x27;</span>)</span><br><span class="line">sniff(iface=<span class="string">&#x27;enp0s3&#x27;</span>,<span class="built_in">filter</span>=<span class="string">&#x27;icmp&#x27;</span>,prn=count_ttl)</span><br></pre></td></tr></table></figure>
+
+<p>启动ttl_sniff.py监听后开始发包，得到结果：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221122005716405.png" alt="image-20221122005716405"></p>
+<h3 id="1-4-Sniff-Spoof"><a href="#1-4-Sniff-Spoof" class="headerlink" title="1.4 Sniff&amp;Spoof"></a>1.4 Sniff&amp;Spoof</h3><p>10.9.0.1(虚拟主机和attack都是)为主机A和B的网关，即10.9.0.1对应的网卡能接收到A和B的ICMP包。主机中运行嗅探和欺骗程序snsp.py:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">snsf</span>(<span class="params">pkt</span>):</span><br><span class="line">    a=IP(src=pkt[IP].dst,dst=pkt[IP].src)</span><br><span class="line">    b=ICMP(<span class="built_in">type</span>=<span class="string">&#x27;echo-reply&#x27;</span>,code=<span class="number">0</span>,<span class="built_in">id</span>=pkt[ICMP].<span class="built_in">id</span>,seq=pkt[ICMP].seq)</span><br><span class="line">    p=a/b/pkt[Raw]</span><br><span class="line">    send(p)</span><br></pre></td></tr></table></figure>
+
+<p><strong>Raw是应用层的数据，如果不加的话，被欺骗的主机能收到欺骗包，但是ping程序无法识别是响应包</strong></p>
+<p>容器hostA作为被欺骗者，分别ping：</p>
+<ol>
+<li>互联网中不存在的主机<code>1.2.3.4</code>：hostA能接收到响应包<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123224606010.png" alt="image-20221123224606010"></li>
+<li>局域网中不存在的主机<code>10.9.0.99</code>：unreachable，hostA向局域网内的主机发包不会经过网关，因此攻击机不会收到ICMP包，也就不会返回欺骗包。由于hostA找不到<code>10.9.0.99</code>的MAC地址，导致包不可达。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123224914878.png" alt="image-20221123224914878"></li>
+<li>互联网中存在的主机：虚拟主机。由于目标主机和攻击机都能收到ICMP包并做出响应，导致出现冗余包<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123225430511.png" alt="image-20221123225430511"></li>
+</ol>
+<h2 id="Task2"><a href="#Task2" class="headerlink" title="Task2"></a>Task2</h2><h3 id="2-1A-sniff"><a href="#2-1A-sniff" class="headerlink" title="2.1A sniff"></a>2.1A sniff</h3><p>sniff.c：嗅探局域网中的ICMP包，并打印源IP和目的IP。</p>
+<h4 id="Question1："><a href="#Question1：" class="headerlink" title="Question1："></a>Question1：</h4><ul>
+<li><code>pcap_open_live</code>：打开指定网卡设备</li>
+<li><code>pcap_compile,pcap_setfilter</code>：编译BPF过滤条件并绑定到本次处理；</li>
+<li><code>pcap_loop</code>：开始循环捕获，通过回调函数对捕获到的每一个包进行处理</li>
+<li><code>pcap_close</code>：关闭本次捕获</li>
+</ul>
+<h4 id="Question2："><a href="#Question2：" class="headerlink" title="Question2："></a>Question2：</h4><p>对网卡设备(底层硬件)的操作需要root权限，从第一步打开网卡就需要权限：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123232714044.png" alt="image-20221123232714044"></p>
+<h4 id="Question3"><a href="#Question3" class="headerlink" title="Question3"></a>Question3</h4><p>混杂模式开启后能接收目的地址不是本机的数据包。用<code>10.9.0.1</code>的网卡设备作为嗅探设备，用hostA ping hostB，A和B在同一局域网，不会发给网关。</p>
+<p>混杂模式开启时：<code>10.9.0.1</code>能接收到ICMP包<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123233416435.png" alt="image-20221123233416435"></p>
+<p>修改<code>pcap_live_open</code>参数中的1为0，关闭混杂模式：<code>10.9.0.1</code>不能接收到hostA ping hostB的ICMP包，但是可以接收到出局域网的包。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123234308382.png" alt="image-20221123234308382"></p>
+<h3 id="2-1B-filter"><a href="#2-1B-filter" class="headerlink" title="2.1B filter"></a>2.1B filter</h3><p>1.捕获两个特定主机之间的ICMP数据包</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filter=&quot;icmp and host 10.9.0.5 and host 10.9.0.6&quot;</span><br></pre></td></tr></table></figure>
+
+<p>只捕获<code>10.9.05</code>和<code>10.9.0.6</code>之间的，ping其他IP时则不会收到<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123235254708.png" alt="image-20221123235254708"></p>
+<p>2.捕获目标端口号在10到100范围内的TCP数据包。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">filter=&quot;tcp and dst portrange 10-100&quot;</span><br></pre></td></tr></table></figure>
+
+<p>用curl对多个端口发起请求，只有10-100之间的才可以被捕获到<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221123235747895.png" alt="image-20221123235747895"></p>
+<h3 id="2-1C-telnet"><a href="#2-1C-telnet" class="headerlink" title="2.1C telnet"></a>2.1C telnet</h3><p>嗅探TCP包中的敏感数据，以telnet为例：telnet远程连接，捕获其登录名和密码。<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221124003818924.png" alt="image-20221124003818924"></p>
+<p><strong>Telnet发送的数据固定在报文第66字节，可以直接输出内容</strong></p>
+<h3 id="2-2A-spoof-IP"><a href="#2-2A-spoof-IP" class="headerlink" title="2.2A spoof IP"></a>2.2A spoof IP</h3><p>自定义报头结构体，根据需要指定字段内容：<strong>根据wireshark抓包可得，除了IP和ICMP的报文头，还有8个字节的时间戳和48个字节的填充数据</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//IP报头</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">IP_HEADER</span> &#123;</span></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> defined(__LITTLE_ENDIAN_BITFIELD)</span></span><br><span class="line">	__u8	ihl:<span class="number">4</span>,			<span class="comment">//4位头部长度 一位4个字节，，最多15*4个字节(可选项)</span></span><br><span class="line">		version:<span class="number">4</span>;		<span class="comment">//4位版本号</span></span><br><span class="line"><span class="meta">#<span class="keyword">elif</span> defined (__BIG_ENDIAN_BITFIELD)</span></span><br><span class="line">	__u8	version:<span class="number">4</span>,</span><br><span class="line">  		ihl:<span class="number">4</span>;</span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">error</span>	<span class="string">&quot;Please fix &lt;asm/byteorder.h&gt;&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line">	__u8	tos;			<span class="comment">//8位服务类型</span></span><br><span class="line">	__be16	tot_len;		<span class="comment">//16位总长度</span></span><br><span class="line">	__be16	id;			<span class="comment">//16位标识符</span></span><br><span class="line">	__be16	frag_off;		<span class="comment">//3位标志加13位片偏移</span></span><br><span class="line">	__u8	ttl;			<span class="comment">//8位生存时间</span></span><br><span class="line">	__u8	protocol;		<span class="comment">//8位上层协议号</span></span><br><span class="line">	__sum16	check;		<span class="comment">//16位校验和</span></span><br><span class="line">	__be32	saddr;			<span class="comment">//32位源IP地址</span></span><br><span class="line">	__be32	daddr;			<span class="comment">//32位目的IP地址</span></span><br><span class="line">	<span class="comment">/*The options start here. */</span></span><br><span class="line">&#125; IP_HEADER;</span><br><span class="line"></span><br><span class="line"><span class="comment">//ICMP报头</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">ICMP_HEADER</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    u_char type;    <span class="comment">//8位类型字段</span></span><br><span class="line">    u_char code;    <span class="comment">//8位代码字段</span></span><br><span class="line">    u_short cksum; <span class="comment">//16位校验和</span></span><br><span class="line">    u_short id;    <span class="comment">//16位标识符</span></span><br><span class="line">    u_short seq;   <span class="comment">//16位序列号</span></span><br><span class="line">&#125; ICMP_HEADER;</span><br></pre></td></tr></table></figure>
+
+<p>使用原始套接字，<strong>根据数据包中的源IP构造对应的sockaddr_in</strong>，发送自定义IP数据包：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">sockaddr_in</span> <span class="title">sin</span>;</span></span><br><span class="line"><span class="built_in">sin</span>.sin_family = AF_INET;</span><br><span class="line"><span class="built_in">sin</span>.sin_addr.s_addr=pIPHeader-&gt;daddr;</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221125151445579.png" alt="image-20221125151445579"></p>
+<p>修改源和目的IP，用wireshark查看结果：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20221125151316253.png" alt="image-20221125151316253"></p>
+<h3 id="2-2B-spoof-echo-request"><a href="#2-2B-spoof-echo-request" class="headerlink" title="2.2B spoof echo-request"></a>2.2B spoof echo-request</h3><p>构造ICMP包与2.1A类似，以局域网中不存在的主机为源IP向某存活主机发起request，由于源IP是不可达的，所以无法收到存活主机的reply</p>
+<h4 id="Question4："><a href="#Question4：" class="headerlink" title="Question4："></a>Question4：</h4><p>可以随意设置IP报文头部的长度，但必须保证向socket发送的原始报文是正确的长度。</p>
+<h4 id="Question5："><a href="#Question5：" class="headerlink" title="Question5："></a>Question5：</h4><p>必须要计算校验和，若校验不通过则该数据包会被丢弃。</p>
+<h4 id="Question6："><a href="#Question6：" class="headerlink" title="Question6："></a>Question6：</h4><p>创建原始套接字需要root权限。若没有权限，<code> socket(AF_INET, SOCK_RAW, IPPROTO_RAW);</code>这一步就无法成功创建套接字。</p>
+<h3 id="2-3-Sniff-Spoof"><a href="#2-3-Sniff-Spoof" class="headerlink" title="2.3 Sniff&amp;Spoof"></a>2.3 Sniff&amp;Spoof</h3><p>结合以上的代码，实现在嗅探的同时发送欺骗响应包。</p>
+<p>结果与Task1.4类似</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>用C语言构造报文头比python难很多，但是可操作性强，可自定义每一个字节的数据；</li>
+<li>接发包不只是要构造源和目的的地址，对于操作系统和特定程序来说，都有其必要的检验机制，如本次实验中ping检验了Raw数据。</li>
+<li>对C语言的数据类型及其在内存中的具体情况还不是很清楚。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/12/31/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-HTTP%E4%BC%9A%E8%AF%9D%E6%94%BB%E5%87%BB/" rel="prev" title="网络攻防-HTTP会话攻击">
+      <i class="fa fa-chevron-left"></i> 网络攻防-HTTP会话攻击
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/12/31/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-TCP%E6%94%BB%E5%87%BB/" rel="next" title="网络攻防-TCP攻击">
+      网络攻防-TCP攻击 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%90%86%E8%AE%BA"><span class="nav-number">1.</span> <span class="nav-text">理论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#BPF%E5%8C%85%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="nav-number">1.1.</span> <span class="nav-text">BPF包过滤器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C"><span class="nav-number">2.</span> <span class="nav-text">实验</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Task1"><span class="nav-number">2.1.</span> <span class="nav-text">Task1</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1A-sniffer-py"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.1A  sniffer.py</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1B-BPF"><span class="nav-number">2.1.2.</span> <span class="nav-text">1.1B BPF</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Spoofing-ICMP"><span class="nav-number">2.1.3.</span> <span class="nav-text">1.2 Spoofing ICMP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-TTL"><span class="nav-number">2.1.4.</span> <span class="nav-text">1.3 TTL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-Sniff-Spoof"><span class="nav-number">2.1.5.</span> <span class="nav-text">1.4 Sniff&amp;Spoof</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Task2"><span class="nav-number">2.2.</span> <span class="nav-text">Task2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1A-sniff"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.1A sniff</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Question1%EF%BC%9A"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">Question1：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Question2%EF%BC%9A"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">Question2：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Question3"><span class="nav-number">2.2.1.3.</span> <span class="nav-text">Question3</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1B-filter"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.1B filter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1C-telnet"><span class="nav-number">2.2.3.</span> <span class="nav-text">2.1C telnet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2A-spoof-IP"><span class="nav-number">2.2.4.</span> <span class="nav-text">2.2A spoof IP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2B-spoof-echo-request"><span class="nav-number">2.2.5.</span> <span class="nav-text">2.2B spoof echo-request</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Question4%EF%BC%9A"><span class="nav-number">2.2.5.1.</span> <span class="nav-text">Question4：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Question5%EF%BC%9A"><span class="nav-number">2.2.5.2.</span> <span class="nav-text">Question5：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Question6%EF%BC%9A"><span class="nav-number">2.2.5.3.</span> <span class="nav-text">Question6：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-Sniff-Spoof"><span class="nav-number">2.2.6.</span> <span class="nav-text">2.3 Sniff&amp;Spoof</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">2.3.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

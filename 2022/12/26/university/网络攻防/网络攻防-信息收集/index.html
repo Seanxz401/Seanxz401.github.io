@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="网络攻防第一步信息收集部分的概念和实验(子域名收集、主机扫描、端口扫描)。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络攻防-信息收集">
+<meta property="og:url" content="http://example.com/2022/12/26/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="网络攻防第一步信息收集部分的概念和实验(子域名收集、主机扫描、端口扫描)。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/html.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/domain.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220927000732467.png">
+<meta property="article:published_time" content="2022-12-26T07:44:34.000Z">
+<meta property="article:modified_time" content="2024-05-27T07:17:10.770Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/html.png">
+
+<link rel="canonical" href="http://example.com/2022/12/26/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>网络攻防-信息收集 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/12/26/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          网络攻防-信息收集
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-12-26 15:44:34" itemprop="dateCreated datePublished" datetime="2022-12-26T15:44:34+08:00">2022-12-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-27 15:17:10" itemprop="dateModified" datetime="2024-05-27T15:17:10+08:00">2024-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/" itemprop="url" rel="index"><span itemprop="name">university</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/" itemprop="url" rel="index"><span itemprop="name">网络攻防</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>网络攻防第一步信息收集部分的概念和实验(子域名收集、主机扫描、端口扫描)。</p>
+<span id="more"></span>
+
+<h1 id="理论"><a href="#理论" class="headerlink" title="理论"></a>理论</h1><p> 信息收集是指黑客为了更加有效地实施攻击而在攻击前或攻击过程中对目标的所有探测活动。</p>
+<h2 id="公开信息收集"><a href="#公开信息收集" class="headerlink" title="公开信息收集"></a>公开信息收集</h2><h3 id="web服务"><a href="#web服务" class="headerlink" title="web服务"></a>web服务</h3><ul>
+<li>网站所有者信息：邮箱、地址、公司人员</li>
+<li>网站服务器对应的IP</li>
+<li>目标网络拓扑结构：子域名</li>
+</ul>
+<h3 id="搜索引擎"><a href="#搜索引擎" class="headerlink" title="搜索引擎"></a>搜索引擎</h3><p>Google Hacking：语法、关键字→网站配置信息、后门信息</p>
+<p>语法：</p>
+<ul>
+<li>and ,or, +, -, “”, .(单字符匹配), *(0或多字符匹配)</li>
+<li>site, link, inurl, intitle, intext. filetype</li>
+</ul>
+<p>Shodan，ZoomEye</p>
+<h3 id="WhoIs服务"><a href="#WhoIs服务" class="headerlink" title="WhoIs服务"></a>WhoIs服务</h3><p>查询已注册域名的拥有者信息</p>
+<p>查询途径：</p>
+<ul>
+<li>网站，如站长之家<a target="_blank" rel="noopener" href="http://whois.chinaz.com/">http://whois.chinaz.com/</a></li>
+<li>企业的备案信息：如国家企业信用信息公示系统、ICP备案查询网</li>
+</ul>
+<h3 id="DNS域名服务"><a href="#DNS域名服务" class="headerlink" title="DNS域名服务"></a>DNS域名服务</h3><p>如果DNS配置不当，可能造成内部主机名和IP地址对的泄露</p>
+<ul>
+<li>CDN</li>
+<li>nslookup</li>
+</ul>
+<h2 id="网络扫描"><a href="#网络扫描" class="headerlink" title="网络扫描"></a>网络扫描</h2><p>有些操作系统实现TCP&#x2F;IP时并没有完全遵循RFC标准，导致部分扫描看不到效果。</p>
+<h3 id="主机扫描"><a href="#主机扫描" class="headerlink" title="主机扫描"></a>主机扫描</h3><ul>
+<li>ping：request8，reply0</li>
+<li>在IP头中设置无效的字段值：向目标主机发送包头错误的IP包，目标主机或过滤设备会 反馈ICMP Parameter Problem Error信息。</li>
+<li>错误的数据分片：向目标主机发送的IP包中填充错误的分段值，目标主机或 过滤设备会反馈ICMP Destination Unreachable信息。</li>
+</ul>
+<h3 id="端口扫描"><a href="#端口扫描" class="headerlink" title="端口扫描"></a>端口扫描</h3><ul>
+<li>TCP扫描：connect、SYN、NULL、Xmas、ACK、FIN</li>
+<li>UDP扫描</li>
+</ul>
+<h3 id="系统扫描"><a href="#系统扫描" class="headerlink" title="系统扫描"></a>系统扫描</h3><ul>
+<li>根据端口扫描结果分析，操作系统的特有功能会打开特定的端口</li>
+<li>连接服务器程序时所给出的欢迎信息BANNER：FTP、SSH、Telnet</li>
+<li>TCP&#x2F;IP协议栈指纹：不同的操作系统在实现TCP&#x2F;IP协议栈时都或多或少地存在着差异。而这些 差异，我们就称之为TCP&#x2F;IP协议栈指纹。</li>
+</ul>
+<h3 id="漏洞扫描"><a href="#漏洞扫描" class="headerlink" title="漏洞扫描"></a>漏洞扫描</h3><p>漏洞数据库：X-Force，CVE、国家漏洞库</p>
+<p>漏洞检测技术：</p>
+<ul>
+<li>被动式策略：基于主机，检查安全规则</li>
+<li>主动式策略：基于网络，执行脚本攻击</li>
+</ul>
+<p>漏洞检测方法：</p>
+<ul>
+<li>直接测试：具有针对性，需要根据漏洞特点进行排查，可能对系统造成破坏</li>
+<li>推断：版本检查、程序行为分析、操 作系统堆栈指纹分析和时序分析等</li>
+<li>带凭证的测试：具有用户权限</li>
+</ul>
+<h2 id="网络拓朴探测"><a href="#网络拓朴探测" class="headerlink" title="网络拓朴探测"></a>网络拓朴探测</h2><ul>
+<li>拓扑探测：traceroute、SNMP</li>
+<li>网络设备识别</li>
+<li>网络实体IP地理位置定位</li>
+</ul>
+<h1 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h1><h2 id="1子域名收集"><a href="#1子域名收集" class="headerlink" title="1子域名收集"></a>1子域名收集</h2><h3 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h3><p>通过python脚本实现qq.com子域名的收集，分别输出必应和百度两个搜索引擎的结果。</p>
+<h3 id="实验过程"><a href="#实验过程" class="headerlink" title="实验过程"></a>实验过程</h3><p>导入必要的包</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests                      <span class="comment"># 用于请求网页</span></span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup        <span class="comment"># 用于处理获取的到的网页源码数据</span></span><br><span class="line"><span class="keyword">from</span> urllib.parse <span class="keyword">import</span> urlparse    <span class="comment"># 用于处理url</span></span><br></pre></td></tr></table></figure>
+
+<p>使用百度搜索<code>domain:qq.com</code>，观察网络请求和响应的具体情况。根据请求头分别定义<code>headers</code>和<code>url</code>两个变量，通过<code>requests</code>向指定网页发起指定请求，并通过<code>BeautifulSoup</code>解析响应返回的网页源码html格式。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">hearders = &#123;</span><br><span class="line">    <span class="string">&#x27;user-agent&#x27;</span>:<span class="string">&#x27;...&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;accept&#x27;</span>:<span class="string">&#x27;...&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;referer&#x27;</span>:<span class="string">&#x27;...&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;cookie&#x27;</span>:<span class="string">&#x27;...&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line">url=<span class="string">&quot;...&quot;</span></span><br><span class="line">resp = requests.get(url,headers=hearders)	<span class="comment"># 发起请求</span></span><br><span class="line">soup = BeautifulSoup(resp.content,<span class="string">&#x27;html.parser&#x27;</span>)	<span class="comment"># 解析html格式</span></span><br></pre></td></tr></table></figure>
+
+<p>观察源码，定位域名url的具体位置，从格式化数据中搜索获取url和title，一条搜素结果所在的div如下：</p>
+<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/html.png" alt="html" style="zoom: 80%;" />
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#定位每一条搜索结果</span></span><br><span class="line">job_bt = soup.find_all(<span class="string">&#x27;div&#x27;</span>,class_=<span class="string">&#x27;result c-container xpath-log new-pmd&#x27;</span>)	</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> job_bt:	</span><br><span class="line">    domain=i.get(<span class="string">&#x27;mu&#x27;</span>)						<span class="comment"># 获取url</span></span><br><span class="line">    title=i.find(<span class="string">&#x27;h3&#x27;</span>).a.get_text()         <span class="comment"># 获取网站的title</span></span><br><span class="line">    <span class="keyword">if</span> <span class="string">&quot;qq.com&quot;</span> <span class="keyword">not</span> <span class="keyword">in</span> domain:				<span class="comment"># 百度搜索即使用domain限定条件也会出现问题</span></span><br><span class="line">        <span class="keyword">continue</span>;</span><br><span class="line">        <span class="keyword">if</span> domain <span class="keyword">in</span> Subdomain:				<span class="comment"># 判断是否重复</span></span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            Subdomain.append(domain)</span><br><span class="line">            <span class="built_in">print</span>(domain+<span class="string">&#x27;\t&#x27;</span>+title)</span><br></pre></td></tr></table></figure>
+
+<h3 id="实验结果"><a href="#实验结果" class="headerlink" title="实验结果"></a>实验结果</h3><p>根据输入选择搜索引擎，实验结果如下：</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/domain.png" alt="domain"></p>
+<p>结论：不同搜索引擎的结果有明显不同。由于未做翻页处理，实验数据来源仅为第一页网页，可能与搜索引擎的排序算法有关。</p>
+<p>待改进：1.翻页处理可以获得尽可能多的子域名；2.暂时不可以指定主域名。</p>
+<h2 id="2主机探测-端口扫描"><a href="#2主机探测-端口扫描" class="headerlink" title="2主机探测&amp;端口扫描"></a>2主机探测&amp;端口扫描</h2><h3 id="实验目的-1"><a href="#实验目的-1" class="headerlink" title="实验目的"></a>实验目的</h3><ul>
+<li>使用ICMP协议探测主机是否开启；</li>
+<li>分别对本机和远程服务器进行半连接的端口扫描，并与nmap扫描结果进行对比分析；</li>
+<li>理解<code>conf.L3socket=L3RawSocket</code>的作用</li>
+</ul>
+<h3 id="实验环境"><a href="#实验环境" class="headerlink" title="实验环境"></a>实验环境</h3><p>Windows 10，Ubuntu22.04，python3.8，vscode，wireshark，nmap</p>
+<h3 id="实验过程-1"><a href="#实验过程-1" class="headerlink" title="实验过程"></a>实验过程</h3><p>首先<code>conf.L3socket=L3RawSocket</code>修改scapy的配置文件，作用时使用scapy发送包时使用原生套接字。</p>
+<h3 id="主机探测"><a href="#主机探测" class="headerlink" title="主机探测"></a>主机探测</h3><p>主要用到了scapy中的ICMP，对目标主机发送ICMP包，如果有回复(响应不为None)则表示目标主机是存活状态。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">packet=IP(dst=ip)/ICMP()	<span class="comment"># 制作一个ICMP包</span></span><br><span class="line">ping=sr1(packet,timeout=<span class="number">1</span>,verbose=<span class="literal">False</span>)	<span class="comment"># 发送包并获取响应</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="端口扫描-1"><a href="#端口扫描-1" class="headerlink" title="端口扫描"></a>端口扫描</h3><p>都是利用scapy中的TCP，对目标主机发起连接请求，根据TCP包的标志位选择的不同会有不同的回复情况。</p>
+<p>首先定义一个数组存放标志位，实现根据用户的输入选择不同的方法进行扫描：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">choices=[[<span class="string">&#x27;S&#x27;</span>,<span class="string">&#x27;SA&#x27;</span>],[<span class="string">&#x27;F&#x27;</span>],[<span class="string">&#x27;FPU&#x27;</span>],[<span class="string">&#x27;&#x27;</span>]]</span><br><span class="line"><span class="comment"># 0.SYN 1.FIN 2.Xmas 3.NULL</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="发送TCP包"><a href="#发送TCP包" class="headerlink" title="发送TCP包"></a>发送TCP包</h4><p>这几个扫描方法的共同之处就是都会发送tcp包</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">p = IP(dst=ip) / TCP(dport=<span class="built_in">int</span>(port), flags=flag)	<span class="comment"># 根据对应的标志位制作TCP包</span></span><br><span class="line">ans = sr1(p, timeout=<span class="number">1</span>, verbose=<span class="literal">False</span>)	<span class="comment"># 发送</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="FIN-NULL-Xmas"><a href="#FIN-NULL-Xmas" class="headerlink" title="FIN&amp;NULL&amp;Xmas"></a>FIN&amp;NULL&amp;Xmas</h4><p>这三个扫描办法的原理类似，如果发送后没有回复表示该端口开启。</p>
+<p>Xmas扫描：只要不包含SYN，RST，或者ACK, 任何其它三种(FIN，PSH，and URG)的组合都行。</p>
+<h4 id="SYN"><a href="#SYN" class="headerlink" title="SYN"></a>SYN</h4><p>需要判断响应包的标志位<code>ans[&#39;TCP&#39;].flags</code>，发送SYN后，若返回SA则端口开放；</p>
+<p>实验结果略</p>
+<h3 id="L3RawSocket"><a href="#L3RawSocket" class="headerlink" title="L3RawSocket"></a>L3RawSocket</h3><p>scapy在默认情况下是无法直接发送ICMP包到本机的，在<strong>Linux</strong>上需要设置<code>conf.L3socket=L3RawSocket</code>，采用原生套接字接口发送。而在<strong>Windows</strong>上需要配合Npcap使用，选择wireshark的<code>loopback capture</code>功能即可开启Npcap功能，捕获环回地址的包，结果如图：</p>
+<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220927000732467.png" alt="image-20220927000732467" style="zoom:80%;" />
+
+<h3 id="待深入"><a href="#待深入" class="headerlink" title="待深入"></a>待深入</h3><ul>
+<li>非RFC兼容的主机可能以不正确的方式响应扫描探测；</li>
+<li>包在回环地址的具体流动情况；</li>
+<li>防火墙相关。</li>
+</ul>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p>端口扫描部分原理：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/Q_U_A_R_T_E_R/article/details/120337220">https://blog.csdn.net/Q_U_A_R_T_E_R/article/details/120337220</a></li>
+<li><a target="_blank" rel="noopener" href="https://xz.aliyun.com/t/5376">https://xz.aliyun.com/t/5376</a></li>
+</ul>
+<p>scapy如何作用于本机：<a target="_blank" rel="noopener" href="https://scapy.readthedocs.io/en/latest/troubleshooting.html">https://scapy.readthedocs.io/en/latest/troubleshooting.html</a></p>
+<p>如何用wireshark捕获环回地址上的流量：<a target="_blank" rel="noopener" href="https://wiki.wireshark.org/CaptureSetup/Loopback">https://wiki.wireshark.org/CaptureSetup/Loopback</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/12/26/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2%E6%A6%82%E8%BF%B0/" rel="prev" title="网络攻防概述">
+      <i class="fa fa-chevron-left"></i> 网络攻防概述
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/12/26/university/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2/%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2-%E5%8F%A3%E4%BB%A4%E6%94%BB%E5%87%BB/" rel="next" title="网络攻防-口令攻击">
+      网络攻防-口令攻击 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%90%86%E8%AE%BA"><span class="nav-number">1.</span> <span class="nav-text">理论</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AC%E5%BC%80%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.1.</span> <span class="nav-text">公开信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#web%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.1.1.</span> <span class="nav-text">web服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E"><span class="nav-number">1.1.2.</span> <span class="nav-text">搜索引擎</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WhoIs%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.1.3.</span> <span class="nav-text">WhoIs服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS%E5%9F%9F%E5%90%8D%E6%9C%8D%E5%8A%A1"><span class="nav-number">1.1.4.</span> <span class="nav-text">DNS域名服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%89%AB%E6%8F%8F"><span class="nav-number">1.2.</span> <span class="nav-text">网络扫描</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA%E6%89%AB%E6%8F%8F"><span class="nav-number">1.2.1.</span> <span class="nav-text">主机扫描</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">1.2.2.</span> <span class="nav-text">端口扫描</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E6%89%AB%E6%8F%8F"><span class="nav-number">1.2.3.</span> <span class="nav-text">系统扫描</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E6%89%AB%E6%8F%8F"><span class="nav-number">1.2.4.</span> <span class="nav-text">漏洞扫描</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%8B%93%E6%9C%B4%E6%8E%A2%E6%B5%8B"><span class="nav-number">1.3.</span> <span class="nav-text">网络拓朴探测</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E8%B7%B5"><span class="nav-number">2.</span> <span class="nav-text">实践</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E5%AD%90%E5%9F%9F%E5%90%8D%E6%94%B6%E9%9B%86"><span class="nav-number">2.1.</span> <span class="nav-text">1子域名收集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84"><span class="nav-number">2.1.1.</span> <span class="nav-text">实验目的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B"><span class="nav-number">2.1.2.</span> <span class="nav-text">实验过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%BB%93%E6%9E%9C"><span class="nav-number">2.1.3.</span> <span class="nav-text">实验结果</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E4%B8%BB%E6%9C%BA%E6%8E%A2%E6%B5%8B-%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F"><span class="nav-number">2.2.</span> <span class="nav-text">2主机探测&amp;端口扫描</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%9B%AE%E7%9A%84-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">实验目的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E7%8E%AF%E5%A2%83"><span class="nav-number">2.2.2.</span> <span class="nav-text">实验环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E9%AA%8C%E8%BF%87%E7%A8%8B-1"><span class="nav-number">2.2.3.</span> <span class="nav-text">实验过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA%E6%8E%A2%E6%B5%8B"><span class="nav-number">2.2.4.</span> <span class="nav-text">主机探测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F-1"><span class="nav-number">2.2.5.</span> <span class="nav-text">端口扫描</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%91%E9%80%81TCP%E5%8C%85"><span class="nav-number">2.2.5.1.</span> <span class="nav-text">发送TCP包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FIN-NULL-Xmas"><span class="nav-number">2.2.5.2.</span> <span class="nav-text">FIN&amp;NULL&amp;Xmas</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SYN"><span class="nav-number">2.2.5.3.</span> <span class="nav-text">SYN</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L3RawSocket"><span class="nav-number">2.2.6.</span> <span class="nav-text">L3RawSocket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%85%E6%B7%B1%E5%85%A5"><span class="nav-number">2.2.7.</span> <span class="nav-text">待深入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">2.2.8.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

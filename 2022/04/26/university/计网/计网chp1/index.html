@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="参考书：计算机网络自顶向下方法(第6版)（黑皮书）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计网chp1-">
+<meta property="og:url" content="http://example.com/2022/04/26/university/%E8%AE%A1%E7%BD%91/%E8%AE%A1%E7%BD%91chp1/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="参考书：计算机网络自顶向下方法(第6版)（黑皮书）">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425184200009.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425185633851.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425191745781.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613203710416.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425201623275.png">
+<meta property="article:published_time" content="2022-04-25T17:16:45.000Z">
+<meta property="article:modified_time" content="2022-06-18T11:26:46.000Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425184200009.png">
+
+<link rel="canonical" href="http://example.com/2022/04/26/university/%E8%AE%A1%E7%BD%91/%E8%AE%A1%E7%BD%91chp1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>计网chp1- | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/26/university/%E8%AE%A1%E7%BD%91/%E8%AE%A1%E7%BD%91chp1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          计网chp1-
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-26 01:16:45" itemprop="dateCreated datePublished" datetime="2022-04-26T01:16:45+08:00">2022-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-06-18 19:26:46" itemprop="dateModified" datetime="2022-06-18T19:26:46+08:00">2022-06-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/" itemprop="url" rel="index"><span itemprop="name">university</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/%E8%AE%A1%E7%BD%91/" itemprop="url" rel="index"><span itemprop="name">计网</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>参考书：计算机网络自顶向下方法(第6版)（黑皮书）</p>
+<span id="more"></span>
+
+<h1 id="一些概念"><a href="#一些概念" class="headerlink" title="一些概念"></a>一些概念</h1><ul>
+<li>host主机</li>
+<li>end system端系统</li>
+<li>communication links通信链路</li>
+<li>bandwidth带宽</li>
+<li>packet switches分组交换机<ul>
+<li>router路由器</li>
+<li>link-layer switch链路层交换机</li>
+</ul>
+</li>
+<li>Internet : network of networks</li>
+<li>protocols协议</li>
+<li>ISP，Internet Service Provider网络服务提供商</li>
+<li>network edge网络边缘：hosts(client_server)</li>
+<li>access networks接入网: wired&#x2F;wireless ,连接网络边缘与边缘路由器的<ul>
+<li>家庭接入<ul>
+<li>DSL：数字用户线</li>
+<li>cable电缆<ul>
+<li>FDM：频分多路复用frequency division multiplexing</li>
+<li>HFC</li>
+</ul>
+</li>
+<li>FTTP光纤到户</li>
+</ul>
+</li>
+<li>企业接入enterprise<ul>
+<li>Ethernet以太网</li>
+<li>wireless LANs&#x3D;Wifi</li>
+</ul>
+</li>
+<li>广域网无线接入<ul>
+<li>WAN</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>network core网络核心: interconnected routers</li>
+<li>physical media<ul>
+<li>guided media电波沿固体媒体前行<ul>
+<li>twisted pair copper wire双绞铜线</li>
+<li>coaxial cable同轴电缆</li>
+<li>fiber optic cable光纤</li>
+</ul>
+</li>
+<li>unguided media电波在空气或外层空间传播<ul>
+<li>LAN-WiFi</li>
+<li>wide-area</li>
+<li>terrestrial microwave</li>
+<li>satellite卫星无线电</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>传输延迟packet transmission delay&#x3D;L(bits)&#x2F;R(bits&#x2F;sec)<ul>
+<li>L: len(packet)</li>
+<li>R: transmission rate</li>
+</ul>
+</li>
+<li>packet switching包交换，主机在应用层将message拆分成packets</li>
+<li>circuit switching电路交换，预留资源</li>
+<li>throughput吞吐量，发送方接收方之间的传输速率</li>
+<li>Internet protocol stack协议栈<ul>
+<li>application: message</li>
+<li>transport: segment</li>
+<li>network: datagram</li>
+<li>link: frame</li>
+<li>physical: bit</li>
+</ul>
+</li>
+<li>ISO&#x2F;OSI model: application, presentation, session,transport, network, link, physical</li>
+<li>encapsulation封装</li>
+<li>ICANN：管理域名和地址</li>
+</ul>
+<h1 id="Network-Core"><a href="#Network-Core" class="headerlink" title="Network Core"></a>Network Core</h1><p>由端系统的分组交换机和链路构成，share</p>
+<h2 id="Packet-switching"><a href="#Packet-switching" class="headerlink" title="Packet-switching"></a>Packet-switching</h2><p>每个分组都经过通信链路和分组交换机</p>
+<h3 id="store-and-forward"><a href="#store-and-forward" class="headerlink" title="store and forward"></a>store and forward</h3><p>存储转发：在交换机转发之前必须收到整个分组</p>
+<h3 id="end-end-delay"><a href="#end-end-delay" class="headerlink" title="end-end delay"></a>end-end delay</h3><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425184200009.png" alt="image-20220425184200009"></p>
+<p>此处忽略传播时延，则端到端时延&#x3D;2L&#x2F;R。一半是交换机接收的时间(存储转发时延)，一半是destination接收的时间</p>
+<h3 id="queueing-delay-loss"><a href="#queueing-delay-loss" class="headerlink" title="queueing delay,loss"></a>queueing delay,loss</h3><p>交换机存在一个输出队列（输出缓存），已到达的分组须在队列中等待，即有排队时延queue delay</p>
+<p>若缓存区满，则出现丢包packet loss</p>
+<h3 id="routing-forwarding"><a href="#routing-forwarding" class="headerlink" title="routing&amp;forwarding"></a>routing&amp;forwarding</h3><h2 id="circuit-switching"><a href="#circuit-switching" class="headerlink" title="circuit switching"></a>circuit switching</h2><p>dedicated，通常用于电话网络</p>
+<h3 id="复用"><a href="#复用" class="headerlink" title="复用"></a>复用</h3><ul>
+<li>FDM频分复用</li>
+<li>TDM时分复用</li>
+</ul>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425185633851.png" alt="image-20220425185633851"></p>
+<h2 id="比较"><a href="#比较" class="headerlink" title="比较"></a>比较</h2><ul>
+<li>分组交换能更好地处理突然的数据</li>
+<li>分组交换可能面临巨大的拥塞</li>
+</ul>
+<h3 id="一个计算！"><a href="#一个计算！" class="headerlink" title="一个计算！"></a>一个计算！</h3><h1 id="delay"><a href="#delay" class="headerlink" title="delay"></a>delay</h1><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425191745781.png" alt="image-20220425191745781"></p>
+<ul>
+<li>$d_{proc}$: nodal processing</li>
+<li>$d_{queue}$: queueing delay</li>
+<li>$d_{trans}$: transmission delay&#x3D;L&#x2F;R</li>
+<li>$d_{prop}$: propagation delay&#x3D;d&#x2F;s<ul>
+<li>d: len(physical link)</li>
+<li>s: propagation speed传输速率</li>
+</ul>
+</li>
+</ul>
+<h2 id="traffic-intensity"><a href="#traffic-intensity" class="headerlink" title="traffic intensity"></a>traffic intensity</h2><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220613203710416.png" alt="image-20220613203710416"></p>
+<ul>
+<li>流量强度趋于1，排队时延趋于无穷</li>
+<li>设计系统时流量强度不能大于1</li>
+</ul>
+<h1 id="protocol-stack"><a href="#protocol-stack" class="headerlink" title="protocol stack"></a>protocol stack</h1><p>本书主讲TCP&#x2F;IP协议栈，自顶而下</p>
+<table>
+<thead>
+<tr>
+<th>层次</th>
+<th>协议</th>
+<th>other</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>应用层5</td>
+<td>HTTP, DNS, SMTP, POP3, IMAP, FTP, TELNET, <br />SSL, SSH→通过TCP实现<br />RIP, BGP</td>
+<td>host之间</td>
+</tr>
+<tr>
+<td>传输层4</td>
+<td>TCP, UDP, SCTP</td>
+<td>process之间</td>
+</tr>
+<tr>
+<td>网络层3</td>
+<td>IP, ICMP, ARP</td>
+<td>node(router)之间</td>
+</tr>
+<tr>
+<td>链路层2</td>
+<td>Ethernet, PPP</td>
+<td>node(switch)之间</td>
+</tr>
+<tr>
+<td>物理层1</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>4,5是端到端，1,2,3是点到点</p>
+<h2 id="encapsulation"><a href="#encapsulation" class="headerlink" title="encapsulation"></a>encapsulation</h2><p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220425201623275.png" alt="image-20220425201623275"></p>
+<p>链路层交换机for下两层</p>
+<p>路由器for下三层</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/22/university/%E6%95%B0%E6%8D%AE%E5%BA%93/%E6%95%B0%E6%8D%AE%E5%BA%93chp10-%E6%95%B0%E6%8D%AE%E6%93%8D%E4%BD%9C/" rel="prev" title="数据库chp10-数据操作">
+      <i class="fa fa-chevron-left"></i> 数据库chp10-数据操作
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/26/university/%E8%AE%A1%E7%BD%91/%E8%AE%A1%E7%BD%91chp2-%E5%BA%94%E7%94%A8%E5%B1%82/" rel="next" title="计网chp2-应用层">
+      计网chp2-应用层 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E4%BA%9B%E6%A6%82%E5%BF%B5"><span class="nav-number">1.</span> <span class="nav-text">一些概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Network-Core"><span class="nav-number">2.</span> <span class="nav-text">Network Core</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Packet-switching"><span class="nav-number">2.1.</span> <span class="nav-text">Packet-switching</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#store-and-forward"><span class="nav-number">2.1.1.</span> <span class="nav-text">store and forward</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#end-end-delay"><span class="nav-number">2.1.2.</span> <span class="nav-text">end-end delay</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#queueing-delay-loss"><span class="nav-number">2.1.3.</span> <span class="nav-text">queueing delay,loss</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#routing-forwarding"><span class="nav-number">2.1.4.</span> <span class="nav-text">routing&amp;forwarding</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#circuit-switching"><span class="nav-number">2.2.</span> <span class="nav-text">circuit switching</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%8D%E7%94%A8"><span class="nav-number">2.2.1.</span> <span class="nav-text">复用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AF%94%E8%BE%83"><span class="nav-number">2.3.</span> <span class="nav-text">比较</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E8%AE%A1%E7%AE%97%EF%BC%81"><span class="nav-number">2.3.1.</span> <span class="nav-text">一个计算！</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#delay"><span class="nav-number">3.</span> <span class="nav-text">delay</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#traffic-intensity"><span class="nav-number">3.1.</span> <span class="nav-text">traffic intensity</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#protocol-stack"><span class="nav-number">4.</span> <span class="nav-text">protocol stack</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#encapsulation"><span class="nav-number">4.1.</span> <span class="nav-text">encapsulation</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="《应用密码学》">
+<meta property="og:type" content="article">
+<meta property="og:title" content="密码学复习">
+<meta property="og:url" content="http://example.com/2022/05/26/university/%E5%AF%86%E7%A0%81%E5%AD%A6/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%A4%8D%E4%B9%A0/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="《应用密码学》">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220622203313974.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220622204509135.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220622205116743.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220622210527371.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220622211442409.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220622212253175.png">
+<meta property="article:published_time" content="2022-05-26T05:51:29.000Z">
+<meta property="article:modified_time" content="2022-06-22T15:03:04.000Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220622203313974.png">
+
+<link rel="canonical" href="http://example.com/2022/05/26/university/%E5%AF%86%E7%A0%81%E5%AD%A6/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%A4%8D%E4%B9%A0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>密码学复习 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/05/26/university/%E5%AF%86%E7%A0%81%E5%AD%A6/%E5%AF%86%E7%A0%81%E5%AD%A6%E5%A4%8D%E4%B9%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          密码学复习
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-26 13:51:29" itemprop="dateCreated datePublished" datetime="2022-05-26T13:51:29+08:00">2022-05-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-06-22 23:03:04" itemprop="dateModified" datetime="2022-06-22T23:03:04+08:00">2022-06-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/" itemprop="url" rel="index"><span itemprop="name">university</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/%E5%AF%86%E7%A0%81%E5%AD%A6/" itemprop="url" rel="index"><span itemprop="name">密码学</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>《应用密码学》</p>
+<span id="more"></span>
+
+<h1 id="计算相关"><a href="#计算相关" class="headerlink" title="计算相关"></a>计算相关</h1><h2 id="乘法逆元"><a href="#乘法逆元" class="headerlink" title="乘法逆元"></a>乘法逆元</h2><p>扩展欧几里得-辗转相除法：最后一个不为0的余数就是最大公约数gcd</p>
+<p>原理：g(被除数, 除数)&#x3D;g(除数, 余数)</p>
+<p>求解x,y：xn+ay&#x3D;gcd(n,a)，当gcd(n,a)&#x3D;1时，求乘法逆元</p>
+<h2 id="x乘法"><a href="#x乘法" class="headerlink" title="x乘法"></a>x乘法</h2><p>面向字节，即8位，$B(x)&#x3D;b_7x^7+b_6x^6+…+b_0$</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_36329095/article/details/106976277">AES中加法、乘法、xtime运算详述_TomPG的博客-CSDN博客_xtime</a></p>
+<p>x·B(x):系数左移</p>
+<ul>
+<li>b7&#x3D;1：异或</li>
+<li>b7&#x3D;0</li>
+</ul>
+<p>AES中的不可约多项式：$m(x)&#x3D;x^8+x^4+x^3+x+1$</p>
+<h2 id="字节乘法"><a href="#字节乘法" class="headerlink" title="字节乘法"></a>字节乘法</h2><p>求：(a1 a2 a3 a4)*(b1 b2 b3 b4)，均为16进制表示，即8位&#x3D;字节<br>$$<br>A(x)&#x3D;{a1}x^3+{a2}x^2+{a3}x+{a4};\<br>B(x)&#x3D;{b1}x^3+{b2}x^2+{b3}x+{b4};\<br>C(x)&#x3D;A(x)<em>B(x)&#x3D;\left(\begin{matrix}<br> a4 &amp; a1 &amp; a2 &amp; a3 \<br> a3 &amp; a4 &amp; a1 &amp; a2 \<br> a2 &amp; a3 &amp; a4 &amp; a1 \<br> a1 &amp; a2 &amp; a3 &amp; a4 \<br>\end{matrix}\right)</em><br>\left(\begin{matrix} b4\b3\b2\b1\end{matrix}\right)<br>$$<br>再根据x乘法</p>
+<h2 id="欧拉函数"><a href="#欧拉函数" class="headerlink" title="欧拉函数"></a>欧拉函数</h2><ul>
+<li>$\phi({p})&#x3D;p-1$</li>
+<li>$\phi(p×q)&#x3D;(p-1)*(q-1)$</li>
+<li>$\phi(n)&#x3D;n(1-\frac1{p_1})(1-\frac1{p_2})…(1-\frac1{p_k}),(n&#x3D;p_1^{a_1}p_2^{a_2}…p_k^{a_k})$</li>
+</ul>
+<h2 id="平方-乘法"><a href="#平方-乘法" class="headerlink" title="平方-乘法"></a>平方-乘法</h2><p>快速指数乘法：<a target="_blank" rel="noopener" href="https://blog.csdn.net/trigpoplar/article/details/113486172">https://blog.csdn.net/trigpoplar/article/details/113486172</a></p>
+<p>费马小定理降幂：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/Anonytt/p/14351913.html">【指数降幂】费马小定理降幂&amp;欧拉降幂 - Anonytt - 博客园 (cnblogs.com)</a></p>
+<p>应用：</p>
+<ul>
+<li><p>RSA</p>
+</li>
+<li><p>Diffie-Hellman（简化指数运算）</p>
+</li>
+</ul>
+<h2 id="RSA加密-签名"><a href="#RSA加密-签名" class="headerlink" title="RSA加密+签名"></a>RSA加密+签名</h2><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/299786289">RSA加密及数字签名详解 - 知乎 (zhihu.com)</a></p>
+<h3 id="求密钥"><a href="#求密钥" class="headerlink" title="求密钥"></a>求密钥</h3><p>$d&#x3D;e^{-1}mod n$</p>
+<h3 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h3><p>$c&#x3D;m^emodn$</p>
+<h4 id="平方-乘法-1"><a href="#平方-乘法-1" class="headerlink" title="平方-乘法"></a>平方-乘法</h4><h3 id="解密"><a href="#解密" class="headerlink" title="解密"></a>解密</h3><p>$m&#x3D;c^dmodn$</p>
+<h4 id="费马小定理"><a href="#费马小定理" class="headerlink" title="费马小定理"></a>费马小定理</h4><p>$a^{p-1}&#x3D;1mod p$ 降幂</p>
+<h4 id="中国剩余定理"><a href="#中国剩余定理" class="headerlink" title="中国剩余定理"></a>中国剩余定理</h4><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_41437512/article/details/108147377">中国剩余定理—— 一次同余方程组解法_zorchp的博客-CSDN博客_一次同余方程的解法</a></p>
+<h2 id="ElGamal加密-签名"><a href="#ElGamal加密-签名" class="headerlink" title="ElGamal加密+签名"></a>ElGamal加密+签名</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zeroy610/p/15117747.html">Elgamal加密算法和数字签名 - zeroy610 - 博客园 (cnblogs.com)</a></p>
+<p>签名+验证</p>
+<h2 id="平方剩余的判定"><a href="#平方剩余的判定" class="headerlink" title="平方剩余的判定"></a>平方剩余的判定</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/sxy201658506207/article/details/89336246">平方剩余(二次剩余)_小天位的博客-CSDN博客_平方剩余</a></p>
+<h2 id="椭圆曲线"><a href="#椭圆曲线" class="headerlink" title="椭圆曲线"></a>椭圆曲线</h2><p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/3b810faff3ba">密码学基础2：椭圆曲线密码学原理分析 - 简书 (jianshu.com)</a></p>
+<h3 id="Elgamal"><a href="#Elgamal" class="headerlink" title="Elgamal"></a>Elgamal</h3><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mx-lqk/p/10325192.html">GF(p)上的ELGamal型椭圆曲线密码详解（Java实现） - 蒙丿鑫 - 博客园 (cnblogs.com)</a></p>
+<h3 id="ECDSA"><a href="#ECDSA" class="headerlink" title="ECDSA"></a>ECDSA</h3><p>原理及安全性：[椭圆曲线数字签名算法ECDSA介绍-FreeOA](<a target="_blank" rel="noopener" href="http://www.freeoa.net/osuport/sysec/ecdsa-intro_3638.html#:~:text=%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF%E6%95%B0%E5%AD%97%E7%AD%BE%E5%90%8D%E7%AE%97%E6%B3%95">http://www.freeoa.net/osuport/sysec/ecdsa-intro_3638.html#:~:text=椭圆曲线数字签名算法</a> (ECDSA)是使用椭圆曲线密码 (ECC)对数字签名算法 (DSA)的模拟。 ECC 是加密算法，无法直接用于数字签名，在 ECC 之前就已经有数字签名,ECDSA就是使用 ECC 对 DSA 数字签名算法的模拟，最终签名可得到两个值 r 和 s。)</p>
+<p>计算：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/107599962">椭圆曲线密码学简介（三）：ECDH加密算法和ECDSA数字签名算法 - 知乎 (zhihu.com)</a></p>
+<h4 id="SHA-1"><a href="#SHA-1" class="headerlink" title="SHA-1"></a>SHA-1</h4><p>信息摘要（哈希）<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/404396915">【密码学】一文读懂SHA-1 - 知乎 (zhihu.com)</a></p>
+<h2 id="Diffie-Hellman密钥协商"><a href="#Diffie-Hellman密钥协商" class="headerlink" title="Diffie-Hellman密钥协商"></a>Diffie-Hellman密钥协商</h2><p>$SK:x_A,x_B。素数p，原根a$</p>
+<p>$PK:y_A&#x3D;a^{x_A}modp,y_B&#x3D;a^{x_B}modp$</p>
+<p>$协商密钥K&#x3D;y_A^{x_B}modp&#x3D;y_B^{x_A}modp$</p>
+<h2 id="Shamir门限方案"><a href="#Shamir门限方案" class="headerlink" title="Shamir门限方案"></a>Shamir门限方案</h2><p>门限秘密分割方案+Lagrange插值公式</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_51216553/article/details/122073809">Shamir 门限方案｜秘密共享｜拉格朗日插值｜密码学_Chels.的博客-CSDN博客_shamir门限方案</a></p>
+<h2 id="DES"><a href="#DES" class="headerlink" title="DES"></a>DES</h2><p>加密：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40739219/article/details/120799004">DES算法加密流程_lkw23333的博客-CSDN博客_des算法的加密过程</a></p>
+<h2 id="AES"><a href="#AES" class="headerlink" title="AES"></a>AES</h2><p>(1) 字节替换：使用一个S盒对STATE的每个字节都进行独立的替换。<br>(2) 行移位：一个简单的移位变换。STATE的第一行保持不动，第二行循环左移动1个字节，第三行循环左移动2个字节，第四行循环左移动3个字节。<br>(3) 列混合：对STATE中的每列进行独立的操作，它把每个列都看成GF(2^8)中的一个多项式s(x)，再与GF(2^8)上的固定多项式$a(x)&#x3D;{03}x^3 + {01}x^2 + {01}x + {02}$进行模x^4+1的乘法运算。<br>(4) 密钥加：将输入阵列和一个轮密钥进行简单的按位异或(模2加)运算。</p>
+<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><h2 id="chp1-概述"><a href="#chp1-概述" class="headerlink" title="chp1 概述"></a>chp1 概述</h2><h3 id="对称VS非对称密码"><a href="#对称VS非对称密码" class="headerlink" title="对称VS非对称密码"></a>对称VS非对称密码</h3><p>对称密码体制中，加解密密钥相同<strong>或可相互导出</strong>；算法效率高；但密钥管理困难；开放性差；<strong>需要可靠密钥传输信道</strong>；<strong>难以实现数字签名</strong>；<strong>常用于数据加密</strong>。<br>非对称密码体制中每个用户有两个密钥，一个加密密钥（可公开）和一个解密密钥（保密），两个密钥不相同，且<strong>不可由公开的加密密钥导出解密密钥</strong>；密钥管理相对简单；适用于开放的应用环境；可方便实现数字签名和验证；算法计算效率较低；<strong>常用于密钥协商和数字签名</strong>。</p>
+<h3 id="一切秘密寓于密钥之中"><a href="#一切秘密寓于密钥之中" class="headerlink" title="一切秘密寓于密钥之中"></a>一切秘密寓于密钥之中</h3><p>对于商用密码系统而言，公开密码算法的优点包括：</p>
+<p>1）有利于对密码算法的<strong>安全性</strong>进行<strong>公开测试评估</strong>；</p>
+<p>2）防止密码<strong>算法</strong>设计者在算法中隐藏<strong>后门</strong>；</p>
+<p>3）易于实现密码算法的<strong>标准化</strong>；</p>
+<p>4）有利于使用密码算法产品的规模化生产，实现低成本和高性能。</p>
+<p>但是必须要指出的是，密码设计的公开原则并不等于所有的密码在应用时都一定要公开密码算法。</p>
+<h3 id="攻击类型"><a href="#攻击类型" class="headerlink" title="攻击类型"></a>攻击类型</h3><ul>
+<li>惟密文攻击</li>
+<li>已知明文攻击</li>
+<li>选择明文攻击</li>
+<li>选择密文攻击</li>
+</ul>
+<h3 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h3><p>- </p>
+<h2 id="chp2-古典密码"><a href="#chp2-古典密码" class="headerlink" title="chp2 古典密码"></a>chp2 古典密码</h2><h3 id="单表替代密码"><a href="#单表替代密码" class="headerlink" title="单表替代密码"></a>单表替代密码</h3><p>明文空间：26个英文字母的集合；<br>密文空间：26个英文字母的集合；<br>密钥空间：$K &#x3D; {π: Z_{26} -&gt; Z_{26} | π是置换}$</p>
+<h4 id="一般单表替代"><a href="#一般单表替代" class="headerlink" title="一般单表替代"></a>一般单表替代</h4><p>以26个英文字母集合上的一个置换π为密钥</p>
+<h4 id="移位密码"><a href="#移位密码" class="headerlink" title="移位密码"></a>移位密码</h4><p>0-25与a-z对应，k表示循环右移k位</p>
+<p>加密：$c&#x3D;E_k(m)&#x3D;(m+k)mod26$</p>
+<p>解密：$m&#x3D;D_K(c)&#x3D;(c-k)mod26$</p>
+<p><strong>当k&#x3D;3时，为凯撒密码</strong></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220622203313974.png" alt="image-20220622203313974"></p>
+<h4 id="仿射密码"><a href="#仿射密码" class="headerlink" title="仿射密码"></a>仿射密码</h4><p>密钥空间：$K&#x3D;{(k_0，k_1)| k_0，k_1∈Z_{26}，gcd(k_1，26)&#x3D;1}$</p>
+<p>加密：$c&#x3D;E_k(m)&#x3D;(k_1*m+k_0)mod26$</p>
+<p>解密：$m&#x3D;D_K(c)&#x3D;k_1^{-1}<em>(c-k_0)mod26$ , $k_1</em>k_1^{-1}&#x3D;1mod26$ , <strong>求逆用扩展欧几里得</strong></p>
+<p>k1&#x3D;1时即为移位密码，而k0&#x3D;0则称为乘法密码</p>
+<p><strong>仿射密码要求(k1, 26)&#x3D;1 ，否则就会有多个明文字母对应一个密文字母的情况。由于与26互素的整数有12个，故仿射密码密钥空间大小为|K|&#x3D;12×26&#x3D;312。</strong></p>
+<h4 id="密钥短语"><a href="#密钥短语" class="headerlink" title="密钥短语"></a>密钥短语</h4><p>将英文单词作为密钥，使字母表右移产生替换表，如下图为以key为密钥：</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220622204509135.png" alt="image-20220622204509135"></p>
+<h4 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h4><p>最大问题： 单表替代密码表现出明文中单字母出现的<strong>频率分布</strong>与密文中相同。</p>
+<h3 id="多表替代"><a href="#多表替代" class="headerlink" title="多表替代"></a>多表替代</h3><p>使用了两个或两个以上的替代表</p>
+<h4 id="Vigenere维吉尼亚"><a href="#Vigenere维吉尼亚" class="headerlink" title="Vigenere维吉尼亚"></a>Vigenere维吉尼亚</h4><p>选择一个单词作为密钥，明文按密钥大小<strong>分组</strong>，每组与密钥相加。如下图，选取cipher作为密钥，加密明文消息appliedcryptosystem：</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220622205116743.png" alt="image-20220622205116743"></p>
+<h4 id="Hill希尔"><a href="#Hill希尔" class="headerlink" title="Hill希尔"></a>Hill希尔</h4><p>通过矩阵线性变换，密钥K是一个矩阵。</p>
+<p>加密：C &#x3D; K * M mod 26</p>
+<p>解密：$M&#x3D;K^{-1}*C\ mod26$, $K^{-1}$是K的逆矩阵</p>
+<p>Hill密码特点：</p>
+<ul>
+<li>可以较好地抑制自然语言的统计特性，不再有单字母替换的一一对应关系，对抗“惟密文攻击”有较高安全强度。</li>
+<li>密钥空间较大，在忽略密钥矩阵K可逆限制条件下，$|K|&#x3D;26^{n×n}$</li>
+<li><strong>易受已知明文攻击及选择明文攻击</strong>。</li>
+</ul>
+<h4 id="一次一密"><a href="#一次一密" class="headerlink" title="一次一密"></a>一次一密</h4><p>理论上不可破译，绝对安全</p>
+<h4 id="playfair"><a href="#playfair" class="headerlink" title="playfair"></a>playfair</h4><p>Playfair密码是一种著名的双字母单表替代密码，实际上属于一种多字母替代密码。</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220622210527371.png" alt="image-20220622210527371"></p>
+<p>对每一明文字母对P1、P2的加密方法如下：</p>
+<p>（1）若P1、P2在同一行，密文C1、C2分别是紧靠P1、P2右端的字母；</p>
+<p>（2）若P1、P2在同一列，密文C1、C2分别是紧靠P1、P2下方的字母；</p>
+<p>（3）若P1、P2不在同一行，也不在同一列，则C1、C2是由P1、P2确定的矩形其它两角的字母，且C1和P1在同一行，C2和P2在同一行；</p>
+<p>（4）若P1＝P2，则两个字母间插入一个预先约定的字母，如x，并用前述方法处理；如balloon，则以ba lx lo on 来加密。</p>
+<p>（5）若明文字母数为奇数，则在明文尾填充约定字母。</p>
+<table>
+<thead>
+<tr>
+<th>明文分组</th>
+<th>pl</th>
+<th>ay</th>
+<th>fa</th>
+<th>ir</th>
+<th>ci</th>
+<th>ph</th>
+<th>er</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>密文分组</td>
+<td>LA</td>
+<td>YF</td>
+<td>PY</td>
+<td>RS</td>
+<td>MR</td>
+<td>AM</td>
+<td>CD</td>
+</tr>
+</tbody></table>
+<h3 id="周期置换密码"><a href="#周期置换密码" class="headerlink" title="周期置换密码"></a>周期置换密码</h3><p>按周期分组</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220622211442409.png" alt="image-20220622211442409"></p>
+<p><strong>逆置换</strong></p>
+<h3 id="列置换"><a href="#列置换" class="headerlink" title="列置换"></a>列置换</h3><p>将明文按行填写到一个表格中；然后按一个置换交换列的位置次序，再按列读出即得密文。（横着放，竖着读）</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220622212253175.png" alt="image-20220622212253175"></p>
+<h3 id="Enigma轮转机"><a href="#Enigma轮转机" class="headerlink" title="Enigma轮转机"></a>Enigma轮转机</h3><h3 id="选择-1"><a href="#选择-1" class="headerlink" title="选择"></a>选择</h3><ul>
+<li>Hill密码<strong>对抗惟密文攻击</strong>的强度较高，但安全性仍不高，是线性密码，易受已知明文攻击和选择明文攻击</li>
+<li>Playfair<strong>双字母替代</strong>密码</li>
+<li><strong>置换密码是Hill密码的特例</strong>，也是线性变换密码</li>
+<li>是基于密钥的密码</li>
+</ul>
+<h2 id="chp3-分组密码"><a href="#chp3-分组密码" class="headerlink" title="chp3 分组密码"></a>chp3 分组密码</h2>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/18/university/%E8%AE%A1%E7%BD%91/tinywebserver%E5%AE%9E%E8%B7%B5/" rel="prev" title="tinywebserver实践">
+      <i class="fa fa-chevron-left"></i> tinywebserver实践
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/27/blog/%E9%98%BF%E9%87%8CECS/" rel="next" title="阿里ECS">
+      阿里ECS <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E7%9B%B8%E5%85%B3"><span class="nav-number">1.</span> <span class="nav-text">计算相关</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B9%98%E6%B3%95%E9%80%86%E5%85%83"><span class="nav-number">1.1.</span> <span class="nav-text">乘法逆元</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#x%E4%B9%98%E6%B3%95"><span class="nav-number">1.2.</span> <span class="nav-text">x乘法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E8%8A%82%E4%B9%98%E6%B3%95"><span class="nav-number">1.3.</span> <span class="nav-text">字节乘法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AC%A7%E6%8B%89%E5%87%BD%E6%95%B0"><span class="nav-number">1.4.</span> <span class="nav-text">欧拉函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B3%E6%96%B9-%E4%B9%98%E6%B3%95"><span class="nav-number">1.5.</span> <span class="nav-text">平方-乘法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RSA%E5%8A%A0%E5%AF%86-%E7%AD%BE%E5%90%8D"><span class="nav-number">1.6.</span> <span class="nav-text">RSA加密+签名</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B1%82%E5%AF%86%E9%92%A5"><span class="nav-number">1.6.1.</span> <span class="nav-text">求密钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86"><span class="nav-number">1.6.2.</span> <span class="nav-text">加密</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B9%B3%E6%96%B9-%E4%B9%98%E6%B3%95-1"><span class="nav-number">1.6.2.1.</span> <span class="nav-text">平方-乘法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%AF%86"><span class="nav-number">1.6.3.</span> <span class="nav-text">解密</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B4%B9%E9%A9%AC%E5%B0%8F%E5%AE%9A%E7%90%86"><span class="nav-number">1.6.3.1.</span> <span class="nav-text">费马小定理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%AD%E5%9B%BD%E5%89%A9%E4%BD%99%E5%AE%9A%E7%90%86"><span class="nav-number">1.6.3.2.</span> <span class="nav-text">中国剩余定理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ElGamal%E5%8A%A0%E5%AF%86-%E7%AD%BE%E5%90%8D"><span class="nav-number">1.7.</span> <span class="nav-text">ElGamal加密+签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B9%B3%E6%96%B9%E5%89%A9%E4%BD%99%E7%9A%84%E5%88%A4%E5%AE%9A"><span class="nav-number">1.8.</span> <span class="nav-text">平方剩余的判定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A4%AD%E5%9C%86%E6%9B%B2%E7%BA%BF"><span class="nav-number">1.9.</span> <span class="nav-text">椭圆曲线</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Elgamal"><span class="nav-number">1.9.1.</span> <span class="nav-text">Elgamal</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ECDSA"><span class="nav-number">1.9.2.</span> <span class="nav-text">ECDSA</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SHA-1"><span class="nav-number">1.9.2.1.</span> <span class="nav-text">SHA-1</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Diffie-Hellman%E5%AF%86%E9%92%A5%E5%8D%8F%E5%95%86"><span class="nav-number">1.10.</span> <span class="nav-text">Diffie-Hellman密钥协商</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shamir%E9%97%A8%E9%99%90%E6%96%B9%E6%A1%88"><span class="nav-number">1.11.</span> <span class="nav-text">Shamir门限方案</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DES"><span class="nav-number">1.12.</span> <span class="nav-text">DES</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AES"><span class="nav-number">1.13.</span> <span class="nav-text">AES</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">2.</span> <span class="nav-text">概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#chp1-%E6%A6%82%E8%BF%B0"><span class="nav-number">2.1.</span> <span class="nav-text">chp1 概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E7%A7%B0VS%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%AF%86%E7%A0%81"><span class="nav-number">2.1.1.</span> <span class="nav-text">对称VS非对称密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E5%88%87%E7%A7%98%E5%AF%86%E5%AF%93%E4%BA%8E%E5%AF%86%E9%92%A5%E4%B9%8B%E4%B8%AD"><span class="nav-number">2.1.2.</span> <span class="nav-text">一切秘密寓于密钥之中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%BB%E5%87%BB%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.1.3.</span> <span class="nav-text">攻击类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9"><span class="nav-number">2.1.4.</span> <span class="nav-text">选择</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chp2-%E5%8F%A4%E5%85%B8%E5%AF%86%E7%A0%81"><span class="nav-number">2.2.</span> <span class="nav-text">chp2 古典密码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E8%A1%A8%E6%9B%BF%E4%BB%A3%E5%AF%86%E7%A0%81"><span class="nav-number">2.2.1.</span> <span class="nav-text">单表替代密码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E8%88%AC%E5%8D%95%E8%A1%A8%E6%9B%BF%E4%BB%A3"><span class="nav-number">2.2.1.1.</span> <span class="nav-text">一般单表替代</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%BB%E4%BD%8D%E5%AF%86%E7%A0%81"><span class="nav-number">2.2.1.2.</span> <span class="nav-text">移位密码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%BF%E5%B0%84%E5%AF%86%E7%A0%81"><span class="nav-number">2.2.1.3.</span> <span class="nav-text">仿射密码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%86%E9%92%A5%E7%9F%AD%E8%AF%AD"><span class="nav-number">2.2.1.4.</span> <span class="nav-text">密钥短语</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%80%A7"><span class="nav-number">2.2.1.5.</span> <span class="nav-text">安全性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E8%A1%A8%E6%9B%BF%E4%BB%A3"><span class="nav-number">2.2.2.</span> <span class="nav-text">多表替代</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Vigenere%E7%BB%B4%E5%90%89%E5%B0%BC%E4%BA%9A"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">Vigenere维吉尼亚</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hill%E5%B8%8C%E5%B0%94"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">Hill希尔</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E6%AC%A1%E4%B8%80%E5%AF%86"><span class="nav-number">2.2.2.3.</span> <span class="nav-text">一次一密</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#playfair"><span class="nav-number">2.2.2.4.</span> <span class="nav-text">playfair</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%91%A8%E6%9C%9F%E7%BD%AE%E6%8D%A2%E5%AF%86%E7%A0%81"><span class="nav-number">2.2.3.</span> <span class="nav-text">周期置换密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%97%E7%BD%AE%E6%8D%A2"><span class="nav-number">2.2.4.</span> <span class="nav-text">列置换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Enigma%E8%BD%AE%E8%BD%AC%E6%9C%BA"><span class="nav-number">2.2.5.</span> <span class="nav-text">Enigma轮转机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%89%E6%8B%A9-1"><span class="nav-number">2.2.6.</span> <span class="nav-text">选择</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chp3-%E5%88%86%E7%BB%84%E5%AF%86%E7%A0%81"><span class="nav-number">2.3.</span> <span class="nav-text">chp3 分组密码</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

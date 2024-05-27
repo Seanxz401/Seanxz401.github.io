@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="在Ubuntu20.04，Nachos4.1环境下，实现系统调用。还不理解系统调用，只知道实现了从c文件到头文件到汇编指令代码的一步步编写，最后成功实现函数作用。 具体要求：模仿code&#x2F;test&#x2F;add.c，阅读并理解其实现过程，实现求乘法，除法、乘方三种系统调用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NachOS实验之系统调用">
+<meta property="og:url" content="http://example.com/2022/04/19/university/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/NachOS%E5%AE%9E%E9%AA%8C%E4%B9%8B%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="在Ubuntu20.04，Nachos4.1环境下，实现系统调用。还不理解系统调用，只知道实现了从c文件到头文件到汇编指令代码的一步步编写，最后成功实现函数作用。 具体要求：模仿code&#x2F;test&#x2F;add.c，阅读并理解其实现过程，实现求乘法，除法、乘方三种系统调用。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220419210212324.png">
+<meta property="article:published_time" content="2022-04-19T11:32:46.000Z">
+<meta property="article:modified_time" content="2022-04-19T13:36:46.000Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220419210212324.png">
+
+<link rel="canonical" href="http://example.com/2022/04/19/university/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/NachOS%E5%AE%9E%E9%AA%8C%E4%B9%8B%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>NachOS实验之系统调用 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/19/university/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/NachOS%E5%AE%9E%E9%AA%8C%E4%B9%8B%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          NachOS实验之系统调用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-19 19:32:46 / 修改时间：21:36:46" itemprop="dateCreated datePublished" datetime="2022-04-19T19:32:46+08:00">2022-04-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/" itemprop="url" rel="index"><span itemprop="name">university</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/university/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" itemprop="url" rel="index"><span itemprop="name">操作系统</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在Ubuntu20.04，Nachos4.1环境下，实现系统调用。还不理解系统调用，只知道实现了从c文件到头文件到汇编指令代码的一步步编写，最后成功实现函数作用。</p>
+<p>具体要求：模仿<code>code/test/add.c</code>，阅读并理解其实现过程，实现求乘法，除法、乘方三种系统调用。</p>
+<span id="more"></span>
+
+<h2 id="修改文件"><a href="#修改文件" class="headerlink" title="修改文件"></a>修改文件</h2><p>tips:所有的修改都参考已有的Add函数实现，参考博客<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42316621/article/details/102368690">(3条消息) Nachos系统调用的实现_零商的博客-CSDN博客_nachos系统调用原理与实现</a></p>
+<h3 id="code-userprog"><a href="#code-userprog" class="headerlink" title="code&#x2F;userprog"></a>code&#x2F;userprog</h3><h4 id="syscall-h"><a href="#syscall-h" class="headerlink" title="syscall.h"></a>syscall.h</h4><p>添加宏定义（老人言：建议函数名取短一点）</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> SC_Multiplication	43	<span class="comment">//added by sean</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SC_Division	44		<span class="comment">//added by sean</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SC_Power	45		<span class="comment">//added by sean</span></span></span><br></pre></td></tr></table></figure>
+
+<p>添加函数声明(注意除法的返回为double类型)</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/////////////new add for division,mutiplication and power/////////</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">Multiplication</span><span class="params">(<span class="type">int</span> op1, <span class="type">int</span> op2)</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">Power</span><span class="params">(<span class="type">int</span> op1, <span class="type">int</span> op2)</span>;</span><br><span class="line"><span class="type">double</span> <span class="title function_">Division</span><span class="params">(<span class="type">int</span> op1, <span class="type">int</span> op2)</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="ksyscall-h"><a href="#ksyscall-h" class="headerlink" title="ksyscall.h"></a>ksyscall.h</h4><p>编写函数内容实现具体功能</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//////////new add function definition////</span></span><br><span class="line"><span class="type">int</span> <span class="title function_">SysMultiplication</span><span class="params">(<span class="type">int</span> op1, <span class="type">int</span> op2)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> op1*op2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">SysPower</span><span class="params">(<span class="type">int</span> op1, <span class="type">int</span> op2)</span>&#123;</span><br><span class="line">	<span class="type">int</span> x=op1;</span><br><span class="line">	<span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">1</span>;i&lt;op2;i++)&#123;</span><br><span class="line">		op1=op1*x;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> op1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">double</span> <span class="title function_">SysDivision</span><span class="params">(<span class="type">int</span> op1, <span class="type">int</span> op2)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">1.0</span>*(op1/op2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>讲个笑话：我刚提醒注意double类型，就发现自己的函数返回类型是int……<strong>仍无法做到返回double类型</strong>，只能返回向下取整的数，why？等我学会了再来补充。</p>
+<h4 id="exception-cc"><a href="#exception-cc" class="headerlink" title="exception.cc"></a>exception.cc</h4><p>通过switch实现对不同指令的响应功能，以及对异常进行处理（注意不同case下的定义<strong>不同的result变量</strong>，division定义为double），仅贴division这一case，multiplication和power与add只有result不同。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> SC_Division:</span><br><span class="line">  DEBUG(dbgSys, <span class="string">&quot;Division &quot;</span> &lt;&lt; kernel-&gt;machine-&gt;ReadRegister(<span class="number">4</span>) &lt;&lt; <span class="string">&quot; + &quot;</span> &lt;&lt; kernel-&gt;machine-&gt;ReadRegister(<span class="number">5</span>) &lt;&lt; <span class="string">&quot;\n&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="type">double</span> result4;</span><br><span class="line">  result4 = SysDivision(<span class="comment">/* int op1 */</span>(<span class="type">int</span>)kernel-&gt;machine-&gt;ReadRegister(<span class="number">4</span>),</span><br><span class="line">                  <span class="comment">/* int op2 */</span>(<span class="type">int</span>)kernel-&gt;machine-&gt;ReadRegister(<span class="number">5</span>));</span><br><span class="line"></span><br><span class="line">  DEBUG(dbgSys, <span class="string">&quot;Division returning with &quot;</span> &lt;&lt; result4 &lt;&lt; <span class="string">&quot;\n&quot;</span>);</span><br><span class="line">  kernel-&gt;machine-&gt;WriteRegister(<span class="number">2</span>, (<span class="type">double</span>)result4);</span><br><span class="line">  &#123;</span><br><span class="line">    kernel-&gt;machine-&gt;WriteRegister(PrevPCReg, kernel-&gt;machine-&gt;ReadRegister(PCReg));</span><br><span class="line">    kernel-&gt;machine-&gt;WriteRegister(PCReg, kernel-&gt;machine-&gt;ReadRegister(PCReg) + <span class="number">4</span>);</span><br><span class="line">    kernel-&gt;machine-&gt;WriteRegister(NextPCReg, kernel-&gt;machine-&gt;ReadRegister(PCReg)+<span class="number">4</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span>;</span><br><span class="line">  </span><br><span class="line">  ASSERTNOTREACHED();</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">break</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="code-test"><a href="#code-test" class="headerlink" title="code&#x2F;test"></a>code&#x2F;test</h3><h4 id="start-s"><a href="#start-s" class="headerlink" title="start.s"></a>start.s</h4><p>参照Add新增函数对应的汇编指令代码，注意一段的格式</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">	.globl Add</span><br><span class="line">	.ent	Add</span><br><span class="line">Add:</span><br><span class="line">	addiu $<span class="number">2</span>,$<span class="number">0</span>,SC_Add</span><br><span class="line">	syscall</span><br><span class="line">	j 	$<span class="number">31</span></span><br><span class="line">	.end Add</span><br></pre></td></tr></table></figure>
+
+<h4 id="test-c"><a href="#test-c" class="headerlink" title="test.c"></a>test.c</h4><p>测试文件</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;syscall.h&quot;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">	<span class="type">int</span> resAdd,resMul,resPow;</span><br><span class="line">	<span class="type">double</span> resDiv;</span><br><span class="line">	resAdd=Add(<span class="number">2</span>,<span class="number">10</span>);</span><br><span class="line">	resMul=Multiplication(<span class="number">2</span>,<span class="number">10</span>);</span><br><span class="line">	resPow=Power(<span class="number">2</span>,<span class="number">10</span>);</span><br><span class="line">	resDiv=Division(<span class="number">25</span>,<span class="number">10</span>);</span><br><span class="line">	Halt();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>随便写，也可以随便命名，不过后面的改动也要按照自己的命名来操作。</p>
+<h4 id="Makefile"><a href="#Makefile" class="headerlink" title="Makefile"></a>Makefile</h4><p>在<code>SOURCE</code>行加入test.c</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SOURCES = add.c halt.c matmult.c shell.c sort.c test.c</span><br></pre></td></tr></table></figure>
+
+<h2 id="编译运行"><a href="#编译运行" class="headerlink" title="编译运行"></a>编译运行</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">在code/test</span></span><br><span class="line">make clean</span><br><span class="line">make</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">在code/build.linux</span></span><br><span class="line">make clean</span><br><span class="line">rm -rf nachos</span><br><span class="line">make depend</span><br><span class="line">make	#是否有点眼熟</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">在code/test</span></span><br><span class="line">../build.linux/nachos -x test.noff -d u</span><br></pre></td></tr></table></figure>
+
+<p>计算结果如图：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20220419210212324.png" alt="image-20220419210212324"></p>
+<p>可见division得到的结果并不准确（待解决）</p>
+<h2 id="Over"><a href="#Over" class="headerlink" title="Over"></a>Over</h2><h3 id="一些error"><a href="#一些error" class="headerlink" title="一些error"></a>一些error</h3><ul>
+<li><p>在test中make遇到error时，可以看看报错信息，可能会提醒在Makefile的哪一行，然后一步步检查，可能</p>
+<ul>
+<li>单词拼写错误</li>
+<li>缩进错误（建议自己敲，不要CTRLCV）</li>
+</ul>
+</li>
+<li><p>一个无语的error<code>cpp not found</code>：检查半天发现是上一次装环境装到一半忘记了，我mips还没解压呢</p>
+</li>
+<li><p>一个奇怪的error起源于vim编辑时非正常退出产生了swp文件，如何删除参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/daniaoday/article/details/80398831%EF%BC%8C%E7%BB%8F%E6%AD%A4%E9%94%99%E8%AF%AF%EF%BC%8C%E6%88%91%E6%9B%B4%E7%88%B1%E8%AE%B0%E4%BA%8B%E6%9C%AC%E5%92%8Cvscode%E4%BA%86">https://blog.csdn.net/daniaoday/article/details/80398831，经此错误，我更爱记事本和vscode了</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm filename.swp	#filename包含了后缀</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>一个搞笑的error起源于逃课（错误行为请勿模仿），是在最后编译运行时，由于没听课就问室友最后一步是不是gcc编译运行，我也没问清楚，室友们也跟我不在一个频道上（以为我在说make那一步会不会用到gcc）纷纷说就是gcc，我以为的gcc是<code>gcc test.c -o test</code>，然后就一直报错嘛，要不是看了室友的实验报告我差点就要丢脸丢到助教面前了。。</p>
+</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>做事尽量一次性完成</li>
+<li>不要逃课</li>
+<li>记得解决double的问题</li>
+<li>下次及时记录<del>（懒：下次一定）</del></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/19/university/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/NachOS%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/" rel="prev" title="NachOS环境搭建">
+      <i class="fa fa-chevron-left"></i> NachOS环境搭建
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/20/university/%E8%AE%A1%E7%BB%84/%E8%AE%A1%E7%BB%84chp1-%E7%BB%AA%E8%AE%BA/" rel="next" title="计组chp1-绪论">
+      计组chp1-绪论 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">修改文件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#code-userprog"><span class="nav-number">1.1.</span> <span class="nav-text">code&#x2F;userprog</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#syscall-h"><span class="nav-number">1.1.1.</span> <span class="nav-text">syscall.h</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ksyscall-h"><span class="nav-number">1.1.2.</span> <span class="nav-text">ksyscall.h</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#exception-cc"><span class="nav-number">1.1.3.</span> <span class="nav-text">exception.cc</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#code-test"><span class="nav-number">1.2.</span> <span class="nav-text">code&#x2F;test</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#start-s"><span class="nav-number">1.2.1.</span> <span class="nav-text">start.s</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#test-c"><span class="nav-number">1.2.2.</span> <span class="nav-text">test.c</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Makefile"><span class="nav-number">1.2.3.</span> <span class="nav-text">Makefile</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E8%BF%90%E8%A1%8C"><span class="nav-number">2.</span> <span class="nav-text">编译运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Over"><span class="nav-number">3.</span> <span class="nav-text">Over</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%BA%9Berror"><span class="nav-number">3.1.</span> <span class="nav-text">一些error</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.2.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

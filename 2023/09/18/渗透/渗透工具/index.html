@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="记录一些工具的使用，主要是功能及常用参数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="渗透工具">
+<meta property="og:url" content="http://example.com/2023/09/18/%E6%B8%97%E9%80%8F/%E6%B8%97%E9%80%8F%E5%B7%A5%E5%85%B7/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="记录一些工具的使用，主要是功能及常用参数">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-09-18T08:22:43.000Z">
+<meta property="article:modified_time" content="2024-05-27T07:57:18.667Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2023/09/18/%E6%B8%97%E9%80%8F/%E6%B8%97%E9%80%8F%E5%B7%A5%E5%85%B7/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>渗透工具 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2023/09/18/%E6%B8%97%E9%80%8F/%E6%B8%97%E9%80%8F%E5%B7%A5%E5%85%B7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          渗透工具
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-09-18 16:22:43" itemprop="dateCreated datePublished" datetime="2023-09-18T16:22:43+08:00">2023-09-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-05-27 15:57:18" itemprop="dateModified" datetime="2024-05-27T15:57:18+08:00">2024-05-27</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B8%97%E9%80%8F/" itemprop="url" rel="index"><span itemprop="name">渗透</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>记录一些工具的使用，主要是功能及常用参数</p>
+<span id="more"></span>
+
+<h1 id="信息收集"><a href="#信息收集" class="headerlink" title="信息收集"></a>信息收集</h1><h2 id="目录扫描"><a href="#目录扫描" class="headerlink" title="目录扫描"></a>目录扫描</h2><p>多个工具扫描出来的结果可能不一样</p>
+<h3 id="dirb"><a href="#dirb" class="headerlink" title="dirb"></a>dirb</h3><p>kali自带</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dirb [url]</span><br></pre></td></tr></table></figure>
+
+<h3 id="dirsearch"><a href="#dirsearch" class="headerlink" title="dirsearch"></a>dirsearch</h3><h3 id="dirmap"><a href="#dirmap" class="headerlink" title="dirmap"></a>dirmap</h3><p>比较快，但是字典也不是那么全</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python dirmap.py -i url -lcf</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="御剑"><a href="#御剑" class="headerlink" title="御剑"></a>御剑</h3><h2 id="主机扫描"><a href="#主机扫描" class="headerlink" title="主机扫描"></a>主机扫描</h2><h3 id="nmap"><a href="#nmap" class="headerlink" title="nmap"></a>nmap</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap -sV ip <span class="comment"># 扫描服务</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="Web向"><a href="#Web向" class="headerlink" title="Web向"></a>Web向</h1><h2 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h2><h3 id="sqlmap"><a href="#sqlmap" class="headerlink" title="sqlmap"></a>sqlmap</h3><p><code>-u</code>：目标url</p>
+<p><code>--data</code>：post参数</p>
+<p><code>-r</code>：请求包文件</p>
+<p><code>--os-shell</code>：getshell，也是通过文件写入</p>
+<ul>
+<li>原理：上传shell</li>
+<li>条件：知道绝对路径、PHP magic_quotes_gpc关闭<ul>
+<li>MySQL：secure_file_priv为空或者为指定路径；当前用户有文件写入权限</li>
+<li>SQL Server：SA权限；xp_cmdshell</li>
+</ul>
+</li>
+</ul>
+<h3 id="SSTI"><a href="#SSTI" class="headerlink" title="SSTI"></a>SSTI</h3><p>tplmap</p>
+<h1 id="主机服务向"><a href="#主机服务向" class="headerlink" title="主机服务向"></a>主机服务向</h1><h2 id="SMB"><a href="#SMB" class="headerlink" title="SMB"></a>SMB</h2><h3 id="enum4linux"><a href="#enum4linux" class="headerlink" title="enum4linux"></a>enum4linux</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">enum4linux IP</span><br></pre></td></tr></table></figure>
+
+<h1 id="爆破"><a href="#爆破" class="headerlink" title="爆破"></a>爆破</h1><h3 id="hydra"><a href="#hydra" class="headerlink" title="hydra"></a>hydra</h3><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hydra -l username -P pass_dict ip ssh</span><br><span class="line"><span class="comment"># 常用字典/usr/share/wordlists/rockyou.txt</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="John"><a href="#John" class="headerlink" title="John"></a>John</h3><p>首先要得到对应格式的文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">python /usr/share/john/ssh2john.py id_rsa &gt; john_rsa</span><br><span class="line">unshadow /etc/passswd /etc/shadow &gt; hash.txt</span><br><span class="line">john --list=formats	#查看有哪些格式</span><br><span class="line">john --list=formats | grep -iF &quot;md5&quot;</span><br><span class="line">hash-identifier # 查看hash方法</span><br></pre></td></tr></table></figure>
+
+<p>爆破</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">john md5.txt --wordlist=/usr/share/wordlists/rockyou.txt --format=raw-md5</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>查看</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">john --show --format=Raw-MD5 md5.txt</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="hashcat"><a href="#hashcat" class="headerlink" title="hashcat"></a>hashcat</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hashcat -m 0 md5.txt /usr/share/wordlists/rockyou.txt # -m=0是表示md5，后面是密码字典</span><br><span class="line">hashcat -a 3 md5.txt ?a?a?a?a?a?a # 6位字符串爆破，-a=3表示爆破</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="主机提权"><a href="#主机提权" class="headerlink" title="主机提权"></a>主机提权</h1><h2 id="PEASS"><a href="#PEASS" class="headerlink" title="PEASS"></a>PEASS</h2><p><a target="_blank" rel="noopener" href="https://github.com/carlospolop/PEASS-ng">PEASS-ng</a></p>
+<h1 id="内网渗透"><a href="#内网渗透" class="headerlink" title="内网渗透"></a>内网渗透</h1><h2 id="代理隧道"><a href="#代理隧道" class="headerlink" title="代理隧道"></a>代理隧道</h2><p>端口转发？</p>
+<p>frp</p>
+<p>stowaway</p>
+<h1 id="综合"><a href="#综合" class="headerlink" title="综合"></a>综合</h1><h2 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h2><p>Fuzz字典：<a target="_blank" rel="noopener" href="https://github.com/TheKingOfDuck/fuzzDicts/tree/master">https://github.com/TheKingOfDuck/fuzzDicts/tree/master</a></p>
+<h2 id="burpsuite"><a href="#burpsuite" class="headerlink" title="burpsuite"></a>burpsuite</h2><p>重放</p>
+<p>爆破</p>
+<p>插件</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/09/17/24%E5%B1%8A%E7%A7%8B%E6%8B%9B/%E6%B8%97%E9%80%8F%E6%B5%8B%E8%AF%95%E6%80%BB%E7%BB%93/" rel="prev" title="渗透测试总结">
+      <i class="fa fa-chevron-left"></i> 渗透测试总结
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/09/22/24%E5%B1%8A%E7%A7%8B%E6%8B%9B/%E5%BA%94%E6%80%A5%E5%93%8D%E5%BA%94%E6%80%BB%E7%BB%93/" rel="next" title="应急响应总结">
+      应急响应总结 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86"><span class="nav-number">1.</span> <span class="nav-text">信息收集</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E6%89%AB%E6%8F%8F"><span class="nav-number">1.1.</span> <span class="nav-text">目录扫描</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#dirb"><span class="nav-number">1.1.1.</span> <span class="nav-text">dirb</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dirsearch"><span class="nav-number">1.1.2.</span> <span class="nav-text">dirsearch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dirmap"><span class="nav-number">1.1.3.</span> <span class="nav-text">dirmap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%A1%E5%89%91"><span class="nav-number">1.1.4.</span> <span class="nav-text">御剑</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA%E6%89%AB%E6%8F%8F"><span class="nav-number">1.2.</span> <span class="nav-text">主机扫描</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#nmap"><span class="nav-number">1.2.1.</span> <span class="nav-text">nmap</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Web%E5%90%91"><span class="nav-number">2.</span> <span class="nav-text">Web向</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL%E6%B3%A8%E5%85%A5"><span class="nav-number">2.1.</span> <span class="nav-text">SQL注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sqlmap"><span class="nav-number">2.1.1.</span> <span class="nav-text">sqlmap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SSTI"><span class="nav-number">2.1.2.</span> <span class="nav-text">SSTI</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA%E6%9C%8D%E5%8A%A1%E5%90%91"><span class="nav-number">3.</span> <span class="nav-text">主机服务向</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#SMB"><span class="nav-number">3.1.</span> <span class="nav-text">SMB</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#enum4linux"><span class="nav-number">3.1.1.</span> <span class="nav-text">enum4linux</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%88%86%E7%A0%B4"><span class="nav-number">4.</span> <span class="nav-text">爆破</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hydra"><span class="nav-number">4.0.1.</span> <span class="nav-text">hydra</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#John"><span class="nav-number">4.0.2.</span> <span class="nav-text">John</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hashcat"><span class="nav-number">4.0.3.</span> <span class="nav-text">hashcat</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA%E6%8F%90%E6%9D%83"><span class="nav-number">5.</span> <span class="nav-text">主机提权</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PEASS"><span class="nav-number">5.1.</span> <span class="nav-text">PEASS</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E6%B8%97%E9%80%8F"><span class="nav-number">6.</span> <span class="nav-text">内网渗透</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%90%86%E9%9A%A7%E9%81%93"><span class="nav-number">6.1.</span> <span class="nav-text">代理隧道</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%BC%E5%90%88"><span class="nav-number">7.</span> <span class="nav-text">综合</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%97%E5%85%B8"><span class="nav-number">7.1.</span> <span class="nav-text">字典</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#burpsuite"><span class="nav-number">7.2.</span> <span class="nav-text">burpsuite</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">90</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">17</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
