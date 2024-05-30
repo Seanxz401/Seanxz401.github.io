@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="ctf-web题常见题型汇总，简洁版存档">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web漏洞总结-简版">
+<meta property="og:url" content="http://example.com/2024/05/28/web%E5%AE%89%E5%85%A8/web%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93-%E7%AE%80%E7%89%88/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="ctf-web题常见题型汇总，简洁版存档">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-05-28T10:07:49.000Z">
+<meta property="article:modified_time" content="2024-05-28T10:11:53.291Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2024/05/28/web%E5%AE%89%E5%85%A8/web%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93-%E7%AE%80%E7%89%88/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>web漏洞总结-简版 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/05/28/web%E5%AE%89%E5%85%A8/web%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93-%E7%AE%80%E7%89%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          web漏洞总结-简版
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-05-28 18:07:49 / 修改时间：18:11:53" itemprop="dateCreated datePublished" datetime="2024-05-28T18:07:49+08:00">2024-05-28</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web%E5%AE%89%E5%85%A8/" itemprop="url" rel="index"><span itemprop="name">web安全</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">ctf-web题常见题型汇总，简洁版存档</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>首先扫目录，然后从功能点中找漏洞，找不到试试bp的scan或者kali的whatweb。</p>
+<p>页面多的时候不要忽略每一个页面的前端源码！</p>
+<p>尝试触发报错，可能爆出路径&#x2F;debug页面&#x2F;版本信息</p>
+<h1 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h1><p>场景：登录，查询，cookie中</p>
+<p>简单：闭合、注释、联合注入、报错注入，insert&#x2F;update注入</p>
+<p>综合：堆叠注入（prepare）、二次注入（select&#x2F;update），无字段名查询，盲注（逻辑运算、正则匹配）、文件读取与写入、日志写入shell</p>
+<p>绕过过滤：</p>
+<ul>
+<li>空格-&gt;括号，<code>/**/</code>，<code>%a0</code></li>
+<li>information_schema-&gt;猜flag表flag列；mysql.innodb</li>
+<li>substr-&gt;regexp&#x2F;left&#x2F;right&#x2F;mid</li>
+<li>逗号-&gt;from [offset] for [step]</li>
+<li>等号-&gt;like</li>
+<li>闭合符号+注释-&gt;反斜杠转义，需要两个参数互相配合</li>
+<li>单引号-&gt;找数值型注入点</li>
+<li>一些关键词过滤：<ul>
+<li><code>/**/</code>分隔</li>
+<li>concat连接+预处理</li>
+</ul>
+</li>
+<li>注释符-&gt;<code>%00</code></li>
+</ul>
+<p>结果处理：left&#x2F;right&#x2F;reverse&#x2F;substr</p>
+<h1 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h1><p>（有时候文件上传可能只是为了告诉你一个具有写权限的路径，并不能绕过）</p>
+<p>与文件包含结合</p>
+<p>.htaccess：FilesMatch，AddType，auto_append</p>
+<p>.user.ini：auto_append_file</p>
+<p>条件竞争</p>
+<p>php短标签绕过php检测</p>
+<p>phtml绕过&lt;?检测</p>
+<p>php7 segment fault特性（CVE-2018-14884）</p>
+<h1 id="文件包含"><a href="#文件包含" class="headerlink" title="文件包含"></a>文件包含</h1><p>可以尝试读取：&#x2F;flag，网站源码，&#x2F;proc&#x2F;self&#x2F;下的文件</p>
+<p>include把导入的字符串当成当前文件的代码结构，而file_get_contents只是返回字符串。</p>
+<p>目录穿越</p>
+<p>file:&#x2F;&#x2F;</p>
+<h1 id="命令执行"><a href="#命令执行" class="headerlink" title="命令执行"></a>命令执行</h1><h2 id="php代码注入"><a href="#php代码注入" class="headerlink" title="php代码注入"></a>php代码注入</h2><p>危险函数：eval，preg_match，create_function，extract，call_user_func，call_user_func_array，反引号</p>
+<p>%09是空格</p>
+<p>%0a换行，可以执行多条命令</p>
+<p>$$变量覆盖</p>
+<p>单引号过滤绕过：<code>chr(102).chr(108).chr(108)</code></p>
+<p>无参数代码执行</p>
+<p>escapeshellarg+escapeshellcmd</p>
+<p>json_encode_decode：Unicode编码绕过waf</p>
+<h2 id="Linux命令特性"><a href="#Linux命令特性" class="headerlink" title="Linux命令特性"></a>Linux命令特性</h2><p>文件内容读取函数：cat&#x2F;tac&#x2F;nl&#x2F;more&#x2F;less&#x2F;head&#x2F;tail&#x2F;</p>
+<p>文件查找：find+grep</p>
+<p>分号分割多条命令；</p>
+<p>问号?可作为占位符使用，可绕过关键词过滤</p>
+<p>空格可替换为<code>$&#123;IFS&#125;,$IFS$9</code></p>
+<p>#可替换为%0a，忽略后面的内容；</p>
+<p>关键词绕过：反斜杠代表分行，不影响命令执行；空变量<code>$@</code></p>
+<p>nmap用法</p>
+<h2 id="SSRF"><a href="#SSRF" class="headerlink" title="SSRF"></a>SSRF</h2><p>（有时候url参数可能不是ssrf，只是单纯的文件包含</p>
+<p>gopher协议：gopher:&#x2F;&#x2F;IP:port&#x2F;_TCP&#x2F;IP数据流</p>
+<h1 id="代码审计"><a href="#代码审计" class="headerlink" title="代码审计"></a>代码审计</h1><p>获取源码的方式：扫后台备份；文件包含；show_source</p>
+<h2 id="php（反序列化和各种绕过"><a href="#php（反序列化和各种绕过" class="headerlink" title="php（反序列化和各种绕过"></a>php（反序列化和各种绕过</h2><p>见代码注入</p>
+<p>弱类型比较绕过：md5，intval，”字符串”&#x3D;&#x3D;0为真，True&#x3D;&#x3D;任意非False值为真，preg_match，整数与字符串类型比较时，会先将字符串转化为整数然后比较。</p>
+<p>通过url编码可绕过：<code>$_SERVER[&#39;QUERY_STRING&#39;]</code>，<code>$_REQUEST</code></p>
+<p>$_REQUEST取值POST优先级更高</p>
+<p>preg_match：无字母数字rce(异或+取反)；PCRE回溯次数；</p>
+<p>参数解析特性：删除空白符（%20&#x2F;%00）；将某些字符([,+,.)等等转换为下划线（包括空格）</p>
+<p>require_once：hash匹配失效</p>
+<p>mt_rand：爆破seed</p>
+<p>create_function：可闭合</p>
+<p>原生类特性：Error（绕md5），SoapClient（_call存在SSRF）</p>
+<p>魔术方法：toString, sleep, wakeup（绕过）, get, set, call,invoke</p>
+<p>php单引号中的内容不会被解析为特殊字符</p>
+<p>phar反序列化</p>
+<p>php反序列化字符逃逸</p>
+<h1 id="模板注入"><a href="#模板注入" class="headerlink" title="模板注入"></a>模板注入</h1><h2 id="jinja2"><a href="#jinja2" class="headerlink" title="jinja2"></a>jinja2</h2><p>找到可利用的包，实现命令执行</p>
+<ul>
+<li>绕过<code>class</code>等关键词过滤<ul>
+<li>字符串拼接</li>
+<li>request.args</li>
+</ul>
+</li>
+<li>下划线过滤-&gt;十六进制\x5f</li>
+<li>单引号&lt;-&gt;双引号</li>
+<li>点号&lt;-&gt;中括号</li>
+</ul>
+<p>twig</p>
+<p>smarty：直接执行php代码</p>
+<h1 id="敏感信息泄露"><a href="#敏感信息泄露" class="headerlink" title="敏感信息泄露"></a>敏感信息泄露</h1><h2 id="WEB-INF"><a href="#WEB-INF" class="headerlink" title="WEB_INF"></a>WEB_INF</h2><p>通过扫目录观察可得</p>
+<h2 id="git"><a href="#git" class="headerlink" title=".git&#x2F;"></a>.git&#x2F;</h2><p>GitHack提取源码</p>
+<p>GitHacker提取git相关配置信息，用于恢复git环境</p>
+<p>常用git命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">log</span> --all</span><br><span class="line">git <span class="built_in">log</span> --reflog	<span class="comment">#查看恢复记录</span></span><br><span class="line">git reset --hard e5b2a2443c2b6d395d06960123142bc91123148c	<span class="comment">#重置为某个分支</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="编码解码"><a href="#编码解码" class="headerlink" title="编码解码"></a>编码解码</h1><p>Django：编码爆出debug界面</p>
+<p>Mysql：宽字节</p>
+<p>JSON：decode会自动解Unicode为utf-8</p>
+<h1 id="逻辑漏洞"><a href="#逻辑漏洞" class="headerlink" title="逻辑漏洞"></a>逻辑漏洞</h1><p>身份验证绕过：jwt</p>
+<p>支付0元购</p>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="nodejs"><a href="#nodejs" class="headerlink" title="nodejs"></a>nodejs</h2><ul>
+<li>vm沙箱逃逸</li>
+<li>原型链污染</li>
+<li>js大小写绕过</li>
+</ul>
+<h2 id="C"><a href="#C" class="headerlink" title="C"></a>C</h2><ul>
+<li>include文件头报错</li>
+</ul>
+<h2 id="python"><a href="#python" class="headerlink" title="python"></a>python</h2><ul>
+<li>flask session伪造</li>
+<li>django 字符集报错</li>
+<li>format漏洞</li>
+<li>os.path.join路径穿越</li>
+<li>Unicode编码字符等价绕过：unicodedata.numeric(‘万’)&#x3D;10000</li>
+<li>idna编码+utf8解码导致字符绕过</li>
+<li>pickle反序列化</li>
+</ul>
+<p>CRLF注入</p>
+<p>XSS</p>
+<ul>
+<li>CSP绕过</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/05/28/blog/hexo%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90%E5%88%86%E7%B1%BB/" rel="prev" title="hexo自动生成分类">
+      <i class="fa fa-chevron-left"></i> hexo自动生成分类
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/05/30/%E6%B8%97%E9%80%8F/%E6%B8%97%E9%80%8F%E5%AD%A6%E4%B9%A0%E6%80%BB%E7%BB%93/" rel="next" title="渗透学习总结">
+      渗透学习总结 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SQL%E6%B3%A8%E5%85%A5"><span class="nav-number">1.</span> <span class="nav-text">SQL注入</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="nav-number">2.</span> <span class="nav-text">文件上传</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB"><span class="nav-number">3.</span> <span class="nav-text">文件包含</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C"><span class="nav-number">4.</span> <span class="nav-text">命令执行</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#php%E4%BB%A3%E7%A0%81%E6%B3%A8%E5%85%A5"><span class="nav-number">4.1.</span> <span class="nav-text">php代码注入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Linux%E5%91%BD%E4%BB%A4%E7%89%B9%E6%80%A7"><span class="nav-number">4.2.</span> <span class="nav-text">Linux命令特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSRF"><span class="nav-number">4.3.</span> <span class="nav-text">SSRF</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1"><span class="nav-number">5.</span> <span class="nav-text">代码审计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#php%EF%BC%88%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%90%84%E7%A7%8D%E7%BB%95%E8%BF%87"><span class="nav-number">5.1.</span> <span class="nav-text">php（反序列化和各种绕过</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A8%A1%E6%9D%BF%E6%B3%A8%E5%85%A5"><span class="nav-number">6.</span> <span class="nav-text">模板注入</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#jinja2"><span class="nav-number">6.1.</span> <span class="nav-text">jinja2</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2"><span class="nav-number">7.</span> <span class="nav-text">敏感信息泄露</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#WEB-INF"><span class="nav-number">7.1.</span> <span class="nav-text">WEB_INF</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git"><span class="nav-number">7.2.</span> <span class="nav-text">.git&#x2F;</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BC%96%E7%A0%81%E8%A7%A3%E7%A0%81"><span class="nav-number">8.</span> <span class="nav-text">编码解码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E"><span class="nav-number">9.</span> <span class="nav-text">逻辑漏洞</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">10.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#nodejs"><span class="nav-number">10.1.</span> <span class="nav-text">nodejs</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C"><span class="nav-number">10.2.</span> <span class="nav-text">C</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#python"><span class="nav-number">10.3.</span> <span class="nav-text">python</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">95</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

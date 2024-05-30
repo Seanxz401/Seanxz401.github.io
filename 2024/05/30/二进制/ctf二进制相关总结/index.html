@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="ctf中reverse和pwn相关题型记录">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ctf二进制相关总结">
+<meta property="og:url" content="http://example.com/2024/05/30/%E4%BA%8C%E8%BF%9B%E5%88%B6/ctf%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="ctf中reverse和pwn相关题型记录">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231118202948520.png">
+<meta property="article:published_time" content="2024-05-30T06:45:26.000Z">
+<meta property="article:modified_time" content="2024-05-30T06:49:32.907Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231118202948520.png">
+
+<link rel="canonical" href="http://example.com/2024/05/30/%E4%BA%8C%E8%BF%9B%E5%88%B6/ctf%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>ctf二进制相关总结 | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/05/30/%E4%BA%8C%E8%BF%9B%E5%88%B6/ctf%E4%BA%8C%E8%BF%9B%E5%88%B6%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ctf二进制相关总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-05-30 14:45:26 / 修改时间：14:49:32" itemprop="dateCreated datePublished" datetime="2024-05-30T14:45:26+08:00">2024-05-30</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%BA%8C%E8%BF%9B%E5%88%B6/" itemprop="url" rel="index"><span itemprop="name">二进制</span></a>
+                </span>
+            </span>
+
+          
+            <div class="post-description">ctf中reverse和pwn相关题型记录</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Reverse"><a href="#Reverse" class="headerlink" title="Reverse"></a>Reverse</h1><p>exeinfo：查位数、查壳</p>
+<p>脱壳：upx</p>
+<p>IDA：查找字符串&#x2F;变量名、反编译成c</p>
+<p>根据反编译的c代码写逆向脚本（……</p>
+<p>Java class逆向得源码：jd-gui</p>
+<h1 id="Pwn"><a href="#Pwn" class="headerlink" title="Pwn"></a>Pwn</h1><p>checksec：如果栈可执行可能有栈溢出</p>
+<p>pwngdb：生成payload；</p>
+<h2 id="栈溢出"><a href="#栈溢出" class="headerlink" title="栈溢出"></a>栈溢出</h2><p>可能导致栈溢出的函数：gets&#x2F;strcpy&#x2F;read</p>
+<p>利用方式：</p>
+<ul>
+<li>将栈溢出所在栈的ret值覆盖为危险函数所在的栈底</li>
+<li>覆盖条件语句，跳过判断</li>
+<li>覆盖指定变量值，绕过判断</li>
+</ul>
+<p>pwngdb调试程序确认栈溢出所需偏移值（rsp-rbp）</p>
+<p>ida确认目标函数&#x2F;变量&#x2F;指令的地址</p>
+<p>编写exp，发送payload：<code>填充值*偏移值+p64(危险函数地址)</code>（可能有时候偏移量需要+1？</p>
+<h1 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h1><h2 id="Exeinfo-PE"><a href="#Exeinfo-PE" class="headerlink" title="Exeinfo PE"></a>Exeinfo PE</h2><p>查壳！会显示是32位还是64位；是否有壳；甚至还有脱壳建议！</p>
+<p><img src="https://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20231118202948520.png" alt="image-20231118202948520"></p>
+<h2 id="UPX脱壳工具"><a href="#UPX脱壳工具" class="headerlink" title="UPX脱壳工具"></a>UPX脱壳工具</h2><p> <a target="_blank" rel="noopener" href="http://upx.github.io/">http://upx.github.io</a></p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">upx.exe -d [file_path]</span><br></pre></td></tr></table></figure>
+
+<h2 id="IDA"><a href="#IDA" class="headerlink" title="IDA"></a>IDA</h2><p>啥都能反编译，Windows-exe，Linux-elf，macos，apk</p>
+<p>shift+F12 查看string信息 (通常可以看到重要的信息 )</p>
+<p>Alt + T 查找带有目标字符串的函数</p>
+<p>Ctrl + F5 导出 C代码</p>
+<p>Ctrl + F 在函数框中 搜索函数</p>
+<p>X 定位函数-&gt; F5 查看当前函数的c代码</p>
+<p>空格键 流程图与代码 来回切换.</p>
+<h2 id="pwntools-2"><a href="#pwntools-2" class="headerlink" title="pwntools 2"></a>pwntools 2</h2><p>Ubuntu18.04+python2</p>
+<p><a target="_blank" rel="noopener" href="https://pwntools-docs-zh.readthedocs.io/zh-cn/dev/">pwntools — pwntools 3.12.0dev 文档 (pwntools-docs-zh.readthedocs.io)</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">p32/p64：将16进制的数字转为\x字符格式（小端序）</span><br><span class="line">process：运行本地程序，需要用pwnlib.context设置运行环境</span><br><span class="line">remote：连接远程服务器</span><br><span class="line">send/sendline 发送字符串</span><br><span class="line">recv/recvline/recvuntil/ru</span><br><span class="line">interactive</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="checksec"><a href="#checksec" class="headerlink" title="checksec"></a>checksec</h3><p>checksec检测文件的保护机制</p>
+<p>RELRO：RELRO会有Partial RELRO和FULL RELRO，如果开启FULL RELRO，意味着我们无法修改got表和plt表</p>
+<p>Stack：如果栈中开启Canary found，那么就不能用直接用溢出的方法覆盖栈中返回地址，而且要通过改写指针与局部变量、leak canary、overwrite canary的方法来绕过 </p>
+<p>NX：NX enabled如果这个保护开启就是意味着栈中数据没有执行权限，以前的经常用的call esp或者jmp esp的方法就不能使用，但是可以利用rop这种方法绕过 </p>
+<p>PIE：PIE enabled如果程序开启这个地址随机化(ASLR)选项就意味着程序每次运行的时候地址都会变化，而如果没有开PIE的话那么No PIE (0x400000)，括号内的数据就是程序的基地址  </p>
+<p>FORTIFY：FORTIFY_SOURCE机制对格式化字符串有两个限制 (1)包含%n的格式化字符串不能位于程序内存中的可写地址。 (2)当使用位置参数时，必须使用范围内的所有参数。所以如果要使用%7$x，你必须同时使用1,2,3,4,5和6。</p>
+<h2 id="gdb-peta"><a href="#gdb-peta" class="headerlink" title="gdb-peta"></a>gdb-peta</h2><p>常用命令</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">gdb [file]</span><br><span class="line">pattern create [num] <span class="comment">#生成多少个字节的payload</span></span><br><span class="line">r/start+contin	<span class="comment">#启动程序</span></span><br><span class="line">pattern offset [str] <span class="comment">#偏移量</span></span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/05/30/crypto/crypto%E6%80%BB%E7%BB%93/" rel="prev" title="crypto总结">
+      <i class="fa fa-chevron-left"></i> crypto总结
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Reverse"><span class="nav-number">1.</span> <span class="nav-text">Reverse</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Pwn"><span class="nav-number">2.</span> <span class="nav-text">Pwn</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%88%E6%BA%A2%E5%87%BA"><span class="nav-number">2.1.</span> <span class="nav-text">栈溢出</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7"><span class="nav-number">3.</span> <span class="nav-text">工具</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Exeinfo-PE"><span class="nav-number">3.1.</span> <span class="nav-text">Exeinfo PE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UPX%E8%84%B1%E5%A3%B3%E5%B7%A5%E5%85%B7"><span class="nav-number">3.2.</span> <span class="nav-text">UPX脱壳工具</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IDA"><span class="nav-number">3.3.</span> <span class="nav-text">IDA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pwntools-2"><span class="nav-number">3.4.</span> <span class="nav-text">pwntools 2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#checksec"><span class="nav-number">3.4.1.</span> <span class="nav-text">checksec</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gdb-peta"><span class="nav-number">3.5.</span> <span class="nav-text">gdb-peta</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">95</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
